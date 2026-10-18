@@ -114,6 +114,7 @@ svg.ch .void{fill:url(#hatch)}
 <footer><span>evidencedeflator.com · 每个数字都可以复算</span><span class="k">← →</span></footer>
 
 <script src="assets/hl.js"></script>
+<script src="assets/rankplot.js"></script>
 <script>
 // 数据来源（逐项见 OneDrive/桌面/创业_dc/澳门路演_v2_讲稿_1018.md 的「数字来源」节）：
 // Hyperliquid 榜单 latest.json 2026-10-18T09:20Z：47,270 账户；PnL 前 100 98 可评分 / 9 个 t≥2 / 0 个 ≥4.90。证据排名 docs/data/ranking/latest.json。
@@ -186,8 +187,9 @@ const S=[
 `<div class="slide">
  <div class="eyebrow">04 · 这把尺子会说「过」吗？拿名人校准</div>
  <h2>随手挑一份，巴菲特这样的记录靠运气只有 1/1,200</h2>
- <div class="lead fs" style="font-size:17px;margin-top:6px">可榜首是从 4.7 万人里挑出来的，门槛高得多。每份记录都已扣掉大盘（美股对标普、钱包对 BTC）和国债利率</div>
- <svg class="ch" id="rk" viewBox="0 0 1136 420"></svg>
+ <div class="lead fs" style="font-size:17px;margin-top:6px">每个点是一份记录，都已扣掉大盘和国债利率。同一条虚线上夏普相同：记录越长，t 越高</div>
+ <div id="rk2" style="margin-top:6px"></div>
+ <svg class="ch" id="rk" viewBox="0 0 1136 420" style="display:none"></svg>
  <div class="src">evidencedeflator.com/ranking · 2026-10-18 · 美股基金 Yahoo 复权价（1988 起）· 钱包 Hyperliquid 公开接口</div>
 </div>`,
 // 06
@@ -265,6 +267,17 @@ const $=id=>document.getElementById(id);
  $('rk').innerHTML=s;
 })();
 
+// 04 scatter: the same component as /ranking/ (assets/rankplot.js, data/ranking/latest.json); bars above if offline
+let RK=null;
+fetch('data/ranking/latest.json').then(r=>r.json()).then(d=>{RK=d;if(cur===4)plot();}).catch(()=>{$('rk').style.display='';});
+function plot(){
+ if(!RK){return;}
+ const rows=RK.rows.filter(r=>r.z!=null&&r.years).map(r=>({id:r.id,group:r.group,name:r.name,who:r.who,z:r.z,years:r.years}));
+ RankPlot.mount($('rk2'),{rows,bar:RK.bar,barN:RK.bar_n,lang:'zh',width:1136,height:390,font:14,animate:true,
+  labels:{medallion:['大奖章 · 西蒙斯',-12,5,'end'],brk:['伯克希尔 · 巴菲特',-12,5,'end'],fcntx:['富达 Contrafund',-12,-8,'end'],
+   hl_dfc24b07:['HLP 金库',10,-8,'start'],machi:['麻吉',10,5,'start'],arkk:['ARK · 木头姐',10,5,'start'],f13_druck:['德鲁肯米勒（13F）',10,5,'start']}});
+}
+
 // 02 coin field: one dot per account, 46 of them light up
 let coinDone=false;
 function coin(){
@@ -301,6 +314,7 @@ function go(i){if(i<0||i>=S.length||i===cur)return;cur=i;
  [...stage.children].forEach((el,k)=>el.classList.toggle('on',k===i));
  [...nav.children].forEach((el,k)=>el.classList.toggle('on',k===i));
  if(i===2)coin();
+ if(i===4)plot();
  if(i===5)setTimeout(()=>$('daddr').focus(),300);}
 document.addEventListener('keydown',e=>{
  if(document.activeElement===$('daddr')&&e.key!=='Escape')return;

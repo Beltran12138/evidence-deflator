@@ -626,12 +626,12 @@ LB.load('/leaderboard/2026-10.json').then(d=>{
 RANKING_ALT = {"en": "/ranking/", "zh-Hans": "/zh-hans/ranking/", "zh-Hant": "/zh-hant/ranking/"}
 RANK_T = {
     "en": dict(groups=[("all", "All"), ("markets", "Stocks and funds"), ("press", "Hedge funds, as reported"), ("clones", "13F estimates"), ("crypto", "Crypto"), ("ai", "AI agents")],
-               tag={"clears_board": ("tag-green", "strong"), "clears_single": ("tag-amber", "promising"), "luck": ("tag-red", "looks like luck"),
+               tag={"clears_board": ("tag-green", "strong"), "clears_single": ("tag-amber", "evidence if picked blind"), "luck": ("tag-red", "looks like luck"),
                     "loses": ("tag-red", "losing"), "too_short": ("tag-grey", "too early")},
                head='<th class="r">#</th><th>Record</th><th class="r">Length</th><th>z after the market · bar {bar}</th><th class="r">Last 10 yr</th><th class="r">Luck, picked blind</th>',
                yr=" yr", events="{e} events", raw="raw"),
     "zh": dict(groups=[("all", "全部"), ("markets", "美股与基金"), ("press", "对冲基金（媒体报道）"), ("clones", "13F 估算"), ("crypto", "加密"), ("ai", "AI agent")],
-               tag={"clears_board": ("tag-green", "证据充分"), "clears_single": ("tag-amber", "有希望"), "luck": ("tag-red", "像运气"),
+               tag={"clears_board": ("tag-green", "证据充分"), "clears_single": ("tag-amber", "随手挑中有证据"), "luck": ("tag-red", "像运气"),
                     "loses": ("tag-red", "在亏"), "too_short": ("tag-grey", "太早")},
                head='<th class="r">#</th><th>记录</th><th class="r">长度</th><th>扣掉大盘后的 z（门槛 {bar}）</th><th class="r">最近 10 年</th><th class="r">运气，随手挑中</th>',
                yr=" 年", events="{e} 个事件", raw="未扣"),
@@ -726,7 +726,34 @@ def ranking_table(d, lang="en", P="/"):
             f'<div class="table-wrap"><table class="data compact rank" id="ranktab"><thead><tr>{head_}</tr></thead><tbody>{body}</tbody></table></div>'
             '<script>document.querySelectorAll(".rankf button").forEach(b=>b.addEventListener("click",()=>{const f=b.dataset.f;'
             'document.querySelectorAll(".rankf button").forEach(x=>x.setAttribute("aria-pressed",x===b));'
-            'document.querySelectorAll("#ranktab tbody tr").forEach(tr=>{tr.hidden=f!=="all"&&tr.dataset.g!==f;});}));</script>')
+            'document.querySelectorAll("#ranktab tbody tr").forEach(tr=>{tr.hidden=f!=="all"&&tr.dataset.g!==f;});if(window.RP)RP.setFilter(f);}));</script>')
+
+
+RANK_LABELS = {  # points named on the scatter: id -> (en, zh, dx, dy, anchor)
+    "medallion": ("Medallion", "大奖章", -10, 4, "end"), "brk": ("Berkshire", "伯克希尔", -10, 4, "end"),
+    "fcntx": ("Contrafund", "Contrafund", -10, -6, "end"), "hl_dfc24b07": ("HLP", "HLP", 9, -6, "start"),
+    "machi": ("Machi", "麻吉", 9, 4, "start"), "arkk": ("ARK Innovation", "ARK", 9, 4, "start"),
+    "f13_druck": ("Druckenmiller (13F)", "德鲁肯米勒（13F）", 9, 4, "start"), "hf_de_shaw_composite": ("D.E. Shaw", "D.E. Shaw", 9, 4, "start"),
+}
+
+
+def rank_plot_html(d, lang="en"):
+    """The scatter above the ranking table (assets/rankplot.js); the table's filter buttons also dim it."""
+    zh = lang != "en"
+    rows = []
+    for r in d["rows"]:
+        if r.get("z") is None or not r.get("years"):
+            continue
+        zn = RANK_ZH.get(r["id"]) if zh else None
+        rows.append({"id": r["id"], "group": r["group"], "name": zn[0] if zn else r["name"],
+                     "who": zn[1] if zn else r.get("who"), "z": round(r["z"], 3), "years": r["years"]})
+    labels = {k: [v[1] if zh else v[0], v[2], v[3], v[4]] for k, v in RANK_LABELS.items()}
+    opts = {"rows": rows, "bar": d["bar"], "barN": d["bar_n"], "lang": "zh" if zh else "en", "labels": labels, "width": 1100, "height": 500, "font": 12, "minWidth": 680}
+    left = sum(1 for r in d["rows"] if r.get("z") is not None and not r.get("years"))
+    cap = (f"Each dot is one record: how long it is, and how much evidence it has after the market. Along a dotted line the Sharpe ratio is the same, so the same skill earns more t with more years. {left} records measured in events rather than years (Polymarket, AI agents) are in the table only."
+           if not zh else f"每个点是一份记录：横轴是它有多长，纵轴是扣掉大盘后还剩多少证据。同一条虚线上夏普相同：同样的本事，记录越长，t 越高。{left} 份按事件而不是按年计的记录（Polymarket、AI agent）只在下表里。")
+    return (f'<figure class="rankplot" style="margin:18px 0 8px"><div id="rankplot"></div><figcaption class="muted small" style="margin-top:6px">{html.escape(cap)}</figcaption></figure>'
+            f'<script src="/assets/rankplot.js"></script><script>window.RP=RankPlot.mount(document.getElementById("rankplot"),{json.dumps(opts, ensure_ascii=False)});</script>')
 
 
 def ranking_data():
@@ -752,6 +779,7 @@ def build_ranking_page():
  <div><b>{by['brk']['z']:.2f}</b><span>Berkshire Hathaway over {by['brk']['years']:.0f} years against the S&amp;P 500; {by['brk_2001']['z']:.2f} from 2001 on</span></div>
  <div><b>{n_scored}</b><span>records scored; {len(d['needs_data'])} famous names have no public return series to score</span></div>
 </div>
+{rank_plot_html(d)}
 <p style="margin:6px 0 14px"><b>Length is already in z.</b> A short record needs more return per unit of risk to reach the same z, so a 3-year vault at {next(r['z'] for r in d['rows'] if r['id'].startswith('hl_') and r['name'].startswith('Hyperliquidity')):.1f} and Buffett’s 61 years at {by['brk']['z']:.1f} are on one scale: the vault’s returns were far steadier, so a short record could get that far. What z cannot say is whether an edge will last; a 61-year record has survived regimes a 3-year one has not met. Check the length column before comparing two rows. “Luck, picked blind” is how often a record this strong turns up with no skill behind it, for one record picked without looking at any ranking; picked as the best of {d['bar_n']:,}, records below {d['bar']:.2f} are expected by chance, which is why only one row clears it.</p>
 {ranking_table(d)}
 <p class="muted small" style="margin-top:10px">z is the evidence after taking out the market: stocks and funds against the S&amp;P 500 with dividends, wallets against BTC, Polymarket against the price paid for each share. Wallet rows also show the raw t that the wallet verdict uses today. “Luck alone” is the chance that, with no skill at all, a record gets this far: picked blind, and as the best of {d['bar_n']:,}. Data: <a href="/data/ranking/latest.json">latest.json</a>.</p>
@@ -941,10 +969,10 @@ t      = Sharpe × √(years of data)</div>
 <p>The same ruler, on records nobody calls luck. Yearly returns in excess of the one-month T-bill rate are regressed on the S&amp;P 500’s, with dividends; the t of the alpha is put on the same normal scale as a wallet’s t.</p>
 <div class="table-wrap"><table class="data compact"><thead><tr><th>Record</th><th>Years</th><th class="r">z of alpha</th><th class="r">Beta</th><th>Verdict at the Hyperliquid bar ({hl_bar:.2f})</th></tr></thead><tbody>
 <tr><td>Renaissance Medallion, net of fees</td><td>1988–2018</td><td class="r">{M['medallion']['z']:.2f}</td><td class="r">{M['medallion']['beta']:.2f}</td><td>Strong evidence</td></tr>
-<tr><td>Berkshire Hathaway (Buffett), per-share market value</td><td>1965–2025</td><td class="r">{M['brk']['z']:.2f}</td><td class="r">{M['brk']['beta']:.2f}</td><td>Promising, not proven</td></tr>
+<tr><td>Berkshire Hathaway (Buffett), per-share market value</td><td>1965–2025</td><td class="r">{M['brk']['z']:.2f}</td><td class="r">{M['brk']['beta']:.2f}</td><td>Evidence if picked blind; short of the best-of-47,000 bar</td></tr>
 <tr><td>Berkshire Hathaway, 2001 onward</td><td>2001–2025</td><td class="r">{M['brk_2001']['z']:.2f}</td><td class="r">{M['brk_2001']['beta']:.2f}</td><td>Looks like luck</td></tr>
 </tbody></table></div>
-<p>So the ruler says yes when the record is extraordinary and long: Medallion clears the bar for the best of 47,000 with room to spare. Buffett needed six decades to reach “promising”, and his last 25 years alone are within what luck produces against the index. Being proven takes a long record; the oldest record on Hyperliquid starts in May 2023.</p>
+<p>So the ruler says yes when the record is extraordinary and long: Medallion clears the bar for the best of 47,000 with room to spare. Picked blind, Buffett’s record is strong evidence: luck alone gets that far about {luck_odds(M['brk']['z'], 1, 'en')[0]}. Short of the best-of-47,000 bar after six decades, it shows how long a record has to be; his last 25 years alone are within what luck produces against the index. Being proven takes a long record; the oldest record on Hyperliquid starts in May 2023.</p>
 <p><strong>Why against the market.</strong> Tested against zero instead, the S&amp;P 500 index itself reaches {SP500_RAW_Z:.2f} over 1965–2025, enough to clear the bar: a raw-return test credits a record for the market rising. Sources: Berkshire’s 2025 shareholder letter (yearly table); Cornell (2019), Table 1, from Zuckerman (2019), estimates rather than audited figures. Script: <a href="{REPO}/blob/main/tools/masters_calibration.py"><code>tools/masters_calibration.py</code></a>.</p>
 
 <h2 id="btc">8 · Wallets against BTC</h2>
