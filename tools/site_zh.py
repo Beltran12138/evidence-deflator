@@ -640,19 +640,19 @@ def ranking_page(B, lang):
     ck = d["checks"]
     n_scored = sum(1 for r in d["rows"] if r.get("z") is not None)
     alt = {"en": "/ranking/", **{k: f"{v}ranking/" for k, v in LANGS.items()}}
-    page = head(B, lang, "证据排名 · Evidence Deflator", "巴菲特、西蒙斯、Cathie Wood、国内明星基金经理、Polymarket 法国巨鲸和 Hyperliquid 证据最强的钱包，先扣掉各自的大盘，再用同一把尺子量运气。",
+    page = head(B, lang, "证据排名 · Evidence Deflator", "巴菲特、西蒙斯、Cathie Wood、阿克曼、知名 13F 投资人、Polymarket 法国巨鲸和 Hyperliquid 证据最强的钱包，先扣掉各自的大盘，再用同一把尺子量运气。",
                 f"{P}ranking/", alt) + header(B, P, lang, "ranking", alt) + f"""
 <main class="container" style="padding-block:48px">
 <div class="eyebrow"><span class="dot"></span>证据排名 · 生成于 {d['built'][:10]}</div>
 <h1 style="margin-top:16px">名人战绩，和钱包用同一把尺子量</h1>
-<p class="lede" style="margin-top:14px">巴菲特、西蒙斯、Cathie Wood、国内明星基金经理、Polymarket 的法国巨鲸，以及 Hyperliquid 上证据最强的钱包：每一份记录先扣掉它所在市场的涨跌，再看运气能不能解释。随手挑中的记录，z ≥ 2 就够；像名人战绩这样从 {d['bar_n']:,} 个里挑出来的，要过 {d['bar']:.2f}。</p>
+<p class="lede" style="margin-top:14px">巴菲特、西蒙斯、Cathie Wood、阿克曼、知名 13F 投资人、Polymarket 的法国巨鲸，以及 Hyperliquid 上证据最强的钱包：每一份记录先扣掉它所在市场的涨跌，再看运气能不能解释。随手挑中的记录，z ≥ 2 就够；像名人战绩这样从 {d['bar_n']:,} 个里挑出来的，要过 {d['bar']:.2f}。</p>
 <div class="stats" style="margin:22px 0 10px">
  <div><b class="c-accent">{len(strong)}</b><span>份记录过了 {d['bar']:.2f}：{'、'.join((B.RANK_ZH.get(r['id']) or (r['name'],))[0] for r in strong) or '没有'}</span></div>
  <div><b>{by['brk']['z']:.2f}</b><span>伯克希尔 {by['brk']['years']:.0f} 年，对比标普 500；2001 年以后是 {by['brk_2001']['z']:.2f}</span></div>
  <div><b>{n_scored}</b><span>份记录已打分；另有 {len(d['needs_data'])} 位名人没有可以打分的公开收益序列</span></div>
 </div>
 {B.ranking_table(d, lang, P)}
-<p class="muted small" style="margin-top:10px">z 是扣掉大盘之后的证据：美股和基金对比标普 500（含股息），国内基金对比沪深 300 指数基金，钱包对比 BTC，Polymarket 对比每一份的买入价。钱包这几行同时列出钱包判决目前使用的未扣 t。「运气」是完全没有实力的情况下，一份记录走到这么强的概率：分别按随手挑中、以及从 {d['bar_n']:,} 个里挑第一来算。数据：<a href="/data/ranking/latest.json">latest.json</a>。</p>
+<p class="muted small" style="margin-top:10px">z 是扣掉大盘之后的证据：美股和基金对比标普 500（含股息），钱包对比 BTC，Polymarket 对比每一份的买入价。钱包这几行同时列出钱包判决目前使用的未扣 t。「运气」是完全没有实力的情况下，一份记录走到这么强的概率：分别按随手挑中、以及从 {d['bar_n']:,} 个里挑第一来算。数据：<a href="/data/ranking/latest.json">latest.json</a>。</p>
 
 <div class="prose narrow" style="margin-top:34px">
 <h2 id="missing">有名，但不在榜上</h2>
@@ -661,7 +661,7 @@ def ranking_page(B, lang):
 <h2 id="how">怎么算的</h2>
 <ul>
  <li><b>扣掉大盘。</b>每份记录的收益对它的基准做回归，z 是 alpha 的 t 换到正态尺度上（自由度 n − 2 的 Student t），和钱包的 t 是同一把尺子。如果改成对零检验，标普 500 指数自己在 1965–2025 年就能到 {B.SP500_RAW_Z:.2f}。</li>
- <li><b>来源。</b>伯克希尔：2025 年致股东信的逐年表。大奖章：Cornell (2019) 表 1，源自 Zuckerman (2019)，是估计值，不是审计数。其他美股和基金：Yahoo Finance 复权收盘价，按月，换算成美元，从 1988 年起。国内基金：天天基金网的日收益。钱包：Hyperliquid 公开接口。Polymarket：审计 008。</li>
+ <li><b>来源。</b>伯克希尔：2025 年致股东信的逐年表。大奖章：Cornell (2019) 表 1，源自 Zuckerman (2019)，是估计值，不是审计数。其他美股和基金：Yahoo Finance 复权收盘价，按月，换算成美元，从 1988 年起。钱包：Hyperliquid 公开接口。Polymarket：审计 008。</li>
  <li><b>核对。</b>伯克希尔的价格数据和股东信的逐年数字，{ck['brk_feed_vs_letter']['years']} 年里最大相差 {ck['brk_feed_vs_letter']['max_abs_diff_pp']:.2f} 个百分点；标普 500 指数基金从 1988 年起和股东信的标普一栏每年最多相差 {ck['vfinx_vs_letter_sp500']['max_abs_diff_pp']:.2f} 个百分点。1987 年以前的价格数据漏算了基金分红，所以所有序列都不早于 1988 年。</li>
  <li><b>幸存者。</b>价格数据里只有今天还在的基金，所以美股和基金这几行偏向幸存者。</li>
  <li><b>写谁的名字。</b>每一行写的是公众把这份记录和谁联系在一起；经理中途接手或提前离开的，那一行会注明。</li>

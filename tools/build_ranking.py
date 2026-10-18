@@ -77,24 +77,40 @@ PRICED = [
     dict(id="ffh", name="Fairfax Financial", who="Prem Watsa", tickers=["FFH.TO"], fx_by_currency=True),
     dict(id="djco", name="Daily Journal Corp.", who="Charlie Munger (chairman to 2022)", tickers=["DJCO"]),
     dict(id="nanc", name="NANC ETF (Democrats’ disclosed trades)", who="Nancy Pelosi and colleagues, as disclosed", tickers=["NANC"]),
+    # famous active US stock funds (whole fund history from 1988; the named person is the one the fund is known for)
+    dict(id="fcntx", name="Fidelity Contrafund", who="Will Danoff (since 1990)", tickers=["FCNTX"]),
+    dict(id="flpsx", name="Fidelity Low-Priced Stock", who="Joel Tillinghast (from 1989)", tickers=["FLPSX"]),
+    dict(id="fdgrx", name="Fidelity Growth Company", who="Fidelity", tickers=["FDGRX"]),
+    dict(id="fmagx", name="Fidelity Magellan", who="Fidelity (Peter Lynch to 1990)", tickers=["FMAGX"]),
+    dict(id="agthx", name="American Funds Growth Fund of America", who="Capital Group", tickers=["AGTHX"]),
+    dict(id="awshx", name="American Funds Washington Mutual", who="Capital Group", tickers=["AWSHX"]),
+    dict(id="aivsx", name="American Funds Investment Company of America", who="Capital Group", tickers=["AIVSX"]),
+    dict(id="trbcx", name="T. Rowe Price Blue Chip Growth", who="T. Rowe Price", tickers=["TRBCX"]),
+    dict(id="prgfx", name="T. Rowe Price Growth Stock", who="T. Rowe Price", tickers=["PRGFX"]),
+    dict(id="vpmcx", name="Vanguard PRIMECAP", who="PRIMECAP Management", tickers=["VPMCX"]),
+    dict(id="vwelx", name="Vanguard Wellington", who="Wellington Management", tickers=["VWELX"]),
+    dict(id="vwnfx", name="Vanguard Windsor II", who="Vanguard", tickers=["VWNFX"]),
+    dict(id="vghcx", name="Vanguard Health Care", who="Ed Owens (to 2012)", tickers=["VGHCX"], note="Sector fund: against the S&P 500, its z includes the sector's own run."),
+    dict(id="oakmx", name="Oakmark Fund", who="Bill Nygren", tickers=["OAKMX"]),
+    dict(id="nyvtx", name="Davis New York Venture", who="Davis Advisors", tickers=["NYVTX"]),
+    dict(id="mpgfx", name="Mairs & Power Growth", who="Mairs & Power", tickers=["MPGFX"]),
+    dict(id="bgrfx", name="Baron Growth", who="Ron Baron (since 1994)", tickers=["BGRFX"]),
+    dict(id="bptrx", name="Baron Partners", who="Ron Baron", tickers=["BPTRX"]),
+    dict(id="fpacx", name="FPA Crescent", who="Steven Romick (since 1993)", tickers=["FPACX"]),
+    dict(id="llpfx", name="Longleaf Partners", who="Mason Hawkins (since 1987)", tickers=["LLPFX"]),
+    dict(id="gabax", name="Gabelli Asset Fund", who="Mario Gabelli (since 1986)", tickers=["GABAX"]),
+    dict(id="pennx", name="Royce Pennsylvania Mutual", who="Chuck Royce", tickers=["PENNX"]),
+    dict(id="wvalx", name="Weitz Value", who="Wally Weitz", tickers=["WVALX"]),
+    dict(id="jensx", name="Jensen Quality Growth", who="Jensen Investment Management", tickers=["JENSX"]),
+    dict(id="polrx", name="Polen Growth", who="Polen Capital", tickers=["POLRX"]),
+    dict(id="akrex", name="Akre Focus", who="Chuck Akre", tickers=["AKREX"]),
+    dict(id="yackx", name="AMG Yacktman", who="Yacktman Asset Management", tickers=["YACKX"]),
+    dict(id="prblx", name="Parnassus Core Equity", who="Parnassus", tickers=["PRBLX"]),
+    dict(id="jaenx", name="Janus Henderson Enterprise", who="Janus Henderson", tickers=["JAENX"]),
+    dict(id="slmcx", name="Columbia Seligman Technology", who="Columbia Threadneedle", tickers=["SLMCX"], note="Sector fund: against the S&P 500, its z includes the sector's own run."),
+    dict(id="fsptx", name="Fidelity Select Technology", who="Fidelity", tickers=["FSPTX"], note="Sector fund: against the S&P 500, its z includes the sector's own run."),
     dict(id="brk_monthly", name="Berkshire Hathaway, monthly prices", who="Warren Buffett", tickers=["BRK-A"], cross_check=True),
 ]
-# Chinese public funds: daily returns from Eastmoney (fund.eastmoney.com/pingzhongdata/<code>.js,
-# equityReturn, which includes distributions), compounded to month ends. Benchmark: Harvest CSI 300
-# index fund (160706), whose returns include the index's dividends, less about 0.6% a year in fees.
-# window: the named manager's tenure on this fund where it starts at the fund's launch or is well known.
-CN = [
-    dict(id="cn_161005", code="161005", name="富国天惠成长 (Fullgoal Tianhui Growth)", who="Zhu Shaoxing (朱少醒), since launch"),
-    dict(id="cn_110011", code="110011", name="易方达优质精选 (E Fund Quality Select)", who="Zhang Kun (张坤)", window=("2012-10", None),
-         note="Zhang Kun from September 2012; the fund later became a QDII fund with overseas holdings."),
-    dict(id="cn_005827", code="005827", name="易方达蓝筹精选 (E Fund Blue Chip Select)", who="Zhang Kun (张坤), since launch"),
-    dict(id="cn_003095", code="003095", name="中欧医疗健康 (China Europe Healthcare)", who="Ge Lan (葛兰), since launch"),
-    dict(id="cn_163406", code="163406", name="兴全合润 (Aegon-Industrial Herun)", who="Xie Zhiyu (谢治宇), current manager",
-         note="Whole fund history since 2010; the current manager joined later."),
-    dict(id="cn_260108", code="260108", name="景顺长城新兴成长 (Invesco Great Wall Emerging Growth)", who="Liu Yanchun (刘彦春), current manager",
-         note="Whole fund history since 2006; the current manager joined later."),
-]
-CN_BENCH = "160706"
 FX = {"GBp": ("GBPUSD=X", 0.01), "GBP": ("GBPUSD=X", 1.0), "CAD": ("CADUSD=X", 1.0), "USD": (None, 1.0)}
 BENCH = "VFINX"
 
@@ -102,7 +118,11 @@ BENCH = "VFINX"
 def curl_json(url, path, refresh):
     if refresh or not os.path.exists(path):
         env = {k: v for k, v in os.environ.items() if k.lower() not in ("https_proxy", "http_proxy", "all_proxy")}
-        out = subprocess.run(["curl", "-s", "-m", "60", "-A", UA, "-o", path, url], env=env)
+        for attempt in range(4):
+            out = subprocess.run(["curl", "-s", "-m", "60", "-A", UA, "-o", path, url], env=env)
+            if out.returncode == 0:
+                break
+            time.sleep(3 * (attempt + 1))
         if out.returncode != 0:
             raise RuntimeError(f"curl {out.returncode}: {url}")
         time.sleep(1)
@@ -128,28 +148,6 @@ def yahoo_monthly(cache, ticker, refresh):
     this = datetime.now(timezone.utc).strftime("%Y-%m")
     m.pop(this, None)
     return {"px": m, "currency": r["meta"].get("currency"), "symbol": r["meta"].get("symbol")}
-
-
-def eastmoney_monthly(cache, code, refresh):
-    """{YYYY-MM: total-return index at month end} from Eastmoney's daily equityReturn (percent)."""
-    path = os.path.join(cache, f"em_{code}.js")
-    if refresh or not os.path.exists(path):
-        out = subprocess.run(["curl", "-s", "-m", "60", "-L", "--noproxy", "*", "-A", UA, "-e", "https://fund.eastmoney.com/",
-                              "-o", path, f"https://fund.eastmoney.com/pingzhongdata/{code}.js"])
-        if out.returncode != 0:
-            raise RuntimeError(f"curl {out.returncode}: eastmoney {code}")
-        time.sleep(1)
-    with open(path, encoding="utf-8") as f:
-        s = f.read()
-    i = s.index("Data_netWorthTrend =") + len("Data_netWorthTrend =")
-    nw = json.JSONDecoder().raw_decode(s.lstrip()[0:0] + s[i:].lstrip())[0]
-    idx, m = 1.0, {}
-    for p in nw:
-        r = p.get("equityReturn")
-        idx *= 1 + (float(r) / 100 if r not in (None, "") else 0.0)
-        m[datetime.fromtimestamp(p["x"] / 1000, timezone.utc).strftime("%Y-%m")] = idx
-    m.pop(datetime.now(timezone.utc).strftime("%Y-%m"), None)
-    return m
 
 
 def monthly_returns(px):
@@ -260,7 +258,11 @@ def main():
     for spec in PRICED:
         got = None
         for tk in spec["tickers"]:
-            got = yahoo_monthly(a.cache, tk, a.refresh)
+            try:
+                got = yahoo_monthly(a.cache, tk, a.refresh)
+            except Exception as ex:
+                print("price", tk, ex, file=sys.stderr)
+                got = None
             if got and len(got["px"]) > 24:
                 break
         if not got:
@@ -293,20 +295,6 @@ def main():
                      "venue": f"{got['symbol']}, monthly", "source": f"Yahoo Finance adjusted close ({got['symbol']}, {cur}{' to USD' if cur != 'USD' and spec.get('fx_by_currency') else ''})",
                      "benchmark": "S&P 500 with dividends (VFINX)", "note": spec.get("note"), **sc,
                      "z_10y": z10 and z10["z"], "verdict": grade(sc["z"], BAR)})
-
-    # Chinese public funds against the CSI 300 index fund
-    cnb = monthly_returns(eastmoney_monthly(a.cache, CN_BENCH, a.refresh))
-    for spec in CN:
-        rets = monthly_returns(eastmoney_monthly(a.cache, spec["code"], a.refresh))
-        w = spec.get("window")
-        win = (w[0], w[1] or "9999-12") if w else None
-        sc = score_series(rets, cnb, 12, win)
-        if not sc:
-            continue
-        z10 = None if w else last_years(rets, cnb, 12)
-        rows.append({"id": spec["id"], "group": "china", "name": spec["name"], "who": spec["who"], "venue": f"Fund {spec['code']}, monthly",
-                     "source": f"Eastmoney daily returns ({spec['code']})", "benchmark": "CSI 300 index fund (160706)", "note": spec.get("note"),
-                     **sc, "z_10y": z10 and z10["z"], "verdict": grade(sc["z"], BAR)})
 
     # crypto: Hyperliquid's strongest records against BTC (from the daily board)
     seen = set()

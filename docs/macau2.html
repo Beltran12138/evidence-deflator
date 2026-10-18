@@ -193,9 +193,9 @@ const S=[
 `<div class="slide">
  <div class="eyebrow">05 · 那谁不像运气？证据排名</div>
  <h2>按证据排，不按名气排</h2>
- <div class="lead fs" style="font-size:19px">全部先扣掉各自的大盘（美股对标普、A 股对沪深 300、钱包对 BTC），再用同一把尺子：</div>
+ <div class="lead fs" style="font-size:19px">全部先扣掉各自的大盘（美股对标普、钱包对 BTC），再用同一把尺子：</div>
  <svg class="ch" id="rk" viewBox="0 0 1136 400"></svg>
- <div class="src">evidencedeflator.com/ranking · 2026-10-18 · 美股基金 Yahoo 复权价（1988 起）· 国内公募 天天基金日收益 · 钱包 Hyperliquid 公开接口</div>
+ <div class="src">evidencedeflator.com/ranking · 2026-10-18 · 美股基金 Yahoo 复权价（1988 起）· 钱包 Hyperliquid 公开接口</div>
 </div>`,
 // 06
 `<div class="slide">
@@ -266,12 +266,12 @@ const $=id=>document.getElementById(id);
 (function(){
  const R=[
   {n:"大奖章基金",d:"西蒙斯 · 31 年 · 对标普",t:7.05},
-  {n:"兴全合润",d:"谢治宇（现任）· 16 年 · 对沪深 300",t:3.05},
+  {n:"富达 Contrafund",d:"Will Danoff 1990 年起管理 · 39 年 · 对标普",t:4.17},
+  {n:"先锋医疗保健基金",d:"Ed Owens 管到 2012 · 39 年 · 对标普（含行业）",t:4.18},
   {n:"HLP 做市金库",d:"Hyperliquid 自己的金库 · 3.5 年 · 对 BTC",t:3.39},
   {n:"伯克希尔",d:"巴菲特 · 61 年 · 对标普",t:2.77},
-  {n:"富国天惠成长",d:"朱少醒 · 21 年 · 对沪深 300",t:2.39},
-  {n:"易方达蓝筹精选",d:"张坤 · 8 年 · 对沪深 300",t:0.04},
   {n:"ARK 创新 ETF",d:"木头姐 · 12 年 · 对标普",t:-0.63,neg:1},
+  {n:"富达麦哲伦（1988 年起）",d:"1988–2026 · 林奇 1990 年离任 · 对标普",t:-1.28,neg:1},
   {n:"麻吉大哥",d:"黄立成 · 对 BTC",t:-1.19,neg:1}];
  const W=1136,L=300,Rr=W-40,lo=-2,hi=7.6,x=v=>L+(v-lo)/(hi-lo)*(Rr-L),rh=42,top=34;
  let s=`<line class="t2" x1="${x(2)}" x2="${x(2)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(2)-8}" y="22" text-anchor="end">2 · 随便挑一个人</text>`+
@@ -282,7 +282,7 @@ const $=id=>document.getElementById(id);
   s+=`<text x="0" y="${yy+13}" class="lbl" style="font-weight:700">${r.n}</text><text x="0" y="${yy+30}" class="lbl2">${r.d}</text>`+
    `<rect x="${a}" y="${yy+4}" width="${b-a}" height="20" class="${r.neg?'fillneg':'fill'}" opacity=".85"/>`+
    `<text x="${r.neg?a-8:b+8}" y="${yy+19}" text-anchor="${r.neg?'end':'start'}" style="fill:var(--ink);font-weight:700">${r.t.toFixed(2)}</text>`;});
- s+=`<text x="${L}" y="${top+R.length*rh+26}" class="lbl2">只有大奖章过了线。张坤的蓝筹精选 8 年，扣掉沪深 300 之后接近 0。</text>`;
+ s+=`<text x="${L}" y="${top+R.length*rh+26}" class="lbl2">只有大奖章过了线。离线最近的两个：一只医疗行业基金（含行业的涨幅），和 Danoff 一个人管了 36 年的 Contrafund。</text>`;
  $('rk').innerHTML=s;
 })();
 
