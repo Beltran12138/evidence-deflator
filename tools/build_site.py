@@ -382,9 +382,9 @@ def build_home(rows, lb):
 """ + footer("""<script src="/assets/lb.js"></script>
 <script>document.querySelectorAll('.hero-tabs button').forEach(b=>b.addEventListener('click',()=>{const f=document.getElementById('hcheck'),i=f.querySelector('input');
  document.querySelectorAll('.hero-tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));f.action=b.dataset.act;i.placeholder=b.dataset.ph;i.setAttribute('aria-label',b.dataset.ph);i.focus();}));</script>
-<script>LB.load('/data/hl/latest.json').then(d=>{const p=d.boards.pnl,rows=p.rows.filter(r=>r.t!=null).map(r=>({t:r.t,rank:r.rank,name:r.vault?((r.vault.match(/\(([^)]+)\)/)||[0,r.vault])[1]+' vault'):r.address.slice(0,6)+'…'+r.address.slice(-4)}));
+<script>LB.load('/data/hl/latest.json').then(d=>{const p=d.boards.pnl,rows=p.rows.filter(r=>r.t!=null).map(r=>({t:r.t,rank:r.rank,name:r.vault?((r.vault.match(/\(([^)]+)\)/)||[0,r.vault])[1]+' vault'):r.address.slice(0,6)+'…'+r.address.slice(-4),pnl:r.pnl_all_time}));
  const best=rows.reduce((a,r)=>r.t>a.t?r:a,rows[0]);
- document.getElementById('hero-chart').innerHTML=LB.strip({board:p.board,rows,entries:p.ranked_from,t_bar_best_of_n:p.t_bar_best_of_n,max_t_rank:best.rank},{h:170});});</script>
+ document.getElementById('hero-chart').innerHTML=LB.strip({board:p.board,rows,entries:p.ranked_from,t_bar_best_of_n:p.t_bar_best_of_n,max_t_rank:best.rank},{h:170,flip:true});LB.play(document.getElementById('hero-chart'));});</script>
 """)
     write("index.html", page)
 

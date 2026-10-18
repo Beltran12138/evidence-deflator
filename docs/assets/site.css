@@ -145,6 +145,13 @@ table.data tr.hl td{background:var(--accent-soft)}
 .chart .pt{fill:var(--ink);fill-opacity:.45} .chart .pt.best{fill:var(--ink);fill-opacity:1}
 .chart .pt.slide{transition:transform .9s cubic-bezier(.2,.7,.2,1)}
 @media (prefers-reduced-motion:reduce){.chart .pt.slide{transition:none}}
+/* home: the PnL top 100 first by profit rank, then by t (LB.strip flip + LB.play) */
+.chart svg.flip .pt{transition:transform 1.1s cubic-bezier(.6,0,.25,1),fill .9s ease,fill-opacity .9s ease}
+.chart svg.flip.p0 .pt{fill:var(--pos);fill-opacity:.85}
+.chart svg.flip .fla,.chart svg.flip .flb,.chart svg.flip .flc{transition:opacity .5s ease}
+.chart svg.flip .fla{opacity:0}.chart svg.flip.p0 .fla{opacity:1}.chart svg.flip.p0 .flb{opacity:0}.chart svg.flip.p1 .flc{opacity:0}
+.chart svg.flip line.bar,.chart svg.flip line.t2{transform-box:fill-box;transform-origin:50% 0;transition:transform .45s cubic-bezier(.3,.7,.3,1)}
+.chart svg.flip.p1 line.bar,.chart svg.flip.p1 line.t2{transform:scaleY(0)}
 .chart .src{fill:var(--faint);font:10.5px var(--mono)}
 
 /* ---------- article (audits, method) ---------- */
