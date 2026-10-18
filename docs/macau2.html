@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>排行榜第一名，可能只是运气 · Evidence Deflator</title>
+<style>
+:root{--bg:#F3F0E8;--paper:#FBF9F4;--ink:#17171B;--ink2:#3A3A40;--dim:#7A756B;--rule:#D9D2C3;--rule2:#E7E1D4;--red:#B8361F;--redbg:rgba(184,54,31,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Times New Roman','Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+.fs{font-family:'Times New Roman',FangSong,STFangsong,'FangSong_GB2312',serif}
+.mono,.n{font-family:'JetBrains Mono',Consolas,monospace;font-variant-numeric:tabular-nums}
+header{position:fixed;top:0;left:0;right:0;height:52px;display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);background:var(--bg);z-index:3}
+.brand{font:600 15px 'Times New Roman',serif;letter-spacing:.02em}
+.brand i{font-style:normal;color:var(--dim);font-weight:400;margin-left:10px}
+nav{margin-left:auto;display:flex;gap:4px}
+nav button{font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim);background:none;border:1px solid transparent;padding:6px 9px;cursor:pointer}
+nav button.on{color:var(--ink);border-color:var(--rule)}
+footer{position:fixed;bottom:0;left:0;right:0;height:40px;display:flex;align-items:center;padding:0 48px;border-top:1px solid var(--rule2);color:var(--dim);font:13px 'JetBrains Mono',Consolas,monospace;background:var(--bg)}
+footer .k{margin-left:auto}
+main{height:100%;padding:52px 0 40px;display:flex}
+.slide{display:none;flex:1;padding:0 72px;flex-direction:column;justify-content:center}
+.slide.on{display:flex;animation:in .4s ease both}
+@keyframes in{from{opacity:0}to{opacity:1}}
+.eyebrow{font:13px 'JetBrains Mono',Consolas,monospace;letter-spacing:.18em;color:var(--dim);margin-bottom:18px}
+h1{font-size:54px;font-weight:700;line-height:1.25;letter-spacing:.01em}
+h2{font-size:38px;font-weight:700;line-height:1.3}
+.lead{font-size:23px;line-height:1.7;color:var(--ink2);margin-top:18px;max-width:900px}
+.lead b{color:var(--ink)}
+.red{color:var(--red)}.dim{color:var(--dim)}
+.src{font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim);margin-top:26px}
+/* cover */
+.cover h1{font-size:66px}
+.cover .who{margin-top:44px;font-size:20px;color:var(--ink2)}
+.cover .who span{color:var(--dim);margin-left:14px}
+/* people cards */
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:30px}
+.pc{background:var(--paper);border:1px solid var(--rule);padding:24px 24px 20px;display:flex;flex-direction:column;min-height:300px;position:relative}
+.pc .venue{font:12px 'JetBrains Mono',Consolas,monospace;letter-spacing:.14em;color:var(--dim)}
+.pc .name{font-size:26px;font-weight:700;margin-top:10px}
+.pc .alias{font-size:15px;color:var(--dim);margin-top:2px}
+.pc .big{font:700 46px 'JetBrains Mono',Consolas,monospace;margin-top:22px;letter-spacing:-.02em}
+.pc .what{font-size:16px;color:var(--ink2);margin-top:6px;line-height:1.5}
+.pc .foot{margin-top:auto;padding-top:14px;font:11.5px 'JetBrains Mono',Consolas,monospace;color:var(--dim);line-height:1.5}
+.ask-hand{margin-top:26px;font-size:26px;font-weight:700}
+/* verdict cards */
+.pc.v{min-height:350px}
+.stamp{display:inline-block;align-self:flex-start;margin-top:14px;font-size:19px;font-weight:700;padding:5px 12px;border:2px solid currentColor}
+.stamp.red{color:var(--red)}.stamp.ink{color:var(--ink)}.stamp.dim{color:var(--dim)}
+.pc .k{font:700 34px 'JetBrains Mono',Consolas,monospace;margin-top:16px}
+.pc .k small{font-size:15px;color:var(--dim);font-weight:400;margin-left:6px}
+.pc ul{list-style:none;margin-top:10px;font-size:15.5px;line-height:1.55;color:var(--ink2)}
+.pc li{padding-left:14px;position:relative;margin-top:4px}
+.pc li::before{content:'';position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--dim)}
+/* coin slide */
+.two{display:grid;grid-template-columns:420px 1fr;gap:44px;align-items:center}
+.coin canvas{width:100%;height:auto;display:block;background:var(--paper);border:1px solid var(--rule)}
+.coin .cap{display:flex;justify-content:space-between;font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim);margin-top:8px}
+.bignum{font:700 88px 'JetBrains Mono',Consolas,monospace;line-height:1;margin-top:8px}
+.bignum small{font-size:22px;font-weight:400;color:var(--dim);margin-left:8px}
+.tbox{margin-top:26px;border-top:1px solid var(--rule);padding-top:16px;font-size:17px;line-height:1.7;color:var(--ink2)}
+.tbox b{color:var(--ink)}
+/* charts */
+svg.ch{display:block;width:100%;height:auto;margin-top:26px;overflow:visible}
+svg.ch text{font:13px 'JetBrains Mono',Consolas,monospace;fill:var(--dim)}
+svg.ch .lbl{font:15px 'Times New Roman','Noto Serif SC',SimSun,serif;fill:var(--ink)}
+svg.ch .lbl2{font:13px 'Times New Roman','Noto Serif SC',SimSun,serif;fill:var(--dim)}
+svg.ch .ax{stroke:var(--rule);stroke-width:1}
+svg.ch .bar{stroke:var(--red);stroke-width:2.5}
+svg.ch .t2{stroke:var(--dim);stroke-width:1.2;stroke-dasharray:4 4}
+svg.ch .fill{fill:var(--ink)}
+svg.ch .fillneg{fill:var(--red)}
+svg.ch .warn{fill:var(--red)}
+svg.ch .void{fill:url(#hatch)}
+/* compare */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:30px;border:1px solid var(--rule)}
+.cmp>div{padding:26px 30px;background:var(--paper)}
+.cmp>div+div{border-left:1px solid var(--rule)}
+.cmp .h{font:12px 'JetBrains Mono',Consolas,monospace;letter-spacing:.14em;color:var(--dim)}
+.cmp .q{font-size:24px;font-weight:700;margin-top:10px}
+.cmp .ex{margin-top:16px;font-size:16px;color:var(--ink2);line-height:1.6}
+.cmp .ex .n{font-size:28px;font-weight:700;color:var(--ink);display:block;margin-bottom:4px}
+.why{margin-top:26px;font-size:18px;line-height:1.7;color:var(--ink2)}
+.why b{color:var(--ink)}
+/* demo */
+.demo{display:grid;grid-template-columns:1fr 520px;gap:48px;align-items:start}
+.panel{background:var(--paper);border:1px solid var(--rule);padding:26px 28px}
+.panel input{width:100%;font:16px 'JetBrains Mono',Consolas,monospace;padding:12px 14px;background:#fff;color:var(--ink);border:1px solid var(--rule)}
+.panel input:focus{outline:none;border-color:var(--ink)}
+.exb{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.exb button{font:14px 'Times New Roman','Noto Serif SC',SimSun,serif;padding:6px 11px;background:none;color:var(--ink2);border:1px solid var(--rule);cursor:pointer}
+.exb button:hover{border-color:var(--ink);color:var(--ink)}
+.vt{font-size:30px;font-weight:700;margin-top:20px;min-height:1.3em}
+.vt.red{color:var(--red)}.vt.dim{color:var(--dim)}
+.rows{margin-top:14px;border-top:1px solid var(--rule2)}
+.rows div{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--rule2);font-size:16px}
+.rows dd{font:16px 'JetBrains Mono',Consolas,monospace}
+.vn{font-size:14.5px;color:var(--dim);margin-top:10px;line-height:1.55;min-height:2.6em}
+/* ask */
+.ask{display:grid;grid-template-columns:1fr 230px;gap:56px;align-items:center;margin-top:10px}
+.ask ol{list-style:none;margin-top:26px;font-size:20px;line-height:1.75;color:var(--ink2)}
+.ask li{border-top:1px solid var(--rule);padding:12px 0}
+.ask li b{color:var(--ink)}
+.qr{text-align:center;font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim)}
+.qr svg{display:block;margin:0 auto 8px;background:#fff;padding:8px;border:1px solid var(--rule)}
+</style>
+</head>
+<body>
+<header><div class="brand">Evidence Deflator<i>投研证据折扣器</i></div><nav id="nav"></nav></header>
+<main id="stage"></main>
+<footer><span>evidencedeflator.com · 每个数字都可以复算</span><span class="k">← →</span></footer>
+
+<script src="assets/hl.js"></script>
+<script>
+// 数据来源（逐项见 OneDrive/桌面/创业_dc/澳门路演_v2_讲稿_1018.md 的「数字来源」节）：
+// Hyperliquid 榜单 latest.json 2026-10-17T06:59Z：47,248 账户；PnL 前 100 98 可评分 / 10 个 t≥2 / 0 个 ≥4.90。
+// 麻吉 0x020c…5872（ENS machibigbrother.eth）：2026-10-18 现取 portfolio，src/hl_wallet.py 计分；9-21 账户峰值 $12.40M，至峰值全部记录 t −1.20（累计 PnL −$24.5M）；10-15 账户低点 $28,028。
+// Theo4：docs/data/cex/polymarket-2026-10-15.json，PnL $22.05M 第 1，9 个事件，z_cluster 2.05；门槛 5.33（榜单 450,853）。
+// Serenity：Quantral 2026-10-12 页面，274 条已判喊单 59.5% 正确；z 为我们按二项分布换算。
+const N=47248, BAR=4.90;
+const QR='<svg width="175" height="175" class="segno"><g transform="scale(4.2683)"><path fill="#ffffff" d="M0 0h41v41h-41z"/><path class="qrline" stroke="#17171B" d="M4 4.5h7m2 0h2m1 0h3m1 0h2m1 0h2m2 0h1m2 0h7m-33 1h1m5 0h1m2 0h3m1 0h5m2 0h3m3 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m2 0h1m2 0h3m2 0h2m3 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m1 0h2m1 0h1m2 0h1m3 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h3m1 0h2m1 0h2m3 0h1m1 0h1m3 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h2m2 0h1m2 0h1m2 0h1m2 0h1m2 0h1m-25 1h1m1 0h5m2 0h2m1 0h4m1 0h1m4 0h1m1 0h1m1 0h5m-31 1h1m2 0h1m1 0h1m3 0h1m2 0h1m5 0h4m1 0h1m2 0h2m1 0h2m1 0h1m-31 1h2m1 0h2m1 0h2m5 0h2m1 0h1m2 0h1m2 0h2m2 0h1m1 0h2m-32 1h1m4 0h1m1 0h6m1 0h3m3 0h2m3 0h1m2 0h3m-30 1h6m4 0h1m6 0h2m2 0h1m1 0h2m1 0h3m2 0h1m-33 1h2m1 0h3m2 0h2m1 0h1m1 0h5m2 0h2m1 0h1m2 0h1m3 0h3m-33 1h2m3 0h5m1 0h1m1 0h2m2 0h1m1 0h1m5 0h2m2 0h3m-30 1h1m1 0h2m1 0h3m1 0h3m2 0h1m2 0h8m1 0h3m-31 1h4m1 0h3m1 0h3m1 0h2m2 0h1m1 0h1m2 0h1m1 0h2m1 0h2m3 0h1m-30 1h3m3 0h5m2 0h2m1 0h2m2 0h1m2 0h2m1 0h2m1 0h1m-31 1h1m1 0h6m2 0h1m1 0h4m3 0h2m2 0h4m1 0h2m-29 1h3m2 0h1m2 0h1m4 0h6m2 0h2m1 0h5m-32 1h3m1 0h3m2 0h1m1 0h1m1 0h1m2 0h1m5 0h2m1 0h1m1 0h3m1 0h2m-33 1h3m2 0h1m1 0h2m2 0h3m1 0h1m2 0h1m2 0h1m1 0h1m2 0h1m2 0h1m2 0h1m-33 1h1m1 0h3m1 0h2m2 0h1m1 0h1m2 0h4m2 0h2m2 0h1m2 0h1m2 0h1m-32 1h1m3 0h2m1 0h2m1 0h4m1 0h1m2 0h1m2 0h3m1 0h1m2 0h4m-32 1h1m2 0h2m1 0h3m3 0h1m2 0h1m1 0h2m3 0h8m-22 1h2m1 0h4m1 0h1m1 0h4m2 0h1m3 0h1m1 0h1m1 0h1m-33 1h7m4 0h2m2 0h2m1 0h1m1 0h5m1 0h1m1 0h1m1 0h1m-31 1h1m5 0h1m1 0h2m1 0h2m1 0h1m5 0h5m3 0h3m-31 1h1m1 0h3m1 0h1m1 0h1m1 0h6m2 0h1m5 0h6m2 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m3 0h1m1 0h3m3 0h1m3 0h1m2 0h1m1 0h3m-33 1h1m1 0h3m1 0h1m1 0h1m2 0h4m2 0h1m2 0h8m1 0h1m-30 1h1m5 0h1m2 0h2m1 0h3m1 0h1m1 0h4m3 0h2m1 0h1m1 0h1m-31 1h7m1 0h3m2 0h1m3 0h1m1 0h1m2 0h1m1 0h4m3 0h1"/></g></svg>';
+const S=[
+// 00
+`<div class="slide cover">
+ <div class="eyebrow">AI+X FUTURE SUMMIT 2026 · 澳门</div>
+ <h1>排行榜第一名，<br>可能只是运气</h1>
+ <div class="lead fs">我们给交易战绩算一件排行榜不算的事：这里面有多少是运气。</div>
+ <div class="who">伯纳德 · Evidence Deflator<span>《AI 智能投资手册》第九章作者</span></div>
+</div>`,
+// 01
+`<div class="slide">
+ <div class="eyebrow">01 · 先投个票</div>
+ <h2>这三个人，你会跟谁？</h2>
+ <div class="people">
+  <div class="pc"><div class="venue">HYPERLIQUID</div><div class="name">麻吉大哥</div><div class="alias">黄立成 · machibigbrother.eth</div>
+   <div class="big">$1,240万</div><div class="what">9 月 21 日的账户余额。<br>公开报道：四个月从 $5.6 万做到 $1,225 万。</div>
+   <div class="foot">账户数据：Hyperliquid 公开 API<br>报道：Lookonchain</div></div>
+  <div class="pc"><div class="venue">POLYMARKET</div><div class="name">Theo4</div><div class="alias">「法国巨鲸」Théo 的账户之一</div>
+   <div class="big">$2,205万</div><div class="what">Polymarket 历史盈利榜第 1 名。</div>
+   <div class="foot">Polymarket 公开 API · 2026-10-15</div></div>
+  <div class="pc"><div class="venue">X · 美股</div><div class="name">Serenity</div><div class="alias">@aleabitoreddit · 约 100 万粉丝</div>
+   <div class="big">+1,116%</div><div class="what">自己公布的年内收益。<br>主打 AI 供应链「卡脖子」选股。</div>
+   <div class="foot">收益为本人自报，未经审计</div></div>
+ </div>
+ <div class="ask-hand">举手：你觉得谁是真本事？</div>
+</div>`,
+// 02
+`<div class="slide">
+ <div class="eyebrow">02 · 为什么排行榜会骗人</div>
+ <div class="two">
+  <div>
+   <h2>47,248 人<br>各抛 10 次硬币</h2>
+   <div class="lead fs" style="font-size:20px">全是正面的，平均会有</div>
+   <div class="bignum red">46<small>人</small></div>
+   <div class="lead fs" style="font-size:20px">他们不需要任何本事。<br>他们会排在排行榜最前面。</div>
+  </div>
+  <div class="coin"><canvas id="coin" width="1280" height="760"></canvas>
+   <div class="cap"><span>每个点是 Hyperliquid 榜上的一个账户</span><span>红点：10 连胜</span></div>
+   <div class="tbox fs">所以我们用的尺子叫 <b>t</b>：收益有多稳，乘以记录有多长（≈ 夏普 × √年数）。<br>只看一个随便挑的人，t 过 2 就算有证据；<b>从 4.7 万人里挑出来的第一名，要过 4.90。</b></div>
+  </div>
+ </div>
+</div>`,
+// 03
+`<div class="slide">
+ <div class="eyebrow">03 · 揭晓</div>
+ <h2>同一把尺子量一遍</h2>
+ <div class="people">
+  <div class="pc v"><div class="venue">麻吉大哥 · 9 月 21 日，余额最高那天</div>
+   <div class="k">t = −1.20<small>全部记录</small></div>
+   <span class="stamp red">像运气</span>
+   <ul><li>那天他的累计盈亏仍是 <b>−$2,450 万</b>：余额高，是因为存进去的多</li><li>只看最近四个月的连胜：t = 0.55，离 2 都远</li><li class="red">三周后，10 月 15 日，账户最低剩 $2.8 万</li></ul></div>
+  <div class="pc v"><div class="venue">THEO4 · POLYMARKET 盈利第 1</div>
+   <div class="k">9<small>个事件</small></div>
+   <span class="stamp dim">有希望，未证实</span>
+   <ul><li>已知的大注都押在 <b>2024 年美国大选</b>：总统、普选票、三个摇摆州，其实是同一件事</li><li>z = 2.05，从 45 万个账户里挑第一，门槛是 5.33</li><li>他用了 4 个账户，PrincessCaro、Michie 也在盈利榜前 50</li></ul></div>
+  <div class="pc v"><div class="venue">SERENITY · 274 条已判定的喊单</div>
+   <div class="k">59.5%<small>说对的比例</small></div>
+   <span class="stamp dim">要看基准</span>
+   <ul><li>如果是抛硬币（50%）：z ≈ 3.1，很强</li><li>如果今年看多 AI 股本来就有 55% 会对：z ≈ 1.5</li><li>基准 60%：z ≈ 0。<b>今年 AI 半导体大涨，基准不会是 50%</b></li></ul></div>
+ </div>
+ <div class="src">麻吉：Hyperliquid 公开 API，10-18 现算 · Theo4：Polymarket 公开 API，10-15；账户归属见 CNBC 2024-10-24 · Serenity：Quantral 10-12 统计，z 为我们换算</div>
+</div>`,
+// 04
+`<div class="slide">
+ <div class="eyebrow">04 · 为什么前 100 名没人过 4.90</div>
+ <h2>不是尺子坏了，是考试时间还没到</h2>
+ <div class="lead fs">Hyperliquid 上最老的一条记录，从 2023 年 5 月开始。一个真有本事的人，也还没有足够长的记录证明自己。</div>
+ <svg class="ch" id="tl" viewBox="0 0 1136 250"></svg>
+</div>`,
+// 05
+`<div class="slide">
+ <div class="eyebrow">05 · 那谁不像运气？</div>
+ <h2>按证据排，不按赚了多少排</h2>
+ <div class="lead fs" style="font-size:20px">Hyperliquid 4.7 万个账户里，离 4.90 最近的几条记录：</div>
+ <svg class="ch" id="rk" viewBox="0 0 1136 330"></svg>
+ <div class="src">latest.json · 2026-10-17 · PnL 前 100 与 30 天 ROI 前 100 合并后按 t 排序；麻吉为 9-21 当天的值，作对照</div>
+</div>`,
+// 06
+`<div class="slide">
+ <div class="eyebrow">06 · 现场</div>
+ <div class="demo">
+  <div><h2>报一个地址，<br>你想跟的，或者跟过的</h2>
+   <div class="lead fs" style="font-size:19px">浏览器直接读 Hyperliquid 的公开数据，不经过我们的服务器。收益按 PnL 算，出入金不算。</div></div>
+  <div class="panel">
+   <form id="dform" autocomplete="off"><input id="daddr" placeholder="0x…" spellcheck="false"></form>
+   <div class="exb">
+    <button data-a="0x020ca66c30bec2c4fe3861a94e4db4a498a35872">麻吉大哥</button>
+    <button data-a="0xdfc24b077bc1425ad1dea75bcb6f8158e10df303">HLP 做市金库</button>
+    <button data-a="0x4ec8fe22a531a96c8a846aaf5cbef73202649a80">PnL 榜前列</button>
+   </div>
+   <div class="vt" id="dtitle"></div>
+   <div class="rows"><div><dt>t</dt><dd id="dt">—</dd></div><div><dt>可测周数</dt><dd id="dw">—</dd></div><div><dt>按现在的水平，离 4.90 还差</dt><dd id="dm">—</dd></div></div>
+   <div class="vn" id="dnote"></div>
+  </div>
+ </div>
+</div>`,
+// 07
+`<div class="slide">
+ <div class="eyebrow">07 · 和聪明钱工具有什么不一样</div>
+ <h2>它们告诉你谁在赚钱。<br>我们告诉你，那能不能复制。</h2>
+ <div class="cmp">
+  <div><div class="h">一个跟单榜的头名</div><div class="q">Copy Score 96 / 100</div>
+   <div class="ex"><span class="n">30 天 +$621,826</span>Hyperdash 官方教程里的示例：按一致性、回撤、交易频率和盈利打分。</div></div>
+  <div><div class="h">同样的记录，我们怎么说</div><div class="q">还太早，看不出来</div>
+   <div class="ex"><span class="n">30 天 ≈ 4 个周数据点</span>不到 8 周的记录我们不打分：4 个点里，运气和本事分不开。分数越高、记录越短，越该警惕。</div></div>
+ </div>
+ <div class="why">我们不收被评方的钱，方法和代码公开。<b>AI agent 开始替人挑跟单对象和金库</b>，它们也需要先查证据：我们提供 API 和 MCP 接口，ChatGPT 插件目录在审核中。</div>
+</div>`,
+// 08
+`<div class="slide">
+ <div class="eyebrow">08 · 一个请求</div>
+ <div class="ask">
+  <div><h2>钱跟着一份战绩走之前，<br>先看它还剩多少证据</h2>
+   <ol class="fs"><li><b>手上有正在考虑跟的地址、金库或 AI 交易项目</b>：会后发我，前 5 位免费写一页评估</li><li>做跟单、金库、交易平台的：可以把证据分放进你的榜单</li><li>12 月 9 日，我们冻结的 200 个钱包第一次读数，结果公开，包括我们说错的部分</li></ol></div>
+  <div class="qr">${QR}evidencedeflator.com<br>扫码看一页评估样本</div>
+ </div>
+</div>`
+];
+const stage=document.getElementById('stage'),nav=document.getElementById('nav');
+S.forEach((h,i)=>{const b=document.createElement('button');b.textContent=String(i).padStart(2,'0');b.onclick=()=>go(i);nav.appendChild(b);
+ const t=document.createElement('div');t.innerHTML=h.trim();stage.appendChild(t.firstChild);});
+const $=id=>document.getElementById(id);
+
+// 04 timeline: years of record against what it takes
+(function(){
+ const W=1136,x0=40,x1=W-30,yrs=6.5,x=v=>x0+v/yrs*(x1-x0),y=150;
+ let s='<defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#D9D2C3" stroke-width="3"/></pattern></defs>';
+ s+=`<rect class="void" x="${x(3.44)}" y="${y-70}" width="${x1-x(3.44)}" height="70"/><text x="${x(3.44)+12}" y="${y-48}" class="lbl2">这么长的记录，Hyperliquid 上还不存在</text>`;
+ s+=`<line class="ax" x1="${x0}" x2="${x1}" y1="${y}" y2="${y}"/>`;
+ for(let v=0;v<=6;v++)s+=`<line class="ax" x1="${x(v)}" x2="${x(v)}" y1="${y}" y2="${y+6}"/><text x="${x(v)}" y="${y+24}" text-anchor="middle">${v} 年</text>`;
+ const mk=(v,t1,t2,up,red)=>{const yy=up?y-18:y+52;return `<circle cx="${x(v)}" cy="${y}" r="6" class="${red?'warn':'fill'}"/><line x1="${x(v)}" x2="${x(v)}" y1="${up?y-10:y+30}" y2="${up?y-6:y+34}" class="ax"/>`+
+  `<text x="${x(v)}" y="${up?y-104:yy+4}" text-anchor="middle" class="lbl">${t1}</text><text x="${x(v)}" y="${up?y-84:yy+24}" text-anchor="middle" class="lbl2">${t2}</text>`;};
+ s+=mk(1.6,'1.6 年','前 100 名记录的中位数',false);
+ s+=mk(3.44,'3.4 年','最老的记录（HLP，2023-05 起）',false);
+ s+=mk(2.7,'2.7 年','夏普 3 的高手：过线机会才五五开',true,true);
+ s+=mk(6.0,'6 年','夏普 2：五五开',true,true);
+ $('tl').innerHTML=s;
+})();
+
+// 05 evidence ranking
+(function(){
+ const R=[
+  {n:'0x58e1…132e',d:'30 天 ROI 榜 #6 · 143 周，一周都没亏过',t:4.49,w:1},
+  {n:'HLP 做市金库',d:'交易所自己的金库 · 2023-05 起',t:3.43},
+  {n:'0xff4c…463c',d:'PnL 榜 #91 · 2024-01 起',t:2.77},
+  {n:'憨巴小龙',d:'PnL 榜 #37 · 累计盈利 $5,952 万',t:2.31},
+  {n:'麻吉大哥',d:'对照：9-21 余额最高那天',t:-1.20,neg:1}];
+ const W=1136,L=300,Rr=W-40,lo=-2,hi=5.4,x=v=>L+(v-lo)/(hi-lo)*(Rr-L),rh=52,top=34;
+ let s=`<line class="t2" x1="${x(2)}" x2="${x(2)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(2)-8}" y="22" text-anchor="end">t = 2 · 随便挑一个人</text>`+
+  `<line class="bar" x1="${x(BAR)}" x2="${x(BAR)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(BAR)-8}" y="22" text-anchor="end" style="fill:var(--red)">4.90 · 4.7 万人里挑</text>`+
+  `<line class="ax" x1="${x(0)}" x2="${x(0)}" y1="${top}" y2="${top+R.length*rh}"/>`;
+ R.forEach((r,i)=>{const yy=top+i*rh+10,a=x(Math.min(0,r.t)),b=x(Math.max(0,r.t));
+  s+=`<text x="0" y="${yy+15}" class="lbl" style="font-weight:700">${r.n}</text><text x="0" y="${yy+34}" class="lbl2">${r.d}</text>`+
+   `<rect x="${a}" y="${yy+4}" width="${b-a}" height="22" class="${r.neg?'fillneg':'fill'}" opacity="${r.neg?.85:(r.w?.55:.85)}"/>`+
+   `<text x="${r.neg?a-8:b+8}" y="${yy+20}" text-anchor="${r.neg?'end':'start'}" style="fill:var(--ink);font-weight:700">${r.t.toFixed(2)}</text>`;});
+ s+=`<text x="${L}" y="${top+R.length*rh+28}" class="lbl2">最接近的那个一周都没亏过，这本身是警报；第二名是交易所自己的做市金库。没有一个是排行榜上的「战神」。</text>`;
+ $('rk').innerHTML=s;
+})();
+
+// 02 coin field: one dot per account, 46 of them light up
+let coinDone=false;
+function coin(){
+ const c=$('coin'),g=c.getContext('2d'),W=c.width,H=c.height,cols=320,rows=Math.ceil(N/cols),sx=W/cols,sy=H/rows;
+ g.clearRect(0,0,W,H);g.fillStyle='#BDB5A5';
+ for(let i=0;i<N;i++){g.fillRect((i%cols)*sx+sx*.2,Math.floor(i/cols)*sy+sy*.2,sx*.6,sy*.6);}
+ let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+ const pick=[...Array(46)].map(()=>Math.floor(rnd()*N));
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ pick.forEach((p,k)=>setTimeout(()=>{g.fillStyle='#B8361F';g.beginPath();g.arc((p%cols)*sx+sx/2,Math.floor(p/cols)*sy+sy/2,7,0,7);g.fill();},reduce?0:600+k*45));
+}
+
+// 06 live demo: same engine as /wallet/ (assets/hl.js)
+const SAY={loses:'在亏，而且不是运气差',luck:'像运气',clears_single:'有希望，未证实',clears_board:'证据充分',too_short:'还太早，看不出来'};
+const NOTE={pnl_outside_record:'大部分盈亏记在账户不足 $1,000 的时段，换算不成收益率。',no_losing_week:'一周都没亏过：像做市或卖尾部风险，t 看不见还没发生的大亏。',one_week_majority:'一周贡献了一半以上的收益。'};
+async function demo(a){
+ a=a.trim().toLowerCase();$('daddr').value=a;
+ if(!/^0x[0-9a-f]{40}$/.test(a)){$('dtitle').textContent='地址格式不对';return;}
+ $('dtitle').textContent='读取中…';$('dtitle').className='vt dim';$('dnote').textContent='';
+ let pf;try{pf=await HL.fetchPortfolio(a);}catch(e){$('dtitle').textContent='连不上 Hyperliquid';return;}
+ const w=HL.weeklyReturns(pf),sc=HL.score(w.rets),v=HL.verdict(sc,N),fl=HL.flags(pf,w.rets,w.counted);
+ $('dtitle').textContent=SAY[v.key];$('dtitle').className='vt '+({loses:'red',luck:'red',too_short:'dim'}[v.key]||'');
+ $('dt').textContent=sc.t==null?'—':sc.t.toFixed(2);$('dw').textContent=sc.weeks??'—';
+ const need=HL.monthsToClear(v.bar,sc.sharpe),have=(sc.weeks||0)/4.345;
+ $('dm').textContent=sc.sharpe==null?'—':need==null?'到不了':need<=have?'已过':((need-have)>=24?((need-have)/12).toFixed(1)+' 年':Math.round(need-have)+' 个月');
+ $('dnote').textContent=fl.map(f=>NOTE[f]||'').join(' ');
+}
+$('dform').addEventListener('submit',e=>{e.preventDefault();demo($('daddr').value);});
+document.querySelectorAll('.exb button').forEach(b=>b.onclick=()=>demo(b.dataset.a));
+
+let cur=-1;
+function go(i){if(i<0||i>=S.length||i===cur)return;cur=i;
+ [...stage.children].forEach((el,k)=>el.classList.toggle('on',k===i));
+ [...nav.children].forEach((el,k)=>el.classList.toggle('on',k===i));
+ if(i===2)coin();
+ if(i===6)setTimeout(()=>$('daddr').focus(),300);}
+document.addEventListener('keydown',e=>{
+ if(document.activeElement===$('daddr')&&e.key!=='Escape')return;
+ if(e.key==='Escape')document.activeElement.blur();
+ else if(['ArrowRight','PageDown',' '].includes(e.key))go(cur+1);
+ else if(['ArrowLeft','PageUp'].includes(e.key))go(cur-1);
+ else if(/^[0-8]$/.test(e.key))go(+e.key);
+});
+go(+(new URLSearchParams(location.search).get("s")||0));
+{const qa=new URLSearchParams(location.search).get("a");if(qa){go(6);demo(qa);}}
+function fit(){document.documentElement.style.zoom=Math.max(1,Math.min(innerWidth/1280,innerHeight/720)).toFixed(3)}
+addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>
