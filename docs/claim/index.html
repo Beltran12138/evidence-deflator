@@ -19,7 +19,7 @@
 function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/chrome.css?v=4e0582a5">
-<link rel="stylesheet" href="/assets/site.css?v=b5f56de9">
+<link rel="stylesheet" href="/assets/site.css?v=90a1a9ad">
 <link rel="alternate" hreflang="en" href="https://evidencedeflator.com/claim/">
 <link rel="alternate" hreflang="zh-Hans" href="https://evidencedeflator.com/zh-hans/claim/">
 <link rel="alternate" hreflang="zh-Hant" href="https://evidencedeflator.com/zh-hant/claim/">
@@ -49,7 +49,7 @@ function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if
  <p class="muted small" style="margin-top:14px">Screenshots and PDFs: an AI assistant with our <a href="/api/">MCP tool</a> (Claude, ChatGPT, Cursor) can read them and run the same arithmetic. This page reads text with fixed patterns and shows every field, so nothing is guessed out of sight. Nothing you paste leaves your browser.</p>
 </div>
 <script>window.CLAIM = {"T": {"f": {"sharpe": "Sharpe (annualised)", "annual": "Annual return, %", "vol": "Volatility, %", "mdd": "Max drawdown, %", "years": "Length, years", "trials": "Variants tried"}, "how": {"given": "as stated", "derived": "from return ÷ volatility"}, "miss": {"sharpe": "No Sharpe ratio or volatility. Without the size of the swings, a return says nothing about luck.", "ddNotVol": "A drawdown is given but no volatility. A drawdown is not a substitute: it depends on the length and the path of the record.", "years": "No length of record.", "trials": "How many variants, strategies or models were tried before this one was shown. Unstated, it is treated as 1, which is almost never true.", "backtest": "A backtest, with no live record mentioned: the result was fitted to data that was already known."}, "verdict": {"incomplete": "Cannot be checked yet", "strong": "Strong evidence", "strong1": "Clears t = 2, picked blind", "promising": "Promising, not proven", "luck": "Looks like luck", "loses": "Losing, and not by chance"}, "body": "Sharpe {S} ({HOW}) over {Y} years gives t ≈ {T}. Picked as the best of {N}, the bar is {BAR}. Luck alone gets a record this strong: {L}. At this Sharpe, clearing the bar needs about {NEED} of record in total.", "likely": "more likely than not", "one": "1 in {X}", "yr": " years", "mo": " months", "never": "no length of record (Sharpe at or below zero)"}};</script>
-<script src="/assets/hl.js?v=69074bdd"></script><script src="/assets/claim.js?v=844509ff"></script>
+<script src="/assets/hl.js?v=f2d7220e"></script><script src="/assets/claim.js?v=ff0fa033"></script>
 </main><footer class="site-footer"><div class="container">
 <div class="foot-grid">
  <div><a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
