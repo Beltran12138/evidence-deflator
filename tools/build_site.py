@@ -844,6 +844,9 @@ def build_polymarket():
     write("polymarket/index.html", page)
 
 
+MEMO_ALT = {"en": "/memo/sample/", "zh-Hans": "/zh-hans/memo/sample/", "zh-Hant": "/zh-hant/memo/sample/"}
+
+
 def build_memo_sample():
     """/memo/sample/: the one-page memo format, shown on one public record (numbers from tools/memo_sample.py)."""
     src = "hlp-2026-10-16.json"
@@ -861,7 +864,7 @@ def build_memo_sample():
     mm = m["months_more_at_this_sharpe"]["board_independent"]
     page = head("Sample evidence memo · Hyperliquidity Provider (HLP) · Evidence Deflator",
                 "What a one-page evidence memo looks like, on one public record: Hyperliquid's HLP vault, the strongest record on the all-time PnL board.",
-                "/memo/sample/") + header("") + f"""
+                "/memo/sample/", alt=MEMO_ALT) + header("", MEMO_ALT) + f"""
 <main><div class="container doc" style="max-width:820px;padding-block:56px 72px">
  <div class="eyebrow"><span class="dot"></span>Sample evidence memo · {m['fetched'][:10]}</div>
  <h1 style="margin-top:14px">Hyperliquidity Provider (HLP)</h1>

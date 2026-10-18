@@ -79,7 +79,7 @@ def footer(B, P, scripts=""):
 <div class="foot-grid">
  <div><a class="brand" href="{P}">{B.MARK}Evidence Deflator</a>
   <p style="margin-top:14px;max-width:340px">交易战绩是实力还是运气？开源的证据检验工具，看一份记录里有多少算数。</p></div>
- <div><h4>产品</h4><ul><li><a href="{P}">查 Hyperliquid 钱包</a></li><li><a href="/polymarket/">查 Polymarket 钱包（英文）</a></li><li><a href="{B.TG_BOT}">Telegram 机器人</a></li><li><a href="{B.EXT_URL}">Chrome 插件</a></li><li><a href="/audits/">审计（英文）</a></li><li><a href="{P}api/">API 与 MCP</a></li><li><a href="{P}method/">方法</a></li><li><a href="/">英文版首页</a></li></ul></div>
+ <div><h4>产品</h4><ul><li><a href="{P}">查 Hyperliquid 钱包</a></li><li><a href="/polymarket/">查 Polymarket 钱包（英文）</a></li><li><a href="{B.TG_BOT}">Telegram 机器人</a></li><li><a href="{B.EXT_URL}">Chrome 插件</a></li><li><a href="/audits/">审计（英文）</a></li><li><a href="{P}api/">API 与 MCP</a></li><li><a href="{P}memo/sample/">评估报告样例</a></li><li><a href="{P}method/">方法</a></li><li><a href="/">英文版首页</a></li></ul></div>
  <div><h4>问题</h4><ul>{qs}</ul></div>
  <div><h4>项目</h4><ul><li><a href="{B.REPO}">GitHub</a></li><li><a href="/privacy/">隐私（英文）</a></li><li><a href="/terms/">条款（英文）</a></li></ul></div>
 </div>
@@ -193,6 +193,7 @@ def wallet_page(B, hl, lang):
  </form>
  <div class="wex muted small">试试：{ex}</div>
  <p class="muted small elsewhere">也可以在 <a href="{B.TG_BOT}" rel="noopener">Telegram 上用 @SkillOrLuckBot</a>（发地址，回结论），或装 <a href="{B.EXT_URL}" rel="noopener">Chrome 插件</a>，在 Hyperliquid、Binance 和 OKX 跟单页面上直接显示结论。</p>
+ <p class="muted small" style="margin-top:6px">准备把钱交给某个交易员或金库？看看<a href="{P}memo/sample/">一页评估报告样例</a>（以 HLP 金库为例）。</p>
 </div>
 
 <div class="container" id="wout" hidden>
@@ -460,6 +461,79 @@ python tools/record.py --start 2026-03 --end 2026-08 --sharpe 3 --trials 4800</p
     return finish(page, lang)
 
 
+def memo_page(B, lang):
+    """/zh-hans/memo/sample/: the sample evidence memo in Chinese, from the same numbers as /memo/sample/."""
+    import json, os
+    P = LANGS[lang]
+    src = "hlp-2026-10-16.json"
+    with open(os.path.join(B.DOCS, "data", "memo", src), encoding="utf-8") as f:
+        m = json.load(f)
+    with open(os.path.join(B.DOCS, "data", "hl", "latest.json"), encoding="utf-8") as f:
+        hl = json.load(f)
+    sc, v, b = m["score"], m["vault"] or {}, m["bars"]
+    kids = set(((v.get("relationship") or {}).get("data") or {}).get("childAddresses") or [])
+    on_board = [r for r in hl["boards"]["pnl"]["rows"] if r["address"] in kids]
+    kid_list = "、".join(f'#{r["rank"]} {html.escape(r["vault"] or (r["address"][:6] + "…" + r["address"][-4:]))}' for r in on_board)
+    cohort = hl.get("cohort") or {}
+    a = m["address"]
+    yes, no = '<span class="c-pos">过</span>', '<span class="c-accent">没过</span>'
+    mm = m["months_more_at_this_sharpe"]["board_independent"]
+    alt = {"en": "/memo/sample/", **{k: f"{v2}memo/sample/" for k, v2 in LANGS.items()}}
+    page = head(B, lang, "评估报告样例 · Hyperliquidity Provider (HLP) · Evidence Deflator",
+                "一页证据评估报告长什么样：以 Hyperliquid 全期 PnL 榜上最强的记录 HLP 金库为例。",
+                f"{P}memo/sample/", alt) + header(B, P, lang, "", alt) + f"""
+<main><div class="container doc" style="max-width:820px;padding-block:56px 72px">
+ <div class="eyebrow"><span class="dot"></span>评估报告样例 · {m['fetched'][:10]}</div>
+ <h1 style="margin-top:14px">Hyperliquidity Provider（HLP）</h1>
+ <p class="muted small mono" style="margin-top:10px">金库 <a href="{P}?a={a}">{a}</a> · 数据来自 api.hyperliquid.xyz，读取于 {m['fetched'].replace('T', ' ').replace('+00:00', ' UTC')} · <a href="/data/memo/{src}">原始数字</a></p>
+
+ <div class="example-result" style="max-width:none;margin-top:28px;cursor:default">
+  <span class="eyebrow">问题</span>
+  <span class="ex-say" style="margin-top:8px">一位存款人在看 HLP，因为它是 Hyperliquid 全期 PnL 榜上最强的记录。这份记录里有多少算得上证据？</span>
+  <span class="ex-head" style="margin-top:16px"><b>简短回答</b><span class="tag tag-amber">过了单次检验，没过榜单门槛</span></span>
+  <span class="ex-say">如果是随手挑中的，这个强度够了：{sc['weeks']:.0f} 周记录，t = {sc['t']:.2f}。但它是从 {m['board_n']:,} 个账户里挑出来的第一名，门槛是 {b['board_independent']:.2f}，还不够；按它自己 {sc['sharpe']:.2f} 的夏普比率，大约还要 {mm:.0f} 个月。而且它反映的不是某个交易员的本事：这是交易所自己的金库，收入来自做市、清算和平台手续费。</span>
+ </div>
+
+ <h2 style="margin-top:44px">一、这份记录是什么</h2>
+ <ul>
+  <li>Hyperliquid 上的一个金库，Hyperliquid 的官方描述是：“{html.escape(v.get('description') or '')}” 目前{'开放' if v.get('allow_deposits') else '不开放'}存款。管理人自己持有 {100 * (v.get('leader_fraction') or 0):.2f}%，从存款人的盈利里抽 {100 * (v.get('leader_commission') or 0):.0f}%。</li>
+  <li>它下面有 {len(kids)} 个子金库，其中 {len(on_board)} 个也在全期 PnL 前 100 名里（{kid_list}），所以那张榜把同一个业务算了 {len(on_board) + 1} 次。</li>
+  <li>历史从 {m['history_from']} 到 {m['history_to']}：{sc['intervals']} 个计分区间，共 {sc['weeks']:.1f} 周。Hyperliquid 历史里没有新数据点的周，并入下一个区间，不记为零收益。</li>
+  <li>覆盖范围：HLP 在 HyperCore 上交易，全部盈亏都在 Hyperliquid 记录里；钱包页提到的 HyperEVM 缺口对它不适用。充值和提现只改变账户价值，不改变盈亏。</li>
+ </ul>
+
+ <h2 style="margin-top:36px">二、数字</h2>
+ <div class="table-wrap"><table class="data memo-table">
+  <thead><tr><th>指标</th><th class="r">数值</th><th>解读</th></tr></thead>
+  <tbody>
+   <tr><td>t（Student t，有效自由度 {sc['dof']:.0f}）</td><td class="r mono">{sc['t']:.2f}</td><td>年化夏普 {sc['sharpe']:.2f} × √{sc['weeks'] / 52:.1f} 年，已按记录长度校正</td></tr>
+   <tr><td>随手挑中时的门槛</td><td class="r mono">{b['single']:.2f}</td><td>{yes if m['clears']['single'] else no}</td></tr>
+   <tr><td>{m['board_n']:,} 选 1 的门槛（账户视为相互独立）</td><td class="r mono">{b['board_independent']:.2f}</td><td>{yes if m['clears']['board_independent'] else no}；按当前夏普大约还要 {mm:.0f} 个月</td></tr>
+   <tr><td>同一门槛，粗略考虑交易方式相近的账户</td><td class="r mono">≈&nbsp;{b['board_correlated_rough']:.1f}</td><td>{yes if m['clears']['board_correlated_rough'] else no}；这是数量级，不是测量值</td></tr>
+  </tbody></table></div>
+
+ <h2 style="margin-top:36px">三、t 看不到什么</h2>
+ <ul>
+  <li><strong>记录的形状。</strong>{100 * m['weeks_positive_share']:.0f}% 的区间是正收益。最差的三个区间分别是 {'、'.join(f'{100 * x:.1f}%' for x in m['worst_weeks'])}；按区间复利计算，最深回撤 {abs(100 * m['max_drawdown_compounded']):.1f}%。偏度 {m['skew']:+.1f}：最大的波动是盈利。至少到目前为止，这不是「赚小钱、亏大钱」的形状。</li>
+  <li><strong>还没发生的尾部。</strong>接手被清算仓位的金库，在价格跳空时站在对手方。它可能遭遇的最坏情况，不一定出现在这 {sc['weeks'] / 52:.1f} 年的历史里，t 也无法给它定价。</li>
+  <li><strong>收益从哪里来。</strong>手续费和清算收入来自交易所自身的业务。对存款人来说，问题与其说是有没有人有本事，不如说是这笔收入能不能持续、条件是什么。</li>
+ </ul>
+
+ <h2 style="margin-top:36px">四、什么会改变结论</h2>
+ <ul>
+  <li>更长的记录：夏普保持 {sc['sharpe']:.2f} 不变的话，大约再过 {mm:.0f} 个月能过 {m['board_n']:,} 选 1 的门槛。</li>
+  <li>前向记录：HLP 是 {cohort.get('frozen_at', '')[:10]} 冻结的 {cohort.get('members', 200)} 个钱包之一。冻结之后的记录从 {cohort.get('first_readings', '')} 起每天公布分数。</li>
+  <li>一次明显深于目前 {abs(100 * m['max_drawdown_compounded']):.1f}% 的回撤，那会暴露上面说的尾部风险。</li>
+ </ul>
+
+ <h2 style="margin-top:36px">五、方法与复现</h2>
+ <p>和<a href="{P}?a={a}">钱包检验</a>用的是同一个估计方法，定义见<a href="{P}method/">方法</a>页。复现：在<a href="{B.REPO}">仓库</a>里运行 <code>python tools/memo_sample.py {a} out.json --board-n {m['board_n']}</code>。</p>
+ <p class="muted small" style="margin-top:28px;border-top:1px solid var(--rule);padding-top:16px">本页用一份公开记录展示一页证据评估报告的格式，不构成投资建议。HLP 没有参与，也没有付费；我们从不收被评估一方的钱。想为你正在考虑的地址要一份？<a href="{B.ISSUE_AUDIT}">在 GitHub 上提出</a>。</p>
+</div></main>
+""" + footer(B, P)
+    return finish(page, lang)
+
+
 def build(B):
     import json, os
     with open(os.path.join(B.DOCS, "data", "hl", "latest.json"), encoding="utf-8") as f:
@@ -468,5 +542,6 @@ def build(B):
         B.write(f"{P.strip('/')}/index.html", wallet_page(B, hl, lang))
         B.write(f"{P.strip('/')}/method/index.html", method_page(B, lang))
         B.write(f"{P.strip('/')}/api/index.html", api_page(B, lang))
+        B.write(f"{P.strip('/')}/memo/sample/index.html", memo_page(B, lang))
         for rel, page in question_pages(B, hl, lang):
             B.write(rel, page)
