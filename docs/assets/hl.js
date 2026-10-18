@@ -71,7 +71,7 @@ const HL = (() => {
     const at = Object.fromEntries(pf), all = at.allTime;
     const av = all.accountValueHistory.map(([t, v]) => [t, +v]);
     const pnl = new Map(all.pnlHistory.map(([t, v]) => [t, +v]));
-    if (av.length < 2) return {rets: [], start: null, end: null, counted: 0};
+    if (av.length < 2) return {rets: [], start: null, end: null, counted: 0, iv: []};
     const start = av[0][0], end = av[av.length - 1][0], grid = [];
     for (let g = end; g >= start; g -= WEEK_MS) grid.push(g);
     grid.reverse();
@@ -80,15 +80,16 @@ const HL = (() => {
       while (i + 1 < av.length && av[i + 1][0] <= g) i++;
       if (av[i][0] <= g && (!nodes.length || nodes[nodes.length - 1] !== i)) nodes.push(i);
     }
-    const rets = [];
+    const rets = [], iv = [];  // iv: [start ms, end ms] of each return, for alphaVs
     let counted = 0;
     for (let k = 0; k + 1 < nodes.length; k++) {
       const [ta, va] = av[nodes[k]], tb = av[nodes[k + 1]][0];
       if (va < MIN_AV || !pnl.has(ta) || !pnl.has(tb)) continue;
       rets.push([(pnl.get(tb) - pnl.get(ta)) / va, (tb - ta) / WEEK_MS]);
+      iv.push([ta, tb]);
       counted += pnl.get(tb) - pnl.get(ta);
     }
-    return {rets, start, end, counted};
+    return {rets, start, end, counted, iv};
   }
 
   function score(rets) {
@@ -152,6 +153,48 @@ const HL = (() => {
     return out;
   }
 
+  // Chance that luck alone produces a record at least this strong: picked blind (n = 1), the tail
+  // of t; the best of n records with no skill, 1 - (1 - tail)^n. Same as luck() in src/hl_wallet.py.
+  function luck(t, n = 1) {
+    if (t == null) return null;
+    const q = 1 - cdf(t);
+    return q >= 1 ? 1 : -Math.expm1(Math.max(n, 1) * Math.log1p(-q));
+  }
+
+  // Benchmark return over each interval from daily candles ({T: close ms, c: close}): the close of
+  // the last candle that closed at or before each end; null before the first candle.
+  function benchReturns(candles, iv) {
+    const cs = candles.map(c => [+c.T, +c.c]).sort((a, b) => a[0] - b[0]);
+    const px = ms => { let lo = 0, hi = cs.length - 1, k = -1; while (lo <= hi) { const m = (lo + hi) >> 1; if (cs[m][0] <= ms) { k = m; lo = m + 1; } else hi = m - 1; } return k < 0 ? null : cs[k][1]; };
+    return iv.map(([ta, tb]) => { const a = px(ta), b = px(tb); return a == null || b == null || a <= 0 ? null : b / a - 1; });
+  }
+
+  // Evidence after taking out the benchmark's moves: r_i = alpha dt_i + beta b_i + e_i, Var(e_i)
+  // proportional to dt_i (weights 1/dt_i); t of alpha on the normal scale with n - 2 dof.
+  // Same as alpha_vs() in src/hl_wallet.py.
+  function alphaVs(rets, bench) {
+    const pts = rets.map(([r, w], i) => [r, w, bench[i]]).filter(([, w, b]) => b != null && w > 0), n = pts.length;
+    const none = {t_btc: null, beta_btc: null, n_btc: n};
+    if (n < MIN_WEEKS) return none;
+    let a11 = 0, a12 = 0, a22 = 0, y1 = 0, y2 = 0;
+    for (const [r, w, b] of pts) { a11 += w; a12 += b; a22 += b * b / w; y1 += r; y2 += r * b / w; }
+    const det = a11 * a22 - a12 * a12;
+    if (det <= 0) return none;
+    const al = (a22 * y1 - a12 * y2) / det, be = (a11 * y2 - a12 * y1) / det;
+    let rss = 0;
+    for (const [r, w, b] of pts) rss += (r - al * w - be * b) ** 2 / w;
+    const s2 = rss / (n - 2), r3 = x => Math.round(x * 1000) / 1000;
+    if (s2 <= 0) return {t_btc: null, beta_btc: r3(be), n_btc: n};
+    return {t_btc: r3(tToZ(al / Math.sqrt(s2 * a22 / det), n - 2)), beta_btc: r3(be), n_btc: n};
+  }
+
+  async function fetchCandles(coin = 'BTC', startMs = 1672531200000) {
+    const r = await fetch('https://api.hyperliquid.xyz/info', {method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({type: 'candleSnapshot', req: {coin, interval: '1d', startTime: startMs, endTime: Date.now()}})});
+    if (!r.ok) throw new Error('Hyperliquid API returned ' + r.status);
+    return r.json();
+  }
+
   function verdict(sc, leaderboardN) {
     const lb = bar(leaderboardN);
     if (sc.t == null) return {key: 'too_short', bar: lb};
@@ -177,6 +220,6 @@ const HL = (() => {
     } catch (e) { return null; }
   }
 
-  return {WEEK_MS, MIN_WEEKS, bar, monthsToClear, weeklyReturns, score, drawdown, flags, verdict, fetchPortfolio, fetchVault, cdf, inv, tToZ};
+  return {WEEK_MS, MIN_WEEKS, bar, monthsToClear, weeklyReturns, score, drawdown, flags, verdict, luck, benchReturns, alphaVs, fetchPortfolio, fetchVault, fetchCandles, cdf, inv, tToZ};
 })();
 if (typeof module !== 'undefined') module.exports = HL;

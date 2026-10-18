@@ -19,7 +19,7 @@
 function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/chrome.css?v=4e0582a5">
-<link rel="stylesheet" href="/assets/site.css?v=04dca51a">
+<link rel="stylesheet" href="/assets/site.css?v=f3d2e38d">
 <link rel="alternate" hreflang="en" href="https://evidencedeflator.com/method/">
 <link rel="alternate" hreflang="zh-Hans" href="https://evidencedeflator.com/zh-hans/method/">
 <link rel="alternate" hreflang="zh-Hant" href="https://evidencedeflator.com/zh-hant/method/">
@@ -53,8 +53,25 @@ function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if
 <p><strong>單靠運氣會出現什麼。</strong>一個沒有實力、隨手挑中的錢包，t ≥ 2 大約 44 次裏出現 1 次（2.3%），這一檔叫「有希望，未證實」。一池 N 份全都沒有實力的記錄，其中任何一個過 bar(N) 的概率也約是 2.3%，這一檔叫「證據充分」。在按利潤排名的榜單上，靠運氣到 t = 2 的遠不止 44 個裏 1 個，因為按利潤排名本身偏愛運氣好的連勝；具體多少要做模擬，我們還沒有公開，所以榜單上的「有希望」是弱信號。</p>
 <p><strong>真實的優勢需要什麼。</strong>按 t ≈ 夏普 × √年數 加上噪聲，真實年化夏普為 S 的交易者，過 Hyperliquid 榜單門檻 4.90 的概率：</p>
 <div class="table-wrap"><table class="data compact"><thead><tr><th>真實夏普</th><th class="r">1 年</th><th class="r">2 年</th><th class="r">3 年</th><th class="r">5 年</th></tr></thead><tbody><tr><td>夏普 2</td><td class="r"><1%</td><td class="r">2%</td><td class="r">8%</td><td class="r">33%</td></tr><tr><td>夏普 3</td><td class="r">3%</td><td class="r">26%</td><td class="r">62%</td><td class="r">96%</td></tr><tr><td>夏普 4</td><td class="r">18%</td><td class="r">78%</td><td class="r">98%</td><td class="r">>99%</td></tr><tr><td>夏普 5</td><td class="r">54%</td><td class="r">99%</td><td class="r">>99%</td><td class="r">>99%</td></tr></tbody></table></div>
-<p>所以夏普 3（很少有基金能長期保持）大約要 2.7 年記錄才有一半把握，夏普 2 要約 6.0 年。Hyperliquid PnL 前 100 的記錄長度中位數是 1.6 年。假如這些記錄每一份的真實夏普都是 3，到現在應該約有 21 個過線；實際是 0 個。沒有人過線，是記錄短、又沒有被證實的實力時的樣子，不說明這道門檻永遠過不了。</p>
+<p>所以夏普 3（很少有基金能長期保持）大約要 2.7 年記錄才有一半把握，夏普 2 要約 6.0 年。Hyperliquid PnL 前 100 的記錄長度中位數是 1.7 年。假如這些記錄每一份的真實夏普都是 3，到現在應該約有 22 個過線；實際是 0 個。沒有人過線，是記錄短、又沒有被證實的實力時的樣子，不說明這道門檻永遠過不了。</p>
+<p><strong>用賠率表示運氣。</strong>頁面上的運氣同時寫成賠率和百分比：一份正態分數為 t 的記錄，如果是從一池 N 份全都沒有實力的記錄裏挑出來的，池裏任何一個至少走到這麼強的概率是 1 − (1 − (1 − Φ(t)))^N。N = 1 時就是普通的單側尾部概率，t = 2 時是 44 次裏 1 次。讓 47,248 個人各猜 10 次拋硬幣，平均約有 46 個人 10 次全對。放到排行榜上，他們就排在最前面。</p>
 <p><strong>你的挑選範圍，決定你的門檻。</strong>錢包頁會問你是怎麼找到這個錢包的：隨手挑中（門檻 2.00）、從 10 個左右的名單裏（2.84）、從某個前 100 名裏（3.51），還是從整個榜單裏（4.90）。只有你知道答案；預設按整個榜單算，因為大多數錢包是這樣被找到的。</p>
+
+<h2 id="masters">0.6 · 拿名人戰績校準</h2>
+<p>同一把尺子，量一量沒人會說是運氣的記錄。年收益對標普 500（含股息）做迴歸，alpha 的 t 換算成和錢包 t 同一個正態尺度。</p>
+<div class="table-wrap"><table class="data compact"><thead><tr><th>記錄</th><th>年份</th><th class="r">alpha 的 z</th><th class="r">β</th><th>按 Hyperliquid 門檻（4.90）的判決</th></tr></thead><tbody>
+<tr><td>文藝復興大獎章基金，扣費後</td><td>1988–2018</td><td class="r">7.05</td><td class="r">−0.58</td><td>證據充分</td></tr>
+<tr><td>伯克希爾·哈撒韋（巴菲特），每股市值</td><td>1965–2025</td><td class="r">2.77</td><td class="r">0.90</td><td>有希望，未證實</td></tr>
+<tr><td>伯克希爾·哈撒韋，2001 年以後</td><td>2001–2025</td><td class="r">1.79</td><td class="r">0.59</td><td>像運氣</td></tr>
+</tbody></table></div>
+<p>所以記錄足夠出色、足夠長的時候，這把尺子會說「過」：大獎章輕鬆過了「4.7 萬選 1」的門檻。巴菲特用了六十年才到「有希望」，只看最近 25 年，相對指數的超額收益在運氣能解釋的範圍內。被證明本來就需要很長的記錄；Hyperliquid 上最老的記錄從 2023 年 5 月才開始。</p>
+<p><strong>為什麼要對比大盤。</strong>如果對零檢驗，標普 500 指數自己在 1965–2025 年就能到 4.94，過得了門檻：只看絕對收益，會把大盤上漲算成本事。來源：伯克希爾 2025 年致股東信附表；Cornell (2019) 表 1，源自 Zuckerman (2019)，是估計值，不是審計數。腳本：<a href="https://github.com/Beltran12138/evidence-deflator/blob/main/tools/masters_calibration.py"><code>tools/masters_calibration.py</code></a>。</p>
+
+<h2 id="btc">0.7 · 錢包對比 BTC</h2>
+<p>同樣的道理，錢包頁也顯示扣掉 BTC 漲跌之後的 t：每段週收益擬合成 alpha × 週數 + β × 同期 BTC 收益，按區間長度加權，報告 alpha 的 t 和 β。BTC 價格取 Hyperliquid 的日 K 線。判決暫時仍按未扣的 t，因為凍結隊列的讀數是按它預先登記的；正式切換會作為一次帶日期的方法變更在本頁公佈。名人「證據排名」一律用對比大盤的版本。</p>
+
+<h2 id="trackers">0.8 · 和聰明錢工具有什麼不同</h2>
+<p>Hyperdash 的 Copy Score、HyprSwarm 的 ELO、Hashdive 的 Smart Score、Nansen 的標籤，回答的是「誰在賺錢、他持有什麼」。沒有一家報告分數里有多少能用運氣解釋，也沒有一家考慮分數是從幾萬人裏挑出來的。Hyperdash 自己的教程裏，一個 30 天記錄的錢包 Copy Score 是 96/100；不到 8 週的記錄，本站根本不評分。它們告訴你誰在賺錢，我們告訴你那能不能複製。跟單平臺按跟單量賺錢，一個說「頭部是運氣」的分數和它們的生意相反；我們不收被評方的錢。</p>
 
 <h2 id="open-book">1 · 開卷月數</h2>
 <p>在模型官方公佈的訓練截止日把回測窗口切開。截止日當月及之前的月份，無法排除被模型見過：模型可能已經知道當時發生了什麼。截止日之後的月份才是乾淨的。</p>
@@ -107,7 +124,7 @@ t    = 夏普 × √(數據年數)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>本頁</h4><ul><li><a href="#wallet">Hyperliquid 錢包</a></li><li><a href="#yes">會說「過」嗎</a></li><li><a href="#open-book">開卷月數</a></li><li><a href="#clean-months">乾淨月份</a></li><li><a href="#selection">挑選之後的門檻</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#principles">原則</a></li><li><a href="#limits">侷限</a></li></ul></div>
+ <div class="box"><h4>本頁</h4><ul><li><a href="#wallet">Hyperliquid 錢包</a></li><li><a href="#yes">會說「過」嗎</a></li><li><a href="#masters">名人校準</a></li><li><a href="#btc">對比 BTC</a></li><li><a href="#trackers">和聰明錢工具的區別</a></li><li><a href="#open-book">開卷月數</a></li><li><a href="#clean-months">乾淨月份</a></li><li><a href="#selection">挑選之後的門檻</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#principles">原則</a></li><li><a href="#limits">侷限</a></li></ul></div>
  <div class="box"><h4>試一試</h4><ul><li><a href="/zh-hant/">查一個錢包</a></li><li><a href="/check/">在瀏覽器裏檢驗回測（英文）</a></li><li><a href="/zh-hant/api/">API、MCP 與 Python</a></li></ul></div>
 </aside>
 </div></main>

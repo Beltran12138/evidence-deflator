@@ -29,8 +29,8 @@ from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 from hl_wallet import (  # noqa: E402,F401  (re-exported for tests and tools/check_hl_parity.py)
-    ALPHA, INFO_URL, MIN_AV, MIN_WEEKS, N, WEEK_MS, bar, flags, months_to_clear, score, t_to_z,
-    weekly_returns, _betacf, _betai,
+    ALPHA, INFO_URL, MIN_AV, MIN_WEEKS, N, WEEK_MS, alpha_vs, bar, bench_returns, flags, luck,
+    months_to_clear, score, t_to_z, weekly_returns, _betacf, _betai,
 )
 
 LB_URL = "https://stats-data.hyperliquid.xyz/Mainnet/leaderboard"
@@ -101,6 +101,19 @@ def count_vaults(cache, refresh):
         return None
 
 
+def fetch_btc_candles(cache, refresh):
+    """BTC daily candles since 2023-01-01 from the info API, cached like the portfolios."""
+    p = os.path.join(cache, "candles-btc.json")
+    if refresh or not os.path.exists(p):
+        body = json.dumps({"type": "candleSnapshot", "req": {"coin": "BTC", "interval": "1d", "startTime": 1672531200000,
+                                                             "endTime": int(time.time() * 1000)}})
+        data = curl(["-X", "POST", INFO_URL, "-H", "Content-Type: application/json", "-d", body])
+        with open(p, "wb") as f:
+            f.write(data)
+    with open(p, encoding="utf-8") as f:
+        return json.load(f)
+
+
 def window(row, name):
     for k, v in row["windowPerformances"]:
         if k == name:
@@ -132,6 +145,11 @@ def main():
     by_roi = sorted((r for r in rows if float(r["accountValue"]) >= 10000),
                     key=lambda r: -num(r, "month", "roi"))[: a.top]
 
+    try:
+        btc = fetch_btc_candles(a.cache, a.refresh)
+    except Exception as ex:  # the BTC-adjusted column is extra; the board stands without it
+        print("btc candles", ex, file=sys.stderr)
+        btc = []
     boards = {}
     for key, picked, label in (("pnl", by_pnl, "Top by all-time PnL"),
                                ("roi30", by_roi, "Top by 30-day ROI (account value >= $10k)")):
@@ -141,11 +159,12 @@ def main():
             addr = r["ethAddress"]
             try:
                 pf = fetch_portfolio(a.cache, addr, a.refresh)
-                rets, s, e, counted = weekly_returns(pf)
+                iv, s, e, counted = weekly_returns(pf, with_times=True)
+                rets = [(x, w) for x, w, _, _ in iv]
                 fl = flags(pf, rets, counted)
             except Exception as ex:  # one bad account should not sink the board
                 print("skip", addr, ex, file=sys.stderr)
-                rets, s, e, fl = [], None, None, []
+                iv, rets, s, e, fl = [], [], None, None, []
             try:
                 vault = fetch_vault(a.cache, addr, a.refresh)
             except Exception as ex:
@@ -161,6 +180,7 @@ def main():
                 "pnl_all_time": round(num(r, "allTime", "pnl"), 2),
                 "roi_30d": round(num(r, "month", "roi"), 4),
                 **sc,
+                **(alpha_vs(iv, bench_returns(btc, iv)) if btc else {"t_btc": None, "beta_btc": None, "n_btc": 0}),
                 "months_to_clear": (round(months_to_clear(b, sc["sharpe"]), 1)
                                     if sc["sharpe"] and sc["sharpe"] > 0 else None),
                 "flags": fl,
@@ -229,7 +249,8 @@ def main():
         "source": LB_URL,
         # when the leaderboard was fetched (the cache may be reused across builds)
         "fetched": datetime.fromtimestamp(fetched_ms / 1000, timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
-        "method": "weekly returns = delta cumulative PnL / account value at week start; t = Sharpe*sqrt(years)",
+        "method": "weekly returns = delta cumulative PnL / account value at week start; t = Sharpe*sqrt(years); "
+                  "t_btc = t of alpha after regressing weekly returns on BTC's return over the same dates (alpha_vs)",
         "boards": boards,
         "cohort": cohort,
         "vaults": vaults and {"source": VAULTS_URL, **vaults},

@@ -22,6 +22,16 @@
   if (t != null) s += `<circle class="pt best slide" cx="${x(0)}" cy="42" r="7" data-dx="${x(Math.max(lo, Math.min(hi, t))) - x(0)}"/>`;
   return s + '</svg>';
  }
+ // Luck as odds and as a percentage: "1 in 44" and "2.3%" (both, so either reading works)
+ function odds(p) {
+  const pct = p >= 0.1 ? (100 * p).toFixed(0) + '%' : p >= 0.01 ? (100 * p).toFixed(1) + '%' : p >= 1e-6 ? (100 * p).toPrecision(2) + '%' : '< 0.0001%';
+  if (p >= 0.99) return [T.luck.certain, pct];
+  if (p >= 0.5) return [T.luck.most, pct];
+  const x = 1 / p, r = x < 100 ? Math.round(x) : Number(x.toPrecision(2));
+  const X = T.luck.wan && r >= 1e5 ? fill(T.luck.wan, {W: Number((r / 1e4).toPrecision(2)).toLocaleString('en')})
+   : r >= 1e6 && T.luck.million ? fill(T.luck.million, {M: (r / 1e6).toPrecision(2)}) : r.toLocaleString('en');
+  return [fill(T.luck.one, {X}), pct];
+ }
  const W0 = id => Math.max(300, Math.round(($(id).clientWidth || 520) - 28));
  // The record itself: weekly returns added up (the same returns t is built from), the running
  // peak, the current drawdown shaded, and the freeze date if the wallet is in the frozen cohort.
@@ -98,10 +108,13 @@
    $('wvault').textContent = fill(T.vault, {name: vault.name, lf: f(100 * (vault.leaderFraction || 0), 1), c: f(100 * (vault.leaderCommission || 0), 0)})
     + (NV ? fill(T.vaultBar, {NV: n}) : '');
   }
-  const {rets, start, counted} = HL.weeklyReturns(pf), sc = HL.score(rets), fl = HL.flags(pf, rets, counted);
+  const {rets, start, counted, iv} = HL.weeklyReturns(pf), sc = HL.score(rets), fl = HL.flags(pf, rets, counted);
+  // the BTC-adjusted t is shown next to the verdict, not in it (until a dated method change)
+  let adj = null;
+  try { if (sc.t != null) adj = HL.alphaVs(rets, HL.benchReturns(await HL.fetchCandles('BTC', start), iv)); } catch (e) { adj = null; }
   await cohortP;
   const inCohort = cohort && cohort.members.some(m => m.address === a);
-  last = {a, rets, start, sc, fl, NN, n, U, vault: !!vault, inCohort, frozenMs: inCohort ? cohort.frozen_at_ms : null};
+  last = {a, rets, start, sc, fl, adj, NN, n, U, vault: !!vault, inCohort, frozenMs: inCohort ? cohort.frozen_at_ms : null};
   pool(); render();
   $('wcopy').dataset.copy = location.origin + T.selfPath + '?a=' + a;
   $('wnote').textContent = start ? fill(T.wnote, {start: new Date(start).toISOString().slice(0, 10), now: new Date().toISOString().slice(0, 16).replace('T', ' ')}) : '';
@@ -120,7 +133,7 @@
   }));
  }
  function render() {
-  const {rets, start, sc, fl, NN, n, U, inCohort, frozenMs} = last, M = T.months, C = T.charts;
+  const {rets, start, sc, fl, adj, NN, n, U, inCohort, frozenMs} = last, M = T.months, C = T.charts;
   const NP = pick || NN, opt = T.found.opts.find(o => o[0] === pick), FROM = fill(opt[2], {N: n, U});
   const v = HL.verdict(sc, NP), [title, tag, sub] = T.say[v.key];
   $('whead').textContent = title; $('wtag').innerHTML = `<span class="tag ${tag}">${T.tag[v.key]}</span>`;
@@ -128,7 +141,14 @@
   $('wmeter').innerHTML = meter(sc.t, v.bar, NP.toLocaleString('en'));
   const dot = $('wmeter').querySelector('.slide');
   if (dot) requestAnimationFrame(() => requestAnimationFrame(() => { dot.style.transform = `translateX(${dot.dataset.dx}px)`; }));
-  $('wt').textContent = f(sc.t); $('ws').textContent = f(sc.sharpe); $('ww').textContent = sc.weeks ?? '—';
+  $('wt').textContent = f(sc.t); $('ws').textContent = fill(T.tLabel, {S: f(sc.sharpe)}); $('ww').textContent = sc.weeks ?? '—';
+  const lk = HL.luck(sc.t, NP);
+  if (lk == null) { $('wl').textContent = '—'; $('wlp').textContent = ''; }
+  else { const [o, pc] = odds(lk); $('wl').textContent = o; $('wlp').textContent = pc; }
+  $('wl').style.fontSize = lk != null && lk >= 0.5 ? '0.72em' : '';
+  $('wll').textContent = fill(T.luck.label, {FROM});
+  $('wbtc').hidden = !(adj && adj.t_btc != null);
+  if (adj && adj.t_btc != null) $('wbtc').textContent = fill(T.btc, {T: f(adj.t_btc), B: f(adj.beta_btc), N: adj.n_btc});
   const need = HL.monthsToClear(v.bar, sc.sharpe), have = (sc.weeks || 0) / 4.345;
   if (sc.sharpe == null) { $('wm').textContent = '—'; $('wml').textContent = M.noSharpe; }
   else if (need == null) { $('wm').textContent = M.never[0]; $('wml').textContent = M.never[1]; }

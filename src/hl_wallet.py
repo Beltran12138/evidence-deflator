@@ -87,7 +87,7 @@ def t_to_z(t, dof):
     return math.copysign(-N.inv_cdf(max(p, 1e-300)), t)
 
 
-def weekly_returns(pf, since=None):
+def weekly_returns(pf, since=None, with_times=False):
     """Returns between weekly grid nodes, merged where the source has no new sample.
 
     Each node takes the last source sample at or before it. Two nodes that land
@@ -100,6 +100,9 @@ def weekly_returns(pf, since=None):
     With `since` (ms), the grid starts at `since` and steps forward, so only the
     record after that moment is scored (the forward record of a frozen cohort).
     The first node is the last sample at or before `since`.
+
+    With `with_times`, each interval is (return, interval_in_weeks, start ms, end ms), so it
+    can be matched against a benchmark over the same dates (alpha_vs).
     """
     av = [(t, float(v)) for t, v in pf["allTime"]["accountValueHistory"]]
     pnl = dict((t, float(v)) for t, v in pf["allTime"]["pnlHistory"])
@@ -124,9 +127,11 @@ def weekly_returns(pf, since=None):
         tb = av[b][0]
         if va < MIN_AV or ta not in pnl or tb not in pnl:
             continue
-        out.append(((pnl[tb] - pnl[ta]) / va, (tb - ta) / WEEK_MS))
+        out.append(((pnl[tb] - pnl[ta]) / va, (tb - ta) / WEEK_MS, ta, tb))
         counted += pnl[tb] - pnl[ta]
-    return out, start, end, counted
+    if with_times:
+        return out, start, end, counted
+    return [(r, w) for r, w, _, _ in out], start, end, counted
 
 
 def flags(pf, rets, counted):
@@ -175,6 +180,66 @@ def score(rets):
     dof = eff ** 2 / (s2 - 2 * s3 / tot_w + s2 * s2 / tot_w ** 2)
     return {"weeks": round(tot_w, 1), "intervals": n, "sharpe": round(sharpe, 3),
             "t_student": round(t_student, 3), "dof": round(dof, 1), "t": round(t_to_z(t_student, dof), 3)}
+
+
+def luck(t, n=1):
+    """Chance that luck alone produces a record at least this strong: for one record picked blind
+    (n = 1), the one-sided tail of t; for the best of n records with no skill, the chance that any
+    of them gets this far, 1 - (1 - tail)^n. Same as HL.luck in docs/assets/hl.js."""
+    if t is None:
+        return None
+    q = 1 - N.cdf(t)
+    return -math.expm1(max(n, 1) * math.log1p(-q)) if q < 1 else 1.0
+
+
+def bench_returns(candles, intervals):
+    """Benchmark return over each interval, from daily candles [{"t": open ms, "T": close ms, "c": close}]:
+    the close of the last candle that closed at or before each end. Intervals that start before the
+    first candle get None."""
+    cs = sorted((int(c["T"]), float(c["c"])) for c in candles)
+    ts = [t for t, _ in cs]
+    import bisect
+
+    def px(ms):
+        i = bisect.bisect_right(ts, ms) - 1
+        return cs[i][1] if i >= 0 else None
+    out = []
+    for *_, ta, tb in intervals:
+        a, b = px(ta), px(tb)
+        out.append(None if a is None or b is None or a <= 0 else b / a - 1)
+    return out
+
+
+def alpha_vs(intervals, bench):
+    """Evidence after taking out a benchmark's moves (BTC for wallets).
+
+    Each interval's return r_i over dt_i weeks is fit as r_i = alpha * dt_i + beta * b_i + e_i with
+    Var(e_i) proportional to dt_i (weighted least squares, weights 1/dt_i), where b_i is the
+    benchmark's return over the same dates. With beta fixed at 0 this is the drift score() uses.
+    t_alpha is alpha over its standard error, put on the normal scale with n - 2 degrees of
+    freedom, like `t`. Intervals without a benchmark return are left out. Same as HL.alphaVs.
+    """
+    pts = [(r, w, b) for (r, w, *_), b in zip(intervals, bench) if b is not None and w > 0]
+    n = len(pts)
+    if n < MIN_WEEKS:
+        return {"t_btc": None, "beta_btc": None, "n_btc": n}
+    # y = r/sqrt(w), x1 = sqrt(w), x2 = b/sqrt(w); OLS without intercept
+    sxx11 = sum(w for _, w, _ in pts)
+    sxx12 = sum(b for _, _, b in pts)
+    sxx22 = sum(b * b / w for _, w, b in pts)
+    sxy1 = sum(r for r, _, _ in pts)
+    sxy2 = sum(r * b / w for r, w, b in pts)
+    det = sxx11 * sxx22 - sxx12 ** 2
+    if det <= 0:
+        return {"t_btc": None, "beta_btc": None, "n_btc": n}
+    a = (sxx22 * sxy1 - sxx12 * sxy2) / det
+    be = (sxx11 * sxy2 - sxx12 * sxy1) / det
+    rss = sum((r - a * w - be * b) ** 2 / w for r, w, b in pts)
+    s2 = rss / (n - 2)
+    if s2 <= 0:
+        return {"t_btc": None, "beta_btc": round(be, 3), "n_btc": n}
+    t_a = a / math.sqrt(s2 * sxx22 / det)
+    return {"t_btc": round(t_to_z(t_a, n - 2), 3), "beta_btc": round(be, 3), "n_btc": n}
 
 
 SIEGMUND = 0.5826  # -zeta(1/2) / sqrt(2 pi)
@@ -251,10 +316,33 @@ def fetch_portfolio(address: str, timeout: float = 30.0) -> Dict[str, Any]:
     return dict(data)
 
 
-def check(address: str, picked_from: Optional[int] = None, pf: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-    """Score one wallet. Pass ``pf`` to score a portfolio you already have."""
-    pf = pf if pf is not None else fetch_portfolio(address)
-    rets, start, end, counted = weekly_returns(pf)
+def fetch_candles(coin: str = "BTC", start_ms: int = 1672531200000, end_ms: Optional[int] = None,
+                  timeout: float = 30.0) -> List[Dict[str, Any]]:
+    """Daily candles from Hyperliquid's public info API (no key), for alpha_vs."""
+    end_ms = end_ms or int(datetime.now(timezone.utc).timestamp() * 1000)
+    body = json.dumps({"type": "candleSnapshot", "req": {"coin": coin, "interval": "1d",
+                                                         "startTime": start_ms, "endTime": end_ms}}).encode()
+    req = urllib.request.Request(INFO_URL, data=body, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read())
+
+
+def check(address: str, picked_from: Optional[int] = None, pf: Optional[Dict[str, Any]] = None,
+          candles: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
+    """Score one wallet. Pass ``pf`` to score a portfolio you already have (then nothing is fetched:
+    without ``candles``, BTC daily, the BTC-adjusted numbers are None, as when they cannot be fetched)."""
+    offline = pf is not None
+    pf = pf if offline else fetch_portfolio(address)
+    iv, start, end, counted = weekly_returns(pf, with_times=True)
+    rets = [(r, w) for r, w, _, _ in iv]
+    if candles is None and offline:
+        candles = []
+    if candles is None:
+        try:
+            candles = fetch_candles("BTC", start_ms=start or 1672531200000)
+        except Exception:
+            candles = []
+    adj = alpha_vs(iv, bench_returns(candles, iv)) if candles else {"t_btc": None, "beta_btc": None, "n_btc": 0}
     sc = score(rets)
     v = verdict(sc, picked_from)
     months = (months_to_clear(v["bar"], sc["sharpe"]) if sc.get("sharpe") else None)
@@ -267,6 +355,8 @@ def check(address: str, picked_from: Optional[int] = None, pf: Optional[Dict[str
         "bar": v["bar"],
         "picked_from": picked_from,
         "months_more_to_clear": (None if months is None else round(max(months - have, 0), 1)),
+        "luck_one_in": (None if sc.get("t") is None else round(1 / luck(sc["t"], picked_from or 1), 1)),
+        **adj,
         "flags": flags(pf, rets, counted),
         "drawdown": drawdown(rets),
         "history_from": day(start),

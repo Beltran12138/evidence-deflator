@@ -108,6 +108,9 @@ WALLET_T = {
                        [0, "从 {N} 个{U}里挑", "从 {N} 个{U}里"]],
               "hint": "你从多大的范围里挑，决定了门槛有多高。如果是在排行榜上看到的，范围就是整个榜单。",
               "blindStrong": "过了 t ≥ 2.00，也就是随手挑中一个钱包时的门槛。没有实力的话，一份记录靠运气走到这里，大约 44 次里有 1 次。"},
+    "luck": {"label": "对一个{FROM}找到的钱包，单靠运气走到这么强的概率", "most": "多半能", "certain": "几乎必然", "one": "{X} 次里 1 次", "wan": "{W} 万"},
+    "tLabel": "夏普 {S}",
+    "btc": "扣掉 BTC 的涨跌之后：t = {T}（对 BTC 的 β 为 {B}，{N} 周）。上面的判决暂时仍按未扣的 t；正式切换会作为一次带日期的方法变更公布。",
     "meterAria": "t 与两个门槛", "meterT2": "t = 2 · 单次检验", "meterBest": "{N} 选 1 · {bar}",
     "notAddr": ["这不是 Hyperliquid 地址", "应为 0x 加 40 位十六进制字符。"],
     "reading": "正在读取公开记录…", "noReach": "连不上 Hyperliquid", "noHist": "这个地址没有历史记录",
@@ -214,7 +217,7 @@ def wallet_page(B, hl, lang):
 <div class="container page-head">
  <div class="eyebrow"><span class="dot"></span>Hyperliquid · 钱包检验 · 公开数据，在你的浏览器里计算</div>
  <h1>贴一个 Hyperliquid 地址，看它的战绩有多少算数。</h1>
- <p class="lede">排行榜只告诉你谁赚得最多，不告诉你那会不会只是运气。这个页面读取钱包公开的盈亏历史，只回答一个问题：证据有多强，还要多久才可能够强？</p>
+ <p class="lede">{B.coin_line(N, "zh")}排行榜按利润排名，我们按「这份记录有多难用运气解释」排名。这个页面读取钱包公开的盈亏历史，只回答一个问题：证据有多强，还要多久才可能够强？</p>
  <form class="wcheck" id="wform" autocomplete="off">
   <input id="waddr" name="a" placeholder="0x… Hyperliquid 地址" spellcheck="false" aria-label="Hyperliquid 地址">
   <button class="btn btn-primary" type="submit">检验 <span class="arr">→</span></button>
@@ -232,12 +235,13 @@ def wallet_page(B, hl, lang):
    <div class="wfound" id="wfound" role="group" hidden></div>
    <div class="chart" id="wmeter"></div></div>
   <div class="instrument-foot">
-   <div><b id="wt">—</b><span>t 值，已按记录长度校正</span></div>
-   <div><b id="ws">—</b><span>年化夏普比率（按周）</span></div>
+   <div><b id="wl">—</b><span><b class="mono" id="wlp" style="display:inline;font-size:inherit"></b> · <span id="wll">单靠运气走到这么强的概率</span></span></div>
    <div><b id="ww">—</b><span>账户高于 $1k 的周数</span></div>
    <div><b id="wm">—</b><span id="wml">按当前夏普，过门槛需要的记录月数</span></div>
+   <div><b id="wt">—</b><span>t 值，已按记录长度校正（≈ 夏普 × √年数）· <span id="ws">年化夏普比率（按周）</span></span></div>
   </div>
  </div>
+ <p class="muted small" id="wbtc" style="margin:10px 4px 0" hidden></p>
  <div class="wcharts" id="wcharts" hidden>
   <figure class="wfig"><figcaption id="wcurvecap"></figcaption><div class="chart" id="wcurve"></div></figure>
   <figure class="wfig"><figcaption id="wprojcap"></figcaption><div class="chart" id="wproj"></div></figure>
@@ -254,6 +258,13 @@ def wallet_page(B, hl, lang):
   <a class="btn btn-secondary" id="whl" href="#" rel="noopener">在 Hyperliquid 上查看</a></div>
  <p class="muted small" id="wnote"></p>
 </div>
+
+<section><div class="container">
+ <div class="sec-head"><div><div class="eyebrow">Hyperliquid，按证据排名，不按利润 · {day}</div><h2 style="margin-top:12px">{N:,} 个账户里，最难用运气解释的几份记录</h2>
+ <p>还没有一个过 {bar:.2f}，也就是「{N:,} 选 1」的门槛。「单靠运气」指的是：假如整个榜单上没有一个人有实力，仍然有人做出这么强的记录的概率。</p></div><a class="more" href="{P}ranking/">名人战绩，同一把尺子 →</a></div>
+ {B.evidence_rank_html(hl, lang, P)}
+ <p class="muted small" style="margin-top:8px">取自全期 PnL 和 30 日 ROI 两个前 100 名。判决按 t；扣掉 BTC 后的 t 并列显示，正式切换会作为一次带日期的方法变更公布。</p>
+</div></section>
 
 <section><div class="container">
  <div class="sec-head"><div><div class="eyebrow">Hyperliquid 官方排行榜，重新打分 · {day}</div><h2 style="margin-top:12px">{verdict_h2}</h2></div></div>
@@ -384,7 +395,24 @@ def method_page(B, lang):
 <p><strong>真实的优势需要什么。</strong>按 t ≈ 夏普 × √年数 加上噪声，真实年化夏普为 S 的交易者，过 Hyperliquid 榜单门槛 {m['hl_bar']:.2f} 的概率：</p>
 {B.power_table_html(m['pw'], m['hl_bar'], "zh")}
 <p>所以夏普 3（很少有基金能长期保持）大约要 {m['s3']:.1f} 年记录才有一半把握，夏普 2 要约 {m['s2']:.1f} 年。Hyperliquid PnL 前 100 的记录长度中位数是 {m['med']:.1f} 年。假如这些记录每一份的真实夏普都是 3，到现在应该约有 {m['e3']:.0f} 个过线；实际是 {m['strong']} 个。没有人过线，是记录短、又没有被证实的实力时的样子，不说明这道门槛永远过不了。</p>
+<p><strong>用赔率表示运气。</strong>页面上的运气同时写成赔率和百分比：一份正态分数为 t 的记录，如果是从一池 N 份全都没有实力的记录里挑出来的，池里任何一个至少走到这么强的概率是 1 − (1 − (1 − Φ(t)))^N。N = 1 时就是普通的单侧尾部概率，t = 2 时是 44 次里 1 次。{B.coin_line(47248, "zh")}</p>
 <p><strong>你的挑选范围，决定你的门槛。</strong>钱包页会问你是怎么找到这个钱包的：随手挑中（门槛 2.00）、从 10 个左右的名单里（{m['b10']:.2f}）、从某个前 100 名里（{m['b100']:.2f}），还是从整个榜单里（{m['hl_bar']:.2f}）。只有你知道答案；默认按整个榜单算，因为大多数钱包是这样被找到的。</p>
+
+<h2 id="masters">0.6 · 拿名人战绩校准</h2>
+<p>同一把尺子，量一量没人会说是运气的记录。年收益对标普 500（含股息）做回归，alpha 的 t 换算成和钱包 t 同一个正态尺度。</p>
+<div class="table-wrap"><table class="data compact"><thead><tr><th>记录</th><th>年份</th><th class="r">alpha 的 z</th><th class="r">β</th><th>按 Hyperliquid 门槛（{m['hl_bar']:.2f}）的判决</th></tr></thead><tbody>
+<tr><td>文艺复兴大奖章基金，扣费后</td><td>1988–2018</td><td class="r">7.05</td><td class="r">−0.58</td><td>证据充分</td></tr>
+<tr><td>伯克希尔·哈撒韦（巴菲特），每股市值</td><td>1965–2025</td><td class="r">2.77</td><td class="r">0.90</td><td>有希望，未证实</td></tr>
+<tr><td>伯克希尔·哈撒韦，2001 年以后</td><td>2001–2025</td><td class="r">1.79</td><td class="r">0.59</td><td>像运气</td></tr>
+</tbody></table></div>
+<p>所以记录足够出色、足够长的时候，这把尺子会说「过」：大奖章轻松过了「4.7 万选 1」的门槛。巴菲特用了六十年才到「有希望」，只看最近 25 年，相对指数的超额收益在运气能解释的范围内。被证明本来就需要很长的记录；Hyperliquid 上最老的记录从 2023 年 5 月才开始。</p>
+<p><strong>为什么要对比大盘。</strong>如果对零检验，标普 500 指数自己在 1965–2025 年就能到 {B.SP500_RAW_Z:.2f}，过得了门槛：只看绝对收益，会把大盘上涨算成本事。来源：伯克希尔 2025 年致股东信附表；Cornell (2019) 表 1，源自 Zuckerman (2019)，是估计值，不是审计数。脚本：<a href="{B.REPO}/blob/main/tools/masters_calibration.py"><code>tools/masters_calibration.py</code></a>。</p>
+
+<h2 id="btc">0.7 · 钱包对比 BTC</h2>
+<p>同样的道理，钱包页也显示扣掉 BTC 涨跌之后的 t：每段周收益拟合成 alpha × 周数 + β × 同期 BTC 收益，按区间长度加权，报告 alpha 的 t 和 β。BTC 价格取 Hyperliquid 的日 K 线。判决暂时仍按未扣的 t，因为冻结队列的读数是按它预先登记的；正式切换会作为一次带日期的方法变更在本页公布。名人「证据排名」一律用对比大盘的版本。</p>
+
+<h2 id="trackers">0.8 · 和聪明钱工具有什么不同</h2>
+<p>Hyperdash 的 Copy Score、HyprSwarm 的 ELO、Hashdive 的 Smart Score、Nansen 的标签，回答的是「谁在赚钱、他持有什么」。没有一家报告分数里有多少能用运气解释，也没有一家考虑分数是从几万人里挑出来的。Hyperdash 自己的教程里，一个 30 天记录的钱包 Copy Score 是 96/100；不到 8 周的记录，本站根本不打分。它们告诉你谁在赚钱，我们告诉你那能不能复制。跟单平台按跟单量赚钱，一个说「头部是运气」的分数和它们的生意相反；我们不收被评方的钱。</p>
 
 <h2 id="open-book">1 · 开卷月数</h2>
 <p>在模型官方公布的训练截止日把回测窗口切开。截止日当月及之前的月份，无法排除被模型见过：模型可能已经知道当时发生了什么。截止日之后的月份才是干净的。</p>
@@ -437,7 +465,7 @@ t    = 夏普 × √(数据年数)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>本页</h4><ul><li><a href="#wallet">Hyperliquid 钱包</a></li><li><a href="#yes">会说「过」吗</a></li><li><a href="#open-book">开卷月数</a></li><li><a href="#clean-months">干净月份</a></li><li><a href="#selection">挑选之后的门槛</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#principles">原则</a></li><li><a href="#limits">局限</a></li></ul></div>
+ <div class="box"><h4>本页</h4><ul><li><a href="#wallet">Hyperliquid 钱包</a></li><li><a href="#yes">会说「过」吗</a></li><li><a href="#masters">名人校准</a></li><li><a href="#btc">对比 BTC</a></li><li><a href="#trackers">和聪明钱工具的区别</a></li><li><a href="#open-book">开卷月数</a></li><li><a href="#clean-months">干净月份</a></li><li><a href="#selection">挑选之后的门槛</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#principles">原则</a></li><li><a href="#limits">局限</a></li></ul></div>
  <div class="box"><h4>试一试</h4><ul><li><a href="{P}">查一个钱包</a></li><li><a href="/check/">在浏览器里检验回测（英文）</a></li><li><a href="{P}api/">API、MCP 与 Python</a></li></ul></div>
 </aside>
 </div></main>

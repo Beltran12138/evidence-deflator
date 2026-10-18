@@ -326,6 +326,81 @@ def boards_html(hl):
 </div></section>"""
 
 
+def luck_odds(t, n, lang="en"):
+    """Luck as odds and as a percentage, the way docs/assets/wallet.js shows it: ("1 in 6", "16%")."""
+    p = None if t is None else -math.expm1(n * math.log1p(-(1 - NormalDist().cdf(t))))
+    if p is None:
+        return "—", ""
+    pct = f"{100 * p:.0f}%" if p >= 0.1 else f"{100 * p:.1f}%" if p >= 0.01 else f"{100 * p:.2g}%" if p >= 1e-6 else "< 0.0001%"
+    if p >= 0.99:
+        return ("almost certain" if lang == "en" else "几乎必然"), pct
+    if p >= 0.5:
+        return ("more likely than not" if lang == "en" else "多半能"), pct
+    x = 1 / p
+    r = round(x) if x < 100 else float(f"{x:.2g}")
+    if lang == "en":
+        return f"1 in {r / 1e6:.2g} million" if r >= 1e6 else f"1 in {int(r):,}", pct
+    return (f"{r / 1e4:.2g} 万次里 1 次" if r >= 1e5 else f"{int(r):,} 次里 1 次"), pct
+
+
+def coin_line(n, lang="en"):
+    """Among n accounts each calling ten coin flips, how many call all ten: n / 1024."""
+    k = round(n / 1024)
+    return (f"Have {n:,} people call ten coin flips each, and about {k} will get all ten right. On a leaderboard, they would be at the top."
+            if lang == "en" else f"让 {n:,} 个人各猜 10 次抛硬币，平均约有 {k} 个人 10 次全对。放到排行榜上，他们就排在最前面。")
+
+
+def evidence_rank_html(hl, lang="en", P="/", k=6):
+    """The strongest records on Hyperliquid's two top-100 boards, ranked by t instead of profit."""
+    seen, rows = set(), []
+    for key in ("pnl", "roi30"):
+        b = hl["boards"].get(key) or {}
+        for r in b.get("rows", []):
+            if r["t"] is None or r["address"] in seen:
+                continue
+            seen.add(r["address"])
+            rows.append((key, r))
+    rows.sort(key=lambda kr: -kr[1]["t"])
+    pnl = hl["boards"]["pnl"]
+    N, bar = pnl["ranked_from"], pnl["t_bar_best_of_n"]
+    zh = lang != "en"
+    out = ""
+    for i, (key, r) in enumerate(rows[:k], 1):
+        a = r["address"]
+        name = (r.get("vault") or r.get("display") or a[:6] + "…" + a[-4:])
+        found = ((f"#{r['rank']} by all-time PnL" if key == "pnl" else f"#{r['rank']} by 30-day ROI") if not zh else
+                 (f"全期 PnL 第 {r['rank']}" if key == "pnl" else f"30 日 ROI 第 {r['rank']}"))
+        yrs = r["weeks"] / 52
+        o, pc = luck_odds(r["t"], N, lang)
+        notes = []
+        if "no_losing_week" in r["flags"]:
+            notes.append("no losing week: check for market making or selling tail risk" if not zh else "一周都没亏过：先查是不是做市或卖尾部风险")
+        if (r.get("vault") or "").startswith("Hyperliquidity Provider"):
+            notes.append("Hyperliquid’s own market-making vault" if not zh else "Hyperliquid 自己的做市金库")
+        elif r.get("vault"):
+            notes.append("a vault" if not zh else "金库")
+        if "one_week_majority" in r["flags"]:
+            notes.append("one week made most of it" if not zh else "一周贡献了大部分收益")
+        if "pnl_outside_record" in r["flags"]:
+            notes.append("most PnL outside the measurable weeks" if not zh else "大部分盈亏不在可测的周里")
+        tb = r.get("t_btc")
+        w = max(0.0, min(r["t"] / bar, 1)) * 100
+        href = (f"/wallet/?a={a}" if not zh else f"{P}?a={a}")
+        out += (f'<tr><td class="r">{i}</td><td><a href="{href}">{html.escape(name)}</a><span class="muted small" style="display:block">{found}</span></td>'
+                f'<td class="r">{yrs:.1f}{" yr" if not zh else " 年"}</td>'
+                f'<td><span class="mbar"><span class="track"><span class="fill" style="width:{w:.1f}%"></span><span class="t2" style="left:{2 / bar * 100:.1f}%"></span></span><span class="mono">{r["t"]:.2f}</span></span></td>'
+                f'<td class="r mono">{"—" if tb is None else f"{tb:.2f}"}</td>'
+                f'<td class="r">{o}<span class="muted small" style="display:block">{pc}</span></td>'
+                f'<td class="small">{"; ".join(notes)}</td></tr>')
+    if not zh:
+        head_ = ('<th class="r">#</th><th>Record</th><th class="r">Length</th><th>t (bar {bar:.2f})</th><th class="r">t after BTC</th>'
+                 f'<th class="r">Luck alone, among {N:,}</th><th>Notes</th>').replace("{bar:.2f}", f"{bar:.2f}")
+    else:
+        head_ = (f'<th class="r">#</th><th>记录</th><th class="r">长度</th><th>t（门槛 {bar:.2f}）</th><th class="r">扣掉 BTC 后的 t</th>'
+                 f'<th class="r">{N:,} 人里单靠运气</th><th>备注</th>')
+    return f'<div class="table-wrap"><table class="data compact rank"><thead><tr>{head_}</tr></thead><tbody>{out}</tbody></table></div>'
+
+
 def build_home(rows, lb):
     with open(os.path.join(DOCS, "data", "hl", "latest.json"), encoding="utf-8") as f:
         hl = json.load(f)
@@ -383,14 +458,20 @@ def build_home(rows, lb):
 <div class="container hero">
  <div class="eyebrow"><span class="dot"></span>Evidence for trading records</div>
  <h1 class="display">Is that trading record skill, or could it be luck?</h1>
- <p class="lede">Leaderboards rank by profit. Among {hp['ranked_from']:,} accounts, someone is always on a winning streak. Paste a Hyperliquid address or a Polymarket wallet and see how strong its record is once you allow for that.</p>
+ <p class="lede">{coin_line(hp['ranked_from'])} Leaderboards rank by profit. We rank by how hard a record is to explain by luck. Paste a Hyperliquid address or a Polymarket wallet to check one.</p>
  <div class="tabs hero-tabs" role="tablist" aria-label="Which venue" style="margin-top:26px;max-width:640px"><button type="button" role="tab" aria-selected="true" data-act="/wallet/" data-ph="0x… Hyperliquid address">Hyperliquid</button><button type="button" role="tab" aria-selected="false" data-act="/polymarket/" data-ph="0x… address or Polymarket username">Polymarket</button></div>
  <form class="wcheck" id="hcheck" action="/wallet/" method="get" autocomplete="off" style="margin-top:14px">
   <input name="a" placeholder="0x… Hyperliquid address" spellcheck="false" aria-label="Hyperliquid address">
   <button class="btn btn-primary" type="submit">Check <span class="arr">→</span></button>
  </form>
  {ELSEWHERE_EN}
- {example_html}
+ <div class="rankbox">
+  <div class="eyebrow" style="margin-top:34px">Hyperliquid, ranked by evidence instead of profit · {hl['fetched'][:10]}</div>
+  <h2 style="margin-top:10px">The records hardest to explain by luck, among {hp['ranked_from']:,} accounts</h2>
+  <p class="muted">None clears {hp['t_bar_best_of_n']:.2f}, the bar for the best of {hp['ranked_from']:,}, yet. “Luck alone” is the chance that, with no skill anywhere on the board, someone would still post a record this strong.</p>
+  {evidence_rank_html(hl)}
+  <p class="muted small" style="margin-top:8px">From the all-time PnL and 30-day ROI top 100s. The verdict uses t; the BTC-adjusted t is shown alongside until a dated method change. <a href="/ranking/">Famous records, same ruler →</a></p>
+ </div>
  <div class="instrument">
   <div class="instrument-head"><span class="t"><b style="color:var(--ink);font-weight:550">Hyperliquid, all-time PnL top 100</b> · each dot is one wallet’s t-statistic · {hl['fetched'][:10]}</span><a class="small" href="/wallet/">Rescored board →</a></div>
   <p class="iverdict"><b>{lead}</b> {lead_rest}</p>
@@ -528,6 +609,17 @@ METHOD_ALT = {"en": "/method/", "zh-Hans": "/zh-hans/method/", "zh-Hant": "/zh-h
 API_ALT = {"en": "/api/", "zh-Hans": "/zh-hans/api/", "zh-Hant": "/zh-hant/api/"}
 
 
+# Famous records on the wallet ruler (tools/masters_calibration.py): yearly returns regressed on the
+# S&P 500 with dividends, t of alpha put on the normal scale. Berkshire: per-share market value, 2025
+# shareholder letter table. Medallion: net of fees, Cornell (2019) Table 1, from Zuckerman (2019).
+MASTERS = [  # (key, years, z of alpha vs S&P 500, beta)
+    ("medallion", "1988–2018", 7.05, -0.58),
+    ("brk", "1965–2025", 2.77, 0.90),
+    ("brk2001", "2001–2025", 1.79, 0.59),
+]
+SP500_RAW_Z = 4.94  # the index's own yearly returns 1965–2025, tested against zero instead of against the market
+
+
 def method_numbers():
     """Numbers for the "Can it say yes?" section (English and Chinese method pages), from today's board."""
     with open(os.path.join(DOCS, "data", "hl", "latest.json"), encoding="utf-8") as f:
@@ -589,7 +681,24 @@ t      = Sharpe × √(years of data)</div>
 <p><strong>What a real edge needs.</strong> With t ≈ S × √years plus noise, the chance that a trader whose true annualised Sharpe is S clears the Hyperliquid board bar of {hl_bar:.2f}:</p>
 {hl_power}
 <p>So a Sharpe of 3, which few funds sustain, needs about {s3:.1f} years of record for even odds, and a Sharpe of 2 about {s2:.1f}. The median record in the Hyperliquid PnL top 100 is {med:.1f} years. If every one of those records had a true Sharpe of 3, about {e3:.0f} would clear the bar by now; {strong} do. A board where nobody clears the bar is what short records and no proven skill look like, not a sign that the bar can never be met.</p>
+<p><strong>Luck as odds.</strong> The pages show luck as odds and as a percentage: for a record with normal score t picked from a pool of N with no skill in it, the chance that anyone in the pool gets at least that far is 1 − (1 − (1 − Φ(t)))^N. With N = 1 that is the plain one-sided tail, 1 in 44 at t = 2. {coin_line(47248)}</p>
 <p><strong>Your pool, your bar.</strong> The wallet page asks how you found the wallet: picked blind (bar 2.00), from a short list of about 10 ({b10:.2f}), from a top 100 ({b100:.2f}), or from the whole board ({hl_bar:.2f}). The answer only you know sets the bar; the default is the whole board, because that is how most wallets are found.</p>
+
+<h2 id="masters">7 · Calibrated on famous records</h2>
+<p>The same ruler, on records nobody calls luck. Yearly returns are regressed on the S&amp;P 500 with dividends; the t of the alpha is put on the same normal scale as a wallet’s t.</p>
+<div class="table-wrap"><table class="data compact"><thead><tr><th>Record</th><th>Years</th><th class="r">z of alpha</th><th class="r">Beta</th><th>Verdict at the Hyperliquid bar ({hl_bar:.2f})</th></tr></thead><tbody>
+<tr><td>Renaissance Medallion, net of fees</td><td>1988–2018</td><td class="r">7.05</td><td class="r">−0.58</td><td>Strong evidence</td></tr>
+<tr><td>Berkshire Hathaway (Buffett), per-share market value</td><td>1965–2025</td><td class="r">2.77</td><td class="r">0.90</td><td>Promising, not proven</td></tr>
+<tr><td>Berkshire Hathaway, 2001 onward</td><td>2001–2025</td><td class="r">1.79</td><td class="r">0.59</td><td>Looks like luck</td></tr>
+</tbody></table></div>
+<p>So the ruler says yes when the record is extraordinary and long: Medallion clears the bar for the best of 47,000 with room to spare. Buffett needed six decades to reach “promising”, and his last 25 years alone are within what luck produces against the index. Being proven takes a long record; the oldest record on Hyperliquid starts in May 2023.</p>
+<p><strong>Why against the market.</strong> Tested against zero instead, the S&amp;P 500 index itself reaches {SP500_RAW_Z:.2f} over 1965–2025, enough to clear the bar: a raw-return test credits a record for the market rising. Sources: Berkshire’s 2025 shareholder letter (yearly table); Cornell (2019), Table 1, from Zuckerman (2019), estimates rather than audited figures. Script: <a href="{REPO}/blob/main/tools/masters_calibration.py"><code>tools/masters_calibration.py</code></a>.</p>
+
+<h2 id="btc">8 · Wallets against BTC</h2>
+<p>For the same reason, the wallet page also shows t after taking out BTC’s moves: each weekly return is fit as alpha × weeks + beta × BTC’s return over the same dates, weighted by interval length, and the t of the alpha is reported with its beta. BTC prices are Hyperliquid’s daily candles. The verdict still uses the unadjusted t, because the frozen cohort’s readings were pre-registered on it; switching will be a dated method change announced on this page. The Evidence Ranking of famous records uses the market-adjusted version throughout.</p>
+
+<h2 id="trackers">How this differs from smart-money trackers</h2>
+<p>Hyperdash’s Copy Score, HyprSwarm’s ELO, Hashdive’s Smart Score and Nansen’s labels answer “who is making money, and what are they holding?”. None of them reports how much of a score luck could explain, or allows for the score being the best of tens of thousands. Hyperdash’s own guide shows a wallet with a Copy Score of 96/100 on a 30-day record; under eight weeks, this site does not score a record at all. They tell you who is making money; this tells you whether it could be repeated. Copy-trading venues earn on copied volume, so a score that says the top of the board is luck runs against their business; we are not paid by the rated.</p>
 
 <h2 id="principles">Principles</h2>
 <ul>
@@ -615,7 +724,7 @@ t      = Sharpe × √(years of data)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>On this page</h4><ul><li><a href="#open-book">Open-book months</a></li><li><a href="#clean-months">Clean months needed</a></li><li><a href="#selection">The bar after selection</a></li><li><a href="#leaderboards">Leaderboards</a></li><li><a href="#wallets">Wallets</a></li><li><a href="#yes">Can it say yes?</a></li><li><a href="#principles">Principles</a></li><li><a href="#limits">Limits</a></li></ul></div>
+ <div class="box"><h4>On this page</h4><ul><li><a href="#open-book">Open-book months</a></li><li><a href="#clean-months">Clean months needed</a></li><li><a href="#selection">The bar after selection</a></li><li><a href="#leaderboards">Leaderboards</a></li><li><a href="#wallets">Wallets</a></li><li><a href="#yes">Can it say yes?</a></li><li><a href="#masters">Famous records</a></li><li><a href="#btc">Against BTC</a></li><li><a href="#trackers">Vs smart-money trackers</a></li><li><a href="#principles">Principles</a></li><li><a href="#limits">Limits</a></li></ul></div>
  <div class="box"><h4>Try it</h4><ul><li><a href="/check/">Check a backtest in the browser</a></li><li><a href="/api/">Python, CLI and MCP</a></li></ul></div>
 </aside>
 </div></main>
@@ -708,6 +817,10 @@ WALLET_T_EN = {
                        [0, "Anywhere among {N} {U}", "anywhere among {N} {U}"]],
               "hint": "The pool you picked from sets the bar. If you saw it on a leaderboard, the whole board was the pool.",
               "blindStrong": "Clears t ≥ 2.00, the bar for a wallet picked blind. With no skill behind it, a record gets this far by luck about 1 time in 44."},
+    "luck": {"label": "chance that luck alone gets a record this strong, for a wallet found {FROM}", "most": "more likely than not", "certain": "almost certain",
+             "one": "1 in {X}", "million": "{M} million"},
+    "tLabel": "Sharpe {S}",
+    "btc": "After taking out BTC’s moves: t = {T}, with a beta of {B} to BTC over {N} weeks. The verdict above still uses the t without this adjustment; switching is planned as a dated method change.",
     "meterAria": "t against the two bars", "meterT2": "t = 2 · one test", "meterBest": "best of {N} · {bar}",
     "notAddr": ["That is not a Hyperliquid address", "Expected 0x followed by 40 hex characters."],
     "reading": "Reading the public record…", "noReach": "Could not reach Hyperliquid", "noHist": "No history for this address",
@@ -833,12 +946,13 @@ def build_wallet():
    <div class="wfound" id="wfound" role="group" hidden></div>
    <div class="chart" id="wmeter"></div></div>
   <div class="instrument-foot">
-   <div><b id="wt">—</b><span>t, adjusted for record length</span></div>
-   <div><b id="ws">—</b><span>annualised Sharpe, weekly</span></div>
+   <div><b id="wl">—</b><span><b class="mono" id="wlp" style="display:inline;font-size:inherit"></b> · <span id="wll">chance that luck alone gets a record this strong</span></span></div>
    <div><b id="ww">—</b><span>weeks of record above $1k</span></div>
    <div><b id="wm">—</b><span id="wml">months of record to clear the bar, at this Sharpe</span></div>
+   <div><b id="wt">—</b><span>t, adjusted for record length (≈ Sharpe × √years) · <span id="ws">annualised Sharpe, weekly</span></span></div>
   </div>
  </div>
+ <p class="muted small" id="wbtc" style="margin:10px 4px 0" hidden></p>
  <div class="wcharts" id="wcharts" hidden>
   <figure class="wfig"><figcaption id="wcurvecap"></figcaption><div class="chart" id="wcurve"></div></figure>
   <figure class="wfig"><figcaption id="wprojcap"></figcaption><div class="chart" id="wproj"></div></figure>
