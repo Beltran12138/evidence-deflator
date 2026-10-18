@@ -154,6 +154,7 @@ AUDIT_TAGS = {  # short status shown in lists; the finding text comes from audit
     "009": ("Cannot assess", "grey"),
     "010": ("Frozen, readings 10-23 / 10-30", "grey"),
     "011": ("0 of 149 clear the bar", "red"),
+    "012": ("PnL board: chance · ROI board: above chance", "amber"),
 }
 
 
@@ -932,7 +933,7 @@ t      = Sharpe × √(years of data)</div>
 
 <h2 id="yes">6 · Can it say yes?</h2>
 <p>A check that never says yes would be broken, so here is what each verdict means against luck, and what a real edge needs to clear it.</p>
-<p><strong>What luck alone produces.</strong> For one wallet picked blind, with no skill behind it, t ≥ 2 turns up about 1 time in 44 (2.3%): that is “promising, not proven”. For a pool of N records with no skill in any of them, the chance that anyone at all clears bar(N) is about the same 2.3%: that is “strong evidence”. On a board ranked by profit, many more records than 1 in 44 can reach t = 2 by luck, because ranking by profit favours lucky streaks; how many is a simulation we have not published yet, so “promising” on a board is a weak signal.</p>
+<p><strong>What luck alone produces.</strong> For one wallet picked blind, with no skill behind it, t ≥ 2 turns up about 1 time in 44 (2.3%): that is “promising, not proven”. For a pool of N records with no skill in any of them, the chance that anyone at all clears bar(N) is about the same 2.3%: that is “strong evidence”. On a board ranked by profit, many more records than 1 in 44 can reach t = 2 by luck, because ranking by profit favours lucky streaks; <a href=\"/audits/012-null-board-simulation.html\">audit 012</a> simulates it: on the all-time PnL board luck alone puts about 15% of the top 100 at t ≥ 2, more than the real board shows, so “promising” there is chance; on the 30-day ROI board luck gives about 4% and the real board has 15–18%.</p>
 <p><strong>What a real edge needs.</strong> With t ≈ S × √years plus noise, the chance that a trader whose true annualised Sharpe is S clears the Hyperliquid board bar of {hl_bar:.2f}:</p>
 {hl_power}
 <p>So a Sharpe of 3, which few funds sustain, needs about {s3:.1f} years of record for even odds, and a Sharpe of 2 about {s2:.1f}. The median record in the Hyperliquid PnL top 100 is {med:.1f} years. If every one of those records had a true Sharpe of 3, about {e3:.0f} would clear the bar by now; {strong} do. A board where nobody clears the bar is what short records and no proven skill look like, not a sign that the bar can never be met.</p>
