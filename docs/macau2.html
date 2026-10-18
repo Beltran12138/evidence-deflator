@@ -3,216 +3,253 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>盈利排行榜第一名，是运气还是实力？ · Evidence Deflator</title>
+<title>盈利排行榜第一名，是大佬还是运气？ · Evidence Deflator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FBFAF6;--paper:#FFFFFF;--ink:#17171B;--ink2:#3A3A40;--dim:#7A756B;--rule:#D9D2C3;--rule2:#E7E1D4;--red:#B8361F;--redbg:rgba(184,54,31,.08)}
+:root{--bg:#FBFAF6;--paper:#FFFFFF;--ink:#17171B;--ink2:#3A3A40;--dim:#7A756B;--rule:#D9D2C3;--rule2:#E7E1D4;--red:#B8361F;--redbg:rgba(184,54,31,.08);--green:#2E7D5B}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
 body{background:var(--bg);color:var(--ink);font-family:'Times New Roman','Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif;overflow:hidden;-webkit-font-smoothing:antialiased}
 .fs{font-family:Inter,'Noto Sans SC','Source Han Sans SC','PingFang SC','Microsoft YaHei',sans-serif}
 .mono,.n{font-family:'JetBrains Mono',Consolas,monospace;font-variant-numeric:tabular-nums}
-header{position:fixed;top:0;left:0;right:0;height:52px;display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);background:var(--bg);z-index:3}
+header{position:fixed;top:0;left:0;right:0;height:48px;display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);background:var(--bg);z-index:3}
 .brand{font:600 15px 'Times New Roman',serif;letter-spacing:.02em}
-.brand i{font-style:normal;color:var(--dim);font-weight:400;margin-left:10px}
 nav{margin-left:auto;display:flex;gap:4px}
-nav button{font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim);background:none;border:1px solid transparent;padding:6px 9px;cursor:pointer}
+nav button{font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim);background:none;border:1px solid transparent;padding:5px 8px;cursor:pointer}
 nav button.on{color:var(--ink);border-color:var(--rule)}
-footer{position:fixed;bottom:0;left:0;right:0;height:40px;display:flex;align-items:center;padding:0 48px;border-top:1px solid var(--rule2);color:var(--dim);font:13px 'JetBrains Mono',Consolas,monospace;background:var(--bg)}
+footer{position:fixed;bottom:0;left:0;right:0;height:36px;display:flex;align-items:center;padding:0 48px;color:var(--dim);font:12px 'JetBrains Mono',Consolas,monospace}
 footer .k{margin-left:auto}
-main{height:100%;padding:52px 0 40px;display:flex}
-.slide{display:none;flex:1;padding:0 72px;flex-direction:column;justify-content:center}
+main{height:100%;padding:48px 0 36px;display:flex}
+/* content sits in the top three quarters of the screen: the bottom quarter is hidden by heads and chairs in a hall */
+.slide{display:none;flex:1;padding:34px 72px 0;flex-direction:column;justify-content:flex-start}
 .slide.on{display:flex;animation:in .4s ease both}
+.static .slide.on{animation:none}.static nav,.static footer .k{display:none}
 @keyframes in{from{opacity:0}to{opacity:1}}
-.eyebrow{font:13px 'JetBrains Mono',Consolas,monospace;letter-spacing:.18em;color:var(--dim);margin-bottom:18px}
-h1{font-size:54px;font-weight:900;line-height:1.25;letter-spacing:.01em}
-h2{font-size:38px;font-weight:700;line-height:1.3}
-.lead{font-size:23px;line-height:1.7;color:var(--ink2);margin-top:18px;max-width:900px}
-.lead b{color:var(--ink)}
-.red{color:var(--red)}.dim{color:var(--dim)}
-.src{font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim);margin-top:26px}
+.eyebrow{font:13px 'JetBrains Mono',Consolas,monospace;letter-spacing:.18em;color:var(--dim);margin-bottom:12px}
+h1{font-size:60px;font-weight:900;line-height:1.25;letter-spacing:.01em}
+h2{font-size:36px;font-weight:700;line-height:1.3}
+.sub{font-size:18px;color:var(--ink2);margin-top:8px}
+.red{color:var(--red)}.dim{color:var(--dim)}.grn{color:var(--green)}
+.src{font:11.5px 'JetBrains Mono',Consolas,monospace;color:var(--dim);margin-top:14px}
 /* cover */
-.cover h1{font-size:66px}
-.cover .who{margin-top:44px;font-size:20px;color:var(--ink2)}
-.cover .who span{color:var(--dim);margin-left:14px}
-/* people cards */
-.people{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:30px}
-.pc{background:var(--paper);border:1px solid var(--rule);padding:24px 24px 20px;display:flex;flex-direction:column;min-height:300px;position:relative}
-.pc .venue{font:12px 'JetBrains Mono',Consolas,monospace;letter-spacing:.14em;color:var(--dim)}
-.pc .name{font-size:26px;font-weight:700;margin-top:10px}
-.pc .alias{font-size:15px;color:var(--dim);margin-top:2px}
-.pc .big{font:700 46px 'JetBrains Mono',Consolas,monospace;margin-top:22px;letter-spacing:-.02em}
-.pc .what{font-size:16px;color:var(--ink2);margin-top:6px;line-height:1.5}
-.pc .foot{margin-top:auto;padding-top:14px;font:11.5px 'JetBrains Mono',Consolas,monospace;color:var(--dim);line-height:1.5}
-.ask-hand{margin-top:26px;font-size:26px;font-weight:700}
-/* verdict cards */
-.pc.v{min-height:350px}
-.stamp{display:inline-block;align-self:flex-start;margin-top:14px;font-size:19px;font-weight:700;padding:5px 12px;border:2px solid currentColor}
-.stamp.red{color:var(--red)}.stamp.ink{color:var(--ink)}.stamp.dim{color:var(--dim)}
-.pc .k{font:700 34px 'JetBrains Mono',Consolas,monospace;margin-top:16px}
-.pc .k small{font-size:15px;color:var(--dim);font-weight:400;margin-left:6px}
-.pc ul{list-style:none;margin-top:10px;font-size:15.5px;line-height:1.55;color:var(--ink2)}
-.pc li{padding-left:14px;position:relative;margin-top:4px}
-.pc li::before{content:'';position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--dim)}
-/* reveal: Machi's chart large, the other two stacked */
-.rev{display:grid;grid-template-columns:1.32fr 1fr;gap:20px;margin-top:22px}
-.rev .pc{min-height:0;padding:18px 22px 16px}
-.rcol{display:grid;grid-template-rows:1fr 1fr;gap:16px}
-.hrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px}
-.hrow .k{margin-top:0;font-size:30px}.hrow .stamp{margin-top:0;font-size:16px;padding:3px 10px}
-.pc.sm ul{font-size:14.5px;margin-top:8px}
-#mc{display:block;width:100%;height:auto;margin-top:10px;overflow:visible}
-#mc text{font:12.5px 'JetBrains Mono',Consolas,monospace;fill:var(--dim)}
-#mc .an{font:14px 'Times New Roman','Noto Serif SC',SimSun,serif;fill:var(--ink);font-weight:700}
-#mc .an.red{fill:var(--red)}
-.mnote{font-size:15.5px;color:var(--ink2);margin-top:8px;line-height:1.5}.mnote b{color:var(--ink)}
-.srow{display:flex;align-items:center;gap:12px;margin-top:10px;font-size:16px;color:var(--ink2)}
-.srow input{flex:1;accent-color:var(--ink);cursor:pointer}.srow b{font-size:18px;color:var(--ink);min-width:3em;text-align:right}
-/* coin slide */
-.two{display:grid;grid-template-columns:420px 1fr;gap:44px;align-items:center}
+.cover{padding-top:96px}
+.cover h1{font-size:68px}
+.cover .who{margin-top:40px;font-size:22px;color:var(--ink)}
+.cover .who span{display:block;font-size:18px;color:var(--dim);margin-top:8px}
+/* hook: three people */
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px}
+.pc{background:var(--paper);border:1px solid var(--rule);padding:22px 22px 18px;display:flex;flex-direction:column}
+.who3{display:flex;align-items:center;gap:14px}
+.av{width:68px;height:68px;border-radius:50%;object-fit:cover;flex:none;border:1px solid var(--rule)}
+.av.mono2{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#3B6BB5,#8E6BC4);color:#fff;font:700 24px 'JetBrains Mono',Consolas,monospace}
+.pc .name{font-size:25px;font-weight:700}
+.pc .venue{font:12px 'JetBrains Mono',Consolas,monospace;letter-spacing:.12em;color:var(--dim);margin-top:3px}
+.pc .big{font:700 46px 'JetBrains Mono',Consolas,monospace;margin-top:18px;letter-spacing:-.02em}
+.pc .what{font-size:16px;color:var(--ink2);margin-top:4px;line-height:1.5}
+.ask-hand{margin-top:24px;font-size:28px;font-weight:700}
+/* coin */
+.two{display:grid;grid-template-columns:400px 1fr;gap:40px;align-items:start;margin-top:8px}
 .coin canvas{width:100%;height:auto;display:block;background:var(--paper);border:1px solid var(--rule)}
-.coin .cap{display:flex;justify-content:space-between;font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim);margin-top:8px}
-.bignum{font:700 88px 'JetBrains Mono',Consolas,monospace;line-height:1;margin-top:8px}
+.coin .cap{display:flex;justify-content:space-between;font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim);margin-top:6px}
+.bignum{font:700 96px 'JetBrains Mono',Consolas,monospace;line-height:1;margin-top:6px}
 .bignum small{font-size:22px;font-weight:400;color:var(--dim);margin-left:8px}
-.tbox{margin-top:26px;border-top:1px solid var(--rule);padding-top:16px;font-size:17px;line-height:1.7;color:var(--ink2)}
-.tbox b{color:var(--ink)}
-/* charts */
-svg.ch{display:block;width:100%;height:auto;margin-top:26px;overflow:visible}
-svg.ch text{font:13px 'JetBrains Mono',Consolas,monospace;fill:var(--dim)}
-svg.ch .lbl{font:15px 'Times New Roman','Noto Serif SC',SimSun,serif;fill:var(--ink)}
-svg.ch .lbl2{font:13px 'Times New Roman','Noto Serif SC',SimSun,serif;fill:var(--dim)}
-svg.ch .ax{stroke:var(--rule);stroke-width:1}
-svg.ch .bar{stroke:var(--red);stroke-width:2.5}
-svg.ch .t2{stroke:var(--dim);stroke-width:1.2;stroke-dasharray:4 4}
-svg.ch .fill{fill:var(--ink)}
-svg.ch .fillneg{fill:var(--red)}
-svg.ch .warn{fill:var(--red)}
-svg.ch .void{fill:url(#hatch)}
-/* compare */
-.cmp{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:30px;border:1px solid var(--rule)}
-.cmp>div{padding:26px 30px;background:var(--paper)}
-.cmp>div+div{border-left:1px solid var(--rule)}
-.cmp .h{font:12px 'JetBrains Mono',Consolas,monospace;letter-spacing:.14em;color:var(--dim)}
-.cmp .q{font-size:24px;font-weight:700;margin-top:10px}
-.cmp .ex{margin-top:16px;font-size:16px;color:var(--ink2);line-height:1.6}
-.cmp .ex .n{font-size:28px;font-weight:700;color:var(--ink);display:block;margin-bottom:4px}
-.why{margin-top:26px;font-size:18px;line-height:1.7;color:var(--ink2)}
-.why b{color:var(--ink)}
-/* demo */
-.demo{display:grid;grid-template-columns:1fr 520px;gap:48px;align-items:start}
-.panel{background:var(--paper);border:1px solid var(--rule);padding:26px 28px}
-.panel input{width:100%;font:16px 'JetBrains Mono',Consolas,monospace;padding:12px 14px;background:#fff;color:var(--ink);border:1px solid var(--rule)}
+.lead{font-size:21px;line-height:1.6;color:var(--ink2)}
+.ruler{margin-top:22px;border-top:1px solid var(--rule);padding-top:14px;font-size:19px;line-height:1.65;color:var(--ink2)}
+.ruler b{color:var(--ink)}
+/* machi */
+.mgrid{display:grid;grid-template-columns:1fr 290px;gap:26px;margin-top:18px;align-items:start}
+#mc{display:block;width:100%;height:auto;overflow:visible;background:var(--paper);border:1px solid var(--rule);padding:12px 14px 6px}
+#mc text{font:12.5px 'JetBrains Mono',Consolas,monospace;fill:var(--dim)}
+#mc .an{font:15px 'Times New Roman','Noto Serif SC',SimSun,serif;fill:var(--ink);font-weight:700}
+#mc .an.red{fill:var(--red)}
+.facts{display:flex;flex-direction:column;gap:12px}
+.fact{background:var(--paper);border:1px solid var(--rule);padding:14px 16px}
+.fact .v{font:700 30px 'JetBrains Mono',Consolas,monospace}
+.fact .l{font-size:15.5px;color:var(--ink2);margin-top:2px;line-height:1.45}
+.stamp{display:inline-block;font-size:17px;font-weight:700;padding:2px 10px;border:2px solid currentColor;margin-left:10px;vertical-align:middle}
+/* who is real */
+.rgrid{display:grid;grid-template-columns:1fr 330px;gap:24px;margin-top:14px;align-items:start}
+.rlist{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.rlist div{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:9px 0;border-bottom:1px solid var(--rule2)}
+.rlist b{font-size:18px}.rlist .t{font:700 20px 'JetBrains Mono',Consolas,monospace;text-align:right}
+.rlist span{grid-column:1/3;font-size:14.5px;color:var(--ink2)}
+#rk2 .rp-leg{font-size:13px}
+/* product */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
+.feat>div{background:var(--paper);border:1px solid var(--rule);padding:22px 22px 20px}
+.feat svg{width:44px;height:44px;stroke:var(--ink);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.feat h3{font-size:23px;margin-top:12px}
+.feat p{font-size:16px;color:var(--ink2);margin-top:8px;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:20px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.stats div{padding:12px 4px}
+.stats b{display:block;font:700 28px 'JetBrains Mono',Consolas,monospace}
+.stats span{font-size:14.5px;color:var(--ink2)}
+/* why now */
+.wgrid{display:grid;grid-template-columns:400px 1fr;gap:30px;margin-top:22px;align-items:start}
+.vs{background:var(--paper);border:1px solid var(--rule)}
+.vs>div{padding:16px 20px}.vs>div+div{border-top:1px solid var(--rule)}
+.vs .h{font:12px 'JetBrains Mono',Consolas,monospace;letter-spacing:.12em;color:var(--dim)}
+.vs .q{font-size:24px;font-weight:700;margin-top:6px}
+.vs .x{font-size:15px;color:var(--ink2);margin-top:4px}
+.road{list-style:none;border-left:2px solid var(--rule);padding-left:22px}
+.road li{position:relative;padding:0 0 18px}
+.road li::before{content:'';position:absolute;left:-29px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+.road li.now::before{background:var(--ink)}
+.road .w{font:12.5px 'JetBrains Mono',Consolas,monospace;letter-spacing:.12em;color:var(--dim)}
+.road .d{font-size:19px;margin-top:3px;line-height:1.45}
+.agent{margin-top:4px;font-size:18px;color:var(--ink2);border-top:1px solid var(--rule);padding-top:12px}
+.agent b{color:var(--ink)}
+/* ask: QR codes top right */
+.ask{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:start}
+.ask ol{list-style:none;margin-top:24px;font-size:22px;line-height:1.6;color:var(--ink2)}
+.ask li{border-top:1px solid var(--rule);padding:12px 0}
+.ask li b{color:var(--ink)}
+.qrs{display:flex;gap:18px}
+.qr{text-align:center;font:13px 'JetBrains Mono',Consolas,monospace;color:var(--ink2)}
+.qr svg,.qr img{display:block;width:190px;height:190px;margin:0 auto 8px;background:#fff;padding:10px;border:1px solid var(--rule)}
+/* backup demo */
+.demo{display:grid;grid-template-columns:1fr 520px;gap:48px;align-items:start;margin-top:10px}
+.panel{background:var(--paper);border:1px solid var(--rule);padding:22px 26px}
+.panel input{width:100%;font:16px 'JetBrains Mono',Consolas,monospace;padding:11px 14px;background:#fff;color:var(--ink);border:1px solid var(--rule)}
 .panel input:focus{outline:none;border-color:var(--ink)}
 .exb{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .exb button{font:14px 'Times New Roman','Noto Serif SC',SimSun,serif;padding:6px 11px;background:none;color:var(--ink2);border:1px solid var(--rule);cursor:pointer}
 .exb button:hover{border-color:var(--ink);color:var(--ink)}
-.vt{font-size:30px;font-weight:700;margin-top:20px;min-height:1.3em}
+.vt{font-size:28px;font-weight:700;margin-top:16px;min-height:1.3em}
 .vt.red{color:var(--red)}.vt.dim{color:var(--dim)}
-.rows{margin-top:14px;border-top:1px solid var(--rule2)}
-.rows div{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--rule2);font-size:16px}
+.rows{margin-top:10px;border-top:1px solid var(--rule2)}
+.rows div{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--rule2);font-size:16px}
 .rows dd{font:16px 'JetBrains Mono',Consolas,monospace}
-.vn{font-size:14.5px;color:var(--dim);margin-top:10px;line-height:1.55;min-height:2.6em}
-/* ask */
-.ask{display:grid;grid-template-columns:1fr 230px;gap:56px;align-items:center;margin-top:10px}
-.ask ol{list-style:none;margin-top:26px;font-size:20px;line-height:1.75;color:var(--ink2)}
-.ask li{border-top:1px solid var(--rule);padding:12px 0}
-.ask li b{color:var(--ink)}
-.qr{text-align:center;font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim)}
-.qr svg{display:block;margin:0 auto 8px;background:#fff;padding:8px;border:1px solid var(--rule)}
+.vn{font-size:14.5px;color:var(--dim);margin-top:8px;line-height:1.55;min-height:2.6em}
 </style>
 </head>
 <body>
-<header><div class="brand">Evidence Deflator<i>投研证据折扣器</i></div><nav id="nav"></nav></header>
+<header><div class="brand">Evidence Deflator</div><nav id="nav"></nav></header>
 <main id="stage"></main>
 <footer><span>evidencedeflator.com · 每个数字都可以复算</span><span class="k">← →</span></footer>
-
 <script src="assets/hl.js"></script>
 <script src="assets/rankplot.js"></script>
 <script>
-// 数据来源（逐项见 OneDrive/桌面/创业_dc/澳门路演_v2_讲稿_1018.md 的「数字来源」节）：
-// Hyperliquid 榜单 latest.json 2026-10-18T09:20Z：47,270 账户；PnL 前 100 98 可评分 / 9 个 t≥2 / 0 个 ≥4.90。证据排名 docs/data/ranking/latest.json。
-// 麻吉 0x020c…5872（ENS machibigbrother.eth）：2026-10-18 现取 portfolio，src/hl_wallet.py 计分；9-21 账户峰值 $12.40M，至峰值全部记录 t −1.20（累计 PnL −$24.5M）；10-15 账户低点 $28,028。
-// Theo4：docs/data/cex/polymarket-2026-10-15.json，PnL $22.05M 第 1，9 个事件，z_cluster 2.05；门槛 5.33（榜单 450,853）。
-// Serenity：Quantral 2026-10-12 页面，274 条已判喊单 59.5% 正确；z 为我们按二项分布换算。
+// Numbers and sources: OneDrive/桌面/创业_dc/澳门路演_v2_讲稿_1018.md (数字来源表).
+// Hyperliquid 榜单 latest.json 2026-10-18T09:20Z：47,270 账户；门槛 4.90。证据排名 docs/data/ranking/latest.json。
+// 麻吉 0x020c…5872（ENS machibigbrother.eth）：2026-10-18 现取 portfolio；9-21 余额 $12.40M、累计 PnL −$24.5M、全部记录 t −1.20；10-15 低点 $28,028。
+// Theo4：docs/data/cex/polymarket-2026-10-15.json，PnL $22.05M 第 1，t 2.05，门槛 5.33（榜单 450,853）。
+// Serenity：Quantral 2026-10-12，274 条已判喊单 59.5%；t 按二项分布换算（基准 50% → 3.15，60% → −0.17）。
 const N=47270, BAR=4.90;
 const QR='<svg width="175" height="175" class="segno"><g transform="scale(4.2683)"><path fill="#ffffff" d="M0 0h41v41h-41z"/><path class="qrline" stroke="#17171B" d="M4 4.5h7m2 0h2m1 0h3m1 0h2m1 0h2m2 0h1m2 0h7m-33 1h1m5 0h1m2 0h3m1 0h5m2 0h3m3 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m2 0h1m2 0h3m2 0h2m3 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m1 0h2m1 0h1m2 0h1m3 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h3m1 0h2m1 0h2m3 0h1m1 0h1m3 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h2m2 0h1m2 0h1m2 0h1m2 0h1m2 0h1m-25 1h1m1 0h5m2 0h2m1 0h4m1 0h1m4 0h1m1 0h1m1 0h5m-31 1h1m2 0h1m1 0h1m3 0h1m2 0h1m5 0h4m1 0h1m2 0h2m1 0h2m1 0h1m-31 1h2m1 0h2m1 0h2m5 0h2m1 0h1m2 0h1m2 0h2m2 0h1m1 0h2m-32 1h1m4 0h1m1 0h6m1 0h3m3 0h2m3 0h1m2 0h3m-30 1h6m4 0h1m6 0h2m2 0h1m1 0h2m1 0h3m2 0h1m-33 1h2m1 0h3m2 0h2m1 0h1m1 0h5m2 0h2m1 0h1m2 0h1m3 0h3m-33 1h2m3 0h5m1 0h1m1 0h2m2 0h1m1 0h1m5 0h2m2 0h3m-30 1h1m1 0h2m1 0h3m1 0h3m2 0h1m2 0h8m1 0h3m-31 1h4m1 0h3m1 0h3m1 0h2m2 0h1m1 0h1m2 0h1m1 0h2m1 0h2m3 0h1m-30 1h3m3 0h5m2 0h2m1 0h2m2 0h1m2 0h2m1 0h2m1 0h1m-31 1h1m1 0h6m2 0h1m1 0h4m3 0h2m2 0h4m1 0h2m-29 1h3m2 0h1m2 0h1m4 0h6m2 0h2m1 0h5m-32 1h3m1 0h3m2 0h1m1 0h1m1 0h1m2 0h1m5 0h2m1 0h1m1 0h3m1 0h2m-33 1h3m2 0h1m1 0h2m2 0h3m1 0h1m2 0h1m2 0h1m1 0h1m2 0h1m2 0h1m2 0h1m-33 1h1m1 0h3m1 0h2m2 0h1m1 0h1m2 0h4m2 0h2m2 0h1m2 0h1m2 0h1m-32 1h1m3 0h2m1 0h2m1 0h4m1 0h1m2 0h1m2 0h3m1 0h1m2 0h4m-32 1h1m2 0h2m1 0h3m3 0h1m2 0h1m1 0h2m3 0h8m-22 1h2m1 0h4m1 0h1m1 0h4m2 0h1m3 0h1m1 0h1m1 0h1m-33 1h7m4 0h2m2 0h2m1 0h1m1 0h5m1 0h1m1 0h1m1 0h1m-31 1h1m5 0h1m1 0h2m1 0h2m1 0h1m5 0h5m3 0h3m-31 1h1m1 0h3m1 0h1m1 0h1m1 0h6m2 0h1m5 0h6m2 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m3 0h1m1 0h3m3 0h1m3 0h1m2 0h1m1 0h3m-33 1h1m1 0h3m1 0h1m1 0h1m2 0h4m2 0h1m2 0h8m1 0h1m-30 1h1m5 0h1m2 0h2m1 0h3m1 0h1m1 0h4m3 0h2m1 0h1m1 0h1m-31 1h7m1 0h3m2 0h1m3 0h1m1 0h1m2 0h1m1 0h4m3 0h1"/></g></svg>';
 const S=[
 // 00
 `<div class="slide cover">
  <div class="eyebrow">AI+X FUTURE SUMMIT 2026 · 澳门</div>
- <h1>盈利排行榜第一名，<br>是运气还是实力？</h1>
- <div class="who">伯纳德 · Evidence Deflator</div>
+ <h1>盈利排行榜第一名，<br>是大佬还是运气？</h1>
+ <div class="who">伯纳德 · Evidence Deflator 创始人<span>《AI 智能投资手册》第九章作者</span></div>
 </div>`,
 // 01
 `<div class="slide">
- <div class="eyebrow">01 · 投票</div>
- <h2>这三位不同市场的明星交易员，你会跟单谁？</h2>
+ <h2>这三位明星交易员，谁是真本事？</h2>
  <div class="people">
-  <div class="pc"><div class="venue">HYPERLIQUID</div><div class="name">麻吉大哥</div><div class="alias">黄立成 · machibigbrother.eth</div>
-   <div class="big">$1,240万</div><div class="what">9 月 21 日的账户余额。<br>公开报道：四个月从 $5.6 万做到 $1,225 万。</div>
-   <div class="foot">账户数据：Hyperliquid 公开 API<br>报道：Lookonchain</div></div>
-  <div class="pc"><div class="venue">POLYMARKET</div><div class="name">Theo4</div><div class="alias">「法国巨鲸」Théo 的账户之一</div>
-   <div class="big">$2,205万</div><div class="what">Polymarket 历史盈利榜第 1 名。</div>
-   <div class="foot">Polymarket 公开 API · 2026-10-15</div></div>
-  <div class="pc"><div class="venue">X · 美股</div><div class="name">Serenity</div><div class="alias">@aleabitoreddit · 约 100 万粉丝</div>
-   <div class="big">+1,116%</div><div class="what">自己公布的年内收益。<br>主打 AI 供应链「卡脖子」选股。</div>
-   <div class="foot">收益为本人自报，未经审计</div></div>
+  <div class="pc"><div class="who3"><img class="av" src="assets/av/machi.png" alt=""><div><div class="name">麻吉大哥</div><div class="venue">HYPERLIQUID</div></div></div>
+   <div class="big">$1,240万</div><div class="what">9 月 21 日的账户余额。公开报道：四个月从 $5.6 万做到 $1,225 万。</div></div>
+  <div class="pc"><div class="who3"><div class="av mono2">T4</div><div><div class="name">Theo4</div><div class="venue">POLYMARKET</div></div></div>
+   <div class="big">$2,205万</div><div class="what">Polymarket 历史盈利榜第 1 名，「法国巨鲸」。</div></div>
+  <div class="pc"><div class="who3"><img class="av" src="assets/av/serenity.png" alt=""><div><div class="name">Serenity</div><div class="venue">X · 美股 · 约 100 万粉丝</div></div></div>
+   <div class="big">+1,116%</div><div class="what">自己公布的今年收益，主打 AI 供应链选股。</div></div>
  </div>
- <div class="ask-hand">你觉得谁是真本事？</div>
+ <div class="src">账户数据：Hyperliquid、Polymarket 公开 API（10-15 至 10-18）· 报道：Lookonchain · Serenity 收益为本人自报，未经审计</div>
 </div>`,
 // 02
 `<div class="slide">
- <div class="eyebrow">02 · 为什么盈利排行榜会骗人</div>
+ <h2>为什么盈利排行榜会骗人</h2>
  <div class="two">
   <div>
-   <h2>47,270 人<br>各抛 10 次硬币</h2>
-   <div class="lead fs" style="font-size:20px">全是正面的，平均会有</div>
+   <div class="lead" style="margin-top:14px">47,270 个账户，各抛 10 次硬币<br>全是正面的，平均有</div>
    <div class="bignum red">46<small>人</small></div>
-   <div class="lead fs" style="font-size:20px">他们不需要任何本事。<br>他们会排在排行榜最前面。</div>
+   <div class="lead">他们不需要任何本事，<br>也会排在排行榜最前面。</div>
   </div>
-  <div class="coin"><canvas id="coin" width="1280" height="760"></canvas>
-   <div class="cap"><span>每个点是 Hyperliquid 榜上的一个账户</span><span>红点：10 连胜</span></div>
-   <div class="tbox fs">尺子叫 <b>t ≈ 夏普 × √年数</b>：收益有多稳，乘以记录有多长。<br>随手挑一个人，单靠运气到 2 只有 <b>2.3%</b>，所以过 2 算有证据。<br>榜首是从 4.7 万人里挑的，<b>门槛升到 4.90</b>，靠运气同样只有 2.3%。</div>
-  </div>
+  <div class="coin"><canvas id="coin" width="1280" height="640"></canvas>
+   <div class="cap"><span>每个点是 Hyperliquid 榜上的一个账户</span><span>红点：10 连胜</span></div></div>
  </div>
+ <div class="ruler">我们的尺子叫 <b>t ≈ 夏普 × √年数</b>：收益越稳、记录越长，t 越高。<br>随手挑一个人，<b>过 2</b> 算有证据；榜首是从 4.7 万人里挑出来的，要过 <b class="red">4.90</b>。</div>
 </div>`,
 // 03
 `<div class="slide">
- <div class="eyebrow">03 · 重估</div>
- <h2>同一把尺子，重新量一遍这三位明星交易员</h2>
- <div class="rev">
-  <div class="pc mpanel"><div class="venue">麻吉大哥 · Hyperliquid 全部记录，2025-05 至今</div>
-   <div class="hrow"><div class="k">t = −1.20</div><span class="stamp red">像运气</span></div>
-   <svg id="mc" viewBox="0 0 640 286"></svg>
-   <div class="mnote">余额高，是因为前后一共存进去约 <b>$3,690 万</b>。只看 6 月以来的连胜：t = 0.55，离 2 都很远。</div></div>
-  <div class="rcol">
-   <div class="pc sm"><div class="venue">THEO4 · POLYMARKET 盈利第 1</div>
-    <div class="hrow"><div class="k">t = 2.05</div><span class="stamp dim">随手挑中算有证据，当榜首还不够</span></div>
-    <ul><li>他是从 45 万个账户里挑出来的第一名，门槛是 5.33</li><li>9 个事件，大注都押在 2024 年美国大选：总统、普选票、三个摇摆州，其实是同一注</li></ul></div>
-   <div class="pc sm"><div class="venue">SERENITY · 274 条喊单，说对 59.5%</div>
-    <div class="srow"><span>闭眼瞎猜能对</span><input type="range" id="sb" min="50" max="62" step="1" value="50"><b id="sbv" class="n">50%</b></div>
-    <div class="hrow"><div class="k" id="sbt">t = 3.15</div><span class="stamp ink" id="sbs">有证据</span></div>
-    <ul><li>59.5% 好不好，取决于不看任何信息、闭眼喊「买 AI 股」能对多少。今年 AI 半导体大涨，闭眼喊买也能对六成左右</li></ul></div>
+ <h2>麻吉大哥：余额 $1,240 万那天，累计亏 $2,450 万</h2>
+ <div class="mgrid">
+  <svg id="mc" viewBox="0 0 640 300"></svg>
+  <div class="facts">
+   <div class="fact"><div class="v">t = −1.20<span class="stamp red">像运气</span></div><div class="l">全部记录，2025-05 至 9-21</div></div>
+   <div class="fact"><div class="v">$3,690 万</div><div class="l">前后一共存进去的钱：余额高，是因为存得多</div></div>
+   <div class="fact"><div class="v red">$2.8 万</div><div class="l">三周后，10 月 15 日，账户最低剩下的钱</div></div>
   </div>
  </div>
- <div class="src">麻吉：Hyperliquid 公开 API，10-18 现取 · Theo4：Polymarket 公开 API，10-15；账户归属见 CNBC 2024-10-24 · Serenity：Quantral 10-12 统计，t 按二项分布换算</div>
+ <div class="src">Hyperliquid 公开 API（portfolio，allTime），2026-10-18 现取 · 黑线：账户余额 · 红线：累计盈亏</div>
+</div>`,
+// 04
+`<div class="slide">
+ <h2>谁是真大佬？同一把尺子，量 85 份公开记录</h2>
+ <div class="sub fs">每份都先扣掉自己的大盘（美股对标普、钱包对 BTC）和国债利率</div>
+ <div class="rgrid">
+  <div id="rk2"></div>
+  <div class="rlist">
+   <div><b>西蒙斯 · 大奖章</b><em class="t grn">6.93</em><span>唯一过 4.90 的记录</span></div>
+   <div><b>巴菲特 · 伯克希尔</b><em class="t">3.15</em><span>61 年。随手挑中算强证据：靠运气约 1/1,200</span></div>
+   <div><b>Theo4</b><em class="t">2.05</em><span>当榜首还不够（门槛 5.33）：9 个事件押的是同一场大选</span></div>
+   <div><b>Serenity</b><em class="t">0–3.15</em><span>说对 59.5%：今年闭眼买 AI 股也能对六成，t 接近 0</span></div>
+   <div><b>麻吉大哥</b><em class="t red">−1.20</em><span>像运气</span></div>
+  </div>
+ </div>
 </div>`,
 // 05
 `<div class="slide">
- <div class="eyebrow">04 · 这把尺子会说「过」吗？拿名人校准</div>
- <h2>随手挑一份，巴菲特这样的记录靠运气只有 1/1,200</h2>
- <div class="lead fs" style="font-size:17px;margin-top:6px">每个点是一份记录，都已扣掉大盘和国债利率。同一条虚线上夏普相同：记录越长，t 越高</div>
- <div id="rk2" style="margin-top:6px"></div>
- <svg class="ch" id="rk" viewBox="0 0 1136 420" style="display:none"></svg>
- <div class="src">evidencedeflator.com/ranking · 2026-10-18 · 美股基金 Yahoo 复权价（1988 起）· 钱包 Hyperliquid 公开接口</div>
+ <h2>Evidence Deflator：给每一份交易战绩做证据评级</h2>
+ <div class="feat">
+  <div><svg viewBox="0 0 44 44"><rect x="5" y="11" width="34" height="25" rx="3"/><path d="M5 18h34M29 26h5"/></svg>
+   <h3>查账户</h3><p>贴一个 Hyperliquid 或 Polymarket 地址，几秒钟出判决：是本事、是运气，还是记录太短看不出来。</p></div>
+  <div><svg viewBox="0 0 44 44"><path d="M11 5h16l7 7v27H11z"/><path d="M27 5v7h7M16 21h13M16 27h13M16 33h8"/></svg>
+   <h3>查业绩宣传</h3><p>贴一段基金、AI 交易 agent 或喊单的收益宣传，算它的证据强度，列出它没说的东西。</p></div>
+  <div><svg viewBox="0 0 44 44"><rect x="9" y="13" width="26" height="21" rx="4"/><path d="M22 6v7M16 22h.01M28 22h.01M17 29h10M5 22v6M39 22v6"/></svg>
+   <h3>给 AI agent 用</h3><p>API 和 MCP 接口已上线：AI 替人挑交易员、挑金库之前，先来查证据。</p></div>
+ </div>
+ <div class="stats">
+  <div><b>4.7 万</b><span>Hyperliquid 榜上账户，任一可查</span></div>
+  <div><b>85</b><span>份名人、基金、对冲基金记录</span></div>
+  <div><b>美股 + 加密</b><span>同一把尺子</span></div>
+  <div><b>0</b><span>不收被评方一分钱，方法和代码公开</span></div>
+ </div>
 </div>`,
 // 06
 `<div class="slide">
- <div class="eyebrow">05 · 实测</div>
+ <h2>AI 让造一份好看的战绩，几乎不花钱</h2>
+ <div class="wgrid">
+  <div class="vs">
+   <div><div class="h">跟单平台的头名</div><div class="q">Copy Score 96 / 100</div><div class="x">30 天赚 $62 万（Hyperdash 官方教程示例）</div></div>
+   <div><div class="h">同一份记录，我们怎么说</div><div class="q">还太早，看不出来</div><div class="x">30 天只有 4 个周数据点，运气和本事分不开</div></div>
+  </div>
+  <div>
+   <ul class="road">
+    <li class="now"><div class="w">现在</div><div class="d">加密钱包 + 美股名人与基金记录，网站、Telegram、浏览器插件、API</div></li>
+    <li><div class="w">下一步</div><div class="d">跟单平台、金库接入证据分；AI 交易 agent、AI 金库的证据评级</div></li>
+    <li><div class="w">12 月 9 日</div><div class="d">我们冻结的 200 个钱包第一次公开读数，包括我们说错的部分</div></li>
+   </ul>
+   <div class="agent">AI 交易 agent、AI 金库、AI 喊单越多，<b>每一份战绩越需要一个不收被评方钱的证据评级。</b></div>
+  </div>
+ </div>
+</div>`,
+// 07
+`<div class="slide">
+ <div class="ask">
+  <div><h2>钱跟着一份战绩走之前，<br>先看它还剩多少证据</h2>
+   <ol class="fs"><li><b>寻找天使投资与平台合作</b>：跟单平台、金库、交易所</li><li><b>手上有正在考虑跟的地址、金库或 AI 交易项目</b>：发我免费出评估报告</li></ol></div>
+  <div class="qrs"><div class="qr">${QR}官网 evidencedeflator.com</div><div class="qr" id="wq"><img src="assets/wechat-qr.png" alt="微信" onerror="this.parentNode.remove()">微信 · 伯纳德</div></div>
+ </div>
+</div>`,
+// 08 backup, not in the five minutes
+`<div class="slide">
+ <div class="eyebrow">备用 · 现场实测</div>
  <div class="demo">
   <div><h2>随便贴一个钱包地址，<br>你想跟的，或者跟过的</h2>
-   <div class="lead fs" style="font-size:19px">浏览器直接读 Hyperliquid 的公开数据，不经过我们的服务器。收益按 PnL 算，出入金不算。</div></div>
+   <div class="lead fs" style="font-size:18px;margin-top:14px">浏览器直接读 Hyperliquid 的公开数据，不经过我们的服务器。收益按 PnL 算，出入金不算。</div></div>
   <div class="panel">
    <form id="dform" autocomplete="off"><input id="daddr" placeholder="0x…" spellcheck="false"></form>
    <div class="exb">
@@ -227,115 +264,59 @@ const S=[
    <div class="vn" id="dnote"></div>
   </div>
  </div>
-</div>`,
-// 07
-`<div class="slide">
- <div class="eyebrow">06 · 和聪明钱工具有什么不一样</div>
- <h2>聪明钱工具只能说明谁在赚钱。<br>我们想搞清楚，别人的成功能不能复制</h2>
- <div class="cmp">
-  <div><div class="h">一个跟单榜的头名</div><div class="q">Copy Score 96 / 100</div>
-   <div class="ex"><span class="n">30 天 +$621,826</span>Hyperdash 官方教程里的示例：按一致性、回撤、交易频率和盈利打分。</div></div>
-  <div><div class="h">同样的记录，我们怎么说</div><div class="q">还太早，看不出来</div>
-   <div class="ex"><span class="n">30 天 ≈ 4 个周数据点</span>不到 8 周的记录我们不打分：4 个点里，运气和本事分不开。分数越高、记录越短，越该警惕。</div></div>
- </div>
- <div class="why"><b>为什么是现在：</b>AI 让造一份好看的战绩几乎不花钱（AI 交易 agent、AI 金库、AI 喊单），这些都是我们的检验对象；替人挑交易员的 AI agent 也会先来查证据：我们提供 API 和 MCP 接口。</div>
-</div>`,
-// 08
-`<div class="slide">
- <div class="eyebrow">07 · 一个请求</div>
- <div class="ask">
-  <div><h2>钱跟着一份战绩走之前，<br>先看它还剩多少证据</h2>
-   <ol class="fs"><li><b>手上有正在考虑跟的地址、金库或 AI 交易项目</b>：发我免费出评估报告</li><li>做跟单、金库、交易平台的：可以把证据分放进你的榜单</li><li>12 月 9 日，我们冻结的 200 个钱包第一次读数，结果公开，包括我们说错的部分</li></ol></div>
-  <div class="qr">${QR}evidencedeflator.com<br>扫码看一页评估样本</div>
- </div>
 </div>`
 ];
 const stage=document.getElementById('stage'),nav=document.getElementById('nav');
-S.forEach((h,i)=>{const b=document.createElement('button');b.textContent=String(i).padStart(2,'0');b.onclick=()=>go(i);nav.appendChild(b);
+S.forEach((h,i)=>{const b=document.createElement('button');b.textContent=i===8?'备':String(i).padStart(2,'0');b.onclick=()=>go(i);nav.appendChild(b);
  const t=document.createElement('div');t.innerHTML=h.trim();stage.appendChild(t.firstChild);});
 const $=id=>document.getElementById(id);
+// ?static=1: every slide in its final state, for the PDF/PPTX export (tools/export_deck.py)
+const STATIC=new URLSearchParams(location.search).has('static');
+if(STATIC)document.documentElement.classList.add('static');
+const reduce=STATIC||matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// 05 evidence ranking: famous records, each against its own market (docs/data/ranking/latest.json)
-(function(){
- const R=[
-  {n:"大奖章基金",d:"西蒙斯 · 31 年 · 对标普",t:6.93},
-  {n:"富达 Contrafund",d:"Will Danoff 1990 年起管理 · 39 年 · 对标普",t:3.85},
-  {n:"先锋医疗保健基金",d:"Ed Owens 管到 2012 · 39 年 · 对标普（含行业）",t:3.67},
-  {n:"HLP 做市金库",d:"Hyperliquid 自己的金库 · 3.5 年 · 对 BTC",t:3.39},
-  {n:"伯克希尔",d:"巴菲特 · 61 年 · 对标普",t:3.15},
-  {n:"伯克希尔，2001 年以后",d:"巴菲特 · 25 年 · 对标普",t:1.65},
-  {n:"ARK 创新 ETF",d:"木头姐 · 12 年 · 对标普",t:-0.49,neg:1},
-  {n:"富达麦哲伦（1988 年起）",d:"1988–2026 · 林奇 1990 年离任 · 对标普",t:-1.07,neg:1},
-  {n:"麻吉大哥",d:"黄立成 · 对 BTC",t:-1.19,neg:1}];
- const W=1136,L=300,Rr=W-40,lo=-2,hi=7.6,x=v=>L+(v-lo)/(hi-lo)*(Rr-L),rh=39,top=30;
- let s=`<line class="t2" x1="${x(2)}" x2="${x(2)}" y1="0" y2="${top+R.length*rh}"/><text x="${x(2)-8}" y="8" text-anchor="end">随手挑一份 · 2</text>`+
-  `<line class="bar" x1="${x(BAR)}" x2="${x(BAR)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(BAR)-8}" y="24" text-anchor="end" style="fill:var(--red)">4.7 万人里挑第一 · 4.90</text>`+
-  `<line class="ax" x1="${x(0)}" x2="${x(0)}" y1="${top}" y2="${top+R.length*rh}"/>`;
- // picked blind: one in 1/(1-Φ(t)), two significant figures, 万/亿 for large numbers
- const odds=t=>{const x=1/HL.luck(t,1),f=v=>Number(v.toPrecision(2)).toLocaleString('en-US');return '1/'+(x>=1e8?f(x/1e8)+'亿':x>=1e4?f(x/1e4)+'万':f(x));};
- R.sort((p,q)=>q.t-p.t);
- R.forEach((r,i)=>{const yy=top+i*rh+6,a=x(Math.min(0,r.t)),b=x(Math.max(0,r.t));
-  s+=`<text x="0" y="${yy+13}" class="lbl" style="font-weight:700">${r.n}</text><text x="0" y="${yy+30}" class="lbl2">${r.d}</text>`+(r.t>=2?`<text x="${L-12}" y="${yy+13}" text-anchor="end" class="lbl2">运气 ${odds(r.t)}</text>`:'')+``+
-   `<rect x="${a}" y="${yy+4}" width="${b-a}" height="20" class="${r.neg?'fillneg':'fill'}" opacity=".85"/>`+
-   `<text x="${r.neg?a-8:b+8}" y="${yy+19}" text-anchor="${r.neg?'end':'start'}" style="fill:var(--ink);font-weight:700">${r.t.toFixed(2)}</text>`;});
- s+=`<text x="${L}" y="${top+R.length*rh+26}" class="lbl2">两条线背后靠运气的概率一样，都是 2.3%。过 2 的有 5 份；过 4.90 的只有大奖章：t ≈ 夏普 × √年数，同样的本事，记录要长 4 倍，t 才翻一倍。</text>`;
- $('rk').innerHTML=s;
-})();
+// 02 coin field: one dot per account, 46 of them light up
+function coin(){
+ const c=$('coin'),g=c.getContext('2d'),W=c.width,H=c.height,cols=360,rows=Math.ceil(N/cols),sx=W/cols,sy=H/rows;
+ g.clearRect(0,0,W,H);g.fillStyle='#BDB5A5';
+ for(let i=0;i<N;i++){g.fillRect((i%cols)*sx+sx*.2,Math.floor(i/cols)*sy+sy*.2,sx*.6,sy*.6);}
+ let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+ const pick=[...Array(46)].map(()=>Math.floor(rnd()*N));
+ pick.forEach((p,k)=>setTimeout(()=>{g.fillStyle='#B8361F';g.beginPath();g.arc((p%cols)*sx+sx/2,Math.floor(p/cols)*sy+sy/2,8,0,7);g.fill();},reduce?0:500+k*40));
+}
 
 // 03 Machi: account value and cumulative PnL, one point per Hyperliquid portfolio sample (allTime, fetched 2026-10-18).
 // [days since 2025-05-21, account value in $10k, cumulative PnL in $10k]
 const MC=[[0.9,0,0],[0.94,335,22],[7.92,1080,75],[14.99,1394,239],[21.93,1847,693],[28.98,1620,465],[35.98,1140,-15],[42.91,1631,476],[49.91,2027,872],[56.99,3810,2420],[63.93,3165,1775],[70.93,3280,1863],[77.98,2801,1360],[84.93,4120,3404],[91.98,3295,2679],[98.93,3895,3329],[105.99,3921,3354],[112.96,3952,3396],[119.98,5039,4484],[126.98,2389,1844],[133.99,2212,1039],[140.92,2592,1350],[147.99,9,-1302],[155.0,36,-1377],[161.99,137,-1352],[168.92,63,-1492],[175.93,7,-1589],[182.98,54,-1960],[189.91,216,-1909],[196.96,320,-1841],[203.99,211,-1987],[210.96,75,-2353],[217.92,105,-2328],[224.91,140,-2301],[231.98,323,-2117],[238.92,470,-1971],[245.99,34,-2448],[252.99,224,-2357],[259.98,31,-2639],[266.99,3,-2758],[273.99,71,-2827],[280.99,94,-2828],[287.95,96,-2876],[294.99,78,-2961],[301.99,122,-2916],[308.95,70,-3018],[315.98,97,-3062],[322.96,172,-3033],[329.93,427,-2778],[336.98,500,-2706],[343.99,94,-3112],[350.99,363,-2845],[357.93,71,-3136],[364.92,31,-3249],[371.96,19,-3338],[378.98,10,-3418],[385.98,8,-3501],[392.98,18,-3503],[399.98,6,-3543],[406.98,14,-3555],[413.92,34,-3567],[420.92,159,-3450],[427.91,87,-3527],[434.92,30,-3623],[441.98,39,-3634],[448.92,14,-3664],[455.99,387,-3302],[462.91,1037,-2653],[469.92,382,-3307],[476.93,536,-3153],[483.98,90,-3600],[484.95,110,-3580],[485.99,528,-3162],[488.93,1240,-2450],[490.93,900,-2771],[496.93,755,-2916],[497.96,907,-2764],[501.98,1225,-2446],[504.92,431,-3240],[505.93,90,-3581],[507.61,125,-3546],[508.7,181,-3490],[509.61,127,-3544],[509.74,99,-3572],[509.84,123,-3548],[509.99,41,-3630],[510.1,49,-3622],[510.23,82,-3589],[510.48,65,-3606],[511.61,14,-3657],[511.7,20,-3651],[511.86,15,-3656],[512.11,3,-3668],[512.46,24,-3672],[512.61,31,-3665],[512.73,57,-3639],[513.48,78,-3618],[513.54,59,-3637],[513.64,42,-3654],[513.73,21,-3675],[513.74,31,-3666],[513.79,23,-3673],[513.93,30,-3666],[514.71,22,-3674],[514.75,27,-3670],[514.91,9,-3687],[515.02,11,-3685],[515.17,13,-3683],[515.39,18,-3683],[515.51,17,-3684]];
 function machi(){
- const W=640,H=286,l=70,r=8,t=10,b=26,d1=Math.max(...MC.map(p=>p[0])),y0=-4400,y1=4400;
+ const W=640,H=300,l=70,r=8,t=10,b=26,d1=Math.max(...MC.map(p=>p[0])),y0=-4400,y1=5000;
  const X=d=>l+d/d1*(W-l-r),Y=v=>t+(y1-v)/(y1-y0)*(H-t-b),f=v=>(v<0?'−$':'$')+Math.abs(v).toLocaleString('en-US')+'万';
  let s='';
  for(const v of [-4000,-2000,0,2000,4000])s+=`<line x1="${l}" x2="${W-r}" y1="${Y(v)}" y2="${Y(v)}" stroke="${v?'var(--rule2)':'var(--dim)'}"/><text x="${l-8}" y="${Y(v)+4}" text-anchor="end">${f(v)}</text>`;
  for(const [d,lab] of [[41,'2025.7'],[133,'2025.10'],[225,'2026.1'],[315,'2026.4'],[406,'2026.7'],[498,'2026.10']])s+=`<text x="${X(d)}" y="${H-6}" text-anchor="middle">${lab}</text>`;
  const path=k=>'M'+MC.map(p=>X(p[0]).toFixed(1)+','+Y(p[k]).toFixed(1)).join('L');
- s+=`<path class="ln" d="${path(1)}" fill="none" stroke="var(--ink)" stroke-width="2.2"/><path class="ln" d="${path(2)}" fill="none" stroke="var(--red)" stroke-width="2.2"/>`;
+ s+=`<path class="ln" d="${path(1)}" fill="none" stroke="var(--ink)" stroke-width="2.4"/><path class="ln" d="${path(2)}" fill="none" stroke="var(--red)" stroke-width="2.4"/>`;
  s+=`<text class="an" x="${X(330)}" y="${Y(700)}">账户余额</text><text class="an red" x="${X(200)}" y="${Y(-1700)}">累计盈亏</text>`;
  const late=MC.filter(p=>p[0]>470),pk=late.reduce((a,p)=>p[1]>a[1]?p:a),lo=late.filter(p=>p[0]>pk[0]).reduce((a,p)=>p[1]<a[1]?p:a);
  s+=`<g class="ann"><line x1="${X(pk[0])}" x2="${X(pk[0])}" y1="${Y(pk[1])}" y2="${Y(pk[2])}" stroke="var(--dim)" stroke-dasharray="3 3"/>`+
-  `<circle cx="${X(pk[0])}" cy="${Y(pk[1])}" r="4.5" fill="var(--ink)"/><circle cx="${X(pk[0])}" cy="${Y(pk[2])}" r="4.5" fill="var(--red)"/>`+
-  `<text class="an" x="${X(pk[0])-10}" y="${Y(pk[1])-10}" text-anchor="end">9-21 余额 $1,240 万：第 01 页那个数</text>`+
+  `<circle cx="${X(pk[0])}" cy="${Y(pk[1])}" r="5" fill="var(--ink)"/><circle cx="${X(pk[0])}" cy="${Y(pk[2])}" r="5" fill="var(--red)"/>`+
+  `<text class="an" x="${X(pk[0])-10}" y="${Y(pk[1])-10}" text-anchor="end">9-21 余额 $1,240 万</text>`+
   `<text class="an red" x="${X(pk[0])-10}" y="${Y(pk[2])-10}" text-anchor="end">同一天累计盈亏 −$2,450 万</text>`+
-  `<circle cx="${X(lo[0])}" cy="${Y(lo[1])}" r="4.5" fill="var(--ink)"/><text class="an" x="${X(lo[0])}" y="${Y(0)+22}" text-anchor="end">10-15 只剩 $2.8 万</text></g>`;
+  `<circle cx="${X(lo[0])}" cy="${Y(lo[1])}" r="5" fill="var(--ink)"/><text class="an" x="${X(lo[0])}" y="${Y(0)+22}" text-anchor="end">10-15 剩 $2.8 万</text></g>`;
  $('mc').innerHTML=s;
- const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
  $('mc').querySelectorAll('.ln').forEach(el=>{const L=el.getTotalLength();el.style.strokeDasharray=L;el.style.strokeDashoffset=reduce?0:L;
   el.getBoundingClientRect();el.style.transition=reduce?'':'stroke-dashoffset 1.6s ease-in-out';el.style.strokeDashoffset=0;});
  const g=$('mc').querySelector('.ann');g.style.opacity=reduce?1:0;g.style.transition='opacity .5s';setTimeout(()=>g.style.opacity=1,reduce?0:1500);
 }
-// 03 Serenity: t of a 59.5% hit rate over 274 calls, against what blind guessing would get
-function serenity(){
- const p=$('sb').value/100,t=(0.595-p)/Math.sqrt(p*(1-p)/274);
- $('sbv').textContent=$('sb').value+'%';$('sbt').textContent='t = '+t.toFixed(2).replace('-','−');
- const [txt,cls]=t>=2?['有证据','ink']:t>=0.5?['不够','dim']:['等于没本事','red'];
- $('sbs').textContent=txt;$('sbs').className='stamp '+cls;
-}
-$('sb').addEventListener('input',serenity);
 
-// 04 scatter: the same component as /ranking/ (assets/rankplot.js, data/ranking/latest.json); bars above if offline
+// 04 scatter: the same component as /ranking/ (assets/rankplot.js, data/ranking/latest.json)
 let RK=null;
-fetch('data/ranking/latest.json').then(r=>r.json()).then(d=>{RK=d;if(cur===4)plot();}).catch(()=>{$('rk').style.display='';});
+fetch('data/ranking/latest.json').then(r=>r.json()).then(d=>{RK=d;if(cur===4)plot();}).catch(()=>{$('rk2').innerHTML='<div class="src">（排名数据没有加载：请用 http 服务打开）</div>';});
 function plot(){
- if(!RK){return;}
+ if(!RK)return;
  const rows=RK.rows.filter(r=>r.z!=null&&r.years).map(r=>({id:r.id,group:r.group,name:r.name,who:r.who,z:r.z,years:r.years}));
- RankPlot.mount($('rk2'),{rows,bar:RK.bar,barN:RK.bar_n,lang:'zh',width:1136,height:390,font:14,animate:true,
-  labels:{medallion:['大奖章 · 西蒙斯',-12,5,'end'],brk:['伯克希尔 · 巴菲特',-12,5,'end'],fcntx:['富达 Contrafund',-12,-8,'end'],
-   hl_dfc24b07:['HLP 金库',10,-8,'start'],machi:['麻吉',10,5,'start'],arkk:['ARK · 木头姐',10,5,'start'],f13_druck:['德鲁肯米勒（13F）',10,5,'start']}});
-}
-
-// 02 coin field: one dot per account, 46 of them light up
-let coinDone=false;
-function coin(){
- const c=$('coin'),g=c.getContext('2d'),W=c.width,H=c.height,cols=320,rows=Math.ceil(N/cols),sx=W/cols,sy=H/rows;
- g.clearRect(0,0,W,H);g.fillStyle='#BDB5A5';
- for(let i=0;i<N;i++){g.fillRect((i%cols)*sx+sx*.2,Math.floor(i/cols)*sy+sy*.2,sx*.6,sy*.6);}
- let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
- const pick=[...Array(46)].map(()=>Math.floor(rnd()*N));
- const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
- pick.forEach((p,k)=>setTimeout(()=>{g.fillStyle='#B8361F';g.beginPath();g.arc((p%cols)*sx+sx/2,Math.floor(p/cols)*sy+sy/2,7,0,7);g.fill();},reduce?0:600+k*45));
+ RankPlot.mount($('rk2'),{rows,bar:RK.bar,barN:RK.bar_n,lang:'zh',width:860,height:410,font:15,animate:!reduce,
+  labels:{medallion:['西蒙斯',-12,5,'end'],brk:['巴菲特',-12,5,'end'],machi:['麻吉',11,5,'start']}});
 }
 
 // 06 live demo: same engine as /wallet/ (assets/hl.js)
@@ -356,7 +337,6 @@ async function demo(a){
 $('dform').addEventListener('submit',e=>{e.preventDefault();demo($('daddr').value);});
 $('drec').onclick=()=>{const g=$('dgif');g.hidden=!g.hidden;if(!g.hidden)g.src='assets/demo-fallback.gif?'+Date.now();};
 document.querySelectorAll('.exb button').forEach(b=>b.onclick=()=>demo(b.dataset.a));
-
 let cur=-1;
 function go(i){if(i<0||i>=S.length||i===cur)return;cur=i;
  [...stage.children].forEach((el,k)=>el.classList.toggle('on',k===i));
@@ -364,16 +344,16 @@ function go(i){if(i<0||i>=S.length||i===cur)return;cur=i;
  if(i===2)coin();
  if(i===3)machi();
  if(i===4)plot();
- if(i===5)setTimeout(()=>$('daddr').focus(),300);}
+ if(i===8)setTimeout(()=>$('daddr').focus(),300);}
 document.addEventListener('keydown',e=>{
  if(document.activeElement&&document.activeElement.tagName==='INPUT'&&e.key!=='Escape')return;
  if(e.key==='Escape')document.activeElement.blur();
- else if(['ArrowRight','PageDown',' '].includes(e.key))go(cur+1);
+ else if(['ArrowRight','PageDown',' '].includes(e.key))go(Math.min(cur+1,7));
  else if(['ArrowLeft','PageUp'].includes(e.key))go(cur-1);
  else if(/^[0-8]$/.test(e.key))go(+e.key);
 });
 go(+(new URLSearchParams(location.search).get("s")||0));
-{const u=new URLSearchParams(location.search),qa=u.get("a"),pre=u.get("pre");if(qa){go(5);demo(qa);}else if(pre){go(5);$('daddr').value=pre;$('dtitle').textContent='读取中…';$('dtitle').className='vt dim';}}
+{const u=new URLSearchParams(location.search),qa=u.get("a");if(qa){go(8);demo(qa);}}
 function fit(){document.documentElement.style.zoom=Math.max(1,Math.min(innerWidth/1280,innerHeight/720)).toFixed(3)}
 addEventListener('resize',fit);fit();
 </script>

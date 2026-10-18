@@ -54,3 +54,6 @@ out/
 # Hyperliquid board cache (CI)
 .hlcache/
 .rankcache/
+
+# personal contact image used by the local deck export only
+docs/assets/wechat-qr.png
