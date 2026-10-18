@@ -372,6 +372,7 @@ def question_pages(B, hl, lang):
 
 
 def method_page(B, lang):
+    M = B.masters()
     P = LANGS[lang]
     m = B.method_numbers()
     alt = {"en": "/method/", **{k: f"{v}method/" for k, v in LANGS.items()}}
@@ -400,11 +401,11 @@ def method_page(B, lang):
 <p><strong>你的挑选范围，决定你的门槛。</strong>钱包页会问你是怎么找到这个钱包的：随手挑中（门槛 2.00）、从 10 个左右的名单里（{m['b10']:.2f}）、从某个前 100 名里（{m['b100']:.2f}），还是从整个榜单里（{m['hl_bar']:.2f}）。只有你知道答案；默认按整个榜单算，因为大多数钱包是这样被找到的。</p>
 
 <h2 id="masters">0.6 · 拿名人战绩校准</h2>
-<p>同一把尺子，量一量没人会说是运气的记录。年收益对标普 500（含股息）做回归，alpha 的 t 换算成和钱包 t 同一个正态尺度。</p>
+<p>同一把尺子，量一量没人会说是运气的记录。扣掉一个月国债收益后的年收益，对同样扣过的标普 500（含股息）做回归，alpha 的 t 换算成和钱包 t 同一个正态尺度。</p>
 <div class="table-wrap"><table class="data compact"><thead><tr><th>记录</th><th>年份</th><th class="r">alpha 的 z</th><th class="r">β</th><th>按 Hyperliquid 门槛（{m['hl_bar']:.2f}）的判决</th></tr></thead><tbody>
-<tr><td>文艺复兴大奖章基金，扣费后</td><td>1988–2018</td><td class="r">7.05</td><td class="r">−0.58</td><td>证据充分</td></tr>
-<tr><td>伯克希尔·哈撒韦（巴菲特），每股市值</td><td>1965–2025</td><td class="r">2.77</td><td class="r">0.90</td><td>有希望，未证实</td></tr>
-<tr><td>伯克希尔·哈撒韦，2001 年以后</td><td>2001–2025</td><td class="r">1.79</td><td class="r">0.59</td><td>像运气</td></tr>
+<tr><td>文艺复兴大奖章基金，扣费后</td><td>1988–2018</td><td class="r">{M['medallion']['z']:.2f}</td><td class="r">{M['medallion']['beta']:.2f}</td><td>证据充分</td></tr>
+<tr><td>伯克希尔·哈撒韦（巴菲特），每股市值</td><td>1965–2025</td><td class="r">{M['brk']['z']:.2f}</td><td class="r">{M['brk']['beta']:.2f}</td><td>有希望，未证实</td></tr>
+<tr><td>伯克希尔·哈撒韦，2001 年以后</td><td>2001–2025</td><td class="r">{M['brk_2001']['z']:.2f}</td><td class="r">{M['brk_2001']['beta']:.2f}</td><td>像运气</td></tr>
 </tbody></table></div>
 <p>所以记录足够出色、足够长的时候，这把尺子会说「过」：大奖章轻松过了「4.7 万选 1」的门槛。巴菲特用了六十年才到「有希望」，只看最近 25 年，相对指数的超额收益在运气能解释的范围内。被证明本来就需要很长的记录；Hyperliquid 上最老的记录从 2023 年 5 月才开始。</p>
 <p><strong>为什么要对比大盘。</strong>如果对零检验，标普 500 指数自己在 1965–2025 年就能到 {B.SP500_RAW_Z:.2f}，过得了门槛：只看绝对收益，会把大盘上涨算成本事。来源：伯克希尔 2025 年致股东信附表；Cornell (2019) 表 1，源自 Zuckerman (2019)，是估计值，不是审计数。脚本：<a href="{B.REPO}/blob/main/tools/masters_calibration.py"><code>tools/masters_calibration.py</code></a>。</p>
@@ -646,7 +647,7 @@ def ranking_page(B, lang):
  <div><b>{by['brk']['z']:.2f}</b><span>伯克希尔 {by['brk']['years']:.0f} 年，对比标普 500；2001 年以后是 {by['brk_2001']['z']:.2f}</span></div>
  <div><b>{n_scored}</b><span>份记录已打分；另有 {len(d['needs_data'])} 位名人没有可以打分的公开收益序列</span></div>
 </div>
-<p style="margin:6px 0 14px"><b>长度已经算在 z 里。</b>记录越短，要到同样的 z，单位风险的收益就得越高；所以 3 年的金库 3.4 和巴菲特 61 年的 2.8 在同一把尺子上：金库的收益稳得多，所以短记录也能走到这个分数。z 说不了优势能不能持续；61 年的记录经历过的市场环境，3 年的记录还没遇到过。比较两行之前，先看长度那一列。</p>
+<p style="margin:6px 0 14px"><b>长度已经算在 z 里。</b>记录越短，要到同样的 z，单位风险的收益就得越高；所以 3 年的金库 {next(r['z'] for r in d['rows'] if r['id'].startswith('hl_') and r['name'].startswith('Hyperliquidity')):.1f} 和巴菲特 61 年的 {by['brk']['z']:.1f} 在同一把尺子上：金库的收益稳得多，所以短记录也能走到这个分数。z 说不了优势能不能持续；61 年的记录经历过的市场环境，3 年的记录还没遇到过。比较两行之前，先看长度那一列。</p>
 {B.ranking_table(d, lang, P)}
 <p class="muted small" style="margin-top:10px">z 是扣掉大盘之后的证据：美股和基金对比标普 500（含股息），钱包对比 BTC，Polymarket 对比每一份的买入价。钱包这几行同时列出钱包判决目前使用的未扣 t。「运气」是完全没有实力的情况下，一份记录走到这么强的概率：分别按随手挑中、以及从 {d['bar_n']:,} 个里挑第一来算。数据：<a href="/data/ranking/latest.json">latest.json</a>。</p>
 

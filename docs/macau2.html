@@ -187,7 +187,7 @@ const S=[
 `<div class="slide">
  <div class="eyebrow">04 · 这把尺子会说「过」吗？拿名人校准</div>
  <h2>西蒙斯过了。巴菲特 61 年，才到「有希望」</h2>
- <div class="lead fs" style="font-size:17px;margin-top:6px">每份记录先扣掉自己的大盘（美股对标普、钱包对 BTC），再用同一把尺子</div>
+ <div class="lead fs" style="font-size:17px;margin-top:6px">每份记录先扣掉自己的大盘（美股对标普、钱包对 BTC）和国债利率，再用同一把尺子</div>
  <svg class="ch" id="rk" viewBox="0 0 1136 420"></svg>
  <div class="src">evidencedeflator.com/ranking · 2026-10-18 · 美股基金 Yahoo 复权价（1988 起）· 钱包 Hyperliquid 公开接口</div>
 </div>`,
@@ -242,14 +242,14 @@ const $=id=>document.getElementById(id);
 // 05 evidence ranking: famous records, each against its own market (docs/data/ranking/latest.json)
 (function(){
  const R=[
-  {n:"大奖章基金",d:"西蒙斯 · 31 年 · 对标普",t:7.05},
-  {n:"富达 Contrafund",d:"Will Danoff 1990 年起管理 · 39 年 · 对标普",t:4.17},
-  {n:"先锋医疗保健基金",d:"Ed Owens 管到 2012 · 39 年 · 对标普（含行业）",t:4.18},
+  {n:"大奖章基金",d:"西蒙斯 · 31 年 · 对标普",t:6.93},
+  {n:"富达 Contrafund",d:"Will Danoff 1990 年起管理 · 39 年 · 对标普",t:3.85},
+  {n:"先锋医疗保健基金",d:"Ed Owens 管到 2012 · 39 年 · 对标普（含行业）",t:3.67},
   {n:"HLP 做市金库",d:"Hyperliquid 自己的金库 · 3.5 年 · 对 BTC",t:3.39},
-  {n:"伯克希尔",d:"巴菲特 · 61 年 · 对标普",t:2.77},
-  {n:"伯克希尔，2001 年以后",d:"巴菲特 · 25 年 · 对标普",t:1.79},
-  {n:"ARK 创新 ETF",d:"木头姐 · 12 年 · 对标普",t:-0.63,neg:1},
-  {n:"富达麦哲伦（1988 年起）",d:"1988–2026 · 林奇 1990 年离任 · 对标普",t:-1.28,neg:1},
+  {n:"伯克希尔",d:"巴菲特 · 61 年 · 对标普",t:3.15},
+  {n:"伯克希尔，2001 年以后",d:"巴菲特 · 25 年 · 对标普",t:1.65},
+  {n:"ARK 创新 ETF",d:"木头姐 · 12 年 · 对标普",t:-0.49,neg:1},
+  {n:"富达麦哲伦（1988 年起）",d:"1988–2026 · 林奇 1990 年离任 · 对标普",t:-1.07,neg:1},
   {n:"麻吉大哥",d:"黄立成 · 对 BTC",t:-1.19,neg:1}];
  const W=1136,L=300,Rr=W-40,lo=-2,hi=7.6,x=v=>L+(v-lo)/(hi-lo)*(Rr-L),rh=39,top=30;
  let s=`<line class="t2" x1="${x(2)}" x2="${x(2)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(2)-8}" y="22" text-anchor="end">2 · 随便挑一个人</text>`+

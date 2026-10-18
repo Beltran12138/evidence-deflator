@@ -11,7 +11,8 @@ record for the market rising: the S&P 500 itself reaches z = 4.94 against zero o
 Stocks and funds: monthly total returns from Yahoo Finance's chart endpoint (daily adjusted close,
 last value of each month), converted to USD where needed. The t of alpha in an OLS of the record's
 monthly return on the benchmark's is put on the normal scale with n - 2 degrees of freedom (the same
-Student-t mapping as the wallet check). Berkshire Hathaway and Renaissance Medallion use yearly
+Student-t mapping as the wallet check), with both sides in excess of the one-month T-bill rate
+(Fama-French data library) so a fund holding cash is not credited with the T-bill yield. Berkshire Hathaway and Renaissance Medallion use yearly
 returns from their primary sources instead (the 2025 shareholder letter; Cornell 2019, Table 1, from
 Zuckerman 2019), which are longer than any price feed.
 
@@ -178,12 +179,42 @@ def alpha_z(y, x):
     return {"z": round(hw.t_to_z(t, n - 2), 2), "beta": round(b, 2), "n": n, "alpha_per_period": a}
 
 
+RF = {}  # risk-free rate per period ("YYYY-MM" monthly, "YYYY" yearly), as a fraction; filled by load_rf()
+FF_URL = "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_Factors_CSV.zip"
+
+
+def load_rf(cache, refresh=False):
+    """One-month T-bill returns from the Fama-French data library (Ibbotson, then CRSP), monthly and yearly.
+    Alpha is measured on returns in excess of this rate, so a fund that sits in cash is not credited with
+    the T-bill yield as skill."""
+    import zipfile
+    path = os.path.join(cache, "F-F_Research_Data_Factors_CSV.zip")
+    if refresh or not os.path.exists(path):
+        out = subprocess.run(["curl", "-s", "-m", "60", "-A", UA, "-o", path, FF_URL])
+        if out.returncode != 0:
+            raise RuntimeError("Fama-French download failed")
+    text = zipfile.ZipFile(path).read("F-F_Research_Data_Factors.csv").decode("latin-1")
+    annual = False
+    for line in text.splitlines():
+        if "Annual Factors" in line:
+            annual = True
+            continue
+        parts = [x.strip() for x in line.split(",")]
+        if len(parts) == 5 and parts[0].isdigit():
+            k = parts[0]
+            if not annual and len(k) == 6:
+                RF[f"{k[:4]}-{k[4:]}"] = float(parts[4]) / 100
+            elif annual and len(k) == 4:
+                RF[k] = float(parts[4]) / 100
+    return RF
+
+
 def score_series(rets, bench, periods_per_year, window=None, floor=None):
-    ks = sorted(k for k in rets if k in bench and (window is None or window[0] <= k <= window[1]) and (floor is None or k >= floor))
+    ks = sorted(k for k in rets if k in bench and k in RF and (window is None or window[0] <= k <= window[1]) and (floor is None or k >= floor))
     if len(ks) < 8:
         return None
     y, x = [rets[k] for k in ks], [bench[k] for k in ks]
-    out = alpha_z(y, x)
+    out = alpha_z([v - RF[k] for v, k in zip(y, ks)], [v - RF[k] for v, k in zip(x, ks)])
     if not out:
         return None
     yrs = len(ks) / periods_per_year
@@ -195,7 +226,7 @@ def score_series(rets, bench, periods_per_year, window=None, floor=None):
 
 
 def last_years(rets, bench, periods_per_year, years=10):
-    ks = sorted(k for k in rets if k in bench)
+    ks = sorted(k for k in rets if k in bench and k in RF)
     if len(ks) < years * periods_per_year:
         return None
     w = (ks[-years * periods_per_year], ks[-1])
@@ -215,6 +246,7 @@ def main():
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
     os.makedirs(a.cache, exist_ok=True)
+    load_rf(a.cache, a.refresh)
     with open(os.path.join(ROOT, "docs", "data", "hl", "latest.json"), encoding="utf-8") as f:
         hl = json.load(f)
     N_HL = hl["boards"]["pnl"]["ranked_from"]

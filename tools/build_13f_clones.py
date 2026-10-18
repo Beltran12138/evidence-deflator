@@ -97,6 +97,7 @@ def main():
     ap.add_argument("--only", nargs="*")
     a = ap.parse_args()
     os.makedirs(a.cache, exist_ok=True)
+    br.load_rf(a.cache)
     bench = br.monthly_returns(br.yahoo_monthly(a.cache, br.BENCH, False)["px"])
     with open(os.path.join(br.ROOT, "docs", "data", "hl", "latest.json"), encoding="utf-8") as f:
         BAR = round(br.hw.bar(json.load(f)["boards"]["pnl"]["ranked_from"]), 2)

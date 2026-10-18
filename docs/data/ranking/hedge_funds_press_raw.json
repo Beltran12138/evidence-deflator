@@ -1,0 +1,2543 @@
+{
+ "funds": [
+  {
+   "id": "citadel_wellington",
+   "name": "Citadel Wellington LLC (flagship multistrategy fund)",
+   "manager": "Citadel LLC (Ken Griffin)",
+   "years": [
+    {
+     "year": 2008,
+     "net_pct": -55,
+     "url": "https://www.cnbc.com/2015/05/15/king-ken-recovered-citadel-chief-takes-the-hedge-fund-throne.html",
+     "quote": "[\"2008\",\"-55%\",\"-9.95%\"]",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc_king.html",
+     "note": "CNBC table 'Citadel's hedge fund performance'; footnote: returns are for main Kensington and Wellington funds, net of fees. Quote is the table row in the page's embedded JSON (raw HTML).",
+     "verified": "ok"
+    },
+    {
+     "year": 2008,
+     "net_pct": -55,
+     "url": "https://www.institutionalinvestor.com/article/2bsvor8h66t2whd1jskxs/portfolio/citadel-way-ahead-of-the-2011-pack",
+     "quote": "since he lost 55 percent in 2008",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii2011.html",
+     "note": "Refers to Griffin's main funds generically, not Wellington by name.",
+     "verified": "ok"
+    },
+    {
+     "year": 2009,
+     "net_pct": 62,
+     "url": "https://www.cnbc.com/2015/05/15/king-ken-recovered-citadel-chief-takes-the-hedge-fund-throne.html",
+     "quote": "[\"2009\",\"62%\",\"21.99%\"]",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc_king.html",
+     "note": "Kensington+Wellington combined figure.",
+     "verified": "ok"
+    },
+    {
+     "year": 2009,
+     "net_pct": 62,
+     "url": "https://youngandcalculated.substack.com/p/35-years-904-billion-in-net-gains",
+     "quote": "the flagship funds returned over 62%",
+     "source_kind": "aggregator",
+     "local_file": "src/citadel_wellington/yc35.html",
+     "note": "Substack, no primary cite visible; 'over 62%' is a lower bound.",
+     "verified": "ok"
+    },
+    {
+     "year": 2010,
+     "net_pct": 10.9,
+     "url": "https://www.cnbc.com/2015/05/15/king-ken-recovered-citadel-chief-takes-the-hedge-fund-throne.html",
+     "quote": "[\"2010\",\"10.90%\",\"10.21%\"]",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc_king.html",
+     "note": "Kensington+Wellington combined figure.",
+     "verified": "ok"
+    },
+    {
+     "year": 2010,
+     "net_pct": 11.11,
+     "url": "https://www.institutionalinvestor.com/article/2bsvor8h66t2whd1jskxs/portfolio/citadel-way-ahead-of-the-2011-pack",
+     "quote": "In 2010 Wellington was up 11.11 percent while Kensington climbed 10.75 percent",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii2011.html",
+     "note": "Wellington-specific figure (II, Jan 2012).",
+     "verified": "ok"
+    },
+    {
+     "year": 2010,
+     "net_pct": 10,
+     "url": "https://www.marketfolly.com/2011/01/2010-hedge-fund-returns-performance.html",
+     "quote": "saw 10% returns in its main Kensington and Wellington funds",
+     "source_kind": "aggregator",
+     "local_file": "src/citadel_wellington/mf2010.html",
+     "note": "Market Folly cites Bloomberg/II/Reuters/HSBC etc. Rounded.",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 20.3,
+     "url": "https://www.cnbc.com/2015/05/15/king-ken-recovered-citadel-chief-takes-the-hedge-fund-throne.html",
+     "quote": "[\"2011\",\"20.30%\",\"0.08%\"]",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc_king.html",
+     "note": "Kensington+Wellington combined figure.",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 20.4,
+     "url": "https://www.institutionalinvestor.com/article/2bsvor8h66t2whd1jskxs/portfolio/citadel-way-ahead-of-the-2011-pack",
+     "quote": "putting them up 20.4 percent for the year",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii2011.html",
+     "note": "'them' = Wellington and Kensington; per investors.",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 20,
+     "url": "https://www.scribd.com/document/78892071/Kenneth-Griffin-s-year-end-letter-to-investors",
+     "quote": "have generated net returns in excess of 20 percent",
+     "source_kind": "firm",
+     "local_file": "src/citadel_wellington/scribd2011.html",
+     "note": "Griffin year-end investor letter dated Jan 20, 2012 (hosted on Scribd); lower bound 'in excess of 20 percent', unaudited.",
+     "verified": "ok"
+    },
+    {
+     "year": 2012,
+     "net_pct": 25,
+     "url": "https://www.cnbc.com/2015/05/15/king-ken-recovered-citadel-chief-takes-the-hedge-fund-throne.html",
+     "quote": "[\"2012\",\"25%\",\"8.66%\"]",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc_king.html",
+     "note": "Kensington+Wellington combined figure.",
+     "verified": "ok"
+    },
+    {
+     "year": 2012,
+     "net_pct": 25,
+     "url": "https://www.insidermonkey.com/hedge-fund/citadel+investment+group/44/",
+     "quote": "These funds returned almost 25% in 2012 and 19.4% in 2013",
+     "source_kind": "aggregator",
+     "local_file": "src/citadel_wellington/insidermonkey.html",
+     "note": "'almost 25%' (upper-bound wording); Kensington+Wellington.",
+     "verified": "ok"
+    },
+    {
+     "year": 2013,
+     "net_pct": 19,
+     "url": "https://www.cnbc.com/2015/05/15/king-ken-recovered-citadel-chief-takes-the-hedge-fund-throne.html",
+     "quote": "[\"2013\",\"19%\",\"10.62%\"]",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc_king.html",
+     "note": "Kensington+Wellington combined figure.",
+     "verified": "ok"
+    },
+    {
+     "year": 2013,
+     "net_pct": 19.4,
+     "url": "https://www.insidermonkey.com/hedge-fund/citadel+investment+group/44/",
+     "quote": "These funds returned almost 25% in 2012 and 19.4% in 2013",
+     "source_kind": "aggregator",
+     "local_file": "src/citadel_wellington/insidermonkey.html",
+     "note": "Kensington+Wellington.",
+     "verified": "ok"
+    },
+    {
+     "year": 2014,
+     "net_pct": 18,
+     "url": "https://www.cnbc.com/2015/01/12/citadel-beats-markets-with-big-year.html",
+     "quote": "almost 18 percent in its multi-strategy flagship funds, Kensington and Wellington",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc2014.html",
+     "note": "'almost 18 percent'; same figure (18%) appears in the CNBC May-2015 table.",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": 14.3,
+     "url": "http://web.archive.org/web/20240809104108/https://www.forbes.com/sites/nathanvardi/2016/02/24/the-25-highest-earning-hedge-fund-managers-and-traders-2/",
+     "quote": "main hedge funds posted returns of 14.3% net of fees",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/forbes2016list_wb.html",
+     "note": "Forbes (Feb 24, 2016) read via Wayback snapshot (forbes.com blocks curl). 'main hedge funds' = Kensington/Wellington, not named.",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": 5,
+     "url": "https://www.forbes.com/pictures/mdg45ekhgi/5-kenneth-griffin/",
+     "quote": "By the end of 2016 Citadel had rebounded and returned about 5% net of fees",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/forbes2017list.html",
+     "note": "'about 5%'; refers to 'its main hedge fund' (Wellington not named). Text is in og:description meta tag.",
+     "verified": "ok"
+    },
+    {
+     "year": 2017,
+     "net_pct": 13.02,
+     "url": "https://www.institutionalinvestor.com/article/2bsxdilrx2cvaechjb400/john-overdeck-david-siegel",
+     "quote": "The flagship Wellington multistrategy fund gained 13.02 percent",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii_richlist2017.html",
+     "note": "II Rich List 2018 ('Last year' = 2017).",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 9,
+     "url": "https://www.institutionalinvestor.com/article/2bsw50cuea0zeqshu5lvk/kenneth-griffin",
+     "quote": "posted a more than 9 percent gain in its flagship Wellington Fund last year",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii_richlist_griffin.html",
+     "note": "II Rich List 2019 ('last year' = 2018); 'more than 9 percent' lower bound.",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 9.1,
+     "url": "https://finance.yahoo.com/news/ken-griffin-wellington-fund-delivers-153330350.html",
+     "quote": "more than doubling from 9.1% in 2018",
+     "source_kind": "aggregator",
+     "local_file": "src/citadel_wellington/yahoo_wellington.html",
+     "note": "Insider Monkey article syndicated on Yahoo Finance (Jan 2024).",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 19.4,
+     "url": "https://www.institutionalinvestor.com/article/2bswzug300npsosz2n9xc/premium/citadel-leads-multistrategy-funds",
+     "quote": "finishing 2019 up 19.4 percent",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii2019.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 19,
+     "url": "https://www.institutionalinvestor.com/article/2bsx36t4nj1hd8zxpfdog/portfolio/these-hedge-funds-thrived-in-2019-are-they-surviving-2020",
+     "quote": "delivering a 19 percent gain in 2019",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii2019b.html",
+     "note": "Rounded version of same figure.",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 24.47,
+     "url": "https://www.institutionalinvestor.com/article/b1w6lkgxdqknxq/citadel-led-the-multistrategy-crowd-in-2021",
+     "quote": "Last year, Wellington gained 24.47 percent.",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii2021.html",
+     "note": "Article dated Jan 6, 2022; 'Last year' in context = 2020 (contrasted with 2021).",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 24.4,
+     "url": "https://www.clearbrookglobal.com/citadel-millennium-d-e-shaw-post-20-plus-returns-in-20/",
+     "quote": "flagship Wellington fund return 24.4%",
+     "source_kind": "aggregator",
+     "local_file": "src/citadel_wellington/clearbrook2020.html",
+     "note": "Clearbrook repost of FundFire (Lydia Tomkiw), Jan 22, 2021.",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 26.26,
+     "url": "https://www.institutionalinvestor.com/article/b1w6lkgxdqknxq/citadel-led-the-multistrategy-crowd-in-2021",
+     "quote": "finished 2021 up 26.26 percent",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii2021.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 38.1,
+     "url": "http://web.archive.org/web/20260705202512/https://www.forbes.com/sites/hanktucker/2023/01/22/citadels-16-billion-gain-in-2022-makes-ken-griffins-firm-the-top-earning-hedge-fund-ever/",
+     "quote": "multi-strategy Wellington fund returned 38.1% last year",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/forbes2022_wb.html",
+     "note": "Forbes Jan 22, 2023 (via Wayback; forbes.com blocks curl), citing LCH Investments.",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 38.1,
+     "url": "https://www.institutionalinvestor.com/article/2bstpd4t08pc8xwj4we80/corner-office/the-rich-list-the-22nd-annual-ranking-of-the-highest-earning-hedge-fund-managers",
+     "quote": "surging 38.1 percent",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii_richlist22.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 38,
+     "url": "https://www.cnbc.com/2024/01/04/ken-griffins-hedge-fund-citadel-posts-double-digit-returns-in-2023-but-lags-the-broader-market.html",
+     "quote": "The flagship fund had enjoyed a stellar 2022 with a 38% gain",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc2023.html",
+     "note": "Rounded.",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 15.3,
+     "url": "https://www.cnbc.com/2024/01/04/ken-griffins-hedge-fund-citadel-posts-double-digit-returns-in-2023-but-lags-the-broader-market.html",
+     "quote": "multistrategy Wellington fund gained 15.3% last year",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc2023.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 15.28,
+     "url": "https://www.kbra.com/publications/gdbMxFGn",
+     "quote": "Wellington generated returns of 15.21% in 2024 in line with 15.28% in 2023",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/kbra.html",
+     "note": "KBRA credit-rating report (rating agency, data presumably from Citadel); net/gross not stated.",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 15.1,
+     "url": "https://www.cnbc.com/2025/01/02/ken-griffins-flagship-hedge-fund-at-citadel-climbs-15point1percent-in-2024.html",
+     "quote": "finished the year up 15.1%",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc2024.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 15.21,
+     "url": "https://www.kbra.com/publications/gdbMxFGn",
+     "quote": "Wellington generated returns of 15.21% in 2024 in line with 15.28% in 2023",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/kbra.html",
+     "note": "KBRA rating report; net/gross not stated. Conflicts slightly with CNBC 15.1%.",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 10.2,
+     "url": "https://www.cnbc.com/2026/01/02/ken-griffins-flagship-hedge-fund-at-citadel-rises-10point2percent-in-volatile-2025.html",
+     "quote": "10.2% in 2025, according to a person familiar with the firm",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/cnbc2025.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 10.2,
+     "url": "https://www.institutionalinvestor.com/article/hedge-funds/rich-list-institutional-investors-25th-annual-ranking-highest-earning-hedge",
+     "quote": "still finished 2025 up just 10.2 percent",
+     "source_kind": "press",
+     "local_file": "src/citadel_wellington/ii_richlist25.html",
+     "verified": "ok"
+    }
+   ],
+   "notes": "All years 2008-2025 covered. Caveats: (1) 2008-2013 figures in the CNBC May-2015 table, Market Folly, Insider Monkey and the II Jan-2012 '20.4%' are for the 'main Kensington and Wellington funds' combined (Kensington = offshore sister fund); only II's 2010 split (Wellington 11.11 / Kensington 10.75) is Wellington-specific. 2015 (Forbes 'main hedge funds') and 2016 (Forbes 'main hedge fund') do not name Wellington. (2) Most figures are anonymous-source press reports; only 2011 is a firm document (investor letter, lower bound). (3) Excluded: II 'Mid-teen Returns Were 2010 Sweet Spot' (Citadel 10% through Dec 16, 2010 = partial year); Market Folly 2008 post (-53% 'preliminary estimates... through most of December'); Market Folly 2009 'Kensington Fund +61.84%' (Kensington, not Wellington); WSJ 2018 13.5% (YTD through Sept); Bloomberg pages blocked by curl (2019-01-08 '9%' for 2018, 2020-01-08 '19%' for 2019) not used. P&I 2012 '20% gain in 2011' page returned a 517-byte stub, not used. (4) Conflicts are small/rounding: 2010 10.9 vs 11.11 vs 10; 2011 20.3 vs 20.4 vs >20; 2013 19 vs 19.4; 2023 15.3 vs 15.28; 2024 15.1 vs 15.21 (KBRA, net/gross unspecified). Quotes for cnbc_king.html are JSON table rows in the raw HTML (grep raw file, not tag-stripped)."
+  },
+  {
+   "id": "millennium",
+   "name": "Millennium flagship fund (Millennium International Ltd / Millennium USA LP, feeders into Millennium Partners LP)",
+   "manager": "Millennium Management (Israel Englander)",
+   "years": [
+    {
+     "year": 2008,
+     "net_pct": -3,
+     "url": "https://public.econ.duke.edu/~boller/Econ.471-571.F18/Hedge_Fund_Terms_WSJ_103118.pdf",
+     "quote": "Millennium lost about 3% in 2008 largely due to its exposure to Lehman Brothers",
+     "source_kind": "press",
+     "local_file": "src/millennium/wsj_terms2018.txt",
+     "note": "WSJ (Juliet Chung, Oct 31 2018) reprint PDF hosted at Duke; quote grep target is pdftotext output (.txt); PDF saved alongside as wsj_terms2018.pdf. 'about 3%'.",
+     "verified": "ok"
+    },
+    {
+     "year": 2008,
+     "net_pct": -3,
+     "url": "https://www.institutionalinvestor.com/article/2ekchq8rll8mbbn2glq80/hedge-funds/the-rich-list-the-24th-annual-ranking-of-the-highest-earning-hedge-fund-managers",
+     "quote": "a small 3 percent decline in 2008 amid the financial crisis",
+     "source_kind": "press",
+     "local_file": "src/millennium/ii_richlist24.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2010,
+     "net_pct": 13.3,
+     "url": "https://www.marketfolly.com/2011/01/2010-hedge-fund-returns-performance.html",
+     "quote": "Millennium Management: +13.3%.",
+     "source_kind": "aggregator",
+     "local_file": "src/millennium/mf2010.html",
+     "note": "Market Folly cites Bloomberg/II/Reuters/HSBC etc. (II Dec-2010 figure 12.7% excluded: data through Dec 16 only).",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 8.45,
+     "url": "http://web.archive.org/web/20260225063906/https://www.forbes.com/pictures/mdg45ghlg/israel-englander-2/",
+     "quote": "International and Millennium USA returned 8.45% and 8.67% net of fees",
+     "source_kind": "press",
+     "local_file": "src/millennium/forbes2012list_wb.html",
+     "note": "Millennium International share: 8.45%. Forbes 2012 list via Wayback (live page now 404).",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 8.67,
+     "url": "http://web.archive.org/web/20260225063906/https://www.forbes.com/pictures/mdg45ghlg/israel-englander-2/",
+     "quote": "International and Millennium USA returned 8.45% and 8.67% net of fees",
+     "source_kind": "press",
+     "local_file": "src/millennium/forbes2012list_wb.html",
+     "note": "Millennium USA share: 8.67%.",
+     "verified": "ok"
+    },
+    {
+     "year": 2012,
+     "net_pct": 6.4,
+     "url": "https://www.forbes.com/pictures/hgii45i/israel-englander/",
+     "quote": "booked another winning year in 2012, finishing up 6.4% net of fees",
+     "source_kind": "press",
+     "local_file": "src/millennium/forbes_hgii.html",
+     "note": "Forbes slideshow; text in og:description meta. Same text on forbes.com/pictures/hdfd45egfi/israel-englander/ (saved as forbes_hdfd.html).",
+     "verified": "ok"
+    },
+    {
+     "year": 2014,
+     "net_pct": 12,
+     "url": "https://www.forbes.com/pictures/ghmf45iigk/11-israel-englander/",
+     "quote": "hedge fund returned 12% net of fees in 2014",
+     "source_kind": "press",
+     "local_file": "src/millennium/forbes2015list.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": 12.5,
+     "url": "https://www.citadel.com/wp-content/uploads/2016/10/II_Alpha_HFRC_2016_Citadel.pdf",
+     "quote": "delivered a 12.5 percent return in its main fund last year",
+     "source_kind": "press",
+     "local_file": "src/millennium/hfrc2016.txt",
+     "note": "Alpha Magazine (II) Hedge Fund Report Card, Winter 2016 issue, reprint PDF on citadel.com; 'last year' = 2015. Grep target is pdftotext output; PDF saved as hfrc2016.pdf.",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": 12.5,
+     "url": "http://web.archive.org/web/20240809104108/https://www.forbes.com/sites/nathanvardi/2016/02/24/the-25-highest-earning-hedge-fund-managers-and-traders-2/",
+     "quote": "hedge fund returned 12.5% net of fees last year",
+     "source_kind": "press",
+     "local_file": "src/millennium/forbes2016list_wb.html",
+     "note": "Forbes Feb 24, 2016 via Wayback; 'last year' = 2015.",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": 3.3,
+     "url": "https://www.forbes.com/pictures/mdg45ekihf/17-israel-englander/",
+     "quote": "in 2016 Millennium saw its lowest gain since the financial crisis, returning 3.3% net of fees",
+     "source_kind": "press",
+     "local_file": "src/millennium/forbes2017_englander.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2017,
+     "net_pct": 7.1,
+     "url": "https://www.forbes.com/pictures/5ac3ebba31358e4112b6b870/israel-englander/",
+     "quote": "its hedge fund returned 7.1% net of fees in 2017",
+     "source_kind": "press",
+     "local_file": "src/millennium/forbes2018list.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 4.8,
+     "url": "https://www.forbes.com/pictures/5c896be3a7ea43206f1214ec/7-israel-englander/",
+     "quote": "hedge fund returned 4.8% net of fees",
+     "source_kind": "press",
+     "local_file": "src/millennium/forbes2019list.html",
+     "note": "Sentence begins 'In 2018,...'.",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 6,
+     "url": "https://www.institutionalinvestor.com/article/2bsw50cuea0zeqshu5lvk/kenneth-griffin",
+     "quote": "with its Millennium USA fund returning nearly 6 percent and its offshore counterpart gaining nearly 5 percent",
+     "source_kind": "press",
+     "local_file": "src/millennium/ii_richlist_griffin.html",
+     "note": "II Rich List 2019: Millennium USA 'nearly 6 percent' (2018).",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 5,
+     "url": "https://www.institutionalinvestor.com/article/2bswjldrqk7fhvrf9fv28/corner-office/izzy-englanders-big-payday",
+     "quote": "notched a nearly 5 percent gain in its offshore multistrategy hedge fund",
+     "source_kind": "press",
+     "local_file": "src/millennium/ii_bigpayday.html",
+     "note": "Offshore (Millennium International) 'nearly 5 percent' (2018).",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 9.75,
+     "url": "https://www.institutionalinvestor.com/article/2bswzug300npsosz2n9xc/premium/citadel-leads-multistrategy-funds",
+     "quote": "Millennium USA gained 9.75 percent last year",
+     "source_kind": "press",
+     "local_file": "src/millennium/ii2019.html",
+     "note": "Article dated Jan 8, 2020; Millennium USA share.",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 25.8,
+     "url": "https://www.clearbrookglobal.com/citadel-millennium-d-e-shaw-post-20-plus-returns-in-20/",
+     "quote": "finished the year up 25.8% and currently",
+     "source_kind": "aggregator",
+     "local_file": "src/millennium/clearbrook2020.html",
+     "note": "Clearbrook repost of FundFire (Jan 22, 2021).",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 13.61,
+     "url": "https://hedgefundalpha.com/investor-letters/millenniums-israel-englander-highlights-recent-volatility-team-expansion-exclusive/",
+     "quote": "Millennium Management returned 13.61% with a Sharpe ratio of 4.82 in 2021",
+     "source_kind": "press",
+     "local_file": "src/millennium/hfa2021.html",
+     "note": "Hedge Fund Alpha (Feb 15, 2022) summarizing Millennium investor letter.",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 13.6,
+     "url": "https://www.institutionalinvestor.com/article/2bstm68mfhxuhk7khl5hc/david-tepper",
+     "quote": "Millennium USA gained 13.6 percent",
+     "source_kind": "press",
+     "local_file": "src/millennium/ii_richlist21.html",
+     "note": "II Rich List (21st, 2022 edition).",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 12.4,
+     "url": "https://www.institutionalinvestor.com/article/2bstpd4t08pc8xwj4we80/corner-office/the-rich-list-the-22nd-annual-ranking-of-the-highest-earning-hedge-fund-managers",
+     "quote": "funds gained 12.4 percent in 2022",
+     "source_kind": "press",
+     "local_file": "src/millennium/ii_richlist22.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 12.4,
+     "url": "http://web.archive.org/web/20260705202512/https://www.forbes.com/sites/hanktucker/2023/01/22/citadels-16-billion-gain-in-2022-makes-ken-griffins-firm-the-top-earning-hedge-fund-ever/",
+     "quote": "returned 24.7% and 12.4%, respectively",
+     "source_kind": "press",
+     "local_file": "src/millennium/forbes2022_wb.html",
+     "note": "Forbes Jan 2023 via Wayback: 'D.E. Shaw and ... Millennium Management returned 24.7% and 12.4%'.",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 12,
+     "url": "https://www.thewealthadvisor.com/article/millennium-management-has-built-its-success-one-straightforward-approach",
+     "quote": "Millennium finished the year with a 12% gain",
+     "source_kind": "aggregator",
+     "local_file": "src/millennium/twa_approach.html",
+     "note": "Rounded.",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 10,
+     "url": "https://www.thewealthadvisor.com/article/millennium-management-has-built-its-success-one-straightforward-approach",
+     "quote": "Millennium delivered a 10% return in 2023",
+     "source_kind": "aggregator",
+     "local_file": "src/millennium/twa_approach.html",
+     "note": "Only source found readable by curl; Bloomberg 2024-01-03 ('Millennium Up 10%') blocked.",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 15,
+     "url": "https://www.hedgeweek.com/multi-strats-make-their-mark-in-2024/",
+     "quote": "Millennium posted a 15% return, marking its best year since 2020",
+     "source_kind": "press",
+     "local_file": "src/millennium/hw2024.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 15,
+     "url": "https://www.institutionalinvestor.com/article/2ekchq8rll8mbbn2glq80/hedge-funds/the-rich-list-the-24th-annual-ranking-of-the-highest-earning-hedge-fund-managers",
+     "quote": "posted a 15 percent gain in 2024",
+     "source_kind": "press",
+     "local_file": "src/millennium/ii_richlist24.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 10.5,
+     "url": "https://www.fortune.com/2026/01/02/top-hedge-fund-performers-2025-bridgewater-de-shaw-citadel-millennium",
+     "quote": "gained 10.5% last year",
+     "source_kind": "press",
+     "local_file": "src/millennium/fortune2025.html",
+     "note": "Fortune (Bloomberg syndication), Jan 2, 2026.",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 10.5,
+     "url": "https://finance.yahoo.com/news/2025-returns-hedge-funds-rolling-234728986.html",
+     "quote": "was up 10.5% in 2025",
+     "source_kind": "press",
+     "local_file": "src/millennium/yahoo_bi2025.html",
+     "note": "Business Insider via Yahoo Finance, Jan 6, 2026.",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 10.5,
+     "url": "https://www.institutionalinvestor.com/article/hedge-funds/rich-list-institutional-investors-25th-annual-ranking-highest-earning-hedge",
+     "quote": "fund rose 10.5 percent",
+     "source_kind": "press",
+     "local_file": "src/millennium/ii_richlist25.html",
+     "verified": "ok"
+    }
+   ],
+   "notes": "Missing: 2009, 2013 (no readable full-year source found; ~14 searches). Share-class caveat: some sources report Millennium USA vs Millennium International separately (2011: 8.67 vs 8.45; 2018: ~6 vs ~5; 2019 and 2021 figures are Millennium USA). 2018 conflict: Forbes 4.8% vs II 'nearly 5' (offshore) vs 'nearly 6' (USA). Excluded: II Dec-2010 article (12.7% through Dec 16 = partial); WSJ 2018 8.3% (YTD Sept); Bloomberg 10.9% through Oct 2021 and 9.7% through Sept 2022 (partial); abcquant.com 'Millennium International' factsheet PDF has a monthly/annual return grid but year labels did not extract (pdftotext), so years could not be attributed and it was not used; Yahoo 'The Millennium Fund' (0P0000K7UY.L) is an unrelated UK fund. 2023 has only an aggregator (The Wealth Advisor) source; Bloomberg blocked by curl."
+  },
+  {
+   "id": "bridgewater_pure_alpha",
+   "name": "Bridgewater Pure Alpha",
+   "manager": "Bridgewater Associates",
+   "years": [
+    {
+     "year": 2008,
+     "net_pct": 9.4,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://www.institutionalinvestor.com/article/2bsxa6cu6tic60cizc8ao/portfolio/in-disappointing-year-bridgewaters-flagship-fund-returns-0-5",
+     "quote": "Pure Alpha especially rewarded investors in 2008, when it gained 9.4 percent",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/ii2019.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2008,
+     "net_pct": 9.5,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://www.cnbc.com/2020/03/13/bridgewater-hedge-funds-post-mixed-results-amid-market-turmoil.html",
+     "quote": "Its Pure Alpha fund famously gained about 9.5% in 2008",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/cnbc2020.html",
+     "note": "'about'; net/gross not stated",
+     "verified": "ok"
+    },
+    {
+     "year": 2008,
+     "net_pct": -20.0,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://fortune.com/2020/09/15/the-losses-continue-to-pile-up-for-hedge-fund-king-ray-dalio/",
+     "quote": "While it lost 20% during 2008’s financial crisis",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/fortune2020.html",
+     "note": "CONFLICT and likely erroneous: contradicts II (+9.4) and CNBC (+9.5); article context is Pure Alpha II but sentence subject 'it' is not explicit. Treat as low-confidence.",
+     "verified": "ok"
+    },
+    {
+     "year": 2010,
+     "net_pct": 45.0,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://fortune.com/2020/09/15/the-losses-continue-to-pile-up-for-hedge-fund-king-ray-dalio/",
+     "quote": "it gained 45% and 25% in 2010 and 2011, respectively",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/fortune2020.html",
+     "note": "Article discusses 'flagship Pure Alpha II'; sentence itself does not name the variant.",
+     "verified": "ok"
+    },
+    {
+     "year": 2010,
+     "net_pct": 45.0,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://www.gurufocus.com/news/159386/how-bridgewater-associates-made-a-23-return-in-2011",
+     "quote": "The next year, the firm had gains of 45 percent versus about 10 percent for the average hedge fund",
+     "source_kind": "aggregator",
+     "local_file": "src/bridgewater_pure_alpha/guru2011.html",
+     "note": "'The next year' follows a sentence about 2008 and 2009 => 2010. Firm-level wording, not fund-named. GuruFocus repost (Jan 2012), original source not named.",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 25.0,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://fortune.com/2020/09/15/the-losses-continue-to-pile-up-for-hedge-fund-king-ray-dalio/",
+     "quote": "it gained 45% and 25% in 2010 and 2011, respectively",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/fortune2020.html",
+     "note": "Same sentence as 2010 entry. CONFLICT with GuruFocus 23%.",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 23.0,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://www.gurufocus.com/news/159386/how-bridgewater-associates-made-a-23-return-in-2011",
+     "quote": "posted returns of 23 percent in 2011",
+     "source_kind": "aggregator",
+     "local_file": "src/bridgewater_pure_alpha/guru2011.html",
+     "note": "Firm-level ('Bridgewater Associates ... posted returns'), fund not named.",
+     "verified": "ok"
+    },
+    {
+     "year": 2012,
+     "net_pct": 0.8,
+     "variant": "Pure Alpha II 18%",
+     "url": "https://www.cnbc.com/2014/04/08/bridgewater-up-as-other-macro-hedge-funds-lag.html",
+     "quote": "It gained 0.80 percent in 2012 and 5.22 percent last year.",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/cnbc2014.html",
+     "note": "Subject is 'The Pure Alpha II fund' (preceding sentence).",
+     "verified": "ok"
+    },
+    {
+     "year": 2013,
+     "net_pct": 5.22,
+     "variant": "Pure Alpha II 18%",
+     "url": "https://www.cnbc.com/2014/04/08/bridgewater-up-as-other-macro-hedge-funds-lag.html",
+     "quote": "It gained 0.80 percent in 2012 and 5.22 percent last year.",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/cnbc2014.html",
+     "note": "'last year' = 2013 (article dated 2014-04-08).",
+     "verified": "ok"
+    },
+    {
+     "year": 2013,
+     "net_pct": 3.46,
+     "variant": "Pure Alpha 12%",
+     "url": "https://finance.yahoo.com/news/bridgewater-associates-returns-aum-holdings-174743874.html",
+     "quote": "It returned 3.46% in 2013, 2.48% in 2014, 3.34% in 2015, 2.00% in 2016, 1.25% in 2017",
+     "source_kind": "aggregator",
+     "local_file": "src/bridgewater_pure_alpha/im_yahoo.html",
+     "note": "Insider Monkey piece on Yahoo; source labels it 'Pure Alpha Fund I' (mapped to 12% variant by convention, not stated in source); no primary source cited.",
+     "verified": "ok"
+    },
+    {
+     "year": 2014,
+     "net_pct": 2.48,
+     "variant": "Pure Alpha 12%",
+     "url": "https://finance.yahoo.com/news/bridgewater-associates-returns-aum-holdings-174743874.html",
+     "quote": "It returned 3.46% in 2013, 2.48% in 2014, 3.34% in 2015, 2.00% in 2016, 1.25% in 2017",
+     "source_kind": "aggregator",
+     "local_file": "src/bridgewater_pure_alpha/im_yahoo.html",
+     "note": "'Pure Alpha Fund I' per source.",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": 3.34,
+     "variant": "Pure Alpha 12%",
+     "url": "https://finance.yahoo.com/news/bridgewater-associates-returns-aum-holdings-174743874.html",
+     "quote": "It returned 3.46% in 2013, 2.48% in 2014, 3.34% in 2015, 2.00% in 2016, 1.25% in 2017",
+     "source_kind": "aggregator",
+     "local_file": "src/bridgewater_pure_alpha/im_yahoo.html",
+     "note": "'Pure Alpha Fund I' per source.",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": 2.0,
+     "variant": "Pure Alpha 12%",
+     "url": "https://finance.yahoo.com/news/bridgewater-associates-returns-aum-holdings-174743874.html",
+     "quote": "It returned 3.46% in 2013, 2.48% in 2014, 3.34% in 2015, 2.00% in 2016, 1.25% in 2017",
+     "source_kind": "aggregator",
+     "local_file": "src/bridgewater_pure_alpha/im_yahoo.html",
+     "note": "'Pure Alpha Fund I' per source.",
+     "verified": "ok"
+    },
+    {
+     "year": 2017,
+     "net_pct": 1.25,
+     "variant": "Pure Alpha 12%",
+     "url": "https://finance.yahoo.com/news/bridgewater-associates-returns-aum-holdings-174743874.html",
+     "quote": "It returned 3.46% in 2013, 2.48% in 2014, 3.34% in 2015, 2.00% in 2016, 1.25% in 2017",
+     "source_kind": "aggregator",
+     "local_file": "src/bridgewater_pure_alpha/im_yahoo.html",
+     "note": "'Pure Alpha Fund I' per source.",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 14.6,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://www.cnbc.com/2019/01/07/bridgewaters-pure-alpha-fund-posts-nearly-15-percent-gain-in-2018.html",
+     "quote": "flagship Pure Alpha fund finished the year returning 14.6 percent net of fees",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/cnbc2018.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 14.6,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://www.institutionalinvestor.com/article/2bsxa6cu6tic60cizc8ao/portfolio/in-disappointing-year-bridgewaters-flagship-fund-returns-0-5",
+     "quote": "In 2018 the Pure Alpha Strategy gained 14.6 percent",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/ii2019.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 14.6,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://finance.yahoo.com/news/hedge-fund-d-e-shaws-205503837.html",
+     "quote": "also posted double digit returns for 2018, gaining 14.6 percent, after fees",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/reuters_yahoo2018.html",
+     "note": "Reuters via Yahoo, 2019-01-07.",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": -0.5,
+     "variant": "Pure Alpha II 18%",
+     "url": "https://www.institutionalinvestor.com/article/2bsxa6cu6tic60cizc8ao/portfolio/in-disappointing-year-bridgewaters-flagship-fund-returns-0-5",
+     "quote": "Pure Alpha 18 Percent, the more leveraged version, falling 0.5 percent for the year",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/ii2019.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 0.5,
+     "variant": "Pure Alpha 12%",
+     "url": "https://www.institutionalinvestor.com/article/2bsxa6cu6tic60cizc8ao/portfolio/in-disappointing-year-bridgewaters-flagship-fund-returns-0-5",
+     "quote": "The less leveraged version, Pure Alpha 12 percent, gained 0.5 percent for the year.",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/ii2019.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": -12.6,
+     "variant": "Pure Alpha II 18%",
+     "url": "https://www.institutionalinvestor.com/article/2bswqvt5gr58738jifta8/portfolio/after-a-lackluster-year-bridgewater-regains-some-ground",
+     "quote": "Pure Alpha I and Pure Alpha II, lost 7.6 percent, and 12.6 percent for the year, respectively",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/ii2021.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": -7.6,
+     "variant": "Pure Alpha 12%",
+     "url": "https://www.institutionalinvestor.com/article/2bswqvt5gr58738jifta8/portfolio/after-a-lackluster-year-bridgewater-regains-some-ground",
+     "quote": "Pure Alpha I and Pure Alpha II, lost 7.6 percent, and 12.6 percent for the year, respectively",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/ii2021.html",
+     "note": "Source says 'Pure Alpha I'; 12% mapping by convention.",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 8.0,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://www.thewealthadvisor.com/article/bridgewaters-flagship-hedge-fund-gains-32-first-half-year",
+     "quote": "before posting a return of about 8% in 2021",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/twa2022.html",
+     "note": "Bloomberg article syndicated by The Wealth Advisor; 'about'.",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 7.8,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://en.wikipedia.org/wiki/Bridgewater_Associates",
+     "quote": "after 11 months of losses, Bridgewater posted a 7.8% return, its best annual performance since 2018",
+     "source_kind": "aggregator",
+     "local_file": "src/bridgewater_pure_alpha/wiki.html",
+     "note": "Wikipedia; firm-level wording, fund not named.",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 9.4,
+     "variant": "Pure Alpha II 18%",
+     "url": "https://www.hedgeweek.com/bridgewaters-flagship-macro-fund-down-7-6-in-2023/",
+     "quote": "finish the year with a 9.4% gain, having been up 22%",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/hw2023.html",
+     "note": "Hedgeweek (citing Bloomberg) article about Pure Alpha II; 'last year' = 2022.",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": -7.6,
+     "variant": "Pure Alpha II 18%",
+     "url": "https://www.hedgeweek.com/bridgewaters-flagship-macro-fund-down-7-6-in-2023/",
+     "quote": "to finish 2023 with a 7.6% decline",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/hw2023.html",
+     "note": "Same sentence names 'the Pure Alpha II Fund'.",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": -7.6,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://finance.yahoo.com/news/1-bridgewaters-pure-alpha-down-195412435.html",
+     "quote": "Pure Alpha down 7.6% in 2023",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/reuters2023.html",
+     "note": "Reuters headline (CORRECTED-UPDATE 1) via Yahoo.",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 11.3,
+     "variant": "Pure Alpha II 18%",
+     "url": "https://www.hedgeweek.com/bridgewater-aum-down-by-18-as-firm-shrinks-flagship-fund/",
+     "quote": "flagship Pure Alpha 18% volatility fund returned 11.3% in 2024",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/hw2024aum.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 11.3,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://www.institutionalinvestor.com/article/bridgewater-extends-strong-run-gains-across-flagship-and-china-funds",
+     "quote": "In 2024, Pure Alpha climbed 11.3 percent",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/ii2024.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 34.0,
+     "variant": "Pure Alpha II 18%",
+     "url": "https://www.institutionalinvestor.com/article/behind-bridgewaters-surge",
+     "quote": "Pure Alpha 18 Percent gained 34 percent in 2025",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/ii_surge.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 33.0,
+     "variant": "Pure Alpha unspecified",
+     "url": "https://www.hedgeweek.com/bridgewaters-pure-alpha-outpaces-peers-with-33-2025-gain/",
+     "quote": "flagship Pure Alpha fund posted a standout 33% gain in 2025",
+     "source_kind": "press",
+     "local_file": "src/bridgewater_pure_alpha/hw2025.html",
+     "note": "Phrased as full year, but the underlying Reuters report (per search snippet; Reuters page itself not saved) measured 'for the year till Dec. 29'. CONFLICT with II 34% (likely timing/variant).",
+     "verified": "ok"
+    }
+   ],
+   "notes": "Years found: 2008, 2010-2025 (2009 missing). Primary-quality Pure Alpha II 18% figures only for 2012, 2013, 2019, 2020, 2022, 2023, 2024, 2025. 2013-2017 Pure Alpha 'Fund I' figures come from a single Insider Monkey aggregator page with no primary citation (low confidence). MISSING: 2009 (Wikipedia gives only a range '2% to 4%', excluded); no press full-year figure found for Pure Alpha II in 2014-2017. EXCLUDED: hedgefundranks.com monthly tables (src/bridgewater_pure_alpha/hfr232.html, hfr233.html) — calendar-year would require reading trailing-12m as annual, and the table has visible data corruption (Dec-2015 row duplicates Sep-2015); MPI case study PDF (mpi2012.pdf) had only multi-year annualized figures; 2010 '~27%' for less-leveraged Pure Alpha (Bloomberg 2022-12-02) only seen in search snippet — Bloomberg and fa-mag syndication both blocked, so not recorded. Bloomberg pages generally returned bot-check and were not used directly. All numbers are press-reported from unnamed sources; Bridgewater does not publish returns. Variant mapping 'Pure Alpha I' -> 12% is convention, not stated by those sources."
+  },
+  {
+   "id": "de_shaw_composite",
+   "name": "D.E. Shaw Composite Fund",
+   "manager": "D.E. Shaw & Co.",
+   "years": [
+    {
+     "year": 2008,
+     "net_pct": 21.3,
+     "variant": "Composite",
+     "url": "https://www.institutionalinvestor.com/article/2bsu5gsb5kayx78pyabr4/premium/d-e-shaw-hedge-funds-post-biggest-gains-in-years",
+     "quote": "after gaining around 21.3 percent in 2008, according to a D.E. Shaw document",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/ii2013.html",
+     "note": "Almost certainly a year mislabel in the source: multiple sources (Bloomberg/Hedgeweek 2026, Buyside Digest) say 2008 was the fund's only down year, and a RI Treasury report (not saved, see notes) reportedly gives -9.81% for 2008 and +21.31% for 2009. Recorded verbatim as published; do NOT use as 2008 without review.",
+     "verified": "ok"
+    },
+    {
+     "year": 2009,
+     "net_pct": 20.0,
+     "variant": "Composite",
+     "url": "https://quartr.com/insights/company-research/de-shaw-and-co-inside-the-quiet-giant-of-quant-finance",
+     "quote": "After its 2008 dip, it rebounded sharply with a 20% gain in 2009",
+     "source_kind": "aggregator",
+     "local_file": "src/de_shaw_composite/quartr.html",
+     "note": "Rounded; no primary citation.",
+     "verified": "ok"
+    },
+    {
+     "year": 2012,
+     "net_pct": 15.6,
+     "variant": "Composite International",
+     "url": "https://www.institutionalinvestor.com/article/2bsu5gsb5kayx78pyabr4/premium/d-e-shaw-hedge-funds-post-biggest-gains-in-years",
+     "quote": "Composite International, D.E. Shaws multi-strategy fund that until recently was the firms larger fund, was up about 15.6 percent",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/ii2013.html",
+     "note": "Year from article context ('posted strong performance in 2012'); offshore Composite International vehicle; 'about'.",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": 6.12,
+     "variant": "Composite",
+     "url": "https://institutionalinvestor.com/article/b1blxn7vrxrhr6/D-E-Shaw-s-Multistrategy-Funds-Post-Strong-Results",
+     "quote": "is already ahead of its 6.12 percent gain in 2016",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/ii2018q3.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2017,
+     "net_pct": 10.41,
+     "variant": "Composite",
+     "url": "https://institutionalinvestor.com/article/b1blxn7vrxrhr6/D-E-Shaw-s-Multistrategy-Funds-Post-Strong-Results",
+     "quote": "matching or exceeding its 10.41 percent gain in 2017",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/ii2018q3.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2017,
+     "net_pct": 10.3,
+     "variant": "Composite",
+     "url": "https://www.etftrends.com/de-shaw-returns-11-percent-in-2018/",
+     "quote": "In 2017 the fund returned 10.3 percent.",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/etft2018.html",
+     "note": "Reuters text republished; CONFLICT with II 10.41 (rounding/class?).",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 11.2,
+     "variant": "Composite",
+     "url": "https://www.etftrends.com/de-shaw-returns-11-percent-in-2018/",
+     "quote": "flagship Composite Fund returned 11.2 percent in 2018",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/etft2018.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 11.2,
+     "variant": "Composite",
+     "url": "https://finance.yahoo.com/news/hedge-fund-d-e-shaws-205503837.html",
+     "quote": "flagship Composite Fund returned 11.2 percent last year",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/yahoo2018.html",
+     "note": "Reuters 2019-01-07 via Yahoo.",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 10.4,
+     "variant": "Composite",
+     "url": "https://www.hedgeweek.com/de-shaw-delivers-strong-returns-2020/",
+     "quote": "2019’s net annualised return of +10.4 per cent",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/hw2020.html",
+     "note": "Bloomberg 2020-01-06 headline says ~10.5% but Bloomberg page was bot-blocked (bb2019.html is a captcha page, not cited).",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 19.4,
+     "variant": "Composite",
+     "url": "https://www.hedgeweek.com/de-shaw-delivers-strong-returns-2020/",
+     "quote": "delivered net returns of +19.4 per cent for investors in 2020",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/hw2020.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 19.4,
+     "variant": "Composite",
+     "url": "https://www.clearbrookglobal.com/citadel-millennium-d-e-shaw-post-20-plus-returns-in-20/",
+     "quote": "flagship multi-strategy Composite Fund up 19.4%",
+     "source_kind": "aggregator",
+     "local_file": "src/de_shaw_composite/cb2020.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 18.5,
+     "variant": "Composite",
+     "url": "https://www.institutionalinvestor.com/article/2bstolshmelxxynrefe9s/portfolio/d-e-shaws-two-largest-funds-saw-gains-in-2021",
+     "quote": "generated an estimated net return of around 18.5 percent in 2021",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/ii2021.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 18.8,
+     "variant": "Composite",
+     "url": "https://hedgeweek.com/news/flagship-de-shaw-hedge-fund-chalks-247-gain-2022",
+     "quote": "improve on its 18.8% return posted in 2021",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/hw2022.html",
+     "note": "CONFLICT with II 18.5 (estimate vs final?).",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 24.7,
+     "variant": "Composite",
+     "url": "https://hedgeweek.com/news/flagship-de-shaw-hedge-fund-chalks-247-gain-2022",
+     "quote": "chalk up gains of 24.7% after fees",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/hw2022.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 24.6,
+     "variant": "Composite",
+     "url": "https://www.institutionalinvestor.com/article/2cnvua4jp2dt6lp7yboqo/portfolio/how-d-e-shaw-performed-in-2023",
+     "quote": "The fund posted lower performance than in 2022, when it returned 24.6 percent.",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/ii2023.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 9.6,
+     "variant": "Composite",
+     "url": "https://www.institutionalinvestor.com/article/2cnvua4jp2dt6lp7yboqo/portfolio/how-d-e-shaw-performed-in-2023",
+     "quote": "The fund returned an estimated 9.6 percent net gain in 2023",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/ii2023.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 18.0,
+     "variant": "Composite",
+     "url": "https://www.hedgeweek.com/de-shaw-to-return-billions-to-investors-after-stellar-2024-performance/",
+     "quote": "multi-strategy Composite Fund achieved an 18% return",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/hw2024.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 18.2,
+     "variant": "Composite",
+     "url": "https://alternativefundinsight.com/d-e-shaw-grows-to-85bn-as-flagships-post-big-2025-gains/",
+     "quote": "beating the 18.2% achieved last year",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/afi2025.html",
+     "note": "Published Jan 2026, 'last year' = 2024. CONFLICT/refinement of 18%.",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 18.5,
+     "variant": "Composite",
+     "url": "https://www.hedgeweek.com/de-shaw-pauses-cash-returns-despite-double-digit-gains-in-2025/",
+     "quote": "Composite fund gained an estimated 18.5% in 2025",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/hw2025.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 18.5,
+     "variant": "Composite",
+     "url": "https://alternativefundinsight.com/d-e-shaw-grows-to-85bn-as-flagships-post-big-2025-gains/",
+     "quote": "advanced an estimated 18.5%",
+     "source_kind": "press",
+     "local_file": "src/de_shaw_composite/afi2025.html",
+     "verified": "ok"
+    }
+   ],
+   "notes": "Years found: 2008 (flagged, almost certainly mislabeled 2009), 2009, 2012, 2016-2025. MISSING: 2010, 2011, 2013, 2014, 2015 (and a clean 2008). Known lead not captured: Rhode Island Treasury DD report (June 2011) https://data.treasury.ri.gov/dataset/96dcb86f-e97e-4b05-8ce2-a40289e477a6/resource/ab68154d-9a7e-4a7d-82c9-d27998d1f2bc/download/DE-Shaw-Hedge-Fund-Investment-Due-Diligence-Report-0611Redacted.pdf — per WebSearch snippet it states 2008 -9.81%, 2009 +21.31%, 2010 +1.56% (Composite International); curl failed (proxy CONNECT 403 / direct TLS failure) and WebFetch was blocked by a local hook, so NOT recorded and unverified. II 2013 says Composite posted 'low single-digit returns in 2011 and 2010' (no number, not recorded). All figures are press-reported from unnamed sources/investor docs. VERIFICATION NOTE: the 2008/2012 (ii2013.html) and 2016/2017-10.41 (ii2018q3.html) quotes sit inside meta description attributes of paywalled Institutional Investor pages, so they match with plain grep -F on the raw file but NOT after stripping HTML tags; all other quotes match after tag-stripping."
+  },
+  {
+   "id": "elliott",
+   "name": "Elliott Management (Elliott Associates L.P. / Elliott International)",
+   "manager": "Paul Singer",
+   "years": [
+    {
+     "year": 2008,
+     "net_pct": -3.0,
+     "variant": "Elliott (fund not specified; firm-level)",
+     "url": "https://fortune.com/2012/03/26/mitt-romneys-hedge-fund-kingmaker/",
+     "quote": "in cataclysmic 2008 when it dipped a mere 3%",
+     "source_kind": "press",
+     "local_file": "src/elliott/fortune2012.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2008,
+     "net_pct": -3.0,
+     "variant": "Elliott (fund not specified; firm-level)",
+     "url": "https://www.institutionalinvestor.com/article/2d0quhk4ghsahyyia26m8/corner-office/the-23nd-annual-ranking-of-the-highest-earning-hedge-fund-managers",
+     "quote": "since the financial crisis in 2008, when it dropped only 3 percent",
+     "source_kind": "press",
+     "local_file": "src/elliott/ii_richlist23.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 4.2,
+     "variant": "Elliott (fund not specified; firm-level)",
+     "url": "https://fortune.com/2012/03/26/mitt-romneys-hedge-fund-kingmaker/",
+     "quote": "Elliott rose 4.2% in 2011, a year in which most hedge funds lost money",
+     "source_kind": "press",
+     "local_file": "src/elliott/fortune2012.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2013,
+     "net_pct": 12.4,
+     "variant": "Elliott Associates L.P.",
+     "url": "https://www.institutionalinvestor.com/article/2bsw3n74o0833e1cg9e68/portfolio/the-last-hedge-fund-pit-bull",
+     "quote": "2013 12.4",
+     "source_kind": "press",
+     "local_file": "src/elliott/ii_pitbull.html",
+     "note": "Row of an HTML table captioned 'Elliott Associates L.P.' with columns 'Year | Annual %'",
+     "verified": "ok"
+    },
+    {
+     "year": 2014,
+     "net_pct": 8.2,
+     "variant": "Elliott Associates L.P.",
+     "url": "https://www.institutionalinvestor.com/article/2bsw3n74o0833e1cg9e68/portfolio/the-last-hedge-fund-pit-bull",
+     "quote": "2014 8.2",
+     "source_kind": "press",
+     "local_file": "src/elliott/ii_pitbull.html",
+     "note": "Same II table as 2013",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": 2.5,
+     "variant": "Elliott Associates L.P.",
+     "url": "https://www.institutionalinvestor.com/article/2bsw3n74o0833e1cg9e68/portfolio/the-last-hedge-fund-pit-bull",
+     "quote": "2015 2.5",
+     "source_kind": "press",
+     "local_file": "src/elliott/ii_pitbull.html",
+     "note": "Same II table as 2013",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": 2.5,
+     "variant": "Elliott Associates L.P. (Rhode Island ERS holding, Cliffwater data)",
+     "url": "https://cwa-union.org/sites/default/files/20200107-pesp-elliott-investor-letter.pdf",
+     "quote": "Elliott's annual returns dipped as low as 2.5% in calendar year 2015",
+     "source_kind": "aggregator",
+     "local_file": "src/elliott/pesp.txt",
+     "note": "Union (PESP/CWA) critic letter citing Cliffwater reports to RI ERS; PDF saved as pesp.pdf, text via pdftotext",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": 13.1,
+     "variant": "Elliott Associates L.P.",
+     "url": "https://www.institutionalinvestor.com/article/2bsw3n74o0833e1cg9e68/portfolio/the-last-hedge-fund-pit-bull",
+     "quote": "2016 13.1",
+     "source_kind": "press",
+     "local_file": "src/elliott/ii_pitbull.html",
+     "note": "Same II table; same article's prose says 'The Argentina win helped Elliott post a 13 percent gain in 2016'",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 2.91,
+     "variant": "Elliott Associates L.P.",
+     "url": "https://cwa-union.org/sites/default/files/20200107-pesp-elliott-investor-letter.pdf",
+     "quote": "2018 proved especially difficult for Elliott Associates: the hedge fund generated a return of just 2.91%.",
+     "source_kind": "aggregator",
+     "local_file": "src/elliott/pesp.txt",
+     "note": "Critic letter citing Cliffwater report to RI ERS (data as of Oct 31, 2019); PDF saved as pesp.pdf",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 6.88,
+     "variant": "Elliott Associates L.P.",
+     "url": "https://cwa-union.org/sites/default/files/202003-elliott-investor-letter.pdf",
+     "quote": "flagship Elliott Associates fund generated a net return of just 6.88% in 2019.",
+     "source_kind": "aggregator",
+     "local_file": "src/elliott/pesp2020_03.txt",
+     "note": "Critic (PESP/CWA) investor letter, March 2020; PDF saved as pesp2020_03.pdf",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 12.7,
+     "variant": "Elliott Associates and Elliott International (both reported the same return)",
+     "url": "https://www.infobae.com/en/2021/01/11/singers-elliott-returns-127-on-investments-in-2020",
+     "quote": "Elliott Management Corp. returned 12.7% on its investments in 2020",
+     "source_kind": "press",
+     "local_file": "src/elliott/infobae2020.html",
+     "note": "Bloomberg wire syndicated by Infobae; 'reported the same returns for both its international and onshore funds'",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 4.7,
+     "variant": "Elliott (fund not specified; firm-level)",
+     "url": "https://www.institutionalinvestor.com/article/2d0quhk4ghsahyyia26m8/corner-office/the-23nd-annual-ranking-of-the-highest-earning-hedge-fund-managers",
+     "quote": "Elliott posted a modest 4.7 percent gain last year.",
+     "source_kind": "press",
+     "local_file": "src/elliott/ii_richlist23.html",
+     "note": "II 23rd Rich List ranks 2023 earnings; 'last year' = 2023",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 10.5,
+     "variant": "Elliott (fund not specified; firm-level)",
+     "url": "https://www.institutionalinvestor.com/article/2ekchq8rll8mbbn2glq80/hedge-funds/the-rich-list-the-24th-annual-ranking-of-the-highest-earning-hedge-fund-managers",
+     "quote": "Last year, when he posted a gain of just 10.5 percent, was no different.",
+     "source_kind": "press",
+     "local_file": "src/elliott/ii_richlist24.html",
+     "note": "II 24th Rich List covers 2024 (page text: 'in 2024 the 25 highest-earning hedge fund managers made...'); net/gross not stated",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 7.0,
+     "variant": "Elliott (fund not specified; firm-level)",
+     "url": "https://www.institutionalinvestor.com/article/hedge-funds/rich-list-institutional-investors-25th-annual-ranking-highest-earning-hedge",
+     "quote": "In 2025, the now $79.8 billion Elliott was up about 7 percent.",
+     "source_kind": "press",
+     "local_file": "src/elliott/ii_richlist25.html",
+     "note": "Approximate ('about 7 percent')",
+     "verified": "ok"
+    }
+   ],
+   "notes": "Years found: 2008, 2011, 2013, 2014, 2015, 2016, 2018, 2019, 2020, 2023, 2024, 2025 (12 distinct years). MISSING: 2009, 2010, 2012, 2017, 2021, 2022. Variant caveat: 2013-2016 and 2018-2019 are explicitly Elliott Associates L.P.; 2008, 2011, 2023-2025 are firm-level press figures that do not name the fund. Leads NOT used: (a) 2022 +5.9% appears only on Insider Monkey (src/elliott/im_top10.html: 'up 4.7% for the year, slightly down from the 5.9% gain in 2022'), aggregator with no cited primary source, excluded per rules; (b) 2020: Institutional Investor (2021, src/elliott/ii_risk.html) says 'Elliott's flagship fund earned more than 13 percent for the full year' vs S&P 18.4% (=2020); this is a lower bound, not a number, but it is in tension with Bloomberg's 12.7% for both funds; (c) 2025 Q1-Q3 +4.7% (Hedgeweek/FT) and 2024 YTD Q2/Q3 letter figures (hedgefundalpha) are partial-year, excluded; (d) 2017 Business Insider figure (Elliott Associates +6.8% through Q3) is partial-year, excluded; (e) PESP Jan-2020 letter has a 'Table 2' of annual returns since ~2011 but it is an image in the PDF (not text-verifiable), not used; (f) NJ Division of Investment 2011 memo (nj.gov) could not be fetched (connection failure), so 2009/2010 remain missing; (g) 2012: Bloomberg 2020 piece only says 2020 was the international fund's 'best year since 2012', no 2012 number. Verification: all quotes greppable in local files; the II table rows (2013-2016) match after tag stripping; PDF-sourced quotes are matched against pdftotext output (.txt) saved next to the .pdf."
+  },
+  {
+   "id": "point72",
+   "name": "Point72 Asset Management flagship (pre-2014: SAC Capital flagship only where explicitly stated)",
+   "manager": "Steven A. Cohen",
+   "years": [
+    {
+     "year": 2008,
+     "net_pct": -19.0,
+     "variant": "SAC Capital",
+     "url": "https://www.anthonyeffinger.com/wp-content/uploads/2020/07/Steve-Cohen-PDF1.pdf",
+     "quote": "The firm's flagship SAC Capital International Ltd. fund suffered a 19 percent loss in 2008",
+     "source_kind": "press",
+     "local_file": "src/point72/effinger.txt",
+     "note": "Bloomberg Markets magazine article (2010) by Anthony Effinger, PDF hosted on author's site; fund = SAC Capital International Ltd. (offshore flagship). PDF saved as effinger.pdf, text via pdftotext",
+     "verified": "ok"
+    },
+    {
+     "year": 2009,
+     "net_pct": 29.0,
+     "variant": "SAC Capital",
+     "url": "https://www.anthonyeffinger.com/wp-content/uploads/2020/07/Steve-Cohen-PDF1.pdf",
+     "quote": "snapped back from his 2008 loss in 2009. The $6 billion, offshore SAC Capital International fund was up 29 percent, after fees",
+     "source_kind": "press",
+     "local_file": "src/point72/effinger.txt",
+     "note": "Same article calls SAC Capital International 'flagship'; says onshore SAC Capital Management LP gain was 'about the same' (no number). Source: 'according to investors'",
+     "verified": "ok"
+    },
+    {
+     "year": 2012,
+     "net_pct": 13.0,
+     "variant": "SAC Capital",
+     "url": "https://www.cnbc.com/2013/02/05/sac-capital-sees-returns-amid-trading-scandal.html",
+     "quote": "followed a standout 2012 in which the firm's main fund, SAC Capital Partners, was up 13 percent.",
+     "source_kind": "press",
+     "local_file": "src/point72/cnbc_sac2012.html",
+     "note": "CNBC; 'main fund' = SAC Capital Partners. Matches only after HTML-entity decode (&#x27;) and whitespace collapse",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": 16.0,
+     "variant": "Point72 (family office)",
+     "url": "https://www.cnbc.com/2016/01/11/the-second-coming-of-steven-cohen.html",
+     "quote": "Point72 Asset Management, rose close to 16 percent in 2015",
+     "source_kind": "press",
+     "local_file": "src/point72/cnbc_2015.html",
+     "note": "'close to 16 percent'; raw HTML has a double space before 16 (match after whitespace collapse). Family office, no outside capital",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": 15.0,
+     "variant": "Point72 (family office)",
+     "url": "https://www.ai-cio.com/news/cohen-builds-out-family-office-eyeing-possible-return/",
+     "quote": "net of fees returns were roughly 15%, bringing assets under management",
+     "source_kind": "press",
+     "local_file": "src/point72/aicio_2015.html",
+     "note": "Attributed to Point72 President Doug Haynes ('In 2015, net of fees returns were roughly 15%'). Conflicts mildly with CNBC 'close to 16'",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": 1.0,
+     "variant": "Point72 (family office)",
+     "url": "https://fortune.com/2017/01/18/billionaire-steve-cohen-point72",
+     "quote": "Point72 Asset Management returned just 1% last year",
+     "source_kind": "press",
+     "local_file": "src/point72/fortune_2016.html",
+     "note": "Fortune Jan 18 2017 citing Bloomberg; next sentence references 'S&P 500, up 9.5% in 2016'",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 14.9,
+     "variant": "Point72 flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bsx3c7xrnw576uig49a8/corner-office/steve-cohen-pulled-down-at-least-1-3-billion-in-2019",
+     "quote": "Last year, his hedge fund returned 14.9 percent net of fees.",
+     "source_kind": "press",
+     "local_file": "src/point72/ii_2019.html",
+     "note": "Article 'Steve Cohen Pulled Down at Least $1.3 Billion in 2019'; 'last year' = 2019",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 16.0,
+     "variant": "Point72 flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bswuj1vb5zxnt6zng4xs/culture/steve-cohen-rides-point72-gains-to-1-4-billion-in-personal-earnings",
+     "quote": "Point72 posted a roughly 16 percent net gain in 2020",
+     "source_kind": "press",
+     "local_file": "src/point72/ii_2020.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 9.22,
+     "variant": "Point72 flagship hedge fund",
+     "url": "https://www.cnbc.com/2022/01/05/hedge-fund-senvest-posts-85percent-return-in-2021-riding-gamestop-meme-among-wall-streets-best.html",
+     "quote": "Point72: 1.83% in Dec. and up 9.22% for the year",
+     "source_kind": "press",
+     "local_file": "src/point72/cnbc_2021.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 9.2,
+     "variant": "Point72 flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bstm68mfhxuhk7khl5hc/david-tepper",
+     "quote": "the multistrat manager posted a modest 9.2 percent gain in 2021",
+     "source_kind": "press",
+     "local_file": "src/point72/ii_richlist21b.html",
+     "note": "II 21st Rich List",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 10.0,
+     "variant": "Point72 flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bstq9vxi7ne4vkd8c4xs/corner-office/steve-cohen-made-more-than-1-7-billion-in-2022",
+     "quote": "which posted a roughly 10 percent net gain in 2022",
+     "source_kind": "press",
+     "local_file": "src/point72/ii_2022.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 10.6,
+     "variant": "Point72 flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2d0quhk4ghsahyyia26m8/corner-office/the-23nd-annual-ranking-of-the-highest-earning-hedge-fund-managers",
+     "quote": "Point72 gained 10.6 percent, making it one of the top-performing multistrat funds",
+     "source_kind": "press",
+     "local_file": "src/point72/ii_richlist23.html",
+     "note": "II 23rd Rich List (2023 earnings); preceding words 'But last year,'",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 19.0,
+     "variant": "Point72 flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2ekchq8rll8mbbn2glq80/hedge-funds/the-rich-list-the-24th-annual-ranking-of-the-highest-earning-hedge-fund-managers",
+     "quote": "Steve Cohen’s hedge fund posted a 19 percent gain in 2024",
+     "source_kind": "press",
+     "local_file": "src/point72/ii_richlist24.html",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 17.5,
+     "variant": "Point72 flagship hedge fund",
+     "url": "https://news.bloomberglaw.com/international-trade/point72-up-17-5-in-double-digit-year-for-multistrat-hedge-funds",
+     "quote": "gained 17.5% in the year through December",
+     "source_kind": "press",
+     "local_file": "src/point72/bblaw_2025.html",
+     "note": "Bloomberg News (Nishant Kumar, Jan 5 2026) via Bloomberg Law; 'The firm, which manages $41.4 billion of assets, gained 17.5%...'",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 17.5,
+     "variant": "Point72 flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/hedge-funds/rich-list-institutional-investors-25th-annual-ranking-highest-earning-hedge",
+     "quote": "after his hedge fund rose 17.5 percent",
+     "source_kind": "press",
+     "local_file": "src/point72/ii_richlist25.html",
+     "verified": "ok"
+    }
+   ],
+   "notes": "Years found: Point72 2015, 2016, 2019, 2020, 2021, 2022, 2023, 2024, 2025; SAC Capital (explicit flagship/main fund) 2008, 2009, 2012. MISSING: 2010, 2011, 2013, 2014, 2017, 2018. Conflicts: 2015 CNBC 'close to 16%' vs ai-CIO 'roughly 15%' net (Point72 president); 2021 CNBC 9.22% vs II 9.2% (rounding). Excluded leads: 2018 - Bloomberg (quoted on an Elite Trader forum, src/point72/elitetrader.html) says Point72 made 'less than 1 percent' in 2018 and II says 'slightly in the black' - no exact number, so not entered; 2010 SAC +15% (Market Folly roundup, src/point72/mf_2010.html) does not identify the fund as flagship, excluded per SAC rule; 2008 SAC onshore SAC Capital Management -27.56% (MarketsWiki, 403 blocked) and Fortune's 'lost nearly 28%' (not fund-specific) not entered; 2013 SAC +20.10% (Reuters via Business Standard, src/point72/bs_sac2013.html) runs only through Dec 27, partial-year, excluded; SAC 2013 Sept 'up about 13 percent this year' (Reuters/Yahoo) YTD, excluded; 2014 only partial-year figures (CNBC: ~10% through March, ~9% gross through June), excluded; FRONTLINE SAC 1992-2012 annual chart is an image (not text-verifiable). 2014-2017 Point72 was a family office (no outside capital until 2018). Bloomberg.com and Forbes pages returned bot-walls to curl; Bloomberg content was used only via Bloomberg Law / Infobae syndication."
+  },
+  {
+   "id": "greenlight",
+   "name": "Greenlight Capital",
+   "manager": "David Einhorn",
+   "years": [
+    {
+     "year": 2008,
+     "net_pct": -16.5,
+     "variant": "Greenlight Capital Offshore fund (aggregator year-end list; same line says 'Greenlight LP finished down over 22%' - inexact, not recorded as a number)",
+     "url": "https://www.marketfolly.com/2009/01/2008-hedge-fund-performance-numbers.html",
+     "quote": "Their Offshore fund finished '08 -16.5% and their Greenlight LP finished down over 22%",
+     "source_kind": "aggregator",
+     "local_file": "src/greenlight/www_marketfolly_com_2009_01_2008-hedge-fund-performance-numbers_html.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2009,
+     "net_pct": 30.6,
+     "variant": "Greenlight Capital Offshore Fund (aggregator year-end list)",
+     "url": "https://www.marketfolly.com/2010/01/hedge-fund-2009-performance-numbers.html",
+     "quote": "Greenlight Capital Offshore Fund: +30.6%",
+     "source_kind": "aggregator",
+     "local_file": "src/greenlight/www_marketfolly_com_2010_01_hedge-fund-2009-performance-numbers_html.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2010,
+     "net_pct": 12.5,
+     "variant": "UNSPECIFIED Greenlight fund (aggregator headline; letter summary on same site lists three funds 12.5%/14%/15.9% without fund names)",
+     "url": "https://www.marketfolly.com/2011/01/2010-hedge-fund-returns-performance.html",
+     "quote": "Greenlight Capital: +12.5%",
+     "source_kind": "aggregator",
+     "local_file": "src/greenlight/www_marketfolly_com_2011_01_2010-hedge-fund-returns-performance_html.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 2.9,
+     "variant": "Greenlight Capital, L.P. (letter lists L.P./Qualified/Offshore = 2.9%/2.7%/1.9%; marked 'estimated pending the year-end audit')",
+     "url": "https://www.slideshare.net/franciscoragolta/greenlight-full-2011",
+     "quote": "in the fourth quarter of 2011, bringing the respective full year returns to 2.9%,",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/www_slideshare_net_franciscoragolta_greenlight-full-2011.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 2.9,
+     "variant": "Greenlight Capital (aggregator summary of Q4 2011 letter)",
+     "url": "https://www.insidermonkey.com/blog/greenlight-capital-q4-2011-investor-letter-10520/",
+     "quote": "Greenlight Capital's net returns for 2011 is 2.9%",
+     "source_kind": "aggregator",
+     "local_file": "src/greenlight/www_insidermonkey_com_blog_greenlight-capital-q4-2011-investor-letter-10520_.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2012,
+     "net_pct": 7.9,
+     "variant": "Partnerships (Q4 letter mirror on Scribd; phrased as year-to-date through Dec 31)",
+     "url": "https://www.scribd.com/document/121829885/Greenlight-Letter-Q4",
+     "quote": "reducing the year to date net return to 7.9%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/www_scribd_com_document_121829885_Greenlight-Letter-Q4.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2012,
+     "net_pct": 7.9,
+     "variant": "Greenlight (aggregator summary of Q4 letter)",
+     "url": "https://www.marketfolly.com/2013/01/david-einhorns-q4-letter-greenlight.html",
+     "quote": "Greenlight returned 7.9% in 2012",
+     "source_kind": "aggregator",
+     "local_file": "src/greenlight/www_marketfolly_com_2013_01_david-einhorns-q4-letter-greenlight_html.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2014,
+     "net_pct": 8.0,
+     "variant": "Partnerships net return, multi-year table in Q4 2022 letter (columns 2014..2022, Total)",
+     "url": "https://assets.empirefinancialresearch.com/uploads/2023/01/Greenlight-Q4-22-letter.pdf",
+     "quote": "Net Return 8.0% -20.2% 8.4% 1.6% -34.2% 13.8% 5.2% 11.9% 36.6% 14.2%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2022q4_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2014,
+     "net_pct": 8.0,
+     "variant": "Greenlight (aggregator summary of Q4 2014 letter; rounded '8%')",
+     "url": "https://www.insidermonkey.com/blog/greenlight-capital-investor-letter-2014-q4-pdf-downloadthe-338089/",
+     "quote": "returned 8% in 2014 after gaining 5.6% net of fees during the fourth quarter",
+     "source_kind": "aggregator",
+     "local_file": "src/greenlight/www_insidermonkey_com_blog_greenlight-capital-investor-letter-2014-q4-pdf-downlo.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": -20.2,
+     "variant": "Partnerships net return, multi-year table in Q4 2022 letter (2nd column = 2015)",
+     "url": "https://assets.empirefinancialresearch.com/uploads/2023/01/Greenlight-Q4-22-letter.pdf",
+     "quote": "Net Return 8.0% -20.2% 8.4% 1.6% -34.2% 13.8% 5.2% 11.9% 36.6% 14.2%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2022q4_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": -20.2,
+     "variant": "Partnerships (Q4 2015 letter text reproduced on acquirersmultiple)",
+     "url": "https://acquirersmultiple.com/2017/03/david-einhorn-the-ultimate-shareholder-letter-when-your-fund-underperforms/",
+     "quote": "bringing the full year net return to (20.2)%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/acquirersmultiple_com_2017_03_david-einhorn-the-ultimate-shareholder-letter-when.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": -20.2,
+     "variant": "Greenlight (press)",
+     "url": "https://www.institutionalinvestor.com/article/2bsxv4xwu25ad6kg9preo/portfolio/after-a-brutal-2015-greenlight-starts-off-2016-with-a-bang",
+     "quote": "after losing 20.2 percent last year",
+     "source_kind": "press",
+     "local_file": "src/greenlight/www_institutionalinvestor_com_article_2bsxv4xwu25ad6kg9preo_portfolio_after-a-br.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": 8.4,
+     "variant": "Partnerships net return, multi-year table in Q4 2022 letter (3rd column = 2016)",
+     "url": "https://assets.empirefinancialresearch.com/uploads/2023/01/Greenlight-Q4-22-letter.pdf",
+     "quote": "Net Return 8.0% -20.2% 8.4% 1.6% -34.2% 13.8% 5.2% 11.9% 36.6% 14.2%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2022q4_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": 8.4,
+     "variant": "Partnerships (Q4 2016 letter mirror on Scribd; phrased as year-to-date through Dec 31)",
+     "url": "https://www.scribd.com/document/336810961/Greenlight-Letter-Q4-2016",
+     "quote": "bringing the year-to-date net return to 8.4%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/www_scribd_com_document_336810961_Greenlight-Letter-Q4-2016.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2017,
+     "net_pct": 1.6,
+     "variant": "Partnerships net return, multi-year table in Q4 2022 letter (4th column = 2017)",
+     "url": "https://assets.empirefinancialresearch.com/uploads/2023/01/Greenlight-Q4-22-letter.pdf",
+     "quote": "Net Return 8.0% -20.2% 8.4% 1.6% -34.2% 13.8% 5.2% 11.9% 36.6% 14.2%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2022q4_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2017,
+     "net_pct": 1.6,
+     "variant": "Partnerships (Q4 2017 letter PDF on valuewalk; phrased as year-to-date through Dec 31)",
+     "url": "https://www.valuewalk.com/wp-content/uploads/2018/01/Qlet2017-041.pdf",
+     "quote": "in the fourth quarter of 2017, bringing the year-to-date net return to 1.6%.",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2017q4.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": -34.2,
+     "variant": "Partnerships net return, multi-year table in Q4 2022 letter (5th column = 2018)",
+     "url": "https://assets.empirefinancialresearch.com/uploads/2023/01/Greenlight-Q4-22-letter.pdf",
+     "quote": "Net Return 8.0% -20.2% 8.4% 1.6% -34.2% 13.8% 5.2% 11.9% 36.6% 14.2%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2022q4_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": -34.2,
+     "variant": "Partnerships (Q4 2018 letter dated Jan 23 2019, mirrored on hedgefundalpha; phrased as year-to-date through Dec 31)",
+     "url": "https://hedgefundalpha.com/investor-letters/greenlight-to-reopen-fund-to-investors-full-q4-letter/",
+     "quote": "year-to-date loss to (34.2)%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/hedgefundalpha_com_investor-letters_greenlight-to-reopen-fund-to-investors-full-q4-letter_.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 13.8,
+     "variant": "Partnerships net return, multi-year table in Q4 2022 letter (6th column = 2019)",
+     "url": "https://assets.empirefinancialresearch.com/uploads/2023/01/Greenlight-Q4-22-letter.pdf",
+     "quote": "Net Return 8.0% -20.2% 8.4% 1.6% -34.2% 13.8% 5.2% 11.9% 36.6% 14.2%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2022q4_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 13.8,
+     "variant": "Partnerships (Q4 2019 letter text reproduced on acquirersmultiple)",
+     "url": "https://acquirersmultiple.com/2020/01/david-einhorn-growth-has-knocked-the-stuffing-out-of-value-last-three-years-106-vs-17/",
+     "quote": "returned 13.8% in 2019 compared to 31.5% for the S&P 500 index",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/acquirersmultiple_com_2020_01_david-einhorn-growth-has-knocked-the-stuffing-out-.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 5.2,
+     "variant": "Partnerships net return, multi-year table in Q4 2022 letter (7th column = 2020)",
+     "url": "https://assets.empirefinancialresearch.com/uploads/2023/01/Greenlight-Q4-22-letter.pdf",
+     "quote": "Net Return 8.0% -20.2% 8.4% 1.6% -34.2% 13.8% 5.2% 11.9% 36.6% 14.2%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2022q4_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 5.2,
+     "variant": "Partnerships (Q4 2020 letter PDF on valuewalk; '1' after % is a footnote marker)",
+     "url": "https://www.valuewalk.com/wp-content/uploads/2021/01/Qlet2020-041.pdf",
+     "quote": "The Greenlight Capital funds (the \"Partnerships\") returned 5.2%1 in 2020 compared to",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2020q4.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 11.9,
+     "variant": "Partnerships net return, multi-year table in Q4 2022 letter (8th column = 2021); Q4 2021 letter itself not found",
+     "url": "https://assets.empirefinancialresearch.com/uploads/2023/01/Greenlight-Q4-22-letter.pdf",
+     "quote": "Net Return 8.0% -20.2% 8.4% 1.6% -34.2% 13.8% 5.2% 11.9% 36.6% 14.2%",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2022q4_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": 36.6,
+     "variant": "Partnerships composite (Q4 2022 letter)",
+     "url": "https://assets.empirefinancialresearch.com/uploads/2023/01/Greenlight-Q4-22-letter.pdf",
+     "quote": "The Greenlight Capital funds (the \"Partnerships\") returned 36.6% in 2022, net of fees and",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2022q4.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 22.1,
+     "variant": "Partnerships composite (Q4 2023 letter)",
+     "url": "https://valueandopportunity.com/wp-content/uploads/2024/01/greenlight-letter-q4.pdf",
+     "quote": "The Greenlight Capital funds (the \"Partnerships\") returned 22.1% in 2023, net of fees and",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/gl2023q4.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 7.2,
+     "variant": "Partnerships composite (aggregator summary of Q4 2024 letter)",
+     "url": "https://www.insidermonkey.com/blog/greenlight-capitals-q4-2024-investor-letter-1430503/",
+     "quote": "In 2024, the Greenlight Capital funds returned 7.2% net of fees and expenses, compared to 25.0% for the S&P 500 index.",
+     "source_kind": "aggregator",
+     "local_file": "src/greenlight/www_insidermonkey_com_blog_greenlight-capitals-q4-2024-investor-letter-1430503_.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 9.0,
+     "variant": "Partnerships composite (Q4 2025 letter text reproduced on hedgefundalpha)",
+     "url": "https://hedgefundalpha.com/investor-letters/david-einhorn-greenlight-capital-q4-2025-letter/",
+     "quote": "returned 9.0% in 2025, net of fees and expenses, compared to 17.9% for the S&P 500 index",
+     "source_kind": "firm",
+     "local_file": "src/greenlight/hedgefundalpha_com_investor-letters_david-einhorn-greenlight-capital-q4-2025-letter_.txt",
+     "verified": "ok"
+    }
+   ],
+   "notes": "MISSING: 2013 (no letter/press found; Greenlight Re's 19.6% 2013 portfolio return is a different vehicle and was deliberately NOT used). 2009/2010 only have aggregator figures: 2009 Offshore 30.6%; marketfolly letter summary says 'For 2009, Greenlight's various hedge funds were up 36.9%, 33.7%, and 30.6%' (fund order not stated, src/greenlight/www_marketfolly_com_2010_01_david-einhorns-greenlight-capital_html.txt); 2010 'his various hedge funds returned 12.5%, 14%, and 15.9%' (src/greenlight/www_marketfolly_com_2011_01_david-einhorn-greenlight-capitals-2010_html.txt) - the 12.5% headline entry's fund is unidentified. 2008: only Offshore -16.5% (aggregator); Greenlight LP 'down over 22%' is not a point figure. BASIS: the multi-year table in the Q4 2022 letter is labelled 'the Partnerships' gross and net returns' and covers 2014-2022; it agrees with every individual Q4 letter read (2015 -20.2, 2016 8.4, 2017 1.6, 2018 -34.2, 2019 13.8, 2020 5.2, 2022 36.6). Note: pre-2022 letters' headline annual figure was already for 'the Greenlight Capital funds (the Partnerships)' as a weighted average (2020 letter disclosure: 'performance returns reflect the weighted average total returns'), Greenlight Capital, L.P. was used for since-inception figures; 2011 letter gives separate L.P./Qualified/Offshore numbers. Several Q4 letters (2012, 2016, 2017, 2018) phrase the full-year number as 'year-to-date' through Dec 31 - these are full calendar years, flagged in variant; drop them if your rule excludes any YTD wording (the 2014-2022 table covers 2016-2018 anyway). No conflicts found between sources for any year. Sources with source_kind 'firm' hosted on third-party sites (scribd, slideshare, hedgefundalpha, acquirersmultiple, valuewalk, empirefinancialresearch) reproduce the letter text verbatim."
+  },
+  {
+   "id": "third_point",
+   "name": "Third Point Offshore Fund, Ltd.",
+   "manager": "Daniel Loeb",
+   "years": [
+    {
+     "year": 2008,
+     "net_pct": -32.7,
+     "variant": "Offshore; firm monthly performance table (as of Mar 2023), YTD column of full year",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2008 -3.8% 1.4% -1.9% 1.1% 3.3% 1.6% -9.2% -0.6% -11.1% -10.1% -2.7% -5.6% -32.7% 1,522",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2009,
+     "net_pct": 38.6,
+     "variant": "Offshore; firm performance table",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2009 0.4% 0.3% -3.3% 0.8% 7.3% 1.7% 6.6% 6.4% 5.6% -1.0% 4.3% 4.6% 38.6% 1,414",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2009,
+     "net_pct": 38.6,
+     "variant": "Offshore (aggregator year-end list)",
+     "url": "https://www.marketfolly.com/2010/01/hedge-fund-2009-performance-numbers.html",
+     "quote": "Third Point LLC Offshore Fund: +38.6%",
+     "source_kind": "aggregator",
+     "local_file": "src/third_point/www_marketfolly_com_2010_01_hedge-fund-2009-performance-numbers_html.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2010,
+     "net_pct": 33.7,
+     "variant": "Offshore; firm performance table",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2010 3.5% 3.2% 7.9% 3.5% -5.7% -2.1% 3.4% 0.6% 4.0% 4.9% 0.1% 6.8% 33.7% 2,525",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2010,
+     "net_pct": 34.0,
+     "variant": "Offshore (aggregator year-end list, rounded)",
+     "url": "https://www.marketfolly.com/2011/01/2010-hedge-fund-returns-performance.html",
+     "quote": "Third Point: +34%",
+     "source_kind": "aggregator",
+     "local_file": "src/third_point/www_marketfolly_com_2011_01_2010-hedge-fund-returns-performance_html.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 0.0,
+     "variant": "Offshore; firm performance table",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2011 3.9% 3.5% 0.9% 1.4% -0.4% -2.8% 0.2% -2.8% -3.6% 0.8% -0.3% -0.6% 0.0% 4,352",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2012,
+     "net_pct": 21.0,
+     "variant": "Offshore; firm performance table",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2012 3.9% 1.0% 1.5% -0.1% -2.6% 0.2% 1.5% 1.7% 3.4% 2.5% 2.9% 3.4% 21.0% 5,035",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2013,
+     "net_pct": 25.2,
+     "variant": "Offshore; firm performance table",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2013 4.7% 1.2% 2.9% 1.5% 3.6% -1.8% 2.9% -0.7% 2.6% 1.2% 2.6% 2.3% 25.2% 6,446",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2014,
+     "net_pct": 5.7,
+     "variant": "Offshore; firm performance table",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2014 -1.9% 4.4% 0.9% -1.1% 1.8% 1.9% -1.3% 1.7% -0.3% -1.4% 2.4% -1.3% 5.7% 7,784",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2014,
+     "net_pct": 5.7,
+     "variant": "Offshore; Q4 2014 letter (TPOI version) mirrored on SlideShare, 'Year-to-Date' through Dec 31",
+     "url": "https://www.slideshare.net/slideshow/third-pointq42014investorlettertpoi/44486900",
+     "quote": "2014 Year-to-Date Performance* 5.7% 13.7%",
+     "source_kind": "firm",
+     "local_file": "src/third_point/www_slideshare_net_slideshow_third-pointq42014investorlettertpoi_44486900.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": -1.4,
+     "variant": "Offshore; firm performance table",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2015 -2.3% 4.8% 0.9% 0.5% 1.9% -0.8% 0.7% -5.3% -4.5% 4.7% -0.2% -1.2% -1.4% 7,527",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2015,
+     "net_pct": -1.2,
+     "variant": "Offshore (press, approximate: 'about 1.2 percent', published Jan 4 2016 likely on preliminary data)",
+     "url": "https://www.institutionalinvestor.com/article/2bsy5m9h4zukkrcjg36kg/portfolio/the-morning-brief-loebs-third-point-finishes-year-with-loss",
+     "quote": "lost about 1 percent in December and about 1.2 percent for the year",
+     "source_kind": "press",
+     "local_file": "src/third_point/www_institutionalinvestor_com_article_2bsy5m9h4zukkrcjg36kg_portfolio_the-mornin.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": 6.1,
+     "variant": "Offshore; firm performance table (Q4 2016 letter not found)",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2016 -3.5% -0.6% 1.9% 1.9% 1.8% 0.8% 3.0% 0.8% 1.1% -0.7% -0.8% 0.5% 6.1% 7,043",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2017,
+     "net_pct": 17.9,
+     "variant": "Offshore; firm performance table (restated/final)",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2017 2.6% 2.4% 0.8% 1.6% 2.2% 0.7% 0.9% 1.4% 1.2% 3.0% 0.1% -0.2% 17.9% 7,480",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2017,
+     "net_pct": 18.1,
+     "variant": "Offshore; Q4 2017 letter as reproduced on Yahoo Finance/GuruFocus",
+     "url": "https://finance.yahoo.com/news/daniel-loebs-4th-quarter-shareholder-213225925.html",
+     "quote": "In 2017, we generated net returns of +18.1% in the flagship Offshore Fund.",
+     "source_kind": "firm",
+     "local_file": "src/third_point/finance_yahoo_com_news_daniel-loebs-4th-quarter-shareholder-213225925_html.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": -11.3,
+     "variant": "Offshore; firm performance table",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2018 3.8% -3.0% -1.3% 0.8% 1.1% -0.5% -0.3% 0.2% 0.0% -7.0% 1.2% -6.4% -11.3% 6,041",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": -11.3,
+     "variant": "Offshore; Q4 2018 letter as reproduced on GuruFocus",
+     "url": "https://www.gurufocus.com/news/821198/dan-loebs-third-point-4thquarter-2018-investor-letter",
+     "quote": "bringing returns for 2018 to -11.3%",
+     "source_kind": "firm",
+     "local_file": "src/third_point/www_gurufocus_com_news_821198_dan-loebs-third-point-4thquarter-2018-investor-let.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 17.0,
+     "variant": "Offshore; firm performance table (Q4 2019 letter text found did not state the full-year figure)",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2019 3.0% 2.8% 2.9% 1.8% -1.8% 3.8% 2.3% -0.2% -2.3% -1.2% 2.9% 2.1% 17.0% 6,128",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 19.2,
+     "variant": "Offshore; firm performance table - from 2020 restated to 'indicative performance for a new issues eligible investor in the highest management fee (2%) and incentive (20%) class'",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2020 0.9% -6.5% -11.4% 7.0% 1.5% 1.9% 3.8% 8.0% -0.5% -0.7% 8.6% 7.2% 19.2% 6,901",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 20.5,
+     "variant": "Offshore; Q4 2020 letter (dated Feb 10 2021) as reproduced on GuruFocus - original basis",
+     "url": "https://www.gurufocus.com/news/1357506/daniel-loebs-third-point-4thquarter-investor-letter",
+     "quote": "For 2020, the fund returned +20.5% for Offshore.",
+     "source_kind": "firm",
+     "local_file": "src/third_point/www_gurufocus_com_news_1357506_daniel-loebs-third-point-4thquarter-investor-lett.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": 22.5,
+     "variant": "Offshore; firm performance table (highest-fee-class indicative basis)",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2021 1.9% 2.3% 6.5% 1.9% 1.3% 0.4% -0.3% 8.9% 3.6% 4.2% -6.9% -2.4% 22.5% 8,155",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": -21.9,
+     "variant": "Offshore; firm performance table (highest-fee-class indicative basis)",
+     "url": "https://assets.thirdpoint.com/f/160155/x/1df98383e2/2023-03-third-point-performance.pdf?cv=1680648300940",
+     "quote": "2022 -7.8% -2.8% -1.6% -1.5% -1.6% -6.5% -0.4% -0.3% -2.5% 2.2% -0.6% -0.5% -21.9% 5,259",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp_perf_2023-03_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": -21.7,
+     "variant": "Offshore; Q4 2022 letter table (first Q4/YTD pair = TP Offshore; YTD 'Through December 31, 2022')",
+     "url": "https://a.storyblok.com/f/166217/x/c179ba3ef3/third-point-q4-2022-investor-letter-tpil.pdf",
+     "quote": "Q4* YTD* 1.2% -21.7% 1.7% -6.8%",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp2022q4_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": -21.8,
+     "variant": "Offshore (press, citing firm's December monthly report)",
+     "url": "https://www.institutionalinvestor.com/article/2bsts3iaff2qv8cimdvr4/premium/what-drove-third-points-disastrous-year",
+     "quote": "Third Point Offshore fund dropped 21.8 percent in 2022",
+     "source_kind": "press",
+     "local_file": "src/third_point/www_institutionalinvestor_com_article_2bsts3iaff2qv8cimdvr4_premium_what-drove-t.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 3.4,
+     "variant": "Offshore; Q4 2023 letter table (Q4, YTD through Dec 31 2023, annualized)",
+     "url": "https://assets.thirdpointlimited.com/f/166217/x/4c01ad22d8/fourth-quarter-2023-investor-letter-tpil.pdf",
+     "quote": "TP OFFSHORE FUND, LTD. 7.6% 3.4% 12.9%",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp2023q4_raw.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 4.0,
+     "variant": "Third Point fund (press, approximate 'about 4 percent')",
+     "url": "https://www.institutionalinvestor.com/article/2e9dav7vlsldizaehfegw/premium/the-return-of-dan-loeb",
+     "quote": "Third Point only gained about 4 percent in 2023",
+     "source_kind": "press",
+     "local_file": "src/third_point/www_institutionalinvestor_com_article_2e9dav7vlsldizaehfegw_premium_the-return-o.txt",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 24.2,
+     "variant": "Offshore; Q4 2024 letter",
+     "url": "https://assets.thirdpointlimited.com/f/166217/x/bc70b1b6dc/third-point-q4-2024-investor-letter_tpil.pdf",
+     "quote": "year 2024, Third Point returned 24.2% in the flagship Offshore Fund.",
+     "source_kind": "firm",
+     "local_file": "src/third_point/tp2024q4.txt",
+     "verified": "ok"
+    }
+   ],
+   "notes": "MISSING: 2025 - the Q4 2025 letter (src/third_point/tp2025q4.txt) gives only Q4 (1.9%) and annualized-since-inception (13.1%), no full-year figure; no press figure found. Compounding quarterly letters would give ~8.9% but that is a computation and was NOT recorded. CONFLICTS (letter at the time vs firm performance table dated Mar 2023): 2017 18.1 vs 17.9; 2020 20.5 vs 19.2; 2022 -21.7 (letter) vs -21.9 (table) vs -21.8 (II citing December monthly report). Likely cause: from Jan 1 2020 the firm restated history to an 'indicative' highest-fee (2/20) new-issues-eligible class; pre-2020 table numbers are blended actual fees. 2021 letter reportedly says +22.7% (search-engine snippet of Seeking Alpha copy) vs table 22.5%, but the letter page could not be fetched (Seeking Alpha blocks curl), so 22.7 is NOT recorded. 2015: table -1.4 vs II 'about 1.2 percent' (press, early Jan). 2023: letter 3.4 vs II 'about 4 percent'. TABLE NOTE: pdftotext -layout misaligns year labels by one row in the performance PDF; the -raw extraction (tp_perf_2023-03_raw.txt) aligns them and was cross-checked against letters (2014 5.7, 2018 -11.3 match exactly; 2009 38.6 matches marketfolly; 2020 row shows the Covid March -11.4%). Third Point Partners L.P. series also exists in the same PDF (e.g. 2009 38.4, 2010 41.7, 2011 -0.4, 2012 20.8, 2013 26.0) - not recorded as Offshore. TPIL/Third Point Investors Ltd NAV returns (e.g. 2023 4.0%) are a listed feeder, not recorded. Ultra fund not recorded."
+  },
+  {
+   "id": "two_sigma",
+   "name": "Two Sigma (Spectrum / Absolute Return Enhanced)",
+   "manager": "Two Sigma Investments (John Overdeck, David Siegel)",
+   "years": [
+    {
+     "year": 2016,
+     "net_pct": 3.0,
+     "variant": "Spectrum",
+     "url": "https://web.archive.org/web/2017/https://www.forbes.com/sites/nathanvardi/2017/05/12/renaissance-and-two-sigma-growing-at-stunning-pace-now-nations-2nd-biggest-hedge-funds/",
+     "quote": "flagship Spectrum fund returned about 3% last year",
+     "source_kind": "press",
+     "local_file": "src/two_sigma/forbes_2017_wb.html",
+     "note": "Forbes 2017-05-12 (Wayback copy); 'last year' = 2016; 'about 3%' approximate",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": 3.0,
+     "variant": "Spectrum",
+     "url": "https://finance.yahoo.com/news/two-sigma-advisors-return-aum-173007870.html",
+     "quote": "while its flagship Spectrum fund delivered a return of 3%",
+     "source_kind": "aggregator",
+     "local_file": "src/two_sigma/yahoo_im_2018.html",
+     "note": "Insider Monkey piece syndicated on Yahoo; sentence begins 'In 2016, its Compass fund ... gained 10.35%'",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 1.1,
+     "variant": "Spectrum",
+     "url": "https://www.institutionalinvestor.com/article/2bswrhqnqgdyo779uscg0/portfolio/two-sigma-renaissance-rebound-in-2021",
+     "quote": "after gaining 6.71 percent last year and 1.1 percent in 2019, according to the source",
+     "source_kind": "press",
+     "local_file": "src/two_sigma/ii_2021.html",
+     "note": "II 2021-12-21; subject of sentence is 'Two Sigma Spectrum, an equity quant fund'",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 6.71,
+     "variant": "Spectrum",
+     "url": "https://www.institutionalinvestor.com/article/2bswrhqnqgdyo779uscg0/portfolio/two-sigma-renaissance-rebound-in-2021",
+     "quote": "after gaining 6.71 percent last year and 1.1 percent in 2019, according to the source",
+     "source_kind": "press",
+     "local_file": "src/two_sigma/ii_2021.html",
+     "note": "II 2021-12-21; 'last year' = 2020",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 12.0,
+     "variant": "Absolute Return Enhanced",
+     "url": "https://web.archive.org/web/2024/https://www.bloomberg.com/news/articles/2024-01-29/two-sigma-s-macro-compass-enhanced-fund-sank-16-last-year",
+     "quote": "Absolute Return Enhanced fund, which trades across various strategies, gained 12% last year",
+     "source_kind": "press",
+     "local_file": "src/two_sigma/bbg_2023_wb.html",
+     "note": "Bloomberg 2024-01-29 (Wayback copy)",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 8.6,
+     "variant": "Spectrum",
+     "url": "https://web.archive.org/web/2024/https://www.bloomberg.com/news/articles/2024-01-29/two-sigma-s-macro-compass-enhanced-fund-sank-16-last-year",
+     "quote": "Its equity quant fund, Spectrum, rose 8.6%.",
+     "source_kind": "press",
+     "local_file": "src/two_sigma/bbg_2023_wb.html",
+     "note": "Bloomberg 2024-01-29 (Wayback copy)",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 12.0,
+     "variant": "Absolute Return Enhanced",
+     "url": "https://www.hedgeweek.com/two-sigma-posts-solid-gains-despite-year-of-drama/",
+     "quote": "returned 12% and 8.6% respectively over the course of 2023",
+     "source_kind": "press",
+     "local_file": "src/two_sigma/hw_2023.html",
+     "note": "Hedgeweek 2024-01-08 citing Business Insider; order is Absolute Return Enhanced then Spectrum",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 8.6,
+     "variant": "Spectrum",
+     "url": "https://www.hedgeweek.com/two-sigma-posts-solid-gains-despite-year-of-drama/",
+     "quote": "returned 12% and 8.6% respectively over the course of 2023",
+     "source_kind": "press",
+     "local_file": "src/two_sigma/hw_2023.html",
+     "note": "Hedgeweek 2024-01-08 citing Business Insider",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 10.9,
+     "variant": "Spectrum",
+     "url": "https://www.hedgeweek.com/renaissance-tech-and-two-sigma-lead-2024-quant-gains/",
+     "quote": "delivered 10.9% returns in its flagship Spectrum fund and 14.3% in its Absolute Return Enhanced strategy",
+     "source_kind": "press",
+     "local_file": "src/two_sigma/hw_2024.html",
+     "note": "Hedgeweek 2025-01-14 citing Business Insider",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 14.3,
+     "variant": "Absolute Return Enhanced",
+     "url": "https://www.hedgeweek.com/renaissance-tech-and-two-sigma-lead-2024-quant-gains/",
+     "quote": "delivered 10.9% returns in its flagship Spectrum fund and 14.3% in its Absolute Return Enhanced strategy",
+     "source_kind": "press",
+     "local_file": "src/two_sigma/hw_2024.html",
+     "note": "Hedgeweek 2025-01-14 citing Business Insider",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 15.0,
+     "variant": "Absolute Return Enhanced",
+     "url": "https://hedgeweek.com/news/new-mexico-pension-pulls-100m-from-two-sigma",
+     "quote": "following a 15% return in 2025, according to a person familiar with its performance",
+     "source_kind": "press",
+     "local_file": "src/two_sigma/hw_newmexico.html",
+     "note": "Hedgeweek 2026-09-02; subject is 'The Absolute Return Enhanced Fund'",
+     "verified": "ok"
+    }
+   ],
+   "notes": "Coverage is sparse: Two Sigma does not publish returns; press figures come from anonymous sources. Spectrum found for 2016, 2019, 2020, 2023, 2024; Absolute Return Enhanced (ARE) for 2023, 2024, 2025. Missing (not found/only partial-year): 2008-2015 both variants; Spectrum 2017, 2018, 2021 (II Dec-2021 only 'up about 3 percent' YTD through Nov -> excluded), 2022, 2025 (only H1 2025 7.6% via Hedgeweek -> excluded); ARE 2008-2022 (Hedgeweek: ARE 'annualised return of about 10% through late 2022' = multi-year, excluded; ARE Jan-2021 -8.6% monthly, excluded; ARE 2025 'about 13% through November' excluded, full-year 15% kept). Out-of-scope sibling fund NOT entered: Two Sigma Absolute Return (non-Enhanced) 2014 +10.06% (Forbes 2015-01-13 Wayback, src/two_sigma/forbes_2014_wb.html) and 2020 -1.24% (II 2021-12-21) - caller may add as a separate variant if desired. No conflicts between sources for any entered year (2023 Bloomberg and Hedgeweek/BI agree). Bloomberg pages are paywalled to curl; read via web.archive.org snapshots."
+  },
+  {
+   "id": "tiger_global",
+   "name": "Tiger Global Investments (flagship long-short hedge fund)",
+   "manager": "Tiger Global Management (Chase Coleman)",
+   "years": [
+    {
+     "year": 2008,
+     "net_pct": -26.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bsvkcnfxxuz4rwibt7uo/portfolio/tiger-global-top-hedge-fund-of-2011",
+     "quote": "Tiger Global was up 18 percent in 2010 after climbing just 1 percent the prior year and losing 26 percent in 2008.",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_top2011.html",
+     "note": "II 2012-01-06",
+     "verified": "ok"
+    },
+    {
+     "year": 2008,
+     "net_pct": -26.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bsyymses5tkhgifib5s0/portfolio/tiger-globals-coleman-up-10-percent",
+     "quote": "After dropping 26 percent in 2008 and 1 percent in 2009, the Tiger Cub/Seed has recovered nicely.",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_up10.html",
+     "note": "II 2011-04-12",
+     "verified": "ok"
+    },
+    {
+     "year": 2008,
+     "net_pct": -26.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.insidermonkey.com/hedge-fund/tiger+global+management+llc/25/",
+     "quote": "Tiger Global lost 26% in 2008 and was up about 1% in 2009.",
+     "source_kind": "aggregator",
+     "local_file": "src/tiger_global/insidermonkey.html",
+     "note": "no primary citation on page",
+     "verified": "ok"
+    },
+    {
+     "year": 2009,
+     "net_pct": 1.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bsvkcnfxxuz4rwibt7uo/portfolio/tiger-global-top-hedge-fund-of-2011",
+     "quote": "Tiger Global was up 18 percent in 2010 after climbing just 1 percent the prior year and losing 26 percent in 2008.",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_top2011.html",
+     "note": "II 2012-01-06; 'the prior year' = 2009. CONFLICT with II 2011-04-12 (-1%)",
+     "verified": "ok"
+    },
+    {
+     "year": 2009,
+     "net_pct": -1.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bsyymses5tkhgifib5s0/portfolio/tiger-globals-coleman-up-10-percent",
+     "quote": "After dropping 26 percent in 2008 and 1 percent in 2009, the Tiger Cub/Seed has recovered nicely.",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_up10.html",
+     "note": "II 2011-04-12; 'dropping ... 1 percent in 2009' read as -1%. CONFLICT with II 2012-01-06 and Insider Monkey (+1%); sign may be a drafting ambiguity",
+     "verified": "ok"
+    },
+    {
+     "year": 2009,
+     "net_pct": 1.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.insidermonkey.com/hedge-fund/tiger+global+management+llc/25/",
+     "quote": "Tiger Global lost 26% in 2008 and was up about 1% in 2009.",
+     "source_kind": "aggregator",
+     "local_file": "src/tiger_global/insidermonkey.html",
+     "note": "'about 1%'",
+     "verified": "ok"
+    },
+    {
+     "year": 2010,
+     "net_pct": 18.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bsvkcnfxxuz4rwibt7uo/portfolio/tiger-global-top-hedge-fund-of-2011",
+     "quote": "Tiger Global was up 18 percent in 2010 after climbing just 1 percent the prior year and losing 26 percent in 2008.",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_top2011.html",
+     "note": "II 2012-01-06",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 45.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bsvkcnfxxuz4rwibt7uo/portfolio/tiger-global-top-hedge-fund-of-2011",
+     "quote": "Tiger Global Management finished 2011 up 45 percent, making it perhaps the best performing hedge fund last year.",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_top2011.html",
+     "note": "II 2012-01-06",
+     "verified": "ok"
+    },
+    {
+     "year": 2011,
+     "net_pct": 45.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.insidermonkey.com/hedge-fund/tiger+global+management+llc/25/",
+     "quote": "Chase Coleman and his team returned 45% in 2011, 23% in 2012, 14% in 2013, and 17% in 2014.",
+     "source_kind": "aggregator",
+     "local_file": "src/tiger_global/insidermonkey.html",
+     "note": "no primary citation on page",
+     "verified": "ok"
+    },
+    {
+     "year": 2012,
+     "net_pct": 23.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.insidermonkey.com/hedge-fund/tiger+global+management+llc/25/",
+     "quote": "Chase Coleman and his team returned 45% in 2011, 23% in 2012, 14% in 2013, and 17% in 2014.",
+     "source_kind": "aggregator",
+     "local_file": "src/tiger_global/insidermonkey.html",
+     "note": "aggregator only; no press source found",
+     "verified": "ok"
+    },
+    {
+     "year": 2013,
+     "net_pct": 14.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.insidermonkey.com/hedge-fund/tiger+global+management+llc/25/",
+     "quote": "Chase Coleman and his team returned 45% in 2011, 23% in 2012, 14% in 2013, and 17% in 2014.",
+     "source_kind": "aggregator",
+     "local_file": "src/tiger_global/insidermonkey.html",
+     "note": "aggregator only; no press source found",
+     "verified": "ok"
+    },
+    {
+     "year": 2014,
+     "net_pct": 17.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.insidermonkey.com/hedge-fund/tiger+global+management+llc/25/",
+     "quote": "Chase Coleman and his team returned 45% in 2011, 23% in 2012, 14% in 2013, and 17% in 2014.",
+     "source_kind": "aggregator",
+     "local_file": "src/tiger_global/insidermonkey.html",
+     "note": "aggregator only. Search snippets attribute 16.9% (onshore fund, firm letter) to a Benzinga article, but the page could not be retrieved (redirects to homepage) -> not entered",
+     "verified": "ok"
+    },
+    {
+     "year": 2016,
+     "net_pct": -14.9,
+     "variant": "flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bsvqvum7k8lz6wbod5a8/portfolio/tiger-related-funds-are-not-celebrating-the-markets-2016-surge",
+     "quote": "Tiger Global Management, which finished the year down 14.9 percent after declining slightly in the fourth quarter",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_2016.html",
+     "note": "II 2017-01-09; same article: 'horrendous start to 2016'",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 13.6,
+     "variant": "flagship hedge fund (Tiger Global Investments, long-short)",
+     "url": "https://www.institutionalinvestor.com/article/2bswlkexrwhg27k9zmscg/premium/how-tiger-global-delivered-big-in-2018",
+     "quote": "posted a 13.6 percent net gain in 2018, according to client letters obtained by Institutional Investor",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_2018.html",
+     "note": "II 2019-02-01, from client letters",
+     "verified": "ok"
+    },
+    {
+     "year": 2018,
+     "net_pct": 14.0,
+     "variant": "flagship hedge fund",
+     "url": "https://web.archive.org/web/2019/https://www.bloomberg.com/news/articles/2019-01-09/coleman-s-tiger-global-hedge-fund-is-said-to-jump-14-in-2018",
+     "quote": "Tiger Global Management gained almost 14 percent last year in its flagship hedge fund",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/bbg_2018_wb.html",
+     "note": "Bloomberg 2019-01-09 (Wayback copy); 'almost 14' -> consistent with 13.6",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 33.0,
+     "variant": "flagship hedge fund",
+     "url": "https://web.archive.org/web/2020/https://www.bloomberg.com/news/articles/2020-01-08/chase-coleman-s-hedge-fund-tiger-global-ends-2019-with-33-gain",
+     "quote": "Tiger Global Management returned 33% last year, beating the broader stock market",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/bbg_2019_wb.html",
+     "note": "Bloomberg 2020-01-08 (Wayback copy)",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 33.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.institutionalinvestor.com/article/2bsx36t4nj1hd8zxpfdog/portfolio/these-hedge-funds-thrived-in-2019-are-they-surviving-2020",
+     "quote": "The Tiger Cub gained 33 percent in 2019, outperforming the 29 percent return recorded by the S&P 500 index.",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_thrived2019.html",
+     "note": "II 2020-07-01",
+     "verified": "ok"
+    },
+    {
+     "year": 2019,
+     "net_pct": 32.7,
+     "variant": "flagship hedge fund (long-short)",
+     "url": "https://www.institutionalinvestor.com/article/2bsx3n7pvtwbju630qz28/premium/tiger-global-cuts-risk-reaps-returns",
+     "quote": "Last year the long-short fund gained 32.7",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_cutsrisk.html",
+     "note": "II 2020-02-04, 'last year' = 2019; paywall cuts sentence right after '32.7' (word 'percent' not visible). Precise figure behind the rounded 33%",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 48.4,
+     "variant": "flagship hedge fund (long-short)",
+     "url": "https://www.institutionalinvestor.com/article/b1q8fxt5bh8wd6/This-Hedge-Fund-Made-the-Most-Money-for-Investors-Last-Year",
+     "quote": "long-short fund was up 48.4 percent for the year, its second-best ever",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_2020.html",
+     "note": "II 2021-01-25",
+     "verified": "ok"
+    },
+    {
+     "year": 2020,
+     "net_pct": 65.1,
+     "variant": "long-only (Tiger Global Long Opportunities) - EXCLUDE from flagship series",
+     "url": "https://www.institutionalinvestor.com/article/b1q8fxt5bh8wd6/This-Hedge-Fund-Made-the-Most-Money-for-Investors-Last-Year",
+     "quote": "Tiger Global also has a long-only fund, which gained 65.1 percent",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_2020.html",
+     "note": "II 2021-01-25",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": -7.0,
+     "variant": "flagship hedge fund (long-short)",
+     "url": "https://www.institutionalinvestor.com/article/2d230fjj2q1h5c1zb3ncw/premium/whats-happening-with-the-famed-tiger-hedge-funds",
+     "quote": "the long-short fund lost 56 percent in 2022 and 7 percent in 2021",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_famed.html",
+     "note": "II 2024-04-03",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": -7.0,
+     "variant": "flagship hedge fund",
+     "url": "https://finance.yahoo.com/news/chase-colemans-tiger-global-hedge-192809699.html",
+     "quote": "with the hedge fund declining 7% in 2021 and plummeting 56% in 2022",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/yahoo_2023.html",
+     "note": "Benzinga via Yahoo 2024-01-05, citing Bloomberg",
+     "verified": "ok"
+    },
+    {
+     "year": 2021,
+     "net_pct": -7.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.hedgeweek.com/tiger-global-trails-rival-cubs-despite-july-gains/",
+     "quote": "Tiger Global continues to recover from steep losses in 2021 (-7%) and 2022 (-56%).",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/hw_july2025.html",
+     "note": "Hedgeweek 2025-08, citing Bloomberg",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": -56.0,
+     "variant": "flagship hedge fund (long-short)",
+     "url": "https://www.institutionalinvestor.com/article/2d230fjj2q1h5c1zb3ncw/premium/whats-happening-with-the-famed-tiger-hedge-funds",
+     "quote": "the long-short fund lost 56 percent in 2022 and 7 percent in 2021",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_famed.html",
+     "note": "II 2024-04-03",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": -56.0,
+     "variant": "flagship hedge fund",
+     "url": "https://finance.yahoo.com/news/chase-colemans-tiger-global-hedge-192809699.html",
+     "quote": "with the hedge fund declining 7% in 2021 and plummeting 56% in 2022",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/yahoo_2023.html",
+     "note": "Benzinga via Yahoo 2024-01-05, citing Bloomberg",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": -56.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.hedgeweek.com/tiger-global-trails-rival-cubs-despite-july-gains/",
+     "quote": "Tiger Global continues to recover from steep losses in 2021 (-7%) and 2022 (-56%).",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/hw_july2025.html",
+     "note": "Hedgeweek 2025-08, citing Bloomberg",
+     "verified": "ok"
+    },
+    {
+     "year": 2022,
+     "net_pct": -67.0,
+     "variant": "long-only (Tiger Global Long Opportunities) - EXCLUDE from flagship series",
+     "url": "https://www.institutionalinvestor.com/article/2d230fjj2q1h5c1zb3ncw/premium/whats-happening-with-the-famed-tiger-hedge-funds",
+     "quote": "the long-only fund dropped 67 percent in 2022",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_famed.html",
+     "note": "II 2024-04-03",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 28.5,
+     "variant": "flagship hedge fund (long-short)",
+     "url": "https://www.institutionalinvestor.com/article/2d230fjj2q1h5c1zb3ncw/premium/whats-happening-with-the-famed-tiger-hedge-funds",
+     "quote": "In 2023, the long-short fund gained 28.5 percent and the long-only fund rose 20.4 percent.",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_famed.html",
+     "note": "II 2024-04-03",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 28.5,
+     "variant": "flagship hedge fund",
+     "url": "https://finance.yahoo.com/news/chase-colemans-tiger-global-hedge-192809699.html",
+     "quote": "hedge fund concluded 2023 on a high note, registering a gain of 28.5%.",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/yahoo_2023.html",
+     "note": "Benzinga via Yahoo 2024-01-05, citing Bloomberg (Bloomberg headline rounds to 29%)",
+     "verified": "ok"
+    },
+    {
+     "year": 2023,
+     "net_pct": 20.4,
+     "variant": "long-only (Tiger Global Long Opportunities) - EXCLUDE from flagship series",
+     "url": "https://www.institutionalinvestor.com/article/2d230fjj2q1h5c1zb3ncw/premium/whats-happening-with-the-famed-tiger-hedge-funds",
+     "quote": "In 2023, the long-short fund gained 28.5 percent and the long-only fund rose 20.4 percent.",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_famed.html",
+     "note": "II 2024-04-03",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 24.0,
+     "variant": "flagship hedge fund",
+     "url": "https://www.hedgeweek.com/tech-surge-helps-tiger-cubs-post-second-straight-year-of-gains/",
+     "quote": "Tiger Global Management recorded a 24% gain",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/hw_2024.html",
+     "note": "Hedgeweek 2025-01-10 citing Bloomberg; 'last year' = 2024",
+     "verified": "ok"
+    },
+    {
+     "year": 2024,
+     "net_pct": 24.0,
+     "variant": "flagship hedge fund",
+     "url": "https://en.wikipedia.org/wiki/Tiger_Global_Management",
+     "quote": "In 2024, Tiger Global rebounded with 24% returns tied to rising technology stocks",
+     "source_kind": "aggregator",
+     "local_file": "src/tiger_global/wiki.html",
+     "note": "Wikipedia",
+     "verified": "ok"
+    },
+    {
+     "year": 2025,
+     "net_pct": 7.9,
+     "variant": "flagship hedge fund (long-short)",
+     "url": "https://www.institutionalinvestor.com/article/hedge-funds/rich-list-institutional-investors-25th-annual-ranking-highest-earning-hedge",
+     "quote": "long-short fund posted a market-lagging 7.9 percent return in 2025",
+     "source_kind": "press",
+     "local_file": "src/tiger_global/ii_richlist2026.html",
+     "note": "II Rich List (2026); subject is Tiger Global's long-short fund",
+     "verified": "ok"
+    }
+   ],
+   "notes": "Flagship = Tiger Global Investments long-short hedge fund. Found 16 of 18 target years (2008-2014, 2016, 2018-2025). Missing: 2015 (Reuters 2016-04-06 / 2016-03-03 reportedly say +6.8% in 2015, but both Investing.com reposts are Cloudflare-blocked to curl, no Wayback snapshot, and WebFetch was blocked by a local hook; Benzinga copy also unretrievable -> not entered); 2017 (only partial-year: CNBC 2017-11-11 '34.5 percent through October' and II H1 figure -> excluded). CONFLICT: 2009 = +1% (II 2012-01-06; Insider Monkey 'about 1%') vs -1% (II 2011-04-12 'dropping 26 percent in 2008 and 1 percent in 2009'). Minor rounding differences (not true conflicts): 2018 13.6 (II, client letters) vs ~14 (Bloomberg 'almost 14'); 2019 32.7 (II) vs 33 (Bloomberg, II). 2012-2014 rest on an aggregator (Insider Monkey) only. Long-only entries included only where explicitly labeled (2020, 2022, 2023) and marked EXCLUDE. Bloomberg pages read via web.archive.org snapshots (direct curl hits a bot wall). A search-engine summary wrongly attributed II's 'last year 32.7' to 2017; the saved page is dated February 4, 2020, so it is 2019."
+  }
+ ]
+}

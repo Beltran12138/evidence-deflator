@@ -18,7 +18,7 @@
 <script>try{if(localStorage.getItem('ed_theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}
 function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/assets/chrome.css?v=4e0582a5">
+<link rel="stylesheet" href="/assets/chrome.css?v=666db965">
 <link rel="stylesheet" href="/assets/site.css?v=dcbe4c81">
 <link rel="alternate" hreflang="en" href="https://evidencedeflator.com/method/">
 <link rel="alternate" hreflang="zh-Hans" href="https://evidencedeflator.com/zh-hans/method/">
@@ -58,11 +58,11 @@ function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if
 <p><strong>你的挑選範圍，決定你的門檻。</strong>錢包頁會問你是怎麼找到這個錢包的：隨手挑中（門檻 2.00）、從 10 個左右的名單裏（2.84）、從某個前 100 名裏（3.51），還是從整個榜單裏（4.90）。只有你知道答案；預設按整個榜單算，因為大多數錢包是這樣被找到的。</p>
 
 <h2 id="masters">0.6 · 拿名人戰績校準</h2>
-<p>同一把尺子，量一量沒人會說是運氣的記錄。年收益對標普 500（含股息）做迴歸，alpha 的 t 換算成和錢包 t 同一個正態尺度。</p>
+<p>同一把尺子，量一量沒人會說是運氣的記錄。扣掉一個月國債收益後的年收益，對同樣扣過的標普 500（含股息）做迴歸，alpha 的 t 換算成和錢包 t 同一個正態尺度。</p>
 <div class="table-wrap"><table class="data compact"><thead><tr><th>記錄</th><th>年份</th><th class="r">alpha 的 z</th><th class="r">β</th><th>按 Hyperliquid 門檻（4.90）的判決</th></tr></thead><tbody>
-<tr><td>文藝復興大獎章基金，扣費後</td><td>1988–2018</td><td class="r">7.05</td><td class="r">−0.58</td><td>證據充分</td></tr>
-<tr><td>伯克希爾·哈撒韋（巴菲特），每股市值</td><td>1965–2025</td><td class="r">2.77</td><td class="r">0.90</td><td>有希望，未證實</td></tr>
-<tr><td>伯克希爾·哈撒韋，2001 年以後</td><td>2001–2025</td><td class="r">1.79</td><td class="r">0.59</td><td>像運氣</td></tr>
+<tr><td>文藝復興大獎章基金，扣費後</td><td>1988–2018</td><td class="r">6.93</td><td class="r">-0.59</td><td>證據充分</td></tr>
+<tr><td>伯克希爾·哈撒韋（巴菲特），每股市值</td><td>1965–2025</td><td class="r">3.15</td><td class="r">0.81</td><td>有希望，未證實</td></tr>
+<tr><td>伯克希爾·哈撒韋，2001 年以後</td><td>2001–2025</td><td class="r">1.65</td><td class="r">0.59</td><td>像運氣</td></tr>
 </tbody></table></div>
 <p>所以記錄足夠出色、足夠長的時候，這把尺子會說「過」：大獎章輕鬆過了「4.7 萬選 1」的門檻。巴菲特用了六十年才到「有希望」，只看最近 25 年，相對指數的超額收益在運氣能解釋的範圍內。被證明本來就需要很長的記錄；Hyperliquid 上最老的記錄從 2023 年 5 月才開始。</p>
 <p><strong>為什麼要對比大盤。</strong>如果對零檢驗，標普 500 指數自己在 1965–2025 年就能到 4.94，過得了門檻：只看絕對收益，會把大盤上漲算成本事。來源：伯克希爾 2025 年致股東信附表；Cornell (2019) 表 1，源自 Zuckerman (2019)，是估計值，不是審計數。腳本：<a href="https://github.com/Beltran12138/evidence-deflator/blob/main/tools/masters_calibration.py"><code>tools/masters_calibration.py</code></a>。</p>

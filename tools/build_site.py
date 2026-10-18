@@ -753,7 +753,7 @@ def build_ranking_page():
  <div><b>{by['brk']['z']:.2f}</b><span>Berkshire Hathaway over {by['brk']['years']:.0f} years against the S&amp;P 500; {by['brk_2001']['z']:.2f} from 2001 on</span></div>
  <div><b>{n_scored}</b><span>records scored; {len(d['needs_data'])} famous names have no public return series to score</span></div>
 </div>
-<p style="margin:6px 0 14px"><b>Length is already in z.</b> A short record needs more return per unit of risk to reach the same z, so a 3-year vault at 3.4 and Buffett’s 61 years at 2.8 are on one scale: the vault’s returns were far steadier, so a short record could get that far. What z cannot say is whether an edge will last; a 61-year record has survived regimes a 3-year one has not met. Check the length column before comparing two rows.</p>
+<p style="margin:6px 0 14px"><b>Length is already in z.</b> A short record needs more return per unit of risk to reach the same z, so a 3-year vault at {next(r['z'] for r in d['rows'] if r['id'].startswith('hl_') and r['name'].startswith('Hyperliquidity')):.1f} and Buffett’s 61 years at {by['brk']['z']:.1f} are on one scale: the vault’s returns were far steadier, so a short record could get that far. What z cannot say is whether an edge will last; a 61-year record has survived regimes a 3-year one has not met. Check the length column before comparing two rows.</p>
 {ranking_table(d)}
 <p class="muted small" style="margin-top:10px">z is the evidence after taking out the market: stocks and funds against the S&amp;P 500 with dividends, wallets against BTC, Polymarket against the price paid for each share. Wallet rows also show the raw t that the wallet verdict uses today. “Luck alone” is the chance that, with no skill at all, a record gets this far: picked blind, and as the best of {d['bar_n']:,}. Data: <a href="/data/ranking/latest.json">latest.json</a>.</p>
 
@@ -863,11 +863,13 @@ API_ALT = {"en": "/api/", "zh-Hans": "/zh-hans/api/", "zh-Hant": "/zh-hant/api/"
 # Famous records on the wallet ruler (tools/masters_calibration.py): yearly returns regressed on the
 # S&P 500 with dividends, t of alpha put on the normal scale. Berkshire: per-share market value, 2025
 # shareholder letter table. Medallion: net of fees, Cornell (2019) Table 1, from Zuckerman (2019).
-MASTERS = [  # (key, years, z of alpha vs S&P 500, beta)
-    ("medallion", "1988–2018", 7.05, -0.58),
-    ("brk", "1965–2025", 2.77, 0.90),
-    ("brk2001", "2001–2025", 1.79, 0.59),
-]
+def masters():
+    """Medallion and Berkshire as scored in docs/data/ranking/latest.json (tools/build_ranking.py)."""
+    with open(os.path.join(DOCS, "data", "ranking", "latest.json"), encoding="utf-8") as f:
+        by = {r["id"]: r for r in json.load(f)["rows"]}
+    return {k: by[k] for k in ("medallion", "brk", "brk_2001")}
+
+
 SP500_RAW_Z = 4.94  # the index's own yearly returns 1965–2025, tested against zero instead of against the market
 
 
@@ -882,6 +884,7 @@ def method_numbers():
 
 
 def build_method():
+    M = masters()
     m = method_numbers()
     hl_bar, s3, s2, med, e3, strong, b10, b100 = (m[k] for k in ("hl_bar", "s3", "s2", "med", "e3", "strong", "b10", "b100"))
     hl_power = power_table_html(m["pw"], hl_bar)
@@ -936,11 +939,11 @@ t      = Sharpe × √(years of data)</div>
 <p><strong>Your pool, your bar.</strong> The wallet page asks how you found the wallet: picked blind (bar 2.00), from a short list of about 10 ({b10:.2f}), from a top 100 ({b100:.2f}), or from the whole board ({hl_bar:.2f}). The answer only you know sets the bar; the default is the whole board, because that is how most wallets are found.</p>
 
 <h2 id="masters">7 · Calibrated on famous records</h2>
-<p>The same ruler, on records nobody calls luck. Yearly returns are regressed on the S&amp;P 500 with dividends; the t of the alpha is put on the same normal scale as a wallet’s t.</p>
+<p>The same ruler, on records nobody calls luck. Yearly returns in excess of the one-month T-bill rate are regressed on the S&amp;P 500’s, with dividends; the t of the alpha is put on the same normal scale as a wallet’s t.</p>
 <div class="table-wrap"><table class="data compact"><thead><tr><th>Record</th><th>Years</th><th class="r">z of alpha</th><th class="r">Beta</th><th>Verdict at the Hyperliquid bar ({hl_bar:.2f})</th></tr></thead><tbody>
-<tr><td>Renaissance Medallion, net of fees</td><td>1988–2018</td><td class="r">7.05</td><td class="r">−0.58</td><td>Strong evidence</td></tr>
-<tr><td>Berkshire Hathaway (Buffett), per-share market value</td><td>1965–2025</td><td class="r">2.77</td><td class="r">0.90</td><td>Promising, not proven</td></tr>
-<tr><td>Berkshire Hathaway, 2001 onward</td><td>2001–2025</td><td class="r">1.79</td><td class="r">0.59</td><td>Looks like luck</td></tr>
+<tr><td>Renaissance Medallion, net of fees</td><td>1988–2018</td><td class="r">{M['medallion']['z']:.2f}</td><td class="r">{M['medallion']['beta']:.2f}</td><td>Strong evidence</td></tr>
+<tr><td>Berkshire Hathaway (Buffett), per-share market value</td><td>1965–2025</td><td class="r">{M['brk']['z']:.2f}</td><td class="r">{M['brk']['beta']:.2f}</td><td>Promising, not proven</td></tr>
+<tr><td>Berkshire Hathaway, 2001 onward</td><td>2001–2025</td><td class="r">{M['brk_2001']['z']:.2f}</td><td class="r">{M['brk_2001']['beta']:.2f}</td><td>Looks like luck</td></tr>
 </tbody></table></div>
 <p>So the ruler says yes when the record is extraordinary and long: Medallion clears the bar for the best of 47,000 with room to spare. Buffett needed six decades to reach “promising”, and his last 25 years alone are within what luck produces against the index. Being proven takes a long record; the oldest record on Hyperliquid starts in May 2023.</p>
 <p><strong>Why against the market.</strong> Tested against zero instead, the S&amp;P 500 index itself reaches {SP500_RAW_Z:.2f} over 1965–2025, enough to clear the bar: a raw-return test credits a record for the market rising. Sources: Berkshire’s 2025 shareholder letter (yearly table); Cornell (2019), Table 1, from Zuckerman (2019), estimates rather than audited figures. Script: <a href="{REPO}/blob/main/tools/masters_calibration.py"><code>tools/masters_calibration.py</code></a>.</p>
