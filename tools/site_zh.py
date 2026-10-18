@@ -647,7 +647,7 @@ def ranking_page(B, lang):
  <div><b>{by['brk']['z']:.2f}</b><span>伯克希尔 {by['brk']['years']:.0f} 年，对比标普 500；2001 年以后是 {by['brk_2001']['z']:.2f}</span></div>
  <div><b>{n_scored}</b><span>份记录已打分；另有 {len(d['needs_data'])} 位名人没有可以打分的公开收益序列</span></div>
 </div>
-<p style="margin:6px 0 14px"><b>长度已经算在 z 里。</b>记录越短，要到同样的 z，单位风险的收益就得越高；所以 3 年的金库 {next(r['z'] for r in d['rows'] if r['id'].startswith('hl_') and r['name'].startswith('Hyperliquidity')):.1f} 和巴菲特 61 年的 {by['brk']['z']:.1f} 在同一把尺子上：金库的收益稳得多，所以短记录也能走到这个分数。z 说不了优势能不能持续；61 年的记录经历过的市场环境，3 年的记录还没遇到过。比较两行之前，先看长度那一列。</p>
+<p style="margin:6px 0 14px"><b>长度已经算在 z 里。</b>记录越短，要到同样的 z，单位风险的收益就得越高；所以 3 年的金库 {next(r['z'] for r in d['rows'] if r['id'].startswith('hl_') and r['name'].startswith('Hyperliquidity')):.1f} 和巴菲特 61 年的 {by['brk']['z']:.1f} 在同一把尺子上：金库的收益稳得多，所以短记录也能走到这个分数。z 说不了优势能不能持续；61 年的记录经历过的市场环境，3 年的记录还没遇到过。比较两行之前，先看长度那一列。「运气，随手挑中」是指没看任何排名、随手挑中一份记录时，没有实力也能做到这么强的概率；如果是从 {d['bar_n']:,} 个里挑第一，低于 {d['bar']:.2f} 的记录靠运气本来就会出现，所以只有一行过线。</p>
 {B.ranking_table(d, lang, P)}
 <p class="muted small" style="margin-top:10px">z 是扣掉大盘之后的证据：美股和基金对比标普 500（含股息），钱包对比 BTC，Polymarket 对比每一份的买入价。钱包这几行同时列出钱包判决目前使用的未扣 t。「运气」是完全没有实力的情况下，一份记录走到这么强的概率：分别按随手挑中、以及从 {d['bar_n']:,} 个里挑第一来算。数据：<a href="/data/ranking/latest.json">latest.json</a>。</p>
 

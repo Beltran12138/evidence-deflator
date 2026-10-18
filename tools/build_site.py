@@ -628,12 +628,12 @@ RANK_T = {
     "en": dict(groups=[("all", "All"), ("markets", "Stocks and funds"), ("press", "Hedge funds, as reported"), ("clones", "13F estimates"), ("crypto", "Crypto"), ("ai", "AI agents")],
                tag={"clears_board": ("tag-green", "strong"), "clears_single": ("tag-amber", "promising"), "luck": ("tag-red", "looks like luck"),
                     "loses": ("tag-red", "losing"), "too_short": ("tag-grey", "too early")},
-               head='<th class="r">#</th><th>Record</th><th class="r">Length</th><th>z after the market · bar {bar}</th><th class="r">Last 10 yr</th><th class="r">Luck, picked blind</th><th class="r">Luck, best of {n}</th>',
+               head='<th class="r">#</th><th>Record</th><th class="r">Length</th><th>z after the market · bar {bar}</th><th class="r">Last 10 yr</th><th class="r">Luck, picked blind</th>',
                yr=" yr", events="{e} events", raw="raw"),
     "zh": dict(groups=[("all", "全部"), ("markets", "美股与基金"), ("press", "对冲基金（媒体报道）"), ("clones", "13F 估算"), ("crypto", "加密"), ("ai", "AI agent")],
                tag={"clears_board": ("tag-green", "证据充分"), "clears_single": ("tag-amber", "有希望"), "luck": ("tag-red", "像运气"),
                     "loses": ("tag-red", "在亏"), "too_short": ("tag-grey", "太早")},
-               head='<th class="r">#</th><th>记录</th><th class="r">长度</th><th>扣掉大盘后的 z（门槛 {bar}）</th><th class="r">最近 10 年</th><th class="r">运气，随手挑中</th><th class="r">运气，{n} 选 1</th>',
+               head='<th class="r">#</th><th>记录</th><th class="r">长度</th><th>扣掉大盘后的 z（门槛 {bar}）</th><th class="r">最近 10 年</th><th class="r">运气，随手挑中</th>',
                yr=" 年", events="{e} 个事件", raw="未扣"),
 }
 BENCH_ZH = {"S&P 500 with dividends": "标普 500（含股息）", "S&P 500 with dividends (VFINX)": "标普 500（含股息，VFINX）", "BTC": "BTC",
@@ -690,7 +690,6 @@ def ranking_table(d, lang="en", P="/"):
         cls, txt = T["tag"][r["verdict"]]
         w = min(abs(r["z"]) / bar, 1) * 100
         ob, pb = luck_odds(r["z"], 1, lang)
-        on, pn = luck_odds(r["z"], n, lang)
         length = (f'{r["years"]:.1f}{T["yr"]}' if r.get("years") else T["events"].format(e=r["events"]) if r.get("events") else "—")
         zn = RANK_ZH.get(r["id"]) if zh else None
         name = html.escape(zn[0] if zn else r["name"])
@@ -720,7 +719,7 @@ def ranking_table(d, lang="en", P="/"):
                  f'<td><span class="mbar"><span class="track"><span class="fill{" neg" if r["z"] < 0 else ""}" style="width:{w:.1f}%"></span>'
                  f'<span class="t2" style="left:{2 / bar * 100:.1f}%"></span></span><span class="mono">{r["z"]:.2f}</span></span>{raw}</td>'
                  f'<td class="r mono">{z10}</td>'
-                 f'<td class="r">{ob}<span class="muted small" style="display:block">{pb}</span></td><td class="r">{on}<span class="muted small" style="display:block">{pn}</span></td></tr>')
+                 f'<td class="r">{ob} <span class="muted small">({pb})</span></td></tr>')
     btns = "".join(f'<button type="button" data-f="{k}" aria-pressed="{str(k == "all").lower()}">{lab}</button>' for k, lab in T["groups"])
     head_ = T["head"].format(bar=f"{bar:.2f}", n=f"{n:,}")
     return (f'<div class="wfound rankf" role="group">{btns}</div>'
@@ -753,7 +752,7 @@ def build_ranking_page():
  <div><b>{by['brk']['z']:.2f}</b><span>Berkshire Hathaway over {by['brk']['years']:.0f} years against the S&amp;P 500; {by['brk_2001']['z']:.2f} from 2001 on</span></div>
  <div><b>{n_scored}</b><span>records scored; {len(d['needs_data'])} famous names have no public return series to score</span></div>
 </div>
-<p style="margin:6px 0 14px"><b>Length is already in z.</b> A short record needs more return per unit of risk to reach the same z, so a 3-year vault at {next(r['z'] for r in d['rows'] if r['id'].startswith('hl_') and r['name'].startswith('Hyperliquidity')):.1f} and Buffett’s 61 years at {by['brk']['z']:.1f} are on one scale: the vault’s returns were far steadier, so a short record could get that far. What z cannot say is whether an edge will last; a 61-year record has survived regimes a 3-year one has not met. Check the length column before comparing two rows.</p>
+<p style="margin:6px 0 14px"><b>Length is already in z.</b> A short record needs more return per unit of risk to reach the same z, so a 3-year vault at {next(r['z'] for r in d['rows'] if r['id'].startswith('hl_') and r['name'].startswith('Hyperliquidity')):.1f} and Buffett’s 61 years at {by['brk']['z']:.1f} are on one scale: the vault’s returns were far steadier, so a short record could get that far. What z cannot say is whether an edge will last; a 61-year record has survived regimes a 3-year one has not met. Check the length column before comparing two rows. “Luck, picked blind” is how often a record this strong turns up with no skill behind it, for one record picked without looking at any ranking; picked as the best of {d['bar_n']:,}, records below {d['bar']:.2f} are expected by chance, which is why only one row clears it.</p>
 {ranking_table(d)}
 <p class="muted small" style="margin-top:10px">z is the evidence after taking out the market: stocks and funds against the S&amp;P 500 with dividends, wallets against BTC, Polymarket against the price paid for each share. Wallet rows also show the raw t that the wallet verdict uses today. “Luck alone” is the chance that, with no skill at all, a record gets this far: picked blind, and as the best of {d['bar_n']:,}. Data: <a href="/data/ranking/latest.json">latest.json</a>.</p>
 
