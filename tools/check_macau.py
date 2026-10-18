@@ -2,10 +2,12 @@
 flag the ones the deck no longer shows. Run before the talk:
 
     python tools/check_macau.py            # uses docs/data/hl/latest.json + a live portfolio fetch
+    python tools/check_macau.py --data F   # another snapshot (e.g. git show <sha>:docs/data/hl/latest.json)
+    python tools/check_macau.py --write-strip [--data F]   # rewrite the slide-02 animation data, then exit
 
 Prints each fact, the string the deck should contain, and OK / MISSING.
 """
-import json, os, sys
+import json, os, re, sys
 from datetime import datetime, timezone
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
@@ -22,9 +24,27 @@ def money(x, zh=False):
     return sign + (f"${abs(x) / 1e9:.2f}B" if abs(x) >= 1e9 else f"${abs(x) / 1e6:.0f}M")
 
 
+def strip_line(hl):
+    """The slide-02 rank-to-evidence animation: PnL top 100 as [rank, PnL in $M, t]."""
+    pnl = hl["boards"]["pnl"]
+    rows = [[r["rank"], round(r["pnl_all_time"] / 1e6), None if r["t"] is None else round(r["t"], 2)] for r in pnl["rows"]]
+    data = {"day": hl["fetched"][:10], "n": pnl["ranked_from"], "bar": pnl["t_bar_best_of_n"], "rows": rows}
+    return "const STRIP=" + json.dumps(data, separators=(",", ":")) + ";"
+
+
 def main():
-    hl = json.load(open(os.path.join(ROOT, "docs", "data", "hl", "latest.json"), encoding="utf-8"))
-    deck = open(os.path.join(ROOT, "docs", "macau.html"), encoding="utf-8").read()
+    args = sys.argv[1:]
+    src = args[args.index("--data") + 1] if "--data" in args else os.path.join(ROOT, "docs", "data", "hl", "latest.json")
+    hl = json.load(open(src, encoding="utf-8"))
+    deck_path = os.path.join(ROOT, "docs", "macau.html")
+    deck = open(deck_path, encoding="utf-8").read()
+    if "--write-strip" in args:
+        new, k = re.subn(r"const STRIP=.*?;\n", lambda m: strip_line(hl) + "\n", deck, count=1)
+        if not k:
+            sys.exit("no 'const STRIP=' line in the deck")
+        open(deck_path, "w", encoding="utf-8", newline="").write(new)
+        print("wrote STRIP from", hl["fetched"])
+        return
     pnl, roi = hl["boards"]["pnl"], hl["boards"]["roi30"]
     N, day = pnl["ranked_from"], hl["fetched"][:10]
     rank = next((r["rank"] for r in pnl["rows"] if r["address"] == STORY), None)
@@ -59,6 +79,7 @@ def main():
         ("story account before jump", f"${jump_av:,.0f}" if jump_av is not None else "?", None),
         ("highest t in PnL top 100", f"{top_t['address']} t {top_t['t']:.2f}", top_t["address"]),
         ("ROI #1", roi["rows"][0]["address"], roi["rows"][0]["address"]),
+        ("slide-02 animation data", f"{len(pnl['rows'])} rows, {day}", strip_line(hl)),
     ]
     for name, value, needle in facts:
         state = "" if needle is None else ("OK" if needle in deck else "MISSING")
