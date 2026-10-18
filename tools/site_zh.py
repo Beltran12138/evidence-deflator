@@ -279,6 +279,14 @@ def wallet_page(B, hl, lang):
  <p class="muted small" style="margin-top:10px">门槛：单个结果需要 t ≥ 2；从 N 个账户的榜单里扫出来的钱包，要过「N 选 1」的门槛，这里是 {bar:.2f}。† 这个钱包的大部分盈亏是在账户不足 $1,000 时记下的，无法换算成收益率；t 只覆盖能测量的那些周。全部 {pnl['shown']} + {roi['shown']} 行见 <a href="/data/hl/latest.json">latest.json</a>（由 <a href="{B.REPO}/blob/main/tools/build_hl_board.py"><code>tools/build_hl_board.py</code></a> 生成）。</p>
 </div></section>
 {cohort_html}
+<section><div class="container">
+ <div class="sec-head"><div><div class="eyebrow">为什么是现在</div><h2 style="margin-top:12px">AI 让一份好看的战绩几乎不花钱就能造出来。稀缺的是把它和运气分开。</h2></div></div>
+ <div class="stats" style="margin:8px 0 6px">
+  <div><b>来源</b><span>一个 agent 一分钟能试 50 组参数、留下最好看的那条曲线。AI 交易 agent、AI 金库、AI 荐股号发布战绩的速度，已经快过任何人核查的速度。这套方法最早量的是 17 篇 LLM 交易论文，没有一篇的干净样本够 48 个月。</span></div>
+  <div><b>对象</b><span>AI 交易比赛，用同一把尺子重新打分：<a href="/audits/006-alpha-arena-season-1.html">Alpha Arena</a>、<a href="/audits/011-recall-perps-competitions.html">Recall</a>、<a href="/leaderboard/">Liquidity Arena 和 AI-Trader</a>。</span></div>
+  <div><b>用户</b><span>替人挑交易员、挑金库的 agent，可以先查证据：<a href="{P}api/">HTTP 接口和 MCP 服务</a>，数字和本页相同。</span></div>
+ </div>
+</div></section>
 <section><div class="container narrow prose">
  <h2>怎么读一个钱包</h2>
  <p><strong>收益率来自盈亏，不来自账户余额。</strong>账户余额会随充值和提现变化，盈亏不会。每周收益率 = 累计盈亏在这一周的变化 ÷ 周初的账户价值。周初账户低于 $1,000 的周跳过。</p>

@@ -44,7 +44,7 @@ const SCORE = (() => {
   function result(venue, id, sc, n, unit, extra = {}) {
     const v = HL.verdict(sc, n);
     return {venue, id, ...sc, verdict: v.key, bar: Math.round(v.bar * 100) / 100, n, unit,
-            months: HL.monthsToClear(v.bar, sc.sharpe), ...extra};
+            months: HL.monthsToClear(v.bar, sc.sharpe), luck: HL.luck(sc.t, n), ...extra};
   }
 
   async function hyperliquid(addr) {

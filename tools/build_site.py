@@ -498,6 +498,15 @@ def build_home(rows, lb):
  <p><b>{hc.get('members', 0)} Hyperliquid wallets</b> from today’s two top-100 boards, frozen {hc.get('frozen_at', '')[:10]}: first reading <b>{hc.get('first_readings', '')}</b>. <b>Papertrade</b>, three groups of 100 including a random control, frozen {pt['frozen_at'][:10]}: readings <b>10-23</b> and <b>10-30</b>. Each list is published with its hash when frozen, and every reading is published whatever it shows.</p></div><a class="more" href="/record/">Our record, scored in public →</a></div>
 </div></section>
 
+<section id="why-now"><div class="container">
+ <div class="sec-head"><div><div class="eyebrow">Why now</div><h2 style="margin-top:12px">AI makes a good-looking record nearly free to produce. Telling it apart from luck is the scarce part.</h2></div></div>
+ <div class="stats" style="margin:8px 0 6px">
+  <div><b>Source</b><span>An agent can try fifty variants a minute and keep the best curve. AI trading agents, AI vaults and AI stock tipsters now publish records faster than anyone can check them. This method started on 17 LLM trading papers; none had 48 clean months.</span></div>
+  <div><b>Subject</b><span>AI trading competitions, rescored on the same ruler: <a href="/audits/006-alpha-arena-season-1.html">Alpha Arena</a>, <a href="/audits/011-recall-perps-competitions.html">Recall</a>, <a href="/leaderboard/">Liquidity Arena and AI-Trader</a>.</span></div>
+  <div><b>User</b><span>Agents that pick a trader or a vault for someone can check the evidence first: <a href="/api/">an HTTP API and an MCP server</a>, the same numbers as this page.</span></div>
+ </div>
+</div></section>
+
 <section><div class="container">
  <div class="sec-head"><div><div class="eyebrow">Latest</div><h2 style="margin-top:12px">Published checks</h2><p>Every number recomputed from public sources, dated, with the raw data kept.</p></div><a class="more" href="/audits/">All audits →</a></div>
  <div class="rows">{feed_html}</div>
