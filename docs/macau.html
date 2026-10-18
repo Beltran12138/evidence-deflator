@@ -242,9 +242,9 @@ S.forEach((s,i)=>{const b=document.createElement('button');b.textContent=s.nav;b
 
 // live demo: same engine as /wallet/ (docs/assets/hl.js)
 const $=id=>document.getElementById(id), L=()=>document.body.dataset.l;
-const SAY={loses:['在亏，而且不是偶然','Losing, not by chance'],luck:['分不清是不是运气','Cannot be told apart from luck'],
-  clears_single:['过了单次检验，没过榜单门槛','Passes one test, not the leaderboard bar'],clears_board:['过了榜单门槛','Clears the leaderboard bar'],
-  too_short:['记录太短，下不了结论','Too short to say']};
+const SAY={loses:['在亏，而且不是偶然','Losing, not by chance'],luck:['像运气','Looks like luck'],
+  clears_single:['有希望，未证实','Promising, not proven'],clears_board:['证据充分','Strong evidence'],
+  too_short:['还太早，看不出来','Too early to tell']};
 const NOTE={pnl_outside_record:['大部分 PnL 记在账户不足 $1,000 的时段，换算不成收益率。','Most of the PnL was booked while the account held under $1,000; it cannot be turned into a return.'],
   no_losing_week:['从没亏过一周：像做市或卖尾部风险，t 看不见还没发生的大亏。','No losing week: consistent with market making or selling tail risk.'],
   one_week_majority:['一周贡献了一半以上的收益。','One week produced more than half of the gains.']};

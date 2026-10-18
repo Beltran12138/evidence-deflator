@@ -77,10 +77,10 @@
   return s + '</svg>';
  }
 
- const say = z => z == null ? ['Not enough resolved positions to score', 'grey', '']
-  : z >= bar ? ['Clears the leaderboard bar', 'green', `z ≥ ${f(bar)}: a record like this is rare even after allowing for being picked from ${N.toLocaleString('en')}+ wallets.`]
-  : z >= 2 ? ['Passes one test, not the leaderboard bar', 'amber', `z ≥ 2 would count if you had picked this wallet blind. Found on a leaderboard of ${N.toLocaleString('en')}+ wallets, it needs ${f(bar)}.`]
-  : ['Cannot be told apart from luck', 'red', 'Across its events, this wallet bought at prices that turned out about as right as chance would make them.'];
+ const say = z => z == null ? ['Too early to tell', 'grey', 'Not enough resolved positions to score yet.']
+  : z >= bar ? ['Strong evidence', 'green', `z ≥ ${f(bar)}: a record like this is rare even after allowing for being picked from ${N.toLocaleString('en')}+ wallets. With no skill in any of them, luck would carry anyone at all this far only about 2% of the time.`]
+  : z >= 2 ? ['Promising, not proven', 'amber', `z ≥ 2 would count if you had picked this wallet blind (luck gets that far about 1 time in 44). Found on a leaderboard of ${N.toLocaleString('en')}+ wallets, it needs ${f(bar)}.`]
+  : ['Looks like luck', 'red', 'Across its events, this wallet bought at prices that turned out about as right as chance would make them.'];
 
  async function run(q) {
   $('pout').hidden = false; $('phead').textContent = 'Reading…'; $('psub').textContent = ''; $('pflags').innerHTML = ''; $('ptag').innerHTML = '';

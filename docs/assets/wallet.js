@@ -17,7 +17,7 @@
   const step = W < 600 && hi - lo > 10 ? 2 : 1;
   for (let v = lo; v <= hi; v++) if ((v - lo) % step === 0 || v === 2) s += `<line class="ax" x1="${x(v)}" x2="${x(v)}" y1="22" y2="62"/><text class="lab" x="${x(v)}" y="84" text-anchor="middle">${v}</text>`;
   s += `<line class="t2" x1="${x(2)}" x2="${x(2)}" y1="8" y2="62"/><text class="t2lab" x="${x(2) - 6}" y="16" text-anchor="end">${T.meterT2}</text>`;
-  s += `<line class="bar" x1="${x(bar)}" x2="${x(bar)}" y1="8" y2="62"/><text class="barlab" x="${x(bar) - 6}" y="16" text-anchor="end" dy="${W >= 600 && x(bar) - x(2) < 170 ? 14 : 0}">${W < 600 ? f(bar) : fill(T.meterBest, {N: n, bar: f(bar)})}</text>`;
+  if (bar - 2 > 0.05) s += `<line class="bar" x1="${x(bar)}" x2="${x(bar)}" y1="8" y2="62"/><text class="barlab" x="${x(bar) - 6}" y="16" text-anchor="end" dy="${W >= 600 && x(bar) - x(2) < 170 ? 14 : 0}">${W < 600 ? f(bar) : fill(T.meterBest, {N: n, bar: f(bar)})}</text>`;
   // the dot starts at t = 0 and slides to the reading (see .chart .pt.slide; skipped with reduced motion)
   if (t != null) s += `<circle class="pt best slide" cx="${x(0)}" cy="42" r="7" data-dx="${x(Math.max(lo, Math.min(hi, t))) - x(0)}"/>`;
   return s + '</svg>';
@@ -59,12 +59,13 @@
   let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${C.projAria}">`;
   s += `<line class="ax" x1="${L}" x2="${W - R}" y1="${y(0)}" y2="${y(0)}"/>`;
   s += `<line class="t2" x1="${L}" x2="${W - R}" y1="${y(2)}" y2="${y(2)}"/><text class="t2lab" x="${L - 4}" y="${y(2) + 4}" text-anchor="end">2</text>`;
-  s += `<line class="bar" x1="${L}" x2="${W - R}" y1="${y(bar)}" y2="${y(bar)}"/><text class="barlab" x="${L - 4}" y="${y(bar) + 4}" text-anchor="end">${bar.toFixed(1)}</text>`;
+  const two = bar - 2 > 0.05;  // picked blind, the bar is t = 2 itself
+  if (two) s += `<line class="bar" x1="${L}" x2="${W - R}" y1="${y(bar)}" y2="${y(bar)}"/><text class="barlab" x="${L - 4}" y="${y(bar) + 4}" text-anchor="end">${bar.toFixed(1)}</text>`;
   let d = '';
   for (let i = 0; i <= 80; i++) { const v = end * i / 80; d += (i ? 'L' : 'M') + x(v).toFixed(1) + ' ' + y(S * Math.sqrt(v)).toFixed(1); }
   s += `<path class="line proj" d="${d}"/>`;
   const fmt = yrs => yrs * 12 < 24 ? Math.round(yrs * 12) + T.months.mo : yrs.toFixed(1) + T.months.yr;
-  for (const [b, cls] of [[2, 't2lab'], [bar, 'barlab']]) {
+  for (const [b, cls] of two ? [[2, 't2lab'], [bar, 'barlab']] : [[2, 't2lab']]) {
    const yr = need(b);
    if (yr > have && yr <= end) s += `<circle class="pt" cx="${x(yr)}" cy="${y(b)}" r="3"/><text class="${cls}" x="${Math.min(x(yr), W - R - 2)}" y="${y(b) - 7}" text-anchor="end">${fmt(yr)}</text>`;
   }
@@ -77,7 +78,7 @@
  async function run(a) {
   a = a.trim().toLowerCase();
   if (!/^0x[0-9a-f]{40}$/.test(a)) { $('wout').hidden = false; $('whead').textContent = T.notAddr[0]; $('wsub').textContent = T.notAddr[1]; return; }
-  history.replaceState(null, '', T.selfPath + '?a=' + a);
+  history.replaceState(null, '', T.selfPath + '?a=' + a + (pick ? '&n=' + pick : ''));
   if (await show(a)) {
    // one count per verdict shown: page language only, never the address
    tally(T.countUrl);
@@ -85,7 +86,7 @@
  }
  async function show(a) {
   $('wout').hidden = false; $('whead').textContent = T.reading; $('wsub').textContent = ''; $('wflags').innerHTML = '';
-  $('wcharts').hidden = true; $('wnextbox').hidden = true; $('wdd').hidden = true;
+  $('wcharts').hidden = true; $('wnextbox').hidden = true; $('wdd').hidden = true; $('wfound').hidden = true;
   $('wid').textContent = a; $('whl').href = 'https://app.hyperliquid.xyz/explorer/address/' + a; $('wvault').hidden = true;
   let pf, vd;
   try { [pf, vd] = await Promise.all([HL.fetchPortfolio(a), HL.fetchVault(a)]); } catch (e) { $('whead').textContent = T.noReach; $('wsub').textContent = String(e.message || e); return; }
@@ -97,18 +98,42 @@
    $('wvault').textContent = fill(T.vault, {name: vault.name, lf: f(100 * (vault.leaderFraction || 0), 1), c: f(100 * (vault.leaderCommission || 0), 0)})
     + (NV ? fill(T.vaultBar, {NV: n}) : '');
   }
-  const {rets, start, counted} = HL.weeklyReturns(pf), sc = HL.score(rets), v = HL.verdict(sc, NN), fl = HL.flags(pf, rets, counted);
-  const [title, tag, sub] = T.say[v.key];
+  const {rets, start, counted} = HL.weeklyReturns(pf), sc = HL.score(rets), fl = HL.flags(pf, rets, counted);
+  await cohortP;
+  const inCohort = cohort && cohort.members.some(m => m.address === a);
+  last = {a, rets, start, sc, fl, NN, n, U, vault: !!vault, inCohort, frozenMs: inCohort ? cohort.frozen_at_ms : null};
+  pool(); render();
+  $('wcopy').dataset.copy = location.origin + T.selfPath + '?a=' + a;
+  $('wnote').textContent = start ? fill(T.wnote, {start: new Date(start).toISOString().slice(0, 10), now: new Date().toISOString().slice(0, 16).replace('T', ' ')}) : '';
+  return true;
+ }
+ // "How did you find this wallet?": the pool it was picked from sets the bar. 0 stands for the
+ // whole board (or the vault list); the choice goes in the URL as &n= so a shared link keeps it.
+ let last = null, pick = (() => { const q = +new URLSearchParams(location.search).get('n'); return [1, 10, 100].includes(q) ? q : 0; })();
+ function pool() {
+  const F = T.found, L = last;
+  $('wfound').innerHTML = `<span class="wfq">${F.q}</span>` + F.opts.map(([k, label]) =>
+   `<button type="button" data-n="${k}" aria-pressed="${k === pick}">${fill(label, {N: L.n, U: L.vault && NV ? T.unitVault : T.unitAcct})}</button>`).join('') + `<span class="wfh">${F.hint}</span>`;
+  $('wfound').querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+   pick = +b.dataset.n; $('wfound').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+   history.replaceState(null, '', T.selfPath + '?a=' + L.a + (pick ? '&n=' + pick : '')); render();
+  }));
+ }
+ function render() {
+  const {rets, start, sc, fl, NN, n, U, inCohort, frozenMs} = last, M = T.months, C = T.charts;
+  const NP = pick || NN, opt = T.found.opts.find(o => o[0] === pick), FROM = fill(opt[2], {N: n, U});
+  const v = HL.verdict(sc, NP), [title, tag, sub] = T.say[v.key];
   $('whead').textContent = title; $('wtag').innerHTML = `<span class="tag ${tag}">${T.tag[v.key]}</span>`;
-  $('wsub').textContent = fill(sub, {BAR: f(v.bar), N: n, U});
-  $('wmeter').innerHTML = meter(sc.t, v.bar, n);
+  $('wsub').textContent = fill(NP === 1 && v.key === 'clears_board' ? T.found.blindStrong : sub, {BAR: f(v.bar), N: n, U, FROM});
+  $('wmeter').innerHTML = meter(sc.t, v.bar, NP.toLocaleString('en'));
   const dot = $('wmeter').querySelector('.slide');
   if (dot) requestAnimationFrame(() => requestAnimationFrame(() => { dot.style.transform = `translateX(${dot.dataset.dx}px)`; }));
   $('wt').textContent = f(sc.t); $('ws').textContent = f(sc.sharpe); $('ww').textContent = sc.weeks ?? '—';
-  const need = HL.monthsToClear(v.bar, sc.sharpe), have = (sc.weeks || 0) / 4.345, M = T.months;
+  const need = HL.monthsToClear(v.bar, sc.sharpe), have = (sc.weeks || 0) / 4.345;
   if (sc.sharpe == null) { $('wm').textContent = '—'; $('wml').textContent = M.noSharpe; }
   else if (need == null) { $('wm').textContent = M.never[0]; $('wml').textContent = M.never[1]; }
-  else if (need <= have) { $('wm').textContent = '0'; $('wml').textContent = M.done; }
+  else if (need <= have && v.key === 'clears_board') { $('wm').textContent = '0'; $('wml').textContent = M.done; }
+  else if (need <= have) { $('wm').textContent = '< 1' + M.mo; $('wml').textContent = M.more; }
   else { const m = need - have; $('wm').textContent = m >= 1188 ? '> 99' + M.yr : m >= 24 ? (m / 12).toFixed(1) + M.yr : Math.round(m) + M.mo; $('wml').textContent = M.more; }
   $('wflags').innerHTML = fl.map(k => `<li>${T.notes[k]}</li>`).join('');
   // where the record stands against its own peak, and how ordinary that is for its measured edge
@@ -121,8 +146,6 @@
    $('wddt').textContent = s;
   }
   // charts and what would change the verdict
-  await cohortP;
-  const inCohort = cohort && cohort.members.some(m => m.address === a), frozenMs = inCohort ? cohort.frozen_at_ms : null, C = T.charts;
   $('wcharts').hidden = !(rets.length >= HL.MIN_WEEKS);
   if (rets.length >= HL.MIN_WEEKS) {
    $('wcurvecap').textContent = C.curveCap; $('wcurve').innerHTML = curve(rets, start, frozenMs);
@@ -136,9 +159,7 @@
   if (dd && dd.share_if_real != null) nx.push(C.nextDd);
   $('wnext').innerHTML = nx.map(t => `<li>${t}</li>`).join('');
   $('wnextbox').hidden = sc.t == null;
-  $('wcopy').dataset.copy = location.origin + T.selfPath + '?a=' + a;
-  $('wnote').textContent = start ? fill(T.wnote, {start: new Date(start).toISOString().slice(0, 10), now: new Date().toISOString().slice(0, 16).replace('T', ' ')}) : '';
-  return true;
+  $('wfound').hidden = sc.t == null;
  }
  $('wform').addEventListener('submit', e => { e.preventDefault(); run($('waddr').value); });
  // a click from a result to the sample memo: the one step on this site toward asking for a memo

@@ -9,7 +9,8 @@ the library that tools/check_js_parity.py diffs, and three older pages) only get
 their marked head, header and footer blocks refreshed.
 Needs the `markdown` package for the audit pages; nothing at runtime.
 """
-import hashlib, html, json, os, re
+import hashlib, html, json, math, os, re
+from statistics import NormalDist
 
 import markdown
 
@@ -231,6 +232,39 @@ def build_audits():
 
 # ---------------------------------------------------------------- home
 
+def grades(rows, bar):
+    """Counts per verdict grade for board rows (t None = too short): the same cut-offs as HL.verdict."""
+    ts = [r["t"] for r in rows if r["t"] is not None]
+    return {"strong": sum(t >= bar for t in ts), "promising": sum(2 <= t < bar for t in ts),
+            "luck": sum(-2 < t < 2 for t in ts), "losing": sum(t <= -2 for t in ts), "scored": len(ts)}
+
+
+def power(bar, rows=None, sharpes=(2, 3, 4, 5), years=(1, 2, 3, 5)):
+    """The positive control. Chance that a trader whose true Sharpe is S clears `bar` after Y years,
+    using t ~ S x sqrt(Y) + N(0, 1) (Lo 2002; ignores the noise in the estimated sigma, so roughly).
+    With board rows, also the median record length and how many of those records would be expected
+    to clear by now if every one had a true Sharpe of 3."""
+    cdf = NormalDist().cdf
+    table = [(S, [cdf(S * math.sqrt(Y) - bar) for Y in years]) for S in sharpes]
+    out = {"years": years, "table": table, "even_odds": {S: (bar / S) ** 2 for S in sharpes}}
+    if rows:
+        ys = sorted(r["weeks"] / 52 for r in rows if r["t"] is not None)
+        out["median_years"] = ys[len(ys) // 2] if len(ys) % 2 else (ys[len(ys) // 2 - 1] + ys[len(ys) // 2]) / 2
+        out["expect_s3"] = sum(cdf(3 * math.sqrt(y) - bar) for y in ys)
+    return out
+
+
+def power_table_html(pw, bar, lang="en"):
+    pct = lambda p: "<1%" if p < 0.01 else (">99%" if p > 0.99 else f"{100 * p:.0f}%")
+    if lang == "en":
+        head = "".join(f'<th class="r">{y} yr</th>' for y in pw["years"])
+        rows = "".join(f'<tr><td>Sharpe {S}</td>' + "".join(f'<td class="r">{pct(p)}</td>' for p in ps) + "</tr>" for S, ps in pw["table"])
+        return f'<div class="table-wrap"><table class="data compact"><thead><tr><th>True Sharpe</th>{head}</tr></thead><tbody>{rows}</tbody></table></div>'
+    head = "".join(f'<th class="r">{y} 年</th>' for y in pw["years"])
+    rows = "".join(f'<tr><td>夏普 {S}</td>' + "".join(f'<td class="r">{pct(p)}</td>' for p in ps) + "</tr>" for S, ps in pw["table"])
+    return f'<div class="table-wrap"><table class="data compact"><thead><tr><th>真实夏普</th>{head}</tr></thead><tbody>{rows}</tbody></table></div>'
+
+
 def boards_html(hl):
     """One row of dots per public board we have rescored: each dot is one record's t, the red tick is the
     bar for being picked from that board. Static SVG, built here; the counts are the same as the audits'."""
@@ -279,14 +313,14 @@ def boards_html(hl):
         btxt = f"{bar[0]:.2f}–{bar[1]:.2f}" if isinstance(bar, tuple) else f"{bar:.2f}"
         body += (f'<a class="brow" href="{link}"><span class="bname"><b>{venue}</b><span>{what}</span></span>'
                  f'<span class="bstrip">{strip(ts, bar)}</span>'
-                 f'<span class="bcount"><b class="c-accent">{n_bar} / {len(ts)}</b><span>clear {btxt}</span><span>{n2} pass t ≥ 2</span></span></a>')
+                 f'<span class="bcount"><b class="c-accent">{n_bar} / {len(ts)}</b><span>strong (≥ {btxt})</span><span>{n2 - n_bar} promising (t ≥ 2)</span></span></a>')
     pt_note = ""
     if pt:
         pt_note = f' Papertrade’s board ({pt["board_rows"]:,} accounts) has no return series yet; three groups were frozen {pt["frozen_at"][:10]} for <a href="/audits/010-papertrade-leaderboard.html">readings on 10-23 and 10-30</a>.'
     return f"""
 <section id="boards"><div class="container">
- <div class="sec-head"><div><div class="eyebrow">Every board we have rescored</div><h2 style="margin-top:12px">Ranked by profit. None of the top clears the bar for being picked from the board.</h2>
- <p>Each dot is one record’s t on a public leaderboard; the red line is the bar for being picked from that board. Every dot sits to its left.</p></div><a class="more" href="/audits/">All audits →</a></div>
+ <div class="sec-head"><div><div class="eyebrow">Every board we have rescored</div><h2 style="margin-top:12px">Ranked by profit. On every board we have rescored, no one has strong evidence yet.</h2>
+ <p>Each dot is one record’s t on a public leaderboard; the red line is the bar for being picked from that board. Dots past t = 2 are promising; none is past the red line. <a href="/method/#yes">Why that is not the method saying no to everything</a>.</p></div><a class="more" href="/audits/">All audits →</a></div>
  <div class="boards-dots"><div class="baxis"><span class="bname"></span><span class="bstrip">{axis}</span><span class="bcount"></span></div>{body}</div>
  <p class="muted small" style="margin-top:12px">Hyperliquid rows are rebuilt daily; the others are as of their audit dates. Values beyond the axis are drawn at its edge.{pt_note}</p>
 </div></section>"""
@@ -301,13 +335,17 @@ def build_home(rows, lb):
     scored_rows = [r for r in hp["rows"] if r["t"] is not None]
     best = max(scored_rows, key=lambda r: r["t"])
     n_corr = sum(r["t"] >= 2.6 for r in scored_rows)
+    g, pw = grades(hp["rows"], hp["t_bar_best_of_n"]), power(hp["t_bar_best_of_n"], hp["rows"])
+    lead = ("None of the top 100 has strong evidence yet." if g["strong"] == 0 else
+            f"{g['strong']} of the top 100 {'has' if g['strong'] == 1 else 'have'} strong evidence.")
+    lead_rest = f"{g['promising']} are promising, not proven; {g['luck']} look like luck" + (f"; {g['losing']} {'is' if g['losing'] == 1 else 'are'} losing, not by chance" if g["losing"] else "") + "."
     bname = best.get("vault") or best.get("display") or (best["address"][:6] + "…" + best["address"][-4:])
     if best["t"] >= hp["t_bar_best_of_n"]:
-        bpill, bsay = ("tag-green", "Clears the board bar"), "Strong enough even after allowing for being the best of {:,}.".format(hp["ranked_from"])
+        bpill, bsay = ("tag-green", "Strong evidence"), "Strong enough even after allowing for being the best of {:,}.".format(hp["ranked_from"])
     elif best["t"] >= 2:
-        bpill, bsay = ("tag-amber", "Passes one test, not the board bar"), "Strong enough if you had picked it blind. Not once you remember it is the best of {:,}.".format(hp["ranked_from"])
+        bpill, bsay = ("tag-amber", "Promising, not proven"), "Strong enough if you had picked it blind. Not once you remember it is the best of {:,}.".format(hp["ranked_from"])
     else:
-        bpill, bsay = ("tag-red", "Cannot be told apart from luck"), "Even the strongest record on the board is within what luck produces."
+        bpill, bsay = ("tag-red", "Looks like luck"), "Even the strongest record on the board is within what luck produces."
     if (best.get("vault") or "").startswith("Hyperliquidity Provider"):
         bsay += " And it is not a trader: it is Hyperliquid’s own market-making and liquidation vault."
     elif best.get("vault"):
@@ -355,15 +393,22 @@ def build_home(rows, lb):
  {example_html}
  <div class="instrument">
   <div class="instrument-head"><span class="t"><b style="color:var(--ink);font-weight:550">Hyperliquid, all-time PnL top 100</b> · each dot is one wallet’s t-statistic · {hl['fetched'][:10]}</span><a class="small" href="/wallet/">Rescored board →</a></div>
+  <p class="iverdict"><b>{lead}</b> {lead_rest}</p>
   <div class="instrument-body chart" style="border:0;border-radius:0" id="hero-chart"></div>
   <div class="instrument-foot">
-   <div><b class="c-accent">{hp['n_t_ge_bar']} / {hp['scored']}</b><span>clear the bar for the best of {hp['ranked_from']:,}</span></div>
-   <div><b>{hp['t_bar_best_of_n']:.2f}</b><span>that bar; a single test needs 2</span></div>
-   <div><b>{hp['n_t_ge_2']} / {hp['scored']}</b><span>would pass if you had picked them blind</span></div>
+   <div><b class="c-accent">{g['strong']} / {g['scored']}</b><span>strong evidence: clear {hp['t_bar_best_of_n']:.2f}, the bar for the best of {hp['ranked_from']:,}</span></div>
+   <div><b>{g['promising']} / {g['scored']}</b><span>promising, not proven: t ≥ 2, enough for a wallet picked blind</span></div>
+   <div><b>{pw['median_years']:.1f} yr</b><span>median record here; a true Sharpe of 3 needs {pw['even_odds'][3]:.1f} yr for even odds</span></div>
    <div><b>{hc.get('members', 0)}</b><span>wallets frozen {hc.get('frozen_at', '')[:10]}, scored from then on</span></div>
   </div>
  </div>
- <p class="muted small" style="margin-top:12px;max-width:760px">How high the bar sits depends on how independent the {hp['ranked_from']:,} accounts are: {hp['t_bar_best_of_n']:.2f} if each is a separate bet, about 2.6 by our rough estimate if many trade alike. {hp['n_t_ge_bar']} of {hp['scored']} clear the first, {n_corr} the second; a single test needs 2, which {hp['n_t_ge_2']} pass. <a href="/method/#wallets">How the bar is set</a>.</p>
+ <details class="why"><summary>Why does no one clear it? Can it ever say yes?</summary>
+  <p><b>Zero is what a board with no proven skill looks like.</b> If none of the {hp['ranked_from']:,} accounts had any skill, luck would carry anyone at all past {hp['t_bar_best_of_n']:.2f} only about 2% of the time: that is how the bar is set.</p>
+  <p><b>It can say yes; the records are short.</b> The chance that a trader whose true Sharpe is S clears {hp['t_bar_best_of_n']:.2f} after a given length of record:</p>
+  {power_table_html(pw, hp['t_bar_best_of_n'])}
+  <p>The median record in this top 100 is {pw['median_years']:.1f} years. If every one of these {g['scored']} had a true Sharpe of 3, about {pw['expect_s3']:.0f} would clear the bar by now, given their record lengths. {g['strong']} do.</p>
+  <p>How high the bar sits also depends on how independent the accounts are: {hp['t_bar_best_of_n']:.2f} if each is a separate bet, about 2.6 by our rough estimate if many trade alike ({n_corr} clear that). <a href="/method/#yes">Can it say yes</a> · <a href="/method/#wallets">how the bar is set</a>.</p>
+ </details>
 </div>
 
 {boards_html(hl)}
@@ -483,7 +528,20 @@ METHOD_ALT = {"en": "/method/", "zh-Hans": "/zh-hans/method/", "zh-Hant": "/zh-h
 API_ALT = {"en": "/api/", "zh-Hans": "/zh-hans/api/", "zh-Hant": "/zh-hant/api/"}
 
 
+def method_numbers():
+    """Numbers for the "Can it say yes?" section (English and Chinese method pages), from today's board."""
+    with open(os.path.join(DOCS, "data", "hl", "latest.json"), encoding="utf-8") as f:
+        hp = json.load(f)["boards"]["pnl"]
+    bar, pw = hp["t_bar_best_of_n"], power(hp["t_bar_best_of_n"], hp["rows"])
+    alpha, inv = 1 - NormalDist().cdf(2), NormalDist().inv_cdf
+    return dict(hl_bar=bar, pw=pw, s3=pw["even_odds"][3], s2=pw["even_odds"][2], med=pw["median_years"], e3=pw["expect_s3"],
+                strong=grades(hp["rows"], bar)["strong"], b10=inv(1 - alpha / 10), b100=inv(1 - alpha / 100))
+
+
 def build_method():
+    m = method_numbers()
+    hl_bar, s3, s2, med, e3, strong, b10, b100 = (m[k] for k in ("hl_bar", "s3", "s2", "med", "e3", "strong", "b10", "b100"))
+    hl_power = power_table_html(m["pw"], hl_bar)
     page = head("Method · Evidence Deflator", "How Evidence Deflator computes open-book months, clean months needed, the bar after selection, and the earliest date a leaderboard could name a winner.", "/method/", alt=METHOD_ALT) + header("method", METHOD_ALT) + f"""
 <main class="container article"><div class="split">
 <article class="prose">
@@ -525,6 +583,14 @@ t      = Sharpe × √(years of data)</div>
 <p>What a wallet check counts: perps and the spot account, including HIP-4 outcome contracts; not HyperEVM. Vaults are scored on the vault’s own PnL, before the leader’s profit share, and labelled as vaults on the boards.</p>
 <p><strong>Drawdown reading.</strong> Next to t, the wallet page shows how far the record is below its own peak, as the sum of the weekly returns since the peak, and the share of time a record with the same measured weekly mean m and variance s² would spend at least that far down: exp(−2m(d + 0.5826 s)/s²) for a drawdown d. That is the stationary drawdown of a random walk with drift, with Siegmund’s correction for sampling once a week; without it the share is up to 1.6 times too high at a Sharpe of 3. The edge is measured on the same record, so the reading leans toward calling a drawdown unusual.</p>
 
+<h2 id="yes">6 · Can it say yes?</h2>
+<p>A check that never says yes would be broken, so here is what each verdict means against luck, and what a real edge needs to clear it.</p>
+<p><strong>What luck alone produces.</strong> For one wallet picked blind, with no skill behind it, t ≥ 2 turns up about 1 time in 44 (2.3%): that is “promising, not proven”. For a pool of N records with no skill in any of them, the chance that anyone at all clears bar(N) is about the same 2.3%: that is “strong evidence”. On a board ranked by profit, many more records than 1 in 44 can reach t = 2 by luck, because ranking by profit favours lucky streaks; how many is a simulation we have not published yet, so “promising” on a board is a weak signal.</p>
+<p><strong>What a real edge needs.</strong> With t ≈ S × √years plus noise, the chance that a trader whose true annualised Sharpe is S clears the Hyperliquid board bar of {hl_bar:.2f}:</p>
+{hl_power}
+<p>So a Sharpe of 3, which few funds sustain, needs about {s3:.1f} years of record for even odds, and a Sharpe of 2 about {s2:.1f}. The median record in the Hyperliquid PnL top 100 is {med:.1f} years. If every one of those records had a true Sharpe of 3, about {e3:.0f} would clear the bar by now; {strong} do. A board where nobody clears the bar is what short records and no proven skill look like, not a sign that the bar can never be met.</p>
+<p><strong>Your pool, your bar.</strong> The wallet page asks how you found the wallet: picked blind (bar 2.00), from a short list of about 10 ({b10:.2f}), from a top 100 ({b100:.2f}), or from the whole board ({hl_bar:.2f}). The answer only you know sets the bar; the default is the whole board, because that is how most wallets are found.</p>
+
 <h2 id="principles">Principles</h2>
 <ul>
  <li>Sources are public and fetched on a stated date. Numbers are recomputed, not copied.</li>
@@ -549,7 +615,7 @@ t      = Sharpe × √(years of data)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>On this page</h4><ul><li><a href="#open-book">Open-book months</a></li><li><a href="#clean-months">Clean months needed</a></li><li><a href="#selection">The bar after selection</a></li><li><a href="#leaderboards">Leaderboards</a></li><li><a href="#principles">Principles</a></li><li><a href="#limits">Limits</a></li></ul></div>
+ <div class="box"><h4>On this page</h4><ul><li><a href="#open-book">Open-book months</a></li><li><a href="#clean-months">Clean months needed</a></li><li><a href="#selection">The bar after selection</a></li><li><a href="#leaderboards">Leaderboards</a></li><li><a href="#wallets">Wallets</a></li><li><a href="#yes">Can it say yes?</a></li><li><a href="#principles">Principles</a></li><li><a href="#limits">Limits</a></li></ul></div>
  <div class="box"><h4>Try it</h4><ul><li><a href="/check/">Check a backtest in the browser</a></li><li><a href="/api/">Python, CLI and MCP</a></li></ul></div>
 </aside>
 </div></main>
@@ -629,19 +695,26 @@ WALLET_ALT = {"en": "/wallet/", "zh-Hans": "/zh-hans/", "zh-Hant": "/zh-hant/"}
 WALLET_T_EN = {
     "say": {
         "loses": ["Losing, and not by chance", "tag-red", "t is −2 or lower: over the weeks that can be measured, this wallet lost money too consistently for luck to explain."],
-        "luck": ["Cannot be told apart from luck", "tag-red", "t is below 2: a record like this turns up by chance often enough that it says little about skill."],
-        "clears_single": ["Passes one test, not the leaderboard bar", "tag-amber", "Strong enough if you had picked this wallet blind. If you found it on a leaderboard, it needs t ≥ {BAR}."],
-        "clears_board": ["Clears the leaderboard bar", "tag-green", "The record is strong enough even allowing for having been picked from {N} {U}."],
-        "too_short": ["Too short to say", "tag-grey", "Fewer than 8 weeks of history with at least $1,000 in the account."],
+        "luck": ["Looks like luck", "tag-red", "t is below 2: records like this turn up by chance often, so this one says little about skill either way."],
+        "clears_single": ["Promising, not proven", "tag-amber", "Strong enough for a wallet picked blind: luck alone gets that far about 1 time in 44. For one found {FROM}, the bar is t ≥ {BAR}, and this record is not there yet."],
+        "clears_board": ["Strong evidence", "tag-green", "Clears t ≥ {BAR}, the bar for a wallet found {FROM}. If none of them had any skill, luck would carry anyone at all past this bar only about 2% of the time."],
+        "too_short": ["Too early to tell", "tag-grey", "Fewer than 8 weeks of history with at least $1,000 in the account. Not a verdict on the trader, only on how much record there is."],
     },
-    "tag": {"loses": "loses", "luck": "luck", "clears_single": "clears single", "clears_board": "clears board", "too_short": "too short"},
+    "tag": {"loses": "losing", "luck": "looks like luck", "clears_single": "promising", "clears_board": "strong", "too_short": "too early"},
+    "found": {"q": "How did you find this wallet?",
+              "opts": [[1, "Picked blind, or recommended", "blind, without looking at any ranking"],
+                       [10, "From a short list of ~10", "on a short list of about 10"],
+                       [100, "From a top 100", "in the top 100 of a board"],
+                       [0, "Anywhere among {N} {U}", "anywhere among {N} {U}"]],
+              "hint": "The pool you picked from sets the bar. If you saw it on a leaderboard, the whole board was the pool.",
+              "blindStrong": "Clears t ≥ 2.00, the bar for a wallet picked blind. With no skill behind it, a record gets this far by luck about 1 time in 44."},
     "meterAria": "t against the two bars", "meterT2": "t = 2 · one test", "meterBest": "best of {N} · {bar}",
     "notAddr": ["That is not a Hyperliquid address", "Expected 0x followed by 40 hex characters."],
     "reading": "Reading the public record…", "noReach": "Could not reach Hyperliquid", "noHist": "No history for this address",
     "months": {"noSharpe": "needs 8 weeks of record before this can be estimated",
                "never": ["never", "at a Sharpe of zero or below, no length of record clears the bar"],
-               "done": "more months needed: the record already clears the leaderboard bar",
-               "more": "more record needed to clear the leaderboard bar, if the Sharpe held", "yr": " yr", "mo": " mo"},
+               "done": "more months needed: the record already clears the bar",
+               "more": "more record needed to clear the bar, if the Sharpe held", "yr": " yr", "mo": " mo"},
     "notes": {"no_losing_week": "No losing week in the record. Consistent with market making, funding carry or selling tail risk; t measures consistency, not the size of a loss that has not happened yet.",
               "one_week_majority": "One week produced more than half of all the gains. The record rests mostly on that week.",
               "pnl_outside_record": "Most of the all-time PnL was booked in periods that started with under $1,000 in the account, so it cannot be turned into a return. The verdict covers only the weeks that can be measured."},
@@ -757,12 +830,13 @@ def build_wallet():
   <div class="instrument-head"><span class="t mono" id="wid"></span><span id="wtag"></span></div>
   <div class="instrument-body"><h2 id="whead" style="margin:18px 4px 6px"></h2><p id="wsub" class="muted" style="margin:0 4px 10px"></p>
    <p id="wvault" class="muted small" style="margin:0 4px 10px" hidden></p>
+   <div class="wfound" id="wfound" role="group" hidden></div>
    <div class="chart" id="wmeter"></div></div>
   <div class="instrument-foot">
    <div><b id="wt">—</b><span>t, adjusted for record length</span></div>
    <div><b id="ws">—</b><span>annualised Sharpe, weekly</span></div>
    <div><b id="ww">—</b><span>weeks of record above $1k</span></div>
-   <div><b id="wm">—</b><span id="wml">months of record to clear the leaderboard bar, at this Sharpe</span></div>
+   <div><b id="wm">—</b><span id="wml">months of record to clear the bar, at this Sharpe</span></div>
   </div>
  </div>
  <div class="wcharts" id="wcharts" hidden>
@@ -783,11 +857,11 @@ def build_wallet():
 </div>
 
 <section><div class="container">
- <div class="sec-head"><div><div class="eyebrow">Hyperliquid’s own leaderboard, rescored · {hl['fetched'][:10]}</div><h2 style="margin-top:12px">The top of the board is ranked by profit. None of it clears the bar for being picked from {pnl['ranked_from']:,}.</h2></div></div>
+ <div class="sec-head"><div><div class="eyebrow">Hyperliquid’s own leaderboard, rescored · {hl['fetched'][:10]}</div><h2 style="margin-top:12px">The top of the board is ranked by profit. {"None of it has" if pnl['n_t_ge_bar'] == 0 else str(pnl['n_t_ge_bar']) + " of it " + ("has" if pnl['n_t_ge_bar'] == 1 else "have")} strong evidence yet; {pnl['n_t_ge_2'] - pnl['n_t_ge_bar']} {"is" if pnl['n_t_ge_2'] - pnl['n_t_ge_bar'] == 1 else "are"} promising.</h2></div></div>
  <div class="stats" style="margin:8px 0 26px">
-  <div><b class="c-accent">{pnl['n_t_ge_bar']} / {pnl['scored']}</b><span>of the all-time PnL top 100 clear the best-of-{pnl['ranked_from']:,} bar (t ≥ {pnl['t_bar_best_of_n']:.2f})</span></div>
-  <div><b>{pnl['n_t_ge_2']} / {pnl['scored']}</b><span>would pass a single test (t ≥ 2) if you had picked them blind</span></div>
-  <div><b class="c-accent">{roi['n_t_ge_bar']} / {roi['scored']}</b><span>of the 30-day ROI top 100 (account ≥ $10k) clear the bar. {roi['n_t_ge_2']} pass a single test.</span></div>
+  <div><b class="c-accent">{pnl['n_t_ge_bar']} / {pnl['scored']}</b><span>of the all-time PnL top 100 have strong evidence: they clear the best-of-{pnl['ranked_from']:,} bar (t ≥ {pnl['t_bar_best_of_n']:.2f})</span></div>
+  <div><b>{pnl['n_t_ge_2'] - pnl['n_t_ge_bar']} / {pnl['scored']}</b><span>are promising, not proven: t ≥ 2, enough for a wallet picked blind</span></div>
+  <div><b class="c-accent">{roi['n_t_ge_bar']} / {roi['scored']}</b><span>of the 30-day ROI top 100 (account ≥ $10k) have strong evidence; {roi['n_t_ge_2'] - roi['n_t_ge_bar']} are promising.</span></div>
  </div>
  <div class="table-wrap"><table class="data"><thead><tr><th class="r">PnL rank</th><th>Wallet</th><th class="r">All-time PnL</th><th class="r">Weeks</th><th class="r">t</th><th>Share of the bar</th></tr></thead><tbody>{rows}</tbody></table></div>
  <p class="muted small" style="margin-top:10px">Bar: one result needs t ≥ 2. A wallet found by scanning a board of N accounts needs the best-of-N bar, {pnl['t_bar_best_of_n']:.2f} here. † Most of this wallet’s PnL was booked while the account held under $1,000, so it cannot be turned into a return; t covers only the weeks that can be measured. All {pnl['shown']} + {roi['shown']} rows: <a href="/data/hl/latest.json">latest.json</a> (built by <a href="{REPO}/blob/main/tools/build_hl_board.py"><code>tools/build_hl_board.py</code></a>).</p>
@@ -900,7 +974,7 @@ def build_memo_sample():
  <div class="example-result" style="max-width:none;margin-top:28px;cursor:default">
   <span class="eyebrow">The question</span>
   <span class="ex-say" style="margin-top:8px">A depositor is looking at HLP because it is the strongest record on Hyperliquid’s all-time PnL board. How much of that record counts as evidence?</span>
-  <span class="ex-head" style="margin-top:16px"><b>Short answer</b><span class="tag tag-amber">Passes one test, not the board bar</span></span>
+  <span class="ex-head" style="margin-top:16px"><b>Short answer</b><span class="tag tag-amber">Promising, not proven</span></span>
   <span class="ex-say">Strong for a record picked blind: t = {sc['t']:.2f} over {sc['weeks']:.0f} weeks. Not yet strong enough for the best of {m['board_n']:,} accounts (bar {b['board_independent']:.2f}); at its own Sharpe of {sc['sharpe']:.2f} it needs about {mm:.0f} more months. And what it shows is not a trader’s skill: it is the exchange’s own vault, which earns from market making, liquidations and platform fees.</span>
  </div>
 

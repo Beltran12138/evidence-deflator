@@ -19,7 +19,7 @@
 function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/chrome.css?v=4e0582a5">
-<link rel="stylesheet" href="/assets/site.css?v=cfc8face">
+<link rel="stylesheet" href="/assets/site.css?v=04dca51a">
 <link rel="alternate" hreflang="en" href="https://evidencedeflator.com/method/">
 <link rel="alternate" hreflang="zh-Hans" href="https://evidencedeflator.com/zh-hans/method/">
 <link rel="alternate" hreflang="zh-Hant" href="https://evidencedeflator.com/zh-hant/method/">
@@ -73,6 +73,14 @@ t      = Sharpe × √(years of data)</div>
 <p>What a wallet check counts: perps and the spot account, including HIP-4 outcome contracts; not HyperEVM. Vaults are scored on the vault’s own PnL, before the leader’s profit share, and labelled as vaults on the boards.</p>
 <p><strong>Drawdown reading.</strong> Next to t, the wallet page shows how far the record is below its own peak, as the sum of the weekly returns since the peak, and the share of time a record with the same measured weekly mean m and variance s² would spend at least that far down: exp(−2m(d + 0.5826 s)/s²) for a drawdown d. That is the stationary drawdown of a random walk with drift, with Siegmund’s correction for sampling once a week; without it the share is up to 1.6 times too high at a Sharpe of 3. The edge is measured on the same record, so the reading leans toward calling a drawdown unusual.</p>
 
+<h2 id="yes">6 · Can it say yes?</h2>
+<p>A check that never says yes would be broken, so here is what each verdict means against luck, and what a real edge needs to clear it.</p>
+<p><strong>What luck alone produces.</strong> For one wallet picked blind, with no skill behind it, t ≥ 2 turns up about 1 time in 44 (2.3%): that is “promising, not proven”. For a pool of N records with no skill in any of them, the chance that anyone at all clears bar(N) is about the same 2.3%: that is “strong evidence”. On a board ranked by profit, many more records than 1 in 44 can reach t = 2 by luck, because ranking by profit favours lucky streaks; how many is a simulation we have not published yet, so “promising” on a board is a weak signal.</p>
+<p><strong>What a real edge needs.</strong> With t ≈ S × √years plus noise, the chance that a trader whose true annualised Sharpe is S clears the Hyperliquid board bar of 4.90:</p>
+<div class="table-wrap"><table class="data compact"><thead><tr><th>True Sharpe</th><th class="r">1 yr</th><th class="r">2 yr</th><th class="r">3 yr</th><th class="r">5 yr</th></tr></thead><tbody><tr><td>Sharpe 2</td><td class="r"><1%</td><td class="r">2%</td><td class="r">8%</td><td class="r">33%</td></tr><tr><td>Sharpe 3</td><td class="r">3%</td><td class="r">26%</td><td class="r">62%</td><td class="r">96%</td></tr><tr><td>Sharpe 4</td><td class="r">18%</td><td class="r">78%</td><td class="r">98%</td><td class="r">>99%</td></tr><tr><td>Sharpe 5</td><td class="r">54%</td><td class="r">99%</td><td class="r">>99%</td><td class="r">>99%</td></tr></tbody></table></div>
+<p>So a Sharpe of 3, which few funds sustain, needs about 2.7 years of record for even odds, and a Sharpe of 2 about 6.0. The median record in the Hyperliquid PnL top 100 is 1.6 years. If every one of those records had a true Sharpe of 3, about 21 would clear the bar by now; 0 do. A board where nobody clears the bar is what short records and no proven skill look like, not a sign that the bar can never be met.</p>
+<p><strong>Your pool, your bar.</strong> The wallet page asks how you found the wallet: picked blind (bar 2.00), from a short list of about 10 (2.84), from a top 100 (3.51), or from the whole board (4.90). The answer only you know sets the bar; the default is the whole board, because that is how most wallets are found.</p>
+
 <h2 id="principles">Principles</h2>
 <ul>
  <li>Sources are public and fetched on a stated date. Numbers are recomputed, not copied.</li>
@@ -97,7 +105,7 @@ t      = Sharpe × √(years of data)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>On this page</h4><ul><li><a href="#open-book">Open-book months</a></li><li><a href="#clean-months">Clean months needed</a></li><li><a href="#selection">The bar after selection</a></li><li><a href="#leaderboards">Leaderboards</a></li><li><a href="#principles">Principles</a></li><li><a href="#limits">Limits</a></li></ul></div>
+ <div class="box"><h4>On this page</h4><ul><li><a href="#open-book">Open-book months</a></li><li><a href="#clean-months">Clean months needed</a></li><li><a href="#selection">The bar after selection</a></li><li><a href="#leaderboards">Leaderboards</a></li><li><a href="#wallets">Wallets</a></li><li><a href="#yes">Can it say yes?</a></li><li><a href="#principles">Principles</a></li><li><a href="#limits">Limits</a></li></ul></div>
  <div class="box"><h4>Try it</h4><ul><li><a href="/check/">Check a backtest in the browser</a></li><li><a href="/api/">Python, CLI and MCP</a></li></ul></div>
 </aside>
 </div></main>

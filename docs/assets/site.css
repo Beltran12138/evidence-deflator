@@ -252,3 +252,17 @@ h1 code,h2 code,h3 code,.row-title code{font-size:.78em;padding:2px 7px;vertical
 @media (max-width:640px){.brow,.baxis{grid-template-columns:minmax(0,1fr) 92px}.brow .bstrip,.baxis .bstrip{grid-column:1/-1;grid-row:2}.baxis .bname,.baxis .bcount{display:none}}
 .venue-switch{display:flex;gap:4px;margin-bottom:18px}.venue-switch a{font-size:13.5px;padding:6px 12px;border:1px solid var(--rule);border-radius:999px;color:var(--ink-2);text-decoration:none}.venue-switch a[aria-current]{color:var(--bg);background:var(--ink);border-color:var(--ink)}
 :root[data-theme="dark"] .instrument-foot b,:root[data-theme="dark"] .stats b,:root[data-theme="dark"] .bcount b{font-family:var(--mono);font-weight:600}
+
+/* wallet result: which pool the wallet was picked from sets the bar */
+.wfound{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:4px 4px 8px;font-size:13px}
+.wfound .wfq{color:var(--ink-2);margin-right:4px}
+.wfound button{font:inherit;padding:5px 10px;border:1px solid var(--rule);border-radius:999px;background:var(--surface);color:var(--ink-2);cursor:pointer}
+.wfound button:hover{border-color:var(--ink-2)}
+.wfound button[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);background:var(--sunk);font-weight:600}
+.wfound .wfh{flex-basis:100%;color:var(--muted);font-size:12px}
+/* home: the conclusion first, the reasoning one click away */
+.iverdict{margin:0;padding:14px 22px 0;font-size:15px;color:var(--ink-2)}.iverdict b{color:var(--ink);font-weight:600}
+details.why{margin-top:12px;max-width:760px;font-size:14px;color:var(--ink-2)}
+details.why summary{cursor:pointer;color:var(--ink);font-weight:500}
+details.why p{margin:10px 0}details.why .table-wrap{max-width:460px}
+table.data.compact td,table.data.compact th{padding:6px 10px}

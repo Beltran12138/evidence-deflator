@@ -114,10 +114,10 @@ async function rpc(msg, env = {}) {
 // only trace is one tally (kind 'tg') like every other check.
 const SAY = {
   loses: 'Losing, and not by chance',
-  luck: 'Cannot be told apart from luck',
-  clears_single: 'Passes one test, not the leaderboard bar',
-  clears_board: 'Clears the leaderboard bar',
-  too_short: 'Too short to say (under 8 measurable weeks)',
+  luck: 'Looks like luck',
+  clears_single: 'Promising, not proven (passes t = 2, not the leaderboard bar)',
+  clears_board: 'Strong evidence (clears the leaderboard bar)',
+  too_short: 'Too early to tell (under 8 measurable weeks)',
 };
 const FLAG_TEXT = {
   no_losing_week: 'No losing week: consistent with market making or selling tail risk.',

@@ -19,7 +19,7 @@
 function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/chrome.css?v=4e0582a5">
-<link rel="stylesheet" href="/assets/site.css?v=cfc8face">
+<link rel="stylesheet" href="/assets/site.css?v=04dca51a">
 <link rel="alternate" hreflang="en" href="https://evidencedeflator.com/method/">
 <link rel="alternate" hreflang="zh-Hans" href="https://evidencedeflator.com/zh-hans/method/">
 <link rel="alternate" hreflang="zh-Hant" href="https://evidencedeflator.com/zh-hant/method/">
@@ -47,6 +47,14 @@ function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if
 <p><strong>門檻的兩種算法。</strong>Bonferroni 門檻把榜上所有帳戶當作相互獨立；交易方式相近的帳戶其實是更少的獨立下注，門檻會因此降低（Hyperliquid 按我們的粗估約 2.6，是數量級，不是測量）。兩種我們都列出。</p>
 <p><strong>不是 Deflated Sharpe Ratio。</strong>Bailey 與 López de Prado 的 DSR 用各次嘗試之間夏普比率的離散程度來折算嘗試次數，並校正偏度和厚尾。我們做的更簡單：小樣本 t 加上 best-of-N 的 Bonferroni 門檻，只需要知道 N，在嘗試之間相關時偏保守。名字裏的 Deflator 指給證據打折，不表示實現了 DSR。</p>
 <p><strong>回撤讀數。</strong>錢包頁在 t 旁邊顯示記錄比自己的峯值低多少（峯值以來週收益率之和），以及週均值 m、週方差 s² 與它相同的記錄，有多少比例的時間至少處在這麼深的回撤裏：回撤為 d 時是 exp(−2m(d + 0.5826 s)/s²)。這是帶漂移隨機遊走的平穩回撤分佈，加上 Siegmund 針對每週採樣一次的修正；不修正的話，夏普為 3 時比例會高估到 1.6 倍。優勢是在同一份記錄上量的，所以這個讀數偏向把回撤判為少見。</p>
+
+<h2 id="yes">0.5 · 這把尺子會說「過」嗎？</h2>
+<p>一個從來不說「過」的檢驗是壞的。下面說明每一檔結論對應運氣的什麼水平，以及真實的優勢要多少記錄才能過線。</p>
+<p><strong>單靠運氣會出現什麼。</strong>一個沒有實力、隨手挑中的錢包，t ≥ 2 大約 44 次裏出現 1 次（2.3%），這一檔叫「有希望，未證實」。一池 N 份全都沒有實力的記錄，其中任何一個過 bar(N) 的概率也約是 2.3%，這一檔叫「證據充分」。在按利潤排名的榜單上，靠運氣到 t = 2 的遠不止 44 個裏 1 個，因為按利潤排名本身偏愛運氣好的連勝；具體多少要做模擬，我們還沒有公開，所以榜單上的「有希望」是弱信號。</p>
+<p><strong>真實的優勢需要什麼。</strong>按 t ≈ 夏普 × √年數 加上噪聲，真實年化夏普為 S 的交易者，過 Hyperliquid 榜單門檻 4.90 的概率：</p>
+<div class="table-wrap"><table class="data compact"><thead><tr><th>真實夏普</th><th class="r">1 年</th><th class="r">2 年</th><th class="r">3 年</th><th class="r">5 年</th></tr></thead><tbody><tr><td>夏普 2</td><td class="r"><1%</td><td class="r">2%</td><td class="r">8%</td><td class="r">33%</td></tr><tr><td>夏普 3</td><td class="r">3%</td><td class="r">26%</td><td class="r">62%</td><td class="r">96%</td></tr><tr><td>夏普 4</td><td class="r">18%</td><td class="r">78%</td><td class="r">98%</td><td class="r">>99%</td></tr><tr><td>夏普 5</td><td class="r">54%</td><td class="r">99%</td><td class="r">>99%</td><td class="r">>99%</td></tr></tbody></table></div>
+<p>所以夏普 3（很少有基金能長期保持）大約要 2.7 年記錄才有一半把握，夏普 2 要約 6.0 年。Hyperliquid PnL 前 100 的記錄長度中位數是 1.6 年。假如這些記錄每一份的真實夏普都是 3，到現在應該約有 21 個過線；實際是 0 個。沒有人過線，是記錄短、又沒有被證實的實力時的樣子，不說明這道門檻永遠過不了。</p>
+<p><strong>你的挑選範圍，決定你的門檻。</strong>錢包頁會問你是怎麼找到這個錢包的：隨手挑中（門檻 2.00）、從 10 個左右的名單裏（2.84）、從某個前 100 名裏（3.51），還是從整個榜單裏（4.90）。只有你知道答案；預設按整個榜單算，因為大多數錢包是這樣被找到的。</p>
 
 <h2 id="open-book">1 · 開卷月數</h2>
 <p>在模型官方公佈的訓練截止日把回測窗口切開。截止日當月及之前的月份，無法排除被模型見過：模型可能已經知道當時發生了什麼。截止日之後的月份才是乾淨的。</p>
@@ -99,7 +107,7 @@ t    = 夏普 × √(數據年數)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>本頁</h4><ul><li><a href="#wallet">Hyperliquid 錢包</a></li><li><a href="#open-book">開卷月數</a></li><li><a href="#clean-months">乾淨月份</a></li><li><a href="#selection">挑選之後的門檻</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#principles">原則</a></li><li><a href="#limits">侷限</a></li></ul></div>
+ <div class="box"><h4>本頁</h4><ul><li><a href="#wallet">Hyperliquid 錢包</a></li><li><a href="#yes">會說「過」嗎</a></li><li><a href="#open-book">開卷月數</a></li><li><a href="#clean-months">乾淨月份</a></li><li><a href="#selection">挑選之後的門檻</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#principles">原則</a></li><li><a href="#limits">侷限</a></li></ul></div>
  <div class="box"><h4>試一試</h4><ul><li><a href="/zh-hant/">查一個錢包</a></li><li><a href="/check/">在瀏覽器裏檢驗回測（英文）</a></li><li><a href="/zh-hant/api/">API、MCP 與 Python</a></li></ul></div>
 </aside>
 </div></main>

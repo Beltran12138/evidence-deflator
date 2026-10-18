@@ -136,7 +136,7 @@ Ask how the user found the wallet, or state your assumption. If it came from sor
 | verdict | say |
 |---|---|
 | `too_short` | Fewer than 8 measurable weeks. "This record cannot tell you yet." Not "no skill". |
-| `luck` | Cannot be told apart from luck at this length. Give `months_more_to_clear` if present. |
+| `luck` | Looks like luck: cannot be told apart from luck at this length. Give `months_more_to_clear` if present. |
 | `clears_single` | Passes for one wallet picked blind, not for one picked off a board. |
 | `clears_board` | Passes the best-of-`picked_from` bar. |
 | `loses` | t at or below -2: losing, and not by chance. |

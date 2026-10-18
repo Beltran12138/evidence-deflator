@@ -94,20 +94,27 @@ def footer(B, P, scripts=""):
 
 WALLET_T = {
     "say": {
-        "loses": ["亏损，而且不是运气差", "tag-red", "t 不高于 −2：在能测量的那些周里，这个钱包亏得太稳定，运气解释不了。"],
-        "luck": ["和运气分不开", "tag-red", "t 低于 2：这样的记录靠运气出现的频率太高，说明不了实力。"],
-        "clears_single": ["过了单次检验，没过排行榜门槛", "tag-amber", "如果你是随手挑中这个钱包的，这个强度够了。如果你是在排行榜上找到它的，需要 t ≥ {BAR}。"],
-        "clears_board": ["过了排行榜门槛", "tag-green", "即使考虑到它是从 {N} 个{U}里挑出来的，这份记录也够强。"],
-        "too_short": ["记录太短，还说不了", "tag-grey", "账户里至少有 $1,000 的历史不足 8 周。"],
+        "loses": ["在亏，而且不是运气差", "tag-red", "t 不高于 −2：在能测量的那些周里，这个钱包亏得太稳定，运气解释不了。"],
+        "luck": ["像运气", "tag-red", "t 低于 2：这样的记录靠运气就经常出现，说明不了有没有实力。"],
+        "clears_single": ["有希望，未证实", "tag-amber", "如果是随手挑中的钱包，这个强度够了：单靠运气，大约 44 次里才有 1 次能到这里。但对一个{FROM}找到的钱包，门槛是 t ≥ {BAR}，这份记录还没到。"],
+        "clears_board": ["证据充分", "tag-green", "过了 t ≥ {BAR}，也就是{FROM}找到一个钱包时的门槛。假如这些人全都没有实力，单靠运气让任何一个人过这道线的概率只有约 2%。"],
+        "too_short": ["还太早，看不出来", "tag-grey", "账户里至少有 $1,000 的历史不足 8 周。这不是对交易者的判决，只说明记录还不够长。"],
     },
-    "tag": {"loses": "亏损", "luck": "运气", "clears_single": "单次通过", "clears_board": "过门槛", "too_short": "太短"},
+    "tag": {"loses": "在亏", "luck": "像运气", "clears_single": "有希望", "clears_board": "证据充分", "too_short": "太早"},
+    "found": {"q": "你是怎么找到这个钱包的？",
+              "opts": [[1, "随手挑的，或别人推荐", "没看任何排名、随手"],
+                       [10, "从 10 个左右的名单里挑", "从 10 个左右的名单里"],
+                       [100, "从某个前 100 名里挑", "从某个榜单的前 100 名里"],
+                       [0, "从 {N} 个{U}里挑", "从 {N} 个{U}里"]],
+              "hint": "你从多大的范围里挑，决定了门槛有多高。如果是在排行榜上看到的，范围就是整个榜单。",
+              "blindStrong": "过了 t ≥ 2.00，也就是随手挑中一个钱包时的门槛。没有实力的话，一份记录靠运气走到这里，大约 44 次里有 1 次。"},
     "meterAria": "t 与两个门槛", "meterT2": "t = 2 · 单次检验", "meterBest": "{N} 选 1 · {bar}",
     "notAddr": ["这不是 Hyperliquid 地址", "应为 0x 加 40 位十六进制字符。"],
     "reading": "正在读取公开记录…", "noReach": "连不上 Hyperliquid", "noHist": "这个地址没有历史记录",
     "months": {"noSharpe": "至少要有 8 周记录才能估计",
                "never": ["永远", "夏普为零或负数时，多长的记录都过不了门槛"],
-               "done": "个月：记录已经过了排行榜门槛",
-               "more": "如果夏普保持不变，过排行榜门槛还需要的记录", "yr": " 年", "mo": " 个月"},
+               "done": "个月：记录已经过了门槛",
+               "more": "如果夏普保持不变，过门槛还需要的记录", "yr": " 年", "mo": " 个月"},
     "notes": {"no_losing_week": "记录里没有一个亏损周。这和做市、吃资金费率或卖尾部风险的策略一致；t 衡量的是稳定性，不是一笔还没发生的亏损有多大。",
               "one_week_majority": "单独一周贡献了一半以上的收益，这份记录主要靠那一周撑着。",
               "pnl_outside_record": "全期盈亏的大部分记在账户不足 $1,000 的时段，无法换算成收益率。结论只覆盖能测量的那些周。"},
@@ -165,8 +172,18 @@ def wallet_page(B, hl, lang):
                  f'<span class="t2" style="left:{2 / bar * 100:.1f}%"></span></span></span></td></tr>')
 
     k = pnl["n_t_ge_bar"]
-    verdict_h2 = (f"榜单按利润排名。前 100 名里，没有一个过得了「从 {N:,} 个账户里挑出来」的门槛。" if k == 0 else
-                  f"榜单按利润排名。前 100 名里，只有 {k} 个过得了「从 {N:,} 个账户里挑出来」的门槛。")
+    g, pw = B.grades(pnl["rows"], bar), B.power(bar, pnl["rows"])
+    verdict_h2 = (f"榜单按利润排名。前 100 名里，还没有一个证据充分；{g['promising']} 个有希望，未证实。" if k == 0 else
+                  f"榜单按利润排名。前 100 名里，{k} 个证据充分，{g['promising']} 个有希望，未证实。")
+    n_corr = sum(r["t"] >= 2.6 for r in pnl["rows"] if r["t"] is not None)
+    why = f"""
+ <details class="why"><summary>为什么没有人过线？这把尺子会说「过」吗？</summary>
+  <p><b>一个没有被证实的实力的榜单，看起来就是 0。</b>假如这 {N:,} 个账户全都没有实力，单靠运气让任何一个人过 {bar:.2f} 的概率只有约 2%：门槛就是这样定的。</p>
+  <p><b>它会说「过」，只是记录还太短。</b>真实夏普为 S 的交易者，记录达到不同长度时过 {bar:.2f} 的概率：</p>
+  {B.power_table_html(pw, bar, "zh")}
+  <p>这前 100 名的记录长度中位数是 {pw['median_years']:.1f} 年。假如这 {g['scored']} 个人每一个的真实夏普都是 3，按他们各自的记录长度，到现在应该约有 {pw['expect_s3']:.0f} 个过线。实际是 {g['strong']} 个。</p>
+  <p>门槛有多高，还取决于账户之间有多独立：每个账户都算独立下注时是 {bar:.2f}；考虑到很多账户做法相近，按我们的粗估约 2.6（有 {n_corr} 个过）。<a href="{P}method/#yes">这把尺子会说「过」吗</a>。</p>
+ </details>"""
 
     cohort_html = ""
     if c:
@@ -212,12 +229,13 @@ def wallet_page(B, hl, lang):
   <div class="instrument-head"><span class="t mono" id="wid"></span><span id="wtag"></span></div>
   <div class="instrument-body"><h2 id="whead" style="margin:18px 4px 6px"></h2><p id="wsub" class="muted" style="margin:0 4px 10px"></p>
    <p id="wvault" class="muted small" style="margin:0 4px 10px" hidden></p>
+   <div class="wfound" id="wfound" role="group" hidden></div>
    <div class="chart" id="wmeter"></div></div>
   <div class="instrument-foot">
    <div><b id="wt">—</b><span>t 值，已按记录长度校正</span></div>
    <div><b id="ws">—</b><span>年化夏普比率（按周）</span></div>
    <div><b id="ww">—</b><span>账户高于 $1k 的周数</span></div>
-   <div><b id="wm">—</b><span id="wml">按当前夏普，过排行榜门槛需要的记录月数</span></div>
+   <div><b id="wm">—</b><span id="wml">按当前夏普，过门槛需要的记录月数</span></div>
   </div>
  </div>
  <div class="wcharts" id="wcharts" hidden>
@@ -240,10 +258,12 @@ def wallet_page(B, hl, lang):
 <section><div class="container">
  <div class="sec-head"><div><div class="eyebrow">Hyperliquid 官方排行榜，重新打分 · {day}</div><h2 style="margin-top:12px">{verdict_h2}</h2></div></div>
  <div class="stats" style="margin:8px 0 26px">
-  <div><b class="c-accent">{k} / {pnl['scored']}</b><span>全期 PnL 前 100 中，过「{N:,} 选 1」门槛（t ≥ {bar:.2f}）的数量</span></div>
-  <div><b>{pnl['n_t_ge_2']} / {pnl['scored']}</b><span>假如是随手挑中、没经过筛选，能过单次检验（t ≥ 2）的数量</span></div>
-  <div><b class="c-accent">{roi['n_t_ge_bar']} / {roi['scored']}</b><span>30 日 ROI 前 100（账户 ≥ $10k）中过门槛的数量；{roi['n_t_ge_2']} 个能过单次检验。</span></div>
+  <div><b class="c-accent">{k} / {pnl['scored']}</b><span>全期 PnL 前 100 中证据充分的：过「{N:,} 选 1」门槛（t ≥ {bar:.2f}）</span></div>
+  <div><b>{g['promising']} / {pnl['scored']}</b><span>有希望，未证实：t ≥ 2，随手挑中的钱包到这里就够了</span></div>
+  <div><b>{pw['median_years']:.1f} 年</b><span>这里的记录长度中位数；真实夏普为 3 的人要 {pw['even_odds'][3]:.1f} 年才有一半把握过线</span></div>
+  <div><b class="c-accent">{roi['n_t_ge_bar']} / {roi['scored']}</b><span>30 日 ROI 前 100（账户 ≥ $10k）中证据充分的；{roi['n_t_ge_2'] - roi['n_t_ge_bar']} 个有希望。</span></div>
  </div>
+ {why}
  <div class="table-wrap"><table class="data"><thead><tr><th class="r">PnL 排名</th><th>钱包</th><th class="r">全期 PnL</th><th class="r">周数</th><th class="r">t</th><th>占门槛的比例</th></tr></thead><tbody>{rows}</tbody></table></div>
  <p class="muted small" style="margin-top:10px">门槛：单个结果需要 t ≥ 2；从 N 个账户的榜单里扫出来的钱包，要过「N 选 1」的门槛，这里是 {bar:.2f}。† 这个钱包的大部分盈亏是在账户不足 $1,000 时记下的，无法换算成收益率；t 只覆盖能测量的那些周。全部 {pnl['shown']} + {roi['shown']} 行见 <a href="/data/hl/latest.json">latest.json</a>（由 <a href="{B.REPO}/blob/main/tools/build_hl_board.py"><code>tools/build_hl_board.py</code></a> 生成）。</p>
 </div></section>
@@ -341,6 +361,7 @@ def question_pages(B, hl, lang):
 
 def method_page(B, lang):
     P = LANGS[lang]
+    m = B.method_numbers()
     alt = {"en": "/method/", **{k: f"{v}method/" for k, v in LANGS.items()}}
     page = head(B, lang, "方法 · Evidence Deflator", "Evidence Deflator 怎么算：开卷月数、需要多少干净月份、挑选之后的门槛，以及一个排行榜最早哪天能分出赢家。",
                 f"{P}method/", alt) + header(B, P, lang, "method", alt) + f"""
@@ -356,6 +377,14 @@ def method_page(B, lang):
 <p><strong>门槛的两种算法。</strong>Bonferroni 门槛把榜上所有账户当作相互独立；交易方式相近的账户其实是更少的独立下注，门槛会因此降低（Hyperliquid 按我们的粗估约 2.6，是数量级，不是测量）。两种我们都列出。</p>
 <p><strong>不是 Deflated Sharpe Ratio。</strong>Bailey 与 López de Prado 的 DSR 用各次尝试之间夏普比率的离散程度来折算尝试次数，并校正偏度和厚尾。我们做的更简单：小样本 t 加上 best-of-N 的 Bonferroni 门槛，只需要知道 N，在尝试之间相关时偏保守。名字里的 Deflator 指给证据打折，不表示实现了 DSR。</p>
 <p><strong>回撤读数。</strong>钱包页在 t 旁边显示记录比自己的峰值低多少（峰值以来周收益率之和），以及周均值 m、周方差 s² 与它相同的记录，有多少比例的时间至少处在这么深的回撤里：回撤为 d 时是 exp(−2m(d + 0.5826 s)/s²)。这是带漂移随机游走的平稳回撤分布，加上 Siegmund 针对每周采样一次的修正；不修正的话，夏普为 3 时比例会高估到 1.6 倍。优势是在同一份记录上量的，所以这个读数偏向把回撤判为少见。</p>
+
+<h2 id="yes">0.5 · 这把尺子会说「过」吗？</h2>
+<p>一个从来不说「过」的检验是坏的。下面说明每一档结论对应运气的什么水平，以及真实的优势要多少记录才能过线。</p>
+<p><strong>单靠运气会出现什么。</strong>一个没有实力、随手挑中的钱包，t ≥ 2 大约 44 次里出现 1 次（2.3%），这一档叫「有希望，未证实」。一池 N 份全都没有实力的记录，其中任何一个过 bar(N) 的概率也约是 2.3%，这一档叫「证据充分」。在按利润排名的榜单上，靠运气到 t = 2 的远不止 44 个里 1 个，因为按利润排名本身偏爱运气好的连胜；具体多少要做模拟，我们还没有公开，所以榜单上的「有希望」是弱信号。</p>
+<p><strong>真实的优势需要什么。</strong>按 t ≈ 夏普 × √年数 加上噪声，真实年化夏普为 S 的交易者，过 Hyperliquid 榜单门槛 {m['hl_bar']:.2f} 的概率：</p>
+{B.power_table_html(m['pw'], m['hl_bar'], "zh")}
+<p>所以夏普 3（很少有基金能长期保持）大约要 {m['s3']:.1f} 年记录才有一半把握，夏普 2 要约 {m['s2']:.1f} 年。Hyperliquid PnL 前 100 的记录长度中位数是 {m['med']:.1f} 年。假如这些记录每一份的真实夏普都是 3，到现在应该约有 {m['e3']:.0f} 个过线；实际是 {m['strong']} 个。没有人过线，是记录短、又没有被证实的实力时的样子，不说明这道门槛永远过不了。</p>
+<p><strong>你的挑选范围，决定你的门槛。</strong>钱包页会问你是怎么找到这个钱包的：随手挑中（门槛 2.00）、从 10 个左右的名单里（{m['b10']:.2f}）、从某个前 100 名里（{m['b100']:.2f}），还是从整个榜单里（{m['hl_bar']:.2f}）。只有你知道答案；默认按整个榜单算，因为大多数钱包是这样被找到的。</p>
 
 <h2 id="open-book">1 · 开卷月数</h2>
 <p>在模型官方公布的训练截止日把回测窗口切开。截止日当月及之前的月份，无法排除被模型见过：模型可能已经知道当时发生了什么。截止日之后的月份才是干净的。</p>
@@ -408,7 +437,7 @@ t    = 夏普 × √(数据年数)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>本页</h4><ul><li><a href="#wallet">Hyperliquid 钱包</a></li><li><a href="#open-book">开卷月数</a></li><li><a href="#clean-months">干净月份</a></li><li><a href="#selection">挑选之后的门槛</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#principles">原则</a></li><li><a href="#limits">局限</a></li></ul></div>
+ <div class="box"><h4>本页</h4><ul><li><a href="#wallet">Hyperliquid 钱包</a></li><li><a href="#yes">会说「过」吗</a></li><li><a href="#open-book">开卷月数</a></li><li><a href="#clean-months">干净月份</a></li><li><a href="#selection">挑选之后的门槛</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#principles">原则</a></li><li><a href="#limits">局限</a></li></ul></div>
  <div class="box"><h4>试一试</h4><ul><li><a href="{P}">查一个钱包</a></li><li><a href="/check/">在浏览器里检验回测（英文）</a></li><li><a href="{P}api/">API、MCP 与 Python</a></li></ul></div>
 </aside>
 </div></main>
@@ -509,7 +538,7 @@ def memo_page(B, lang):
  <div class="example-result" style="max-width:none;margin-top:28px;cursor:default">
   <span class="eyebrow">问题</span>
   <span class="ex-say" style="margin-top:8px">一位存款人在看 HLP，因为它是 Hyperliquid 全期 PnL 榜上最强的记录。这份记录里有多少算得上证据？</span>
-  <span class="ex-head" style="margin-top:16px"><b>简短回答</b><span class="tag tag-amber">过了单次检验，没过榜单门槛</span></span>
+  <span class="ex-head" style="margin-top:16px"><b>简短回答</b><span class="tag tag-amber">有希望，未证实</span></span>
   <span class="ex-say">如果是随手挑中的，这个强度够了：{sc['weeks']:.0f} 周记录，t = {sc['t']:.2f}。但它是从 {m['board_n']:,} 个账户里挑出来的第一名，门槛是 {b['board_independent']:.2f}，还不够；按它自己 {sc['sharpe']:.2f} 的夏普比率，大约还要 {mm:.0f} 个月。而且它反映的不是某个交易员的本事：这是交易所自己的金库，收入来自做市、清算和平台手续费。</span>
  </div>
 
