@@ -224,6 +224,7 @@ def wallet_page(B, hl, lang):
  </form>
  <div class="wex muted small">试试：{ex}</div>
  <p class="muted small elsewhere">也可以在 <a href="{B.TG_BOT}" rel="noopener">Telegram 上用 @SkillOrLuckBot</a>（发地址，回结论），或装 <a href="{B.EXT_URL}" rel="noopener">Chrome 插件</a>，在 Hyperliquid、Binance 和 OKX 跟单页面上直接显示结论。</p>
+ <p class="small" style="margin-top:6px">手上是一段业绩宣称，不是地址？<a href="{P}claim/">贴宣称原文 →</a></p>
  <p class="muted small" style="margin-top:6px">准备把钱交给某个交易员或金库？看看<a href="{P}memo/sample/">一页评估报告样例</a>（以 HLP 金库为例）。</p>
 </div>
 
@@ -626,7 +627,7 @@ NEEDS_ZH = {"Peter Lynch": ("彼得·林奇", "富达麦哲伦基金，1977–19
             "Michael Burry": ("迈克尔·伯里", "Scion Asset Management", "只有持仓披露（13F）；按持仓重建组合的估算在计划中"),
             "Stanley Druckenmiller": ("德鲁肯米勒", "Duquesne Family Office", "只有持仓披露（13F）；按持仓重建组合的估算在计划中"),
             "Li Lu (李录)": ("李录", "喜马拉雅资本", "只有持仓披露（13F）；按持仓重建组合的估算在计划中"),
-            "Leopold Aschenbrenner": ("Leopold Aschenbrenner", "Situational Awareness LP", "只有持仓披露（13F）；收益来自媒体报道，没有公开"),
+            "Leopold Aschenbrenner": ("Leopold Aschenbrenner", "Situational Awareness LP", "13F 申报价值大部分是期权，按持仓估算算不了；收益来自媒体报道，没有公开"),
             "Ray Dalio": ("达利欧", "桥水 Pure Alpha", "私募；公开的全天候 ETF 太新")}
 
 
@@ -656,7 +657,7 @@ def ranking_page(B, lang):
 <div class="prose narrow" style="margin-top:34px">
 <h2 id="missing">有名，但不在榜上</h2>
 <ul>{nd}</ul>
-<p>下一步会给 13F 披露的投资人加上按持仓重建的估算（用每个季度的持仓重建组合）。它会标明是估算，因为 13F 不披露空头、杠杆和季度内的买卖。</p>
+<p><b>13F 估算。</b>对只公布季度持仓的投资人，榜单用每一份 13F 重建美股多头组合，持有到下一个季度末。每一行都标明是估算：13F 不披露空头、杠杆、现金、非美股持仓和季度内的买卖；主要是期权的组合不放进来。</p>
 <h2 id="how">怎么算的</h2>
 <ul>
  <li><b>扣掉大盘。</b>每份记录的收益对它的基准做回归，z 是 alpha 的 t 换到正态尺度上（自由度 n − 2 的 Student t），和钱包的 t 是同一把尺子。如果改成对零检验，标普 500 指数自己在 1965–2025 年就能到 {B.SP500_RAW_Z:.2f}。</li>
@@ -669,6 +670,14 @@ def ranking_page(B, lang):
 </div>
 </main>
 """ + footer(B, P)
+    return finish(page, lang)
+
+
+def claim_page(B, lang):
+    P = LANGS[lang]
+    alt = {"en": "/claim/", **{k: f"{v}claim/" for k, v in LANGS.items()}}
+    page = head(B, lang, "宣称检验 · Evidence Deflator", "贴一段推文、路演或基金宣传页里的业绩宣称，看读出来的数字、它能承载多少证据、还缺什么。",
+                f"{P}claim/", alt) + header(B, P, lang, "", alt) + "<main>" + B.claim_main(lang).replace("/zh-hans/api/", f"{P}api/") + "</main>" + footer(B, P)
     return finish(page, lang)
 
 
@@ -728,5 +737,6 @@ def build(B):
         B.write(f"{P.strip('/')}/memo/sample/index.html", memo_page(B, lang))
         B.write(f"{P.strip('/')}/record/index.html", record_page(B, lang))
         B.write(f"{P.strip('/')}/ranking/index.html", ranking_page(B, lang))
+        B.write(f"{P.strip('/')}/claim/index.html", claim_page(B, lang))
         for rel, page in question_pages(B, hl, lang):
             B.write(rel, page)

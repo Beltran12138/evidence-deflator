@@ -482,6 +482,7 @@ def build_home(rows, lb):
   <button class="btn btn-primary" type="submit">Check <span class="arr">→</span></button>
  </form>
  {ELSEWHERE_EN}
+ <p class="small" style="margin-top:6px">Got a performance claim instead of an address? <a href="/claim/">Paste the claim →</a></p>
  <div class="rankbox">
   <div class="eyebrow" style="margin-top:34px">Hyperliquid, ranked by evidence instead of profit · {hl['fetched'][:10]}</div>
   <h2 style="margin-top:10px">The records hardest to explain by luck, among {hp['ranked_from']:,} accounts</h2>
@@ -633,12 +634,12 @@ LB.load('/leaderboard/2026-10.json').then(d=>{
 
 RANKING_ALT = {"en": "/ranking/", "zh-Hans": "/zh-hans/ranking/", "zh-Hant": "/zh-hant/ranking/"}
 RANK_T = {
-    "en": dict(groups=[("all", "All"), ("markets", "Stocks and funds"), ("china", "China funds"), ("crypto", "Crypto"), ("ai", "AI agents")],
+    "en": dict(groups=[("all", "All"), ("markets", "Stocks and funds"), ("china", "China funds"), ("clones", "13F estimates"), ("crypto", "Crypto"), ("ai", "AI agents")],
                tag={"clears_board": ("tag-green", "strong"), "clears_single": ("tag-amber", "promising"), "luck": ("tag-red", "looks like luck"),
                     "loses": ("tag-red", "losing"), "too_short": ("tag-grey", "too early")},
                head='<th class="r">#</th><th>Record</th><th class="r">Length</th><th>z after the market · bar {bar}</th><th class="r">Last 10 yr</th><th class="r">Luck, picked blind</th><th class="r">Luck, best of {n}</th>',
                yr=" yr", events="{e} events", raw="raw"),
-    "zh": dict(groups=[("all", "全部"), ("markets", "美股与基金"), ("china", "中国公募"), ("crypto", "加密"), ("ai", "AI agent")],
+    "zh": dict(groups=[("all", "全部"), ("markets", "美股与基金"), ("china", "中国公募"), ("clones", "13F 估算"), ("crypto", "加密"), ("ai", "AI agent")],
                tag={"clears_board": ("tag-green", "证据充分"), "clears_single": ("tag-amber", "有希望"), "luck": ("tag-red", "像运气"),
                     "loses": ("tag-red", "在亏"), "too_short": ("tag-grey", "太早")},
                head='<th class="r">#</th><th>记录</th><th class="r">长度</th><th>扣掉大盘后的 z（门槛 {bar}）</th><th class="r">最近 10 年</th><th class="r">运气，随手挑中</th><th class="r">运气，{n} 选 1</th>',
@@ -664,12 +665,21 @@ RANK_ZH = {  # id: (name, who, note) for the Chinese pages; None keeps the origi
     "cn_005827": ("易方达蓝筹精选", "张坤，自成立起", None), "cn_003095": ("中欧医疗健康", "葛兰，自成立起", None),
     "cn_163406": ("兴全合润", "谢治宇，现任经理", "基金 2010 年成立以来的全部历史；现任经理是后来接手的。"),
     "cn_260108": ("景顺长城新兴成长", "刘彦春，现任经理", "基金 2006 年成立以来的全部历史；现任经理是后来接手的。"),
+    "f13_duan": ("H&H International（13F 估算）", "段永平", None), "f13_burry": ("Scion Asset Management（13F 估算）", "迈克尔·伯里", None),
+    "f13_druck": ("Duquesne Family Office（13F 估算）", "德鲁肯米勒", None), "f13_lilu": ("喜马拉雅资本（13F 估算）", "李录", None),
+    "f13_leopold": ("Situational Awareness（13F 估算）", "Leopold Aschenbrenner", None), "f13_tepper": ("Appaloosa（13F 估算）", "大卫·泰珀", None),
+    "f13_klarman": ("Baupost（13F 估算）", "塞斯·卡拉曼", None), "f13_hillhouse": ("高瓴 HHLR（13F 估算）", "张磊", None),
+    "f13_coleman": ("老虎环球（13F 估算）", "Chase Coleman", None), "f13_einhorn": ("绿光资本（13F 估算）", "大卫·艾因霍恩", None),
+    "f13_loeb": ("第三点（13F 估算）", "丹·勒布", None), "f13_pabrai": ("Dalal Street（13F 估算）", "莫尼什·帕伯莱", None),
+    "f13_akre": ("Akre Capital（13F 估算）", "Chuck Akre", None), "f13_gates": ("盖茨基金会信托（13F 估算）", "比尔·盖茨", None),
+    "f13_brk13f": ("伯克希尔 13F 股票组合（估算）", "巴菲特", None),
     "machi": ("麻吉大哥", "黄立成", None), "wynn": ("James Wynn", "James Wynn", None), "ai_alpha_arena": ("Alpha Arena 第一季表现最好的模型", "AI 模型（6 个参赛）", None),
 }
 
 
 def venue_zh(v):
     v = v.replace("Yearly returns", "逐年收益").replace("nof1 Alpha Arena, season 1", "nof1 Alpha Arena 第一季")
+    v = re.sub(r"^13F holdings, (\d+) quarters$", r"13F 持仓，\1 个季度", v)
     v = re.sub(r"^Fund (\d+), monthly$", r"基金 \1，按月", v)
     v = re.sub(r"#(\d+) by all-time PnL", r"全期 PnL 第 \1", v)
     v = re.sub(r"#(\d+) by 30-day ROI", r"30 日 ROI 第 \1", v)
@@ -702,6 +712,9 @@ def ranking_table(d, lang="en", P="/"):
         notes = []
         if "no_losing_week" in (r.get("flags") or []):
             notes.append("no losing week" if not zh else "一周都没亏过")
+        if r["group"] == "clones":
+            notes.append("estimate from 13F holdings: long US stocks only, held from one quarter end to the next" if not zh else
+                         "按 13F 持仓估算：只含美股多头，从一个季度末持有到下一个季度末")
         if r.get("note"):
             notes.append((zn[2] or r["note"]) if zn else r["note"])
         note_html = "".join(f'<span class="small" style="display:block">{html.escape(x)}</span>' for x in notes)
@@ -752,7 +765,7 @@ def build_ranking_page():
 <div class="prose narrow" style="margin-top:34px">
 <h2 id="missing">Famous, but not on the list</h2>
 <ul>{nd}</ul>
-<p>A holdings-based estimate for the 13F filers (rebuilding the portfolio from each quarter’s filing) is the next addition; it will be labelled as an estimate, because a filing omits shorts, leverage and trades within the quarter.</p>
+<p><b>13F estimates.</b> For investors who publish only quarterly holdings, the ranking rebuilds the long US stock book from each 13F filing and holds it to the next quarter end. It is labelled as an estimate on every row: a filing omits shorts, leverage, cash, non-US positions and trades within the quarter, and a book that is mostly options is left out.</p>
 <h2 id="how">How it is computed</h2>
 <ul>
  <li><b>Against the market.</b> Each record’s returns are regressed on its benchmark’s; z is the t of the alpha on the normal scale (Student’s t with n − 2 degrees of freedom), the same scale as a wallet’s t. Tested against zero instead, the S&amp;P 500 itself reaches {SP500_RAW_Z:.2f} over 1965–2025.</li>
@@ -766,6 +779,83 @@ def build_ranking_page():
 </main>
 """ + footer()
     write("ranking/index.html", page)
+
+
+# ---------------------------------------------------------------- claim check
+
+CLAIM_ALT = {"en": "/claim/", "zh-Hans": "/zh-hans/claim/", "zh-Hant": "/zh-hant/claim/"}
+CLAIM_T = {
+    "en": {"f": {"sharpe": "Sharpe (annualised)", "annual": "Annual return, %", "vol": "Volatility, %", "mdd": "Max drawdown, %",
+                 "years": "Length, years", "trials": "Variants tried"},
+           "how": {"given": "as stated", "derived": "from return ÷ volatility"},
+           "miss": {"sharpe": "No Sharpe ratio or volatility. Without the size of the swings, a return says nothing about luck.",
+                    "ddNotVol": "A drawdown is given but no volatility. A drawdown is not a substitute: it depends on the length and the path of the record.",
+                    "years": "No length of record.",
+                    "trials": "How many variants, strategies or models were tried before this one was shown. Unstated, it is treated as 1, which is almost never true.",
+                    "backtest": "A backtest, with no live record mentioned: the result was fitted to data that was already known."},
+           "verdict": {"incomplete": "Cannot be checked yet", "strong": "Strong evidence", "strong1": "Clears t = 2, picked blind",
+                       "promising": "Promising, not proven", "luck": "Looks like luck", "loses": "Losing, and not by chance"},
+           "body": "Sharpe {S} ({HOW}) over {Y} years gives t ≈ {T}. Picked as the best of {N}, the bar is {BAR}. Luck alone gets a record this strong: {L}. At this Sharpe, clearing the bar needs about {NEED} of record in total.",
+           "likely": "more likely than not", "one": "1 in {X}", "yr": " years", "mo": " months", "never": "no length of record (Sharpe at or below zero)"},
+    "zh": {"f": {"sharpe": "夏普（年化）", "annual": "年化收益，%", "vol": "波动率，%", "mdd": "最大回撤，%", "years": "记录长度，年", "trials": "试过的版本数"},
+           "how": {"given": "宣称里给的", "derived": "由收益 ÷ 波动率算出"},
+           "miss": {"sharpe": "没有夏普，也没有波动率。不知道波动有多大，收益说明不了是不是运气。",
+                    "ddNotVol": "给了最大回撤，没给波动率。回撤不能代替波动率：它取决于记录的长度和走势。",
+                    "years": "没有记录长度。",
+                    "trials": "展示这一个之前，试过多少个版本、策略或模型。没写就按 1 个算，而这几乎从来不是真的。",
+                    "backtest": "这是回测，没提实盘：结果是在已知的数据上拟合出来的。"},
+           "verdict": {"incomplete": "还没法检验", "strong": "证据充分", "strong1": "随手挑中的话，过了 t = 2",
+                       "promising": "有希望，未证实", "luck": "像运气", "loses": "在亏，而且不是运气差"},
+           "body": "夏普 {S}（{HOW}），{Y} 年，t ≈ {T}。如果是从 {N} 个里挑出来的，门槛是 {BAR}。单靠运气做到这么强：{L}。按这个夏普，总共要约 {NEED} 的记录才能过门槛。",
+           "likely": "多半能", "one": "{X} 次里 1 次", "yr": " 年", "mo": " 个月", "never": "多长都不够（夏普不大于零）"},
+}
+CLAIM_EX = {
+    "en": [("AI strategy, backtest", "Our AI strategy returned 45% a year over 3 years with a Sharpe of 2.1, the best of 200 backtested variants."),
+           ("Copy-trading pitch", "Live for 18 months: total return 120%, max drawdown 15%."),
+           ("Fund factsheet", "Annualized return 14%, volatility 16%, live since 2016.")],
+    "zh": [("AI 策略回测", "AI 量化策略回测 3 年，年化 45%，夏普 2.1，从 200 组参数里选出。"),
+           ("带单宣传", "实盘 18 个月，累计收益 120%，最大回撤 15%。"),
+           ("基金宣传页", "年化收益 14%，波动率 16%，2016 年至 2026 年实盘。")],
+}
+
+
+def claim_main(lang="en"):
+    zh = lang != "en"
+    T = CLAIM_T["zh" if zh else "en"]
+    ex = "".join(f'<button class="linkbtn" type="button" data-claim="{html.escape(c)}">{html.escape(lab)}</button>' for lab, c in CLAIM_EX["zh" if zh else "en"])
+    if not zh:
+        intro = ("<h1>Paste a performance claim. See what it could prove.</h1>"
+                 "<p class=\"lede\">A tweet, a pitch deck line, a fund factsheet. The numbers are read out one by one so you can correct them, then put on the same ruler as a wallet: how much evidence could a record like this carry, and what is missing to tell.</p>")
+        labels = ("The claim", "Check", "Try:", "What was read (edit any field)", "What is missing", "Screenshots and PDFs: an AI assistant with our <a href=\"/api/\">MCP tool</a> (Claude, ChatGPT, Cursor) can read them and run the same arithmetic. This page reads text with fixed patterns and shows every field, so nothing is guessed out of sight. Nothing you paste leaves your browser.")
+    else:
+        intro = ("<h1>贴一段业绩宣称，看它能证明什么。</h1>"
+                 "<p class=\"lede\">一条推文、路演里的一句话、基金宣传页。数字逐个读出来，你可以改；然后和钱包用同一把尺子量：这样的记录能承载多少证据，要分清实力和运气还缺什么。</p>")
+        labels = ("宣称原文", "检验", "试试：", "读到的数字（每一项都可以改）", "还缺什么", "截图和 PDF：装了我们 <a href=\"/zh-hans/api/\">MCP 工具</a>的 AI 助手（Claude、ChatGPT、Cursor）可以读出来，再跑同样的算术。本页用固定规则读文本，每一项都摆出来，不在看不见的地方猜。你贴的内容不会离开你的浏览器。")
+    return f"""
+<div class="container page-head">
+ <div class="eyebrow"><span class="dot"></span>{"Claim check" if not zh else "宣称检验"}</div>
+ {intro}
+ <form id="cform" autocomplete="off" style="margin-top:18px"><textarea id="ctext" rows="4" style="width:100%;font:inherit;padding:12px 14px;border:1px solid var(--line-strong, #bbb);border-radius:8px;background:transparent;color:inherit" aria-label="{labels[0]}" placeholder="{labels[0]}"></textarea>
+ <div class="btns" style="margin-top:10px"><button class="btn btn-primary" type="submit">{labels[1]} <span class="arr">→</span></button></div></form>
+ <div class="wex muted small" style="margin-top:10px">{labels[2]} {ex}</div>
+</div>
+<div class="container" id="cout" hidden>
+ <div class="instrument wres">
+  <div class="instrument-head"><span class="t">{labels[3]}</span><span id="cverdict"></span></div>
+  <div class="instrument-body"><div class="cfields" id="cfields"></div><p id="cbody" style="margin:14px 4px 6px"></p></div>
+ </div>
+ <div class="wnext" id="cmissbox" hidden><h3>{labels[4]}</h3><ul id="cmiss"></ul></div>
+ <p class="muted small" style="margin-top:14px">{labels[5]}</p>
+</div>
+<script>window.CLAIM = {json.dumps({"T": T}, ensure_ascii=False)};</script>
+<script src="{asset("hl.js")}"></script><script src="{asset("claim.js")}"></script>
+"""
+
+
+def build_claim_page():
+    page = head("Claim check · Evidence Deflator", "Paste a performance claim from a tweet, a deck or a factsheet. See the numbers read out, how much evidence they could carry, and what is missing.",
+                "/claim/", alt=CLAIM_ALT) + header("", CLAIM_ALT) + "<main>" + claim_main("en") + "</main>" + footer()
+    write("claim/index.html", page)
 
 
 # ---------------------------------------------------------------- method
@@ -1633,6 +1723,7 @@ def main():
     build_legal()
     build_record()
     build_ranking_page()
+    build_claim_page()
     import site_zh
     site_zh.build(_sys.modules[__name__])
     inject_chrome()

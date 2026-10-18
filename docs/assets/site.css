@@ -269,3 +269,4 @@ table.data.compact td,table.data.compact th{padding:6px 10px}
 table.rank td{vertical-align:top}table.rank .mbar{min-width:170px;gap:8px}table.rank td.small{max-width:260px;min-width:200px;white-space:normal;color:var(--muted,#666)}
 table.rank td:nth-child(2){min-width:260px;max-width:380px;white-space:normal}
 #ranktab .mbar{min-width:130px}
+.cfields{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin:6px 4px}.cf{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted,#666)}.cf input{font:15px var(--mono,ui-monospace,monospace);padding:8px 10px;border:1px solid var(--line,#ddd);border-radius:6px;background:transparent;color:var(--ink,inherit)}

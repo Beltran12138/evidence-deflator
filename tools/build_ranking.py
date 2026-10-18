@@ -62,11 +62,7 @@ NEEDS_DATA = [
     ("John Neff", "Vanguard Windsor, 1964–1995", "same gap in the price feed; needs Vanguard’s yearly returns"),
     ("George Soros", "Quantum Fund", "no complete yearly series published; only scattered years"),
     ("Peter Thiel", "Clarium Capital, Founders Fund", "no public return series"),
-    ("Duan Yongping (段永平)", "H&H International", "holdings only (13F); a holdings-based estimate is planned"),
-    ("Michael Burry", "Scion Asset Management", "holdings only (13F); a holdings-based estimate is planned"),
-    ("Stanley Druckenmiller", "Duquesne Family Office", "holdings only (13F); a holdings-based estimate is planned"),
-    ("Li Lu (李录)", "Himalaya Capital", "holdings only (13F); a holdings-based estimate is planned"),
-    ("Leopold Aschenbrenner", "Situational Awareness LP", "holdings only (13F); returns reported by the press, not published"),
+    ("Leopold Aschenbrenner", "Situational Awareness LP", "most of the 13F value is options, which a holdings estimate cannot price; returns reported by the press, not published"),
     ("Ray Dalio", "Bridgewater Pure Alpha", "private; the public All Weather ETF is too new"),
 ]
 PRICED = [
@@ -376,6 +372,15 @@ def main():
     rows.append({"id": "ai_alpha_arena", "group": "ai", "name": "Best model in Alpha Arena season 1", "who": "AI model (6 competed)",
                  "venue": "nof1 Alpha Arena, season 1", "source": "audit 006", "benchmark": "none (raw returns)", "z": 0.54, "z_raw": 0.54,
                  "beta": None, "years": None, "flags": [], "verdict": grade(0.54, BAR)})
+
+    # holdings-based estimates (tools/build_13f_clones.py), labelled as estimates
+    cp = os.path.join(ROOT, "docs", "data", "ranking", "clones.json")
+    if os.path.exists(cp):
+        with open(cp, encoding="utf-8") as f:
+            for r in json.load(f)["rows"]:
+                if r.get("z") is not None:
+                    r["verdict"] = grade(r["z"], BAR)
+                rows.append(r)
 
     out = {
         "built": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),

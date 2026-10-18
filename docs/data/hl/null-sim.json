@@ -1,0 +1,55 @@
+{
+ "board_size": 47270,
+ "bar": 4.9,
+ "sims": 200,
+ "seed": 7,
+ "assumptions": {
+  "t_dof": 3.0,
+  "weekly_vol_median": 0.08,
+  "size_log_sigma": 1.8,
+  "record_lengths": "drawn from today's top-100 boards",
+  "weeks_grid": 180
+ },
+ "fetched_board": "2026-10-18T09:20Z",
+ "summary": {
+  "pnl": {
+   "null_share_t_ge_2": {
+    "median": 0.15,
+    "p5": 0.1,
+    "p95": 0.2
+   },
+   "null_max_t": {
+    "median": 3.1,
+    "p95": 3.69
+   },
+   "null_share_of_boards_with_any_t_ge_bar": 0.0,
+   "observed": {
+    "share_t_ge_2": 0.0918,
+    "scored": 98,
+    "t_ge_2": 9,
+    "max_t": 3.425
+   },
+   "observed_share_percentile_under_null": 0.04
+  },
+  "roi30": {
+   "null_share_t_ge_2": {
+    "median": 0.0426,
+    "p5": 0.0106,
+    "p95": 0.0796
+   },
+   "null_max_t": {
+    "median": 2.61,
+    "p95": 3.41
+   },
+   "null_share_of_boards_with_any_t_ge_bar": 0.0,
+   "observed": {
+    "share_t_ge_2": 0.1765,
+    "scored": 85,
+    "t_ge_2": 15,
+    "max_t": 4.487
+   },
+   "observed_share_percentile_under_null": 1.0
+  }
+ },
+ "doc": "What a Hyperliquid-sized board looks like when nobody has any skill.\n\n    python tools/null_board_sim.py [--sims 200] [--seed 7] [--out docs/data/hl/null-sim.json]\n\nSimulates N accounts (the board size in docs/data/hl/latest.json) with zero expected return, ranks\nthem the way Hyperliquid's leaderboard does (all-time PnL; 30-day ROI among accounts of $10k or more),\ntakes the top 100 of each, and scores each record with the wallet check's estimator (weekly returns,\nStudent-t put on the normal scale). The question it answers: on a board ranked by profit, how often\ndoes luck alone produce \"promising\" (t >= 2) and \"strong\" (t >= bar) records, compared with what the\nreal board shows?\n\nEach account: a record length drawn from the lengths observed on today's two top-100 boards (top\naccounts are older than average, so this leans toward longer records, which only helps luck), an\naccount size from a log-normal (median $30k, wide), a weekly volatility from a log-normal (median 8%),\nand weekly returns from a Student t with 3 degrees of freedom (fat tails), scaled to that volatility,\nmean zero. PnL is return times size each week. These are assumptions, stated so they can be argued\nwith; the script prints how the result moves when they change (--fat, --vol, --size-sigma)."
+}
