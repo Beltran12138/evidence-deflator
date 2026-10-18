@@ -267,3 +267,5 @@ details.why summary{cursor:pointer;color:var(--ink);font-weight:500}
 details.why p{margin:10px 0}details.why .table-wrap{max-width:460px}
 table.data.compact td,table.data.compact th{padding:6px 10px}
 table.rank td{vertical-align:top}table.rank .mbar{min-width:170px;gap:8px}table.rank td.small{max-width:260px;min-width:200px;white-space:normal;color:var(--muted,#666)}
+table.rank td:nth-child(2){min-width:260px;max-width:380px;white-space:normal}
+#ranktab .mbar{min-width:130px}

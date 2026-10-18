@@ -62,7 +62,7 @@ def head(B, lang, title, desc, path, alt, extra=""):
 
 def header(B, P, lang, active, alt):
     cur = ' aria-current="page"'
-    nav = [("wallet", "查钱包", P), ("memo", "评估报告样例", f"{P}memo/sample/"), ("method", "方法", f"{P}method/"), ("api", "给 agent 用", f"{P}api/")]
+    nav = [("wallet", "查钱包", P), ("ranking", "证据排名", f"{P}ranking/"), ("memo", "评估报告样例", f"{P}memo/sample/"), ("method", "方法", f"{P}method/"), ("api", "给 agent 用", f"{P}api/")]
     links = "".join(f'<a href="{u}"{cur if k == active else ""}>{t}</a>' for k, t, u in nav)
     switch = "".join(f'<a class="gh" href="{alt[k]}" hreflang="{k}" lang="{k}"{cur if k == lang else ""}>{t}</a>'
                      for k, t in (("zh-Hans", "⟦JIAN⟧"), ("zh-Hant", "⟦FAN⟧"), ("en", "EN")))
@@ -108,7 +108,7 @@ WALLET_T = {
                        [0, "从 {N} 个{U}里挑", "从 {N} 个{U}里"]],
               "hint": "你从多大的范围里挑，决定了门槛有多高。如果是在排行榜上看到的，范围就是整个榜单。",
               "blindStrong": "过了 t ≥ 2.00，也就是随手挑中一个钱包时的门槛。没有实力的话，一份记录靠运气走到这里，大约 44 次里有 1 次。"},
-    "luck": {"label": "对一个{FROM}找到的钱包，单靠运气走到这么强的概率", "most": "多半能", "certain": "几乎必然", "one": "{X} 次里 1 次", "wan": "{W} 万"},
+    "luck": {"label": "对一个{FROM}找到的钱包，单靠运气走到这么强的概率", "most": "多半能", "certain": "几乎必然", "one": "{X} 次里 1 次", "units": [[1e12, " 万亿"], [1e8, " 亿"], [1e5, " 万", 1e4]]},
     "tLabel": "夏普 {S}",
     "btc": "扣掉 BTC 的涨跌之后：t = {T}（对 BTC 的 β 为 {B}，{N} 周）。上面的判决暂时仍按未扣的 t；正式切换会作为一次带日期的方法变更公布。",
     "meterAria": "t 与两个门槛", "meterT2": "t = 2 · 单次检验", "meterBest": "{N} 选 1 · {bar}",
@@ -618,6 +618,60 @@ def memo_page(B, lang):
     return finish(page, lang)
 
 
+NEEDS_ZH = {"Peter Lynch": ("彼得·林奇", "富达麦哲伦基金，1977–1990", "价格数据在 1987 年以前漏算了基金分红，需要富达公布的逐年收益"),
+            "John Neff": ("约翰·聂夫", "先锋温莎基金，1964–1995", "价格数据有同样的缺口，需要先锋公布的逐年收益"),
+            "George Soros": ("索罗斯", "量子基金", "没有公开完整的逐年收益，只有零散年份"),
+            "Peter Thiel": ("彼得·蒂尔", "Clarium Capital、Founders Fund", "没有公开的收益序列"),
+            "Duan Yongping (段永平)": ("段永平", "H&H International", "只有持仓披露（13F）；按持仓重建组合的估算在计划中"),
+            "Michael Burry": ("迈克尔·伯里", "Scion Asset Management", "只有持仓披露（13F）；按持仓重建组合的估算在计划中"),
+            "Stanley Druckenmiller": ("德鲁肯米勒", "Duquesne Family Office", "只有持仓披露（13F）；按持仓重建组合的估算在计划中"),
+            "Li Lu (李录)": ("李录", "喜马拉雅资本", "只有持仓披露（13F）；按持仓重建组合的估算在计划中"),
+            "Leopold Aschenbrenner": ("Leopold Aschenbrenner", "Situational Awareness LP", "只有持仓披露（13F）；收益来自媒体报道，没有公开"),
+            "Ray Dalio": ("达利欧", "桥水 Pure Alpha", "私募；公开的全天候 ETF 太新")}
+
+
+def ranking_page(B, lang):
+    P = LANGS[lang]
+    d = B.ranking_data()
+    by = {r["id"]: r for r in d["rows"]}
+    strong = [r for r in d["rows"] if r.get("verdict") == "clears_board"]
+    nd = "".join(f'<li><b>{NEEDS_ZH.get(x["who"], (x["who"],))[0]}</b>，{NEEDS_ZH.get(x["who"], (0, x["record"]))[1]}：{NEEDS_ZH.get(x["who"], (0, 0, x["why"]))[2]}。</li>' for x in d["needs_data"])
+    ck = d["checks"]
+    n_scored = sum(1 for r in d["rows"] if r.get("z") is not None)
+    alt = {"en": "/ranking/", **{k: f"{v}ranking/" for k, v in LANGS.items()}}
+    page = head(B, lang, "证据排名 · Evidence Deflator", "巴菲特、西蒙斯、Cathie Wood、国内明星基金经理、Polymarket 法国巨鲸和 Hyperliquid 证据最强的钱包，先扣掉各自的大盘，再用同一把尺子量运气。",
+                f"{P}ranking/", alt) + header(B, P, lang, "ranking", alt) + f"""
+<main class="container" style="padding-block:48px">
+<div class="eyebrow"><span class="dot"></span>证据排名 · 生成于 {d['built'][:10]}</div>
+<h1 style="margin-top:16px">名人战绩，和钱包用同一把尺子量</h1>
+<p class="lede" style="margin-top:14px">巴菲特、西蒙斯、Cathie Wood、国内明星基金经理、Polymarket 的法国巨鲸，以及 Hyperliquid 上证据最强的钱包：每一份记录先扣掉它所在市场的涨跌，再看运气能不能解释。随手挑中的记录，z ≥ 2 就够；像名人战绩这样从 {d['bar_n']:,} 个里挑出来的，要过 {d['bar']:.2f}。</p>
+<div class="stats" style="margin:22px 0 10px">
+ <div><b class="c-accent">{len(strong)}</b><span>份记录过了 {d['bar']:.2f}：{'、'.join((B.RANK_ZH.get(r['id']) or (r['name'],))[0] for r in strong) or '没有'}</span></div>
+ <div><b>{by['brk']['z']:.2f}</b><span>伯克希尔 {by['brk']['years']:.0f} 年，对比标普 500；2001 年以后是 {by['brk_2001']['z']:.2f}</span></div>
+ <div><b>{n_scored}</b><span>份记录已打分；另有 {len(d['needs_data'])} 位名人没有可以打分的公开收益序列</span></div>
+</div>
+{B.ranking_table(d, lang, P)}
+<p class="muted small" style="margin-top:10px">z 是扣掉大盘之后的证据：美股和基金对比标普 500（含股息），国内基金对比沪深 300 指数基金，钱包对比 BTC，Polymarket 对比每一份的买入价。钱包这几行同时列出钱包判决目前使用的未扣 t。「运气」是完全没有实力的情况下，一份记录走到这么强的概率：分别按随手挑中、以及从 {d['bar_n']:,} 个里挑第一来算。数据：<a href="/data/ranking/latest.json">latest.json</a>。</p>
+
+<div class="prose narrow" style="margin-top:34px">
+<h2 id="missing">有名，但不在榜上</h2>
+<ul>{nd}</ul>
+<p>下一步会给 13F 披露的投资人加上按持仓重建的估算（用每个季度的持仓重建组合）。它会标明是估算，因为 13F 不披露空头、杠杆和季度内的买卖。</p>
+<h2 id="how">怎么算的</h2>
+<ul>
+ <li><b>扣掉大盘。</b>每份记录的收益对它的基准做回归，z 是 alpha 的 t 换到正态尺度上（自由度 n − 2 的 Student t），和钱包的 t 是同一把尺子。如果改成对零检验，标普 500 指数自己在 1965–2025 年就能到 {B.SP500_RAW_Z:.2f}。</li>
+ <li><b>来源。</b>伯克希尔：2025 年致股东信的逐年表。大奖章：Cornell (2019) 表 1，源自 Zuckerman (2019)，是估计值，不是审计数。其他美股和基金：Yahoo Finance 复权收盘价，按月，换算成美元，从 1988 年起。国内基金：天天基金网的日收益。钱包：Hyperliquid 公开接口。Polymarket：审计 008。</li>
+ <li><b>核对。</b>伯克希尔的价格数据和股东信的逐年数字，{ck['brk_feed_vs_letter']['years']} 年里最大相差 {ck['brk_feed_vs_letter']['max_abs_diff_pp']:.2f} 个百分点；标普 500 指数基金从 1988 年起和股东信的标普一栏每年最多相差 {ck['vfinx_vs_letter_sp500']['max_abs_diff_pp']:.2f} 个百分点。1987 年以前的价格数据漏算了基金分红，所以所有序列都不早于 1988 年。</li>
+ <li><b>幸存者。</b>价格数据里只有今天还在的基金，所以美股和基金这几行偏向幸存者。</li>
+ <li><b>写谁的名字。</b>每一行写的是公众把这份记录和谁联系在一起；经理中途接手或提前离开的，那一行会注明。</li>
+</ul>
+<p class="muted small">脚本：<a href="{B.REPO}/blob/main/tools/build_ranking.py"><code>tools/build_ranking.py</code></a>。不构成投资建议。</p>
+</div>
+</main>
+""" + footer(B, P)
+    return finish(page, lang)
+
+
 def record_page(B, lang):
     P = LANGS[lang]
     d = B.record_data()
@@ -673,5 +727,6 @@ def build(B):
         B.write(f"{P.strip('/')}/api/index.html", api_page(B, lang))
         B.write(f"{P.strip('/')}/memo/sample/index.html", memo_page(B, lang))
         B.write(f"{P.strip('/')}/record/index.html", record_page(B, lang))
+        B.write(f"{P.strip('/')}/ranking/index.html", ranking_page(B, lang))
         for rel, page in question_pages(B, hl, lang):
             B.write(rel, page)

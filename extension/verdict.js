@@ -15,7 +15,8 @@ const ED_VIEW = (() => {
     if (p >= 0.99) return ['almost certain', pct];
     if (p >= 0.5) return ['more likely than not', pct];
     const x = 1 / p, r = x < 100 ? Math.round(x) : Number(x.toPrecision(2));
-    return [r >= 1e6 ? `1 in ${(r / 1e6).toPrecision(2)} million` : '1 in ' + r.toLocaleString('en'), pct];
+    const u = [[1e12, ' trillion'], [1e9, ' billion'], [1e6, ' million']].find(([d]) => r >= d);
+    return [u ? `1 in ${Number((r / u[0]).toPrecision(2))}${u[1]}` : '1 in ' + r.toLocaleString('en'), pct];
   };
   const FLAGS = {no_losing_week: 'No losing week: consistent with market making or selling tail risk.',
                  one_week_majority: 'One week produced more than half the gains.',

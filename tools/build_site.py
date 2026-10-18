@@ -41,7 +41,7 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
            "%3Crect x='3' y='4' width='18' height='2' fill='%23E66A4B'/%3E%3Crect x='4.5' y='13' width='3' height='7' fill='%23FAF9F6'/%3E"
            "%3Crect x='9.5' y='9.5' width='3' height='10.5' fill='%23FAF9F6'/%3E%3Crect x='14.5' y='15' width='3' height='5' fill='%23FAF9F6'/%3E%3C/svg%3E")
 
-NAV = [("wallet", "Check", "/wallet/"), ("audits", "Audits", "/audits/"), ("method", "Method", "/method/"), ("api", "For agents", "/api/")]
+NAV = [("wallet", "Check", "/wallet/"), ("ranking", "Ranking", "/ranking/"), ("audits", "Audits", "/audits/"), ("method", "Method", "/method/"), ("api", "For agents", "/api/")]
 
 COPY_ICON = '<span class="cp">copy</span><span class="ok">copied</span>'
 
@@ -336,11 +336,28 @@ def luck_odds(t, n, lang="en"):
         return ("almost certain" if lang == "en" else "几乎必然"), pct
     if p >= 0.5:
         return ("more likely than not" if lang == "en" else "多半能"), pct
-    x = 1 / p
-    r = round(x) if x < 100 else float(f"{x:.2g}")
+    return big_odds(1 / p, lang), pct
+
+
+def _sig2(v):
+    """Two significant figures, no exponent: 1.1, 24, 240, 2,400."""
+    if v >= 100:
+        k = int(math.floor(math.log10(v))) - 1
+        return f"{int(round(v / 10 ** k) * 10 ** k):,}"
+    return f"{v:.2g}"
+
+
+def big_odds(x, lang="en"):
+    """'1 in X' with X in words once it is large: 1 in 360, 1 in 24 million, 1 in 1.1 trillion."""
     if lang == "en":
-        return f"1 in {r / 1e6:.2g} million" if r >= 1e6 else f"1 in {int(r):,}", pct
-    return (f"{r / 1e4:.2g} 万次里 1 次" if r >= 1e5 else f"{int(r):,} 次里 1 次"), pct
+        for div, word in ((1e12, " trillion"), (1e9, " billion"), (1e6, " million")):
+            if x >= div:
+                return f"1 in {_sig2(x / div)}{word}"
+        return f"1 in {int(round(x)):,}" if x < 100 else f"1 in {_sig2(x)}"
+    for div, word in ((1e12, " 万亿"), (1e8, " 亿"), (1e4, " 万")):
+        if x >= div * (10 if div == 1e4 else 1):
+            return f"{_sig2(x / div)}{word}次里 1 次"
+    return f"{int(round(x)):,} 次里 1 次" if x < 100 else f"{_sig2(x)} 次里 1 次"
 
 
 def coin_line(n, lang="en"):
@@ -612,6 +629,145 @@ LB.load('/leaderboard/2026-10.json').then(d=>{
     write("leaderboard/methodology.html", redirect)
 
 
+# ---------------------------------------------------------------- evidence ranking
+
+RANKING_ALT = {"en": "/ranking/", "zh-Hans": "/zh-hans/ranking/", "zh-Hant": "/zh-hant/ranking/"}
+RANK_T = {
+    "en": dict(groups=[("all", "All"), ("markets", "Stocks and funds"), ("china", "China funds"), ("crypto", "Crypto"), ("ai", "AI agents")],
+               tag={"clears_board": ("tag-green", "strong"), "clears_single": ("tag-amber", "promising"), "luck": ("tag-red", "looks like luck"),
+                    "loses": ("tag-red", "losing"), "too_short": ("tag-grey", "too early")},
+               head='<th class="r">#</th><th>Record</th><th class="r">Length</th><th>z after the market · bar {bar}</th><th class="r">Last 10 yr</th><th class="r">Luck, picked blind</th><th class="r">Luck, best of {n}</th>',
+               yr=" yr", events="{e} events", raw="raw"),
+    "zh": dict(groups=[("all", "全部"), ("markets", "美股与基金"), ("china", "中国公募"), ("crypto", "加密"), ("ai", "AI agent")],
+               tag={"clears_board": ("tag-green", "证据充分"), "clears_single": ("tag-amber", "有希望"), "luck": ("tag-red", "像运气"),
+                    "loses": ("tag-red", "在亏"), "too_short": ("tag-grey", "太早")},
+               head='<th class="r">#</th><th>记录</th><th class="r">长度</th><th>扣掉大盘后的 z（门槛 {bar}）</th><th class="r">最近 10 年</th><th class="r">运气，随手挑中</th><th class="r">运气，{n} 选 1</th>',
+               yr=" 年", events="{e} 个事件", raw="未扣"),
+}
+BENCH_ZH = {"S&P 500 with dividends": "标普 500（含股息）", "S&P 500 with dividends (VFINX)": "标普 500（含股息，VFINX）", "BTC": "BTC",
+            "price paid per share": "每份的买入价", "CSI 300 index fund (160706)": "沪深 300 指数基金（160706）",
+            "none (raw returns, days long)": "无（几天的比赛，按原始收益）", "none (raw returns)": "无（原始收益）"}
+
+
+RANK_ZH = {  # id: (name, who, note) for the Chinese pages; None keeps the original
+    "brk": ("伯克希尔·哈撒韦", "巴菲特", None), "brk_2001": ("伯克希尔·哈撒韦，2001 年以后", "巴菲特", None),
+    "medallion": ("文艺复兴大奖章基金（扣费后）", "詹姆斯·西蒙斯", None),
+    "sequx": ("红杉基金（Sequoia Fund）", "Ruane, Cunniff", None),
+    "lmvtx": ("美盛价值信托（现 ClearBridge）", "比尔·米勒（创始经理）", None),
+    "dodgx": ("Dodge & Cox 股票基金", "Dodge & Cox", None), "fairx": ("费尔霍姆基金", "布鲁斯·伯克维茨", None),
+    "arkk": ("ARK 创新 ETF", "木头姐 Cathie Wood", None), "psh": ("潘兴广场控股", "比尔·阿克曼", None),
+    "smt": ("苏格兰抵押投资信托", "柏基（Baillie Gifford）", None), "mkl": ("马克尔集团", "Tom Gayner", None),
+    "ffh": ("费尔法克斯金融", "普雷姆·瓦察", None), "djco": ("每日期刊公司（Daily Journal）", "芒格（2022 年前任董事长）", None),
+    "nanc": ("NANC ETF（跟踪民主党议员披露的交易）", "佩洛西等议员，按公开披露", None),
+    "cn_161005": ("富国天惠成长", "朱少醒，自成立起", None),
+    "cn_110011": ("易方达优质精选", "张坤", "张坤 2012 年 9 月起管理；这只基金后来转为投资海外的 QDII 基金。"),
+    "cn_005827": ("易方达蓝筹精选", "张坤，自成立起", None), "cn_003095": ("中欧医疗健康", "葛兰，自成立起", None),
+    "cn_163406": ("兴全合润", "谢治宇，现任经理", "基金 2010 年成立以来的全部历史；现任经理是后来接手的。"),
+    "cn_260108": ("景顺长城新兴成长", "刘彦春，现任经理", "基金 2006 年成立以来的全部历史；现任经理是后来接手的。"),
+    "machi": ("麻吉大哥", "黄立成", None), "wynn": ("James Wynn", "James Wynn", None), "ai_alpha_arena": ("Alpha Arena 第一季表现最好的模型", "AI 模型（6 个参赛）", None),
+}
+
+
+def venue_zh(v):
+    v = v.replace("Yearly returns", "逐年收益").replace("nof1 Alpha Arena, season 1", "nof1 Alpha Arena 第一季")
+    v = re.sub(r"^Fund (\d+), monthly$", r"基金 \1，按月", v)
+    v = re.sub(r"#(\d+) by all-time PnL", r"全期 PnL 第 \1", v)
+    v = re.sub(r"#(\d+) by 30-day ROI", r"30 日 ROI 第 \1", v)
+    v = re.sub(r"#(\d+) by all-time profit", r"历史盈利第 \1", v)
+    v = re.sub(r"\(([\d.]+) days, (\d+) agents\)", r"（\1 天，\2 个 agent）", v)
+    v = re.sub(r", monthly$", "，按月", v)
+    return v.replace(", ", "，")
+
+
+def ranking_table(d, lang="en", P="/"):
+    T = RANK_T["en" if lang == "en" else "zh"]
+    zh = lang != "en"
+    bar, n = d["bar"], d["bar_n"]
+    rows = sorted((r for r in d["rows"] if r.get("z") is not None), key=lambda r: -r["z"])
+    body = ""
+    for i, r in enumerate(rows, 1):
+        cls, txt = T["tag"][r["verdict"]]
+        w = min(abs(r["z"]) / bar, 1) * 100
+        ob, pb = luck_odds(r["z"], 1, lang)
+        on, pn = luck_odds(r["z"], n, lang)
+        length = (f'{r["years"]:.1f}{T["yr"]}' if r.get("years") else T["events"].format(e=r["events"]) if r.get("events") else "—")
+        zn = RANK_ZH.get(r["id"]) if zh else None
+        name = html.escape(zn[0] if zn else r["name"])
+        if r.get("address") and r["group"] == "crypto" and r["venue"].startswith("Hyperliquid"):
+            name = f'<a href="{"/wallet/" if not zh else P}?a={r["address"]}">{name}</a>'
+        bench0 = r.get("benchmark", "")
+        who = (zn[1] if zn else ("「法国巨鲸」Théo（他的四个账户之一）" if r["name"] == "Theo4" else r.get("who"))) if zh else r.get("who")
+        venue = venue_zh(r.get("venue") or "") if zh else r.get("venue")
+        sub = " · ".join(x for x in [who, venue, ("vs " + bench0) if not zh else ("对比" + BENCH_ZH.get(bench0, bench0))] if x)
+        notes = []
+        if "no_losing_week" in (r.get("flags") or []):
+            notes.append("no losing week" if not zh else "一周都没亏过")
+        if r.get("note"):
+            notes.append((zn[2] or r["note"]) if zn else r["note"])
+        note_html = "".join(f'<span class="small" style="display:block">{html.escape(x)}</span>' for x in notes)
+        raw = (f'<span class="muted small" style="display:block">{T["raw"]} {r["z_raw"]:.2f}</span>'
+               if r.get("z_raw") is not None and r["group"] == "crypto" else "")
+        z10 = "—" if r.get("z_10y") is None else f'{r["z_10y"]:.2f}'
+        body += (f'<tr data-g="{r["group"]}"><td class="r">{i}</td><td><b>{name}</b> <span class="tag {cls}">{txt}</span><span class="muted small" style="display:block">{html.escape(sub)}</span>{note_html}</td>'
+                 f'<td class="r">{length}</td>'
+                 f'<td><span class="mbar"><span class="track"><span class="fill{" neg" if r["z"] < 0 else ""}" style="width:{w:.1f}%"></span>'
+                 f'<span class="t2" style="left:{2 / bar * 100:.1f}%"></span></span><span class="mono">{r["z"]:.2f}</span></span>{raw}</td>'
+                 f'<td class="r mono">{z10}</td>'
+                 f'<td class="r">{ob}<span class="muted small" style="display:block">{pb}</span></td><td class="r">{on}<span class="muted small" style="display:block">{pn}</span></td></tr>')
+    btns = "".join(f'<button type="button" data-f="{k}" aria-pressed="{str(k == "all").lower()}">{lab}</button>' for k, lab in T["groups"])
+    head_ = T["head"].format(bar=f"{bar:.2f}", n=f"{n:,}")
+    return (f'<div class="wfound rankf" role="group">{btns}</div>'
+            f'<div class="table-wrap"><table class="data compact rank" id="ranktab"><thead><tr>{head_}</tr></thead><tbody>{body}</tbody></table></div>'
+            '<script>document.querySelectorAll(".rankf button").forEach(b=>b.addEventListener("click",()=>{const f=b.dataset.f;'
+            'document.querySelectorAll(".rankf button").forEach(x=>x.setAttribute("aria-pressed",x===b));'
+            'document.querySelectorAll("#ranktab tbody tr").forEach(tr=>{tr.hidden=f!=="all"&&tr.dataset.g!==f;});}));</script>')
+
+
+def ranking_data():
+    with open(os.path.join(DOCS, "data", "ranking", "latest.json"), encoding="utf-8") as f:
+        return json.load(f)
+
+
+def build_ranking_page():
+    d = ranking_data()
+    by = {r["id"]: r for r in d["rows"]}
+    strong = [r for r in d["rows"] if r.get("verdict") == "clears_board"]
+    nd = "".join(f'<li><b>{html.escape(x["who"])}</b>, {html.escape(x["record"])}: {html.escape(x["why"])}.</li>' for x in d["needs_data"])
+    ck = d["checks"]
+    n_scored = sum(1 for r in d["rows"] if r.get("z") is not None)
+    page = head("Evidence Ranking · Evidence Deflator", "Buffett, Simons, Cathie Wood, China’s star fund managers, Polymarket’s French whale and Hyperliquid’s strongest wallets, each measured against its market and against luck, on one ruler.",
+                "/ranking/", alt=RANKING_ALT) + header("ranking", RANKING_ALT) + f"""
+<main class="container" style="padding-block:48px">
+<div class="eyebrow"><span class="dot"></span>Evidence Ranking · built {d['built'][:10]}</div>
+<h1 style="margin-top:16px">Famous records, on the same ruler as a wallet</h1>
+<p class="lede" style="margin-top:14px">Buffett, Simons, Cathie Wood, China’s star fund managers, Polymarket’s French whale and Hyperliquid’s strongest wallets, each measured against its own market and then against luck. Picked blind, a record needs z ≥ 2. Picked as the best of {d['bar_n']:,}, as famous records are, it needs {d['bar']:.2f}.</p>
+<div class="stats" style="margin:22px 0 10px">
+ <div><b class="c-accent">{len(strong)}</b><span>{'record clears' if len(strong) == 1 else 'records clear'} {d['bar']:.2f}: {', '.join(html.escape(r['name']) for r in strong) or 'none'}</span></div>
+ <div><b>{by['brk']['z']:.2f}</b><span>Berkshire Hathaway over {by['brk']['years']:.0f} years against the S&amp;P 500; {by['brk_2001']['z']:.2f} from 2001 on</span></div>
+ <div><b>{n_scored}</b><span>records scored; {len(d['needs_data'])} famous names have no public return series to score</span></div>
+</div>
+{ranking_table(d)}
+<p class="muted small" style="margin-top:10px">z is the evidence after taking out the market: stocks and funds against the S&amp;P 500 with dividends, China funds against a CSI 300 index fund, wallets against BTC, Polymarket against the price paid for each share. Wallet rows also show the raw t that the wallet verdict uses today. “Luck alone” is the chance that, with no skill at all, a record gets this far: picked blind, and as the best of {d['bar_n']:,}. Data: <a href="/data/ranking/latest.json">latest.json</a>.</p>
+
+<div class="prose narrow" style="margin-top:34px">
+<h2 id="missing">Famous, but not on the list</h2>
+<ul>{nd}</ul>
+<p>A holdings-based estimate for the 13F filers (rebuilding the portfolio from each quarter’s filing) is the next addition; it will be labelled as an estimate, because a filing omits shorts, leverage and trades within the quarter.</p>
+<h2 id="how">How it is computed</h2>
+<ul>
+ <li><b>Against the market.</b> Each record’s returns are regressed on its benchmark’s; z is the t of the alpha on the normal scale (Student’s t with n − 2 degrees of freedom), the same scale as a wallet’s t. Tested against zero instead, the S&amp;P 500 itself reaches {SP500_RAW_Z:.2f} over 1965–2025.</li>
+ <li><b>Sources.</b> Berkshire: the yearly table in the 2025 shareholder letter. Medallion: Cornell (2019), Table 1, from Zuckerman (2019); estimates, not audited. Other stocks and funds: Yahoo Finance adjusted closes, monthly, converted to US dollars, from 1988 on. China funds: Eastmoney daily returns. Wallets: Hyperliquid’s public API. Polymarket: audit 008.</li>
+ <li><b>Checks.</b> Berkshire’s price feed matches the letter’s yearly figures to within {ck['brk_feed_vs_letter']['max_abs_diff_pp']:.2f} points over {ck['brk_feed_vs_letter']['years']} years; the S&amp;P 500 index fund matches the letter’s S&amp;P column to within {ck['vfinx_vs_letter_sp500']['max_abs_diff_pp']:.2f} points a year from 1988. Before 1987 the feed misses fund distributions, so no series starts earlier.</li>
+ <li><b>Survivors.</b> A price feed only holds funds that still exist, so the stocks-and-funds rows lean toward survivors.</li>
+ <li><b>Who is named.</b> A row is named for the person the public associates with the record; where the manager joined after launch or left before the end, the row says so.</li>
+</ul>
+<p class="muted small">Script: <a href="{REPO}/blob/main/tools/build_ranking.py"><code>tools/build_ranking.py</code></a>. Not investment advice.</p>
+</div>
+</main>
+""" + footer()
+    write("ranking/index.html", page)
+
+
 # ---------------------------------------------------------------- method
 
 METHOD_ALT = {"en": "/method/", "zh-Hans": "/zh-hans/method/", "zh-Hant": "/zh-hant/method/"}
@@ -827,7 +983,7 @@ WALLET_T_EN = {
               "hint": "The pool you picked from sets the bar. If you saw it on a leaderboard, the whole board was the pool.",
               "blindStrong": "Clears t ≥ 2.00, the bar for a wallet picked blind. With no skill behind it, a record gets this far by luck about 1 time in 44."},
     "luck": {"label": "chance that luck alone gets a record this strong, for a wallet found {FROM}", "most": "more likely than not", "certain": "almost certain",
-             "one": "1 in {X}", "million": "{M} million"},
+             "one": "1 in {X}", "units": [[1e12, " trillion"], [1e9, " billion"], [1e6, " million"]]},
     "tLabel": "Sharpe {S}",
     "btc": "After taking out BTC’s moves: t = {T}, with a beta of {B} to BTC over {N} weeks. The verdict above still uses the t without this adjustment; switching is planned as a dated method change.",
     "meterAria": "t against the two bars", "meterT2": "t = 2 · one test", "meterBest": "best of {N} · {bar}",
@@ -1476,6 +1632,7 @@ def main():
     build_questions()
     build_legal()
     build_record()
+    build_ranking_page()
     import site_zh
     site_zh.build(_sys.modules[__name__])
     inject_chrome()

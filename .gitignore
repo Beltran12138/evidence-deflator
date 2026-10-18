@@ -53,3 +53,4 @@ out/
 
 # Hyperliquid board cache (CI)
 .hlcache/
+.rankcache/

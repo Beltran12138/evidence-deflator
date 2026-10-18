@@ -27,9 +27,9 @@
   const pct = p >= 0.1 ? (100 * p).toFixed(0) + '%' : p >= 0.01 ? (100 * p).toFixed(1) + '%' : p >= 1e-6 ? (100 * p).toPrecision(2) + '%' : '< 0.0001%';
   if (p >= 0.99) return [T.luck.certain, pct];
   if (p >= 0.5) return [T.luck.most, pct];
-  const x = 1 / p, r = x < 100 ? Math.round(x) : Number(x.toPrecision(2));
-  const X = T.luck.wan && r >= 1e5 ? fill(T.luck.wan, {W: Number((r / 1e4).toPrecision(2)).toLocaleString('en')})
-   : r >= 1e6 && T.luck.million ? fill(T.luck.million, {M: (r / 1e6).toPrecision(2)}) : r.toLocaleString('en');
+  const x = 1 / p, sig = v => v >= 100 ? Number(v.toPrecision(2)).toLocaleString('en') : String(Number(v.toPrecision(2)));
+  const units = T.luck.units, u = units.find(([d]) => x >= d);
+  const X = x < 100 ? String(Math.round(x)) : u ? sig(x / (u[2] || u[0])) + u[1] : sig(x);
   return [fill(T.luck.one, {X}), pct];
  }
  const W0 = id => Math.max(300, Math.round(($(id).clientWidth || 520) - 28));
