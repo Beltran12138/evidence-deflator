@@ -40,8 +40,7 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
            "%3Crect x='3' y='4' width='18' height='2' fill='%23E66A4B'/%3E%3Crect x='4.5' y='13' width='3' height='7' fill='%23FAF9F6'/%3E"
            "%3Crect x='9.5' y='9.5' width='3' height='10.5' fill='%23FAF9F6'/%3E%3Crect x='14.5' y='15' width='3' height='5' fill='%23FAF9F6'/%3E%3C/svg%3E")
 
-NAV = [("wallet", "Hyperliquid", "/wallet/"), ("polymarket", "Polymarket", "/polymarket/"), ("forward", "Forward record", "/#forward"),
-       ("audits", "Audits", "/audits/"), ("method", "Method", "/method/"), ("api", "API", "/api/")]
+NAV = [("wallet", "Check", "/wallet/"), ("audits", "Audits", "/audits/"), ("method", "Method", "/method/"), ("api", "For agents", "/api/")]
 
 COPY_ICON = '<span class="cp">copy</span><span class="ok">copied</span>'
 
@@ -225,7 +224,8 @@ def build_audits():
 # ---------------------------------------------------------------- home
 
 def boards_html(hl):
-    """One row per public board we have rescored: how many of its top clear the bar for being picked from it."""
+    """One row of dots per public board we have rescored: each dot is one record's t, the red tick is the
+    bar for being picked from that board. Static SVG, built here; the counts are the same as the audits'."""
     def load(*parts):
         try:
             with open(os.path.join(DOCS, "data", *parts), encoding="utf-8") as f:
@@ -234,32 +234,53 @@ def boards_html(hl):
             return None
     hp, hr = hl["boards"]["pnl"], hl["boards"].get("roi30") or {}
     bn, ok, pm = load("cex", "binance-2026-10-15.json"), load("cex", "okx-2026-10-15.json"), load("cex", "polymarket-2026-10-15.json")
-    pt = load("papertrade", "frozen-2026-10-16.json")
-    rows = [("Hyperliquid", "all-time PnL top 100", f"{hp['ranked_from']:,} accounts", hp["t_bar_best_of_n"], f"{hp['n_t_ge_bar']} / {hp['scored']}", f"{hp['n_t_ge_2']}", "/wallet/", "Check any address")]
+    rc, pt = load("recall", "recall-2026-10-17.json"), load("papertrade", "frozen-2026-10-16.json")
+    rows = []  # (venue, what, t values, bar or (lo, hi), link)
+    rows.append(("Hyperliquid", f"all-time PnL top 100, from {hp['ranked_from']:,}", [r["t"] for r in hp["rows"] if r["t"] is not None], hp["t_bar_best_of_n"], "/wallet/"))
     if hr:
-        rows.append(("Hyperliquid", "30-day ROI top 100", f"{hr['ranked_from']:,} accounts", hr["t_bar_best_of_n"], f"{hr['n_t_ge_bar']} / {hr['scored']}", f"{hr['n_t_ge_2']}", "/wallet/", "Check any address"))
+        rows.append(("Hyperliquid", "30-day ROI top 100", [r["t"] for r in hr["rows"] if r["t"] is not None], hr["t_bar_best_of_n"], "/wallet/"))
     if bn:
-        rows.append(("Binance", "copy trading, 90-day PnL top 100", f"{bn['listed']:,} portfolios", bn["bar_best_of_n"], f"{bn['t_ge_bar']} / {bn['scored']}", f"{bn['t_ge_2']}", "/audits/007-cex-copy-trading.html", "Audit 007"))
+        rows.append(("Binance", "copy trading, 90-day PnL top 100", [r["t"] for r in bn["rows"] if r.get("t") is not None], bn["bar_best_of_n"], "/audits/007-cex-copy-trading.html"))
     if ok:
-        rows.append(("OKX", "copy trading, PnL top 100", f"{ok['listed']:,}+ traders", ok["bar_best_of_n"], f"{ok['daily365_t_ge_bar']} / {ok['scored']}", f"{ok['daily365_t_ge_2']}", "/audits/007-cex-copy-trading.html", "Audit 007"))
+        rows.append(("OKX", "copy trading, PnL top 100", [r["t_daily365"] for r in ok["rows"] if r.get("t_daily365") is not None], ok["bar_best_of_n"], "/audits/007-cex-copy-trading.html"))
     if pm:
-        pn, pb = pm.get("n_floor_revised_2026_10_16", pm["n_floor"]), pm.get("bar_best_of_n_floor_revised", pm["bar_best_of_n_floor"])
-        rows.append(("Polymarket", "all-time profit top 50", f"{pn:,}+ wallets", pb, f"{pm['z_cluster_ge_bar']} / {pm['complete_and_scored']}", f"{pm['z_cluster_ge_2']}", "/polymarket/", "Check any wallet"))
-    rows.append(("Alpha Arena", "season 1, 6 AI models", "6 models", 2.67, "0 / 6", "0", "/audits/006-alpha-arena-season-1.html", "Audit 006"))
-    cell = lambda v, d, u: f'<td><a href="{u}"><b>{v}</b></a><span class="muted small" style="display:block">{d}</span></td>'
-    body = "".join(f'<tr>{cell(v, d, u)}<td class="r hm">{n}</td><td class="r mono hm">{b:.2f}</td>'
-                   f'<td class="r mono"><b class="c-accent">{c}</b></td><td class="r mono">{s1}</td></tr>'
-                   for v, d, n, b, c, s1, u, lbl in rows)
+        pb = pm.get("bar_best_of_n_floor_revised", pm["bar_best_of_n_floor"])
+        rows.append(("Polymarket", "all-time profit top 50, complete records", [r["z_cluster"] for r in pm["rows"] if r.get("complete") and r.get("z_cluster") is not None], pb, "/polymarket/"))
+    if rc:
+        ts = [a["t"] for c in rc["competitions"] for a in c["agents_detail"] if a["t"] is not None]
+        bars = [c["bar_best_of_n"] for c in rc["competitions"]]
+        rows.append(("Recall", "AI agent perps competitions, 10 of them", ts, (min(bars), max(bars)), "/audits/011-recall-perps-competitions.html"))
+    # Alpha Arena season 1: the six t values in audit 006's table
+    rows.append(("Alpha Arena", "season 1, 6 AI models", [0.54, 0.41, -0.43, -0.70, -0.59, -0.83], 2.67, "/audits/006-alpha-arena-season-1.html"))
+    lo_x, hi_x, W, H = -4.0, 6.0, 600, 30
+    X = lambda v: 6 + (min(max(v, lo_x), hi_x) - lo_x) / (hi_x - lo_x) * (W - 12)
+    def strip(ts, bar):
+        g = "".join(f'<line class="ax" x1="{X(v):.1f}" x2="{X(v):.1f}" y1="4" y2="{H - 4}"/>' for v in (0, 2, 4))
+        if isinstance(bar, tuple):
+            g += f'<rect class="zone" x="{X(bar[0]):.1f}" y="3" width="{X(bar[1]) - X(bar[0]):.1f}" height="{H - 6}"/>'
+            g += f'<line class="bar" x1="{X(bar[0]):.1f}" x2="{X(bar[0]):.1f}" y1="3" y2="{H - 3}"/>'
+        else:
+            g += f'<line class="bar" x1="{X(bar):.1f}" x2="{X(bar):.1f}" y1="3" y2="{H - 3}"/>'
+        g += "".join(f'<circle class="pt" cx="{X(v):.1f}" cy="{H / 2 + ((i * 7) % 11) - 5:.1f}" r="2.6"/>' for i, v in enumerate(ts))
+        return f'<svg viewBox="0 0 {W} {H}" preserveAspectRatio="none" aria-hidden="true">{g}</svg>'
+    axis = "".join(f'<span style="left:{X(v) / W * 100:.2f}%">{v:g}</span>' for v in (-4, -2, 0, 2, 4, 6))
+    body = ""
+    for venue, what, ts, bar, link in rows:
+        b0 = bar[0] if isinstance(bar, tuple) else bar
+        n_bar, n2 = sum(t >= b0 for t in ts), sum(t >= 2 for t in ts)
+        btxt = f"{bar[0]:.2f}–{bar[1]:.2f}" if isinstance(bar, tuple) else f"{bar:.2f}"
+        body += (f'<a class="brow" href="{link}"><span class="bname"><b>{venue}</b><span>{what}</span></span>'
+                 f'<span class="bstrip">{strip(ts, bar)}</span>'
+                 f'<span class="bcount"><b class="c-accent">{n_bar} / {len(ts)}</b><span>clear {btxt}</span><span>{n2} pass t ≥ 2</span></span></a>')
+    pt_note = ""
     if pt:
-        pt_n, pt_day = f"{pt['board_rows']:,}", pt["frozen_at"][:10]
-        body += (f'<tr>{cell("Papertrade", "PnL top 100, up to 1000x", "/audits/010-papertrade-leaderboard.html")}<td class="r hm">{pt_n} accounts</td>'
-                 f'<td class="r mono hm">—</td><td class="r small" colspan="2">no return series yet; frozen {pt_day}, readings 10-23 and 10-30</td></tr>')
+        pt_note = f' Papertrade’s board ({pt["board_rows"]:,} accounts) has no return series yet; three groups were frozen {pt["frozen_at"][:10]} for <a href="/audits/010-papertrade-leaderboard.html">readings on 10-23 and 10-30</a>.'
     return f"""
 <section id="boards"><div class="container">
  <div class="sec-head"><div><div class="eyebrow">Every board we have rescored</div><h2 style="margin-top:12px">Ranked by profit. None of the top clears the bar for being picked from the board.</h2>
- <p>Each row is a public leaderboard. "Clear the bar" counts records strong enough to stand out from everyone they were picked from; "pass one test" counts those that would pass if you had picked them blind (t ≥ 2).</p></div><a class="more" href="/audits/">All audits →</a></div>
- <div class="table-wrap"><table class="data boards"><thead><tr><th>Board</th><th class="r hm">Picked from</th><th class="r hm">Bar</th><th class="r">Clear the bar</th><th class="r">Pass one test</th></tr></thead><tbody>{body}</tbody></table></div>
- <p class="muted small" style="margin-top:10px">Hyperliquid rows are rebuilt daily; the others are as of the audit date. Check one wallet yourself: <a href="/wallet/">Hyperliquid</a> (also <a href="{TG_BOT}" rel="noopener">@SkillOrLuckBot</a>), <a href="/polymarket/">Polymarket</a>; Binance and OKX traders with the <a href="{EXT_URL}" rel="noopener">Chrome extension</a>.</p>
+ <p>Each dot is one record’s t on a public leaderboard; the red line is the bar for being picked from that board. Every dot sits to its left.</p></div><a class="more" href="/audits/">All audits →</a></div>
+ <div class="boards-dots"><div class="baxis"><span class="bname"></span><span class="bstrip">{axis}</span><span class="bcount"></span></div>{body}</div>
+ <p class="muted small" style="margin-top:12px">Hyperliquid rows are rebuilt daily; the others are as of their audit dates. Values beyond the axis are drawn at its edge.{pt_note}</p>
 </div></section>"""
 
 
@@ -296,6 +317,7 @@ def build_home(rows, lb):
         ("2026-10-05", "17 published LLM trading papers", "Of the 9 with a documented cutoff, none reaches 48 clean months.", "/audit.html", "Paper audit"),
     ]
     feed.sort(key=lambda r: r[0], reverse=True)
+    feed = feed[:3]
     feed_html = "".join(f'<a class="row" href="{u}"><span class="row-date">{d}</span><span><span class="row-title">{ic(t)}</span><span class="row-sub" style="display:block">{ic(s)}</span></span><span class="row-tag">{k}</span></a>' for d, t, s, u, k in feed)
     py = ('<span class="k">from</span> evidence_deflator <span class="k">import</span> effective_window\n\n'
           'w = effective_window(cutoff=<span class="s">"2024-10"</span>, start=<span class="s">"2020-01"</span>,\n'
@@ -333,28 +355,13 @@ def build_home(rows, lb):
    <div><b>{hc.get('members', 0)}</b><span>wallets frozen {hc.get('frozen_at', '')[:10]}, scored from then on</span></div>
   </div>
  </div>
- <p class="muted small" style="margin-top:12px;max-width:760px">The {hp['t_bar_best_of_n']:.2f} bar treats all {hp['ranked_from']:,} accounts as independent. Accounts that trade alike are fewer independent bets; our rough estimate puts the bar near 2.6, which {n_corr} of {hp['scored']} clear. Either way, a single test needs 2, and {hp['n_t_ge_2']} of {hp['scored']} pass that. <a href="/method/#wallets">How the bar is set</a>.</p>
+ <p class="muted small" style="margin-top:12px;max-width:760px">How high the bar sits depends on how independent the {hp['ranked_from']:,} accounts are: {hp['t_bar_best_of_n']:.2f} if each is a separate bet, about 2.6 by our rough estimate if many trade alike. {hp['n_t_ge_bar']} of {hp['scored']} clear the first, {n_corr} the second; a single test needs 2, which {hp['n_t_ge_2']} pass. <a href="/method/#wallets">How the bar is set</a>.</p>
 </div>
 
 {boards_html(hl)}
 <section id="forward"><div class="container">
  <div class="sec-head"><div><div class="eyebrow">Forward record</div><h2 style="margin-top:12px">Every record found by looking back was picked. So we froze some, and score only what happens next.</h2>
- <p>Each list is published with its hash when it is frozen, so it cannot be changed once results are known. Every reading is published, whatever it shows.</p></div></div>
- <div class="who">
-  <div><h3>Hyperliquid · {hc.get('members', 0)} wallets</h3><p>Today’s two top-100 boards, frozen {hc.get('frozen_at', '').replace('T', ' ').replace('Z', ' UTC')}. Scored only on PnL after the freeze; a wallet needs 8 weeks of new record to get a t. First readings <b>{hc.get('first_readings', '')}</b>.</p><p class="act"><a href="/wallet/#forward">Scores so far →</a> · <a class="mono small" href="/data/hl/{hc.get('file', '')}">sha256 {hc.get('sha256', '')[:12]}…</a></p></div>
-  <div><h3>Papertrade · 3 groups of 100</h3><p>All-time top 100, 24-hour top 100 and a random control, frozen {pt['frozen_at'].replace('T', ' ').replace('Z', ' UTC')}. Readings <b>2026-10-23</b> and <b>2026-10-30</b>, against hypotheses registered before the first.</p><p class="act"><a href="/audits/010-papertrade-leaderboard.html">Audit 010 →</a> · <a class="mono small" href="{REPO}/blob/main/docs/data/papertrade/PREREG.md">pre-registration</a></p></div>
-  <div><h3>Why forward</h3><p>A formula can be copied. A list frozen on a stated date and read out later cannot be reproduced after the fact, by us or by anyone else.</p><p class="act"><a href="/method/">Method →</a></p></div>
- </div>
-</div></section>
-<section><div class="container">
- <div class="sec-head"><div><div class="eyebrow">For AI backtests · where the method started</div><h2 style="margin-top:12px">Three numbers, before any performance figure</h2>
- <p>Each is plain arithmetic on inputs a project can state in one line. None needs the strategy’s code. <a href="/check/">Check a backtest →</a></p></div><a class="more" href="/method/">Read the method →</a></div>
- <div class="triad">
-  <div><span class="k">01 · OPEN-BOOK MONTHS</span><h3>What the model may have seen</h3><p>Months of the test window on or before the model’s training cutoff. For those months, we cannot rule out that it already knows what happened.</p></div>
-  <div><span class="k">02 · CLEAN MONTHS NEEDED</span><h3>How long the result must run</h3><p>A Sharpe of 1 needs about 48 clean months to reach t = 2; a Sharpe of 2 needs 12. The quadratic is the whole story.</p></div>
-  <div><span class="k">03 · BAR AFTER SELECTION</span><h3>How many tries it beat</h3><p>The best of N attempts must clear a higher bar. Best of 41: t ≥ 3.26. Best of 23,376: t ≥ 4.76.</p></div>
- </div>
- <p class="muted small" style="margin-top:22px">Python, CLI and MCP: <code>pip install evidence-deflator</code> · <a href="/check/">Check a backtest in the browser →</a> · <a href="/api/">API reference →</a></p>
+ <p><b>{hc.get('members', 0)} Hyperliquid wallets</b> from today’s two top-100 boards, frozen {hc.get('frozen_at', '')[:10]}: first reading <b>{hc.get('first_readings', '')}</b>. <b>Papertrade</b>, three groups of 100 including a random control, frozen {pt['frozen_at'][:10]}: readings <b>10-23</b> and <b>10-30</b>. Each list is published with its hash when frozen, and every reading is published whatever it shows.</p></div><a class="more" href="/wallet/#forward">The frozen lists →</a></div>
 </div></section>
 
 <section><div class="container">
@@ -362,14 +369,6 @@ def build_home(rows, lb):
  <div class="rows">{feed_html}</div>
 </div></section>
 
-<section><div class="container">
- <div class="sec-head"><div><div class="eyebrow">Who it is for</div><h2 style="margin-top:12px">One check, three places it belongs</h2></div></div>
- <div class="who">
-  <div><h3>Allocators and depositors</h3><p>Before money follows a trader, a vault or an AI trading project: a one-page report on how much of the record counts, what is underpowered and what is missing.</p><p class="act"><a href="/memo/sample/">See a sample memo →</a> · <a href="{ISSUE_AUDIT}">Request one</a></p></div>
-  <div><h3>Agents and trading tools</h3><p>One call before an agent recommends, ranks or copies a trader, or reports a backtest. Free, no key, the same estimator as this site.</p><p class="act"><a href="/api/">API and MCP →</a></p></div>
-  <div><h3>Platforms that compete on trust</h3><p>Show an evidence score next to PnL. A score nobody can buy, not even the trader being scored. The Chrome extension shows it on three venues today.</p><p class="act"><a href="{EXT_URL}">Chrome extension →</a></p></div>
- </div>
-</div></section>
 
 </main>
 """ + footer("""<script src="/assets/lb.js"></script>
@@ -646,6 +645,16 @@ WALLET_T_EN = {
            "unusual": "unusual, though not out of line.",
            "rare": "rare. Either bad luck, or the edge is smaller than the record shows.",
            "noEdge": " The record shows no positive edge, so no drawdown is ordinary for it."},
+    "charts": {"curveCap": "The record: weekly returns added up since the start. Shaded: the current drawdown from the peak.",
+               "curveAria": "Cumulative weekly returns of the record", "frozen": "frozen",
+               "projCap": "If the Sharpe of {S} held: how t grows with more record, and when it would reach each bar.",
+               "projNone": "No positive edge measured, so more of the same record would not raise t.",
+               "projAria": "Projected t against record length", "now": "now", "over30": "more than 30 years",
+               "nextMore": "More record: about {m} more at a steady Sharpe of {S} to reach the bar of {BAR}.",
+               "nextNoEdge": "A positive edge: at a Sharpe of zero or below, no length of record clears any bar.",
+               "nextCohort": "The forward record: this wallet is one of the 200 frozen on 2026-10-14; its record after that day is scored separately, first reading 2026-12-09.",
+               "nextNotCohort": "A forward record: only results after the day you picked this wallet test the pick. Note today's date and check again.",
+               "nextDd": "A drawdown much deeper than the ones above, which would mean the edge is smaller than the record shows."},
     "unitAcct": "accounts", "unitVault": "vaults",
     "vault": "This is a vault: {name}. The leader holds {lf}% of it and takes {c}% of depositors' profits; the score is on the vault's PnL before that cut.",
     "vaultBar": " Its bar assumes it was picked from the {NV} vaults Hyperliquid lists, open and closed.",
@@ -723,6 +732,7 @@ def build_wallet():
                                        "url": SITE + "/wallet/", "operatingSystem": "Web"}), alt=WALLET_ALT) + header("wallet", WALLET_ALT) + f"""
 <main>
 <div class="container page-head">
+ <nav class="venue-switch" aria-label="Venue"><a href="/wallet/" aria-current="page">Hyperliquid</a><a href="/polymarket/">Polymarket</a></nav>
  <div class="eyebrow"><span class="dot"></span>Hyperliquid · wallet check · public data, computed in your browser</div>
  <h1>Paste a Hyperliquid address. See how much of its record counts.</h1>
  <p class="lede">A leaderboard shows who made the most. It does not show whether that could have been luck. This reads the wallet’s public PnL history and answers one question: how strong is the evidence, and how long until it could be strong enough?</p>
@@ -747,10 +757,18 @@ def build_wallet():
    <div><b id="wm">—</b><span id="wml">months of record to clear the leaderboard bar, at this Sharpe</span></div>
   </div>
  </div>
+ <div class="wcharts" id="wcharts" hidden>
+  <figure class="wfig"><figcaption id="wcurvecap"></figcaption><div class="chart" id="wcurve"></div></figure>
+  <figure class="wfig"><figcaption id="wprojcap"></figcaption><div class="chart" id="wproj"></div></figure>
+ </div>
  <ul class="wflags" id="wflags"></ul>
- <div class="wdd" id="wdd" hidden><p id="wddt"></p>
-  <p class="muted small">Holding it now? The edge is measured on this same record, usually one found for being good, so it is more likely too high than too low; with a smaller true edge, drawdowns are more common than this says. A reading, not a signal to hold or sell.</p></div>
- <p class="muted small" style="margin-top:10px">t is about the record, not about what copying it would earn. A copier trades after the trader and at a different size; the shorter the holding period, the more of the edge that delay costs.</p>
+ <div class="wdd" id="wdd" hidden><p id="wddt"></p></div>
+ <div class="wnext" id="wnextbox" hidden><h3>What would change the verdict</h3><ul id="wnext"></ul></div>
+ <p class="wcta">Deciding whether to put money behind this record? <a href="/memo/sample/">See what a one-page memo covers</a> · <a href="{ISSUE_AUDIT}">request one</a>.</p>
+ <details class="wfine"><summary>Read this before acting on it</summary>
+  <p>t is about the record, not about what copying it would earn. A copier trades after the trader and at a different size; the shorter the holding period, the more of the edge that delay costs.</p>
+  <p>The drawdown reading measures the edge on this same record, usually one found for being good, so the edge is more likely too high than too low; with a smaller true edge, drawdowns are more common than it says. A reading, not a signal to hold or sell.</p>
+ </details>
  <div class="btns" style="margin:18px 0 8px"><button class="btn btn-secondary copy" id="wcopy" data-copy=""><span class="cp">Copy link to this result</span><span class="ok">Copied</span></button>
   <a class="btn btn-secondary" id="whl" href="#" rel="noopener">Open on Hyperliquid</a></div>
  <p class="muted small" id="wnote"></p>
@@ -798,9 +816,10 @@ def build_polymarket():
                        "countUrl": "https://api.evidencedeflator.com/api/count?k=pm&l=en"})
     page = head("Polymarket wallet check · Evidence Deflator",
                 "Paste a Polymarket wallet or username and see whether its record of picks can be told apart from luck, position by position, counting the losers Polymarket lists separately.",
-                "/polymarket/") + header("polymarket") + f"""
+                "/polymarket/") + header("wallet") + f"""
 <main>
 <div class="container page-head">
+ <nav class="venue-switch" aria-label="Venue"><a href="/wallet/">Hyperliquid</a><a href="/polymarket/" aria-current="page">Polymarket</a></nav>
  <div class="eyebrow"><span class="dot"></span>Polymarket · wallet check · public data, computed in your browser</div>
  <h1>Paste a Polymarket wallet. See whether its picks beat the prices it paid.</h1>
  <p class="lede">A profit board shows who made the most. It does not show whether that wallet bought at prices that were too low for how things turned out, more often than chance allows. This page reads every resolved position and answers that.</p>
@@ -1053,7 +1072,7 @@ def build_questions():
 
 # ---------------------------------------------------------------- privacy, terms
 
-LEGAL_UPDATED = "2026-10-15"
+LEGAL_UPDATED = "2026-10-17"
 
 
 def build_legal():
@@ -1062,7 +1081,7 @@ def build_legal():
         "privacy": ("Privacy", "What Evidence Deflator collects: no accounts, no cookies, no stored wallet addresses.", f"""
 <p class="lede" style="margin-top:14px">No accounts, no cookies, no stored wallet addresses. Last updated {LEGAL_UPDATED}.</p>
 <h2>The website (evidencedeflator.com)</h2>
-<p>Static pages hosted on GitHub Pages behind Cloudflare. We count page views with Cloudflare Web Analytics, which sets no cookies and does not identify you. When you check a wallet on the site, your browser asks Hyperliquid’s public API for that wallet’s history directly; the address is not sent to us. After a verdict is shown, the page sends our API one tally that says only “a check was done” and the page language, so we can count daily checks.</p>
+<p>Static pages hosted on GitHub Pages behind Cloudflare. We count page views with Cloudflare Web Analytics, which sets no cookies and does not identify you. When you check a wallet on the site, your browser asks Hyperliquid’s public API for that wallet’s history directly; the address is not sent to us. After a verdict is shown, the page sends our API one tally that says only “a check was done” and the page language, so we can count daily checks. A click from a result to the sample memo, or to request one, adds the same kind of tally. If you visit a page with <code>?team=1</code>, your browser keeps a flag (in local storage, not a cookie) that marks its tallies as our own testing; it is meant for us, and <code>?team=0</code> removes it.</p>
 <h2>The API and MCP server (api.evidencedeflator.com)</h2>
 <p>When you or your AI assistant call the API or the MCP tool, the request carries a wallet address and, optionally, a number. Our server, a Cloudflare Worker, forwards the address to Hyperliquid’s public info API to fetch that wallet’s history, scores it, and returns the result. We do not store the address or the result, and we have not turned on request logging for the Worker. Each completed check adds one tally to a daily count (whether it came from the API or the MCP tool), without the address or anything about the caller. Cloudflare, which runs the Worker, processes requests (including your IP address) under its own privacy policy. Hyperliquid receives the address under its own terms.</p>
 <p>A wallet address on a public blockchain is public data. Do not send anything else; the tool does not need it.</p>

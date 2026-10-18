@@ -61,7 +61,7 @@ def head(B, lang, title, desc, path, alt, extra=""):
 
 def header(B, P, lang, active, alt):
     cur = ' aria-current="page"'
-    nav = [("wallet", "查钱包", P)] + [(slug, short, f"{P}q/{slug}/") for slug, _, short in Q] + [("method", "方法", f"{P}method/"), ("api", "API", f"{P}api/")]
+    nav = [("wallet", "查钱包", P), ("memo", "评估报告样例", f"{P}memo/sample/"), ("method", "方法", f"{P}method/"), ("api", "给 agent 用", f"{P}api/")]
     links = "".join(f'<a href="{u}"{cur if k == active else ""}>{t}</a>' for k, t, u in nav)
     switch = "".join(f'<a class="gh" href="{alt[k]}" hreflang="{k}" lang="{k}"{cur if k == lang else ""}>{t}</a>'
                      for k, t in (("zh-Hans", "⟦JIAN⟧"), ("zh-Hant", "⟦FAN⟧"), ("en", "EN")))
@@ -118,6 +118,16 @@ WALLET_T = {
            "unusual": "少见，但不算离谱。",
            "rare": "很少见。要么是运气差，要么优势比记录显示的小。",
            "noEdge": "记录没有显示正的优势，所以对它来说没有哪种回撤算正常。"},
+    "charts": {"curveCap": "记录本身：从起点开始把周收益率相加。阴影是从峰值回落的当前回撤。",
+               "curveAria": "记录的累计周收益率", "frozen": "冻结",
+               "projCap": "假如夏普保持 {S}：记录越长 t 怎么增长，以及什么时候能到各道门槛。",
+               "projNone": "没有测到正的优势，同样的记录再长也不会让 t 变大。",
+               "projAria": "t 随记录长度的预测", "now": "现在", "over30": "30 年以上",
+               "nextMore": "更长的记录：夏普保持 {S} 的话，大约再要 {m} 才能到 {BAR} 的门槛。",
+               "nextNoEdge": "出现正的优势：夏普为零或负数时，多长的记录都过不了任何门槛。",
+               "nextCohort": "前向记录：这个钱包是 2026-10-14 冻结的 200 个之一，冻结之后的记录单独计分，2026-12-09 首读。",
+               "nextNotCohort": "前向记录：只有你选中它之后的结果才能检验这次选择。记下今天的日期，过一段时间再查。",
+               "nextDd": "一次比上面那些深得多的回撤：那意味着优势比记录显示的小。"},
     "unitAcct": "账户", "unitVault": "金库（vault）",
     "vault": "这是一个金库（vault）：{name}。管理人自己持有 {lf}%，从存款人的盈利里抽 {c}%；分数按金库抽成前的盈亏计算。",
     "vaultBar": "门槛按「从 Hyperliquid 列出的 {NV} 个金库里挑出」计算，包括已关闭的。",
@@ -209,10 +219,18 @@ def wallet_page(B, hl, lang):
    <div><b id="wm">—</b><span id="wml">按当前夏普，过排行榜门槛需要的记录月数</span></div>
   </div>
  </div>
+ <div class="wcharts" id="wcharts" hidden>
+  <figure class="wfig"><figcaption id="wcurvecap"></figcaption><div class="chart" id="wcurve"></div></figure>
+  <figure class="wfig"><figcaption id="wprojcap"></figcaption><div class="chart" id="wproj"></div></figure>
+ </div>
  <ul class="wflags" id="wflags"></ul>
- <div class="wdd" id="wdd" hidden><p id="wddt"></p>
-  <p class="muted small">正持有它？优势是在同一份记录上量出来的，而这份记录通常是因为表现好才被找到的，所以更可能偏高而不是偏低；真实优势更小的话，回撤会比这里说的更常见。这是一个读数，不是持有或卖出的信号。</p></div>
- <p class="muted small" style="margin-top:10px">t 说的是这份记录本身，不是跟单能赚多少。跟单者总在交易者之后下单，规模也不同；持仓越短，这段延迟吃掉的优势越多。</p>
+ <div class="wdd" id="wdd" hidden><p id="wddt"></p></div>
+ <div class="wnext" id="wnextbox" hidden><h3>什么会改变这个结论</h3><ul id="wnext"></ul></div>
+ <p class="wcta">正在决定要不要把钱交给这份记录？<a href="{P}memo/sample/">看看一页评估报告包括什么</a> · <a href="{B.ISSUE_AUDIT}">申请一份</a>。</p>
+ <details class="wfine"><summary>据此行动之前请读</summary>
+  <p>t 说的是这份记录本身，不是跟单能赚多少。跟单者总在交易者之后下单，规模也不同；持仓越短，这段延迟吃掉的优势越多。</p>
+  <p>回撤读数用的优势是在同一份记录上量出来的，而这份记录通常是因为表现好才被找到的，所以优势更可能偏高；真实优势更小的话，回撤会比这里说的更常见。这是一个读数，不是持有或卖出的信号。</p>
+ </details>
  <div class="btns" style="margin:18px 0 8px"><button class="btn btn-secondary copy" id="wcopy" data-copy=""><span class="cp">复制这个结果的链接</span><span class="ok">已复制</span></button>
   <a class="btn btn-secondary" id="whl" href="#" rel="noopener">在 Hyperliquid 上查看</a></div>
  <p class="muted small" id="wnote"></p>
@@ -481,7 +499,7 @@ def memo_page(B, lang):
     alt = {"en": "/memo/sample/", **{k: f"{v2}memo/sample/" for k, v2 in LANGS.items()}}
     page = head(B, lang, "评估报告样例 · Hyperliquidity Provider (HLP) · Evidence Deflator",
                 "一页证据评估报告长什么样：以 Hyperliquid 全期 PnL 榜上最强的记录 HLP 金库为例。",
-                f"{P}memo/sample/", alt) + header(B, P, lang, "", alt) + f"""
+                f"{P}memo/sample/", alt) + header(B, P, lang, "memo", alt) + f"""
 <main><div class="container doc" style="max-width:820px;padding-block:56px 72px">
  <div class="eyebrow"><span class="dot"></span>评估报告样例 · {m['fetched'][:10]}</div>
  <h1 style="margin-top:14px">Hyperliquidity Provider（HLP）</h1>

@@ -77,11 +77,13 @@ const json = (body, status = 200) =>
   new Response(JSON.stringify(body, null, 2), {status, headers: {'Content-Type': 'application/json', ...CORS}});
 
 // One data point per completed check, for a daily count: which surface ran it and, for the web
-// page, its language. No address, no IP, nothing about the caller (see /privacy/).
-const KINDS = new Set(['web', 'pm', 'api', 'mcp', 'tg']), LANGS = new Set(['en', 'zh-hans', 'zh-hant', '']);
-function count(env, kind, lang = '') {
-  if (!env.COUNTS || !KINDS.has(kind) || !LANGS.has(lang)) return;
-  try { env.COUNTS.writeDataPoint({blobs: [kind, lang], doubles: [1], indexes: [kind]}); } catch {}
+// page, its language. 'memo' / 'ask' are clicks from a result to the sample memo / to request one. src is 'team'
+// when the browser was marked as ours (visit any page with ?team=1), so our own testing can be
+// subtracted. No address, no IP, nothing about the caller (see /privacy/).
+const KINDS = new Set(['web', 'pm', 'memo', 'ask', 'api', 'mcp', 'tg']), LANGS = new Set(['en', 'zh-hans', 'zh-hant', '']), SRCS = new Set(['', 'team']);
+function count(env, kind, lang = '', src = '') {
+  if (!env.COUNTS || !KINDS.has(kind) || !LANGS.has(lang) || !SRCS.has(src)) return;
+  try { env.COUNTS.writeDataPoint({blobs: [kind, lang, src], doubles: [1], indexes: [kind]}); } catch {}
 }
 
 async function rpc(msg, env = {}) {
@@ -188,8 +190,8 @@ async function handle(request, env = {}) {
 
   // The wallet pages (Hyperliquid and Polymarket) check in the browser; after showing a verdict they report it here (kind and language only).
   if (url.pathname === '/api/count' && request.method === 'POST') {
-    const k = url.searchParams.get('k');  // 'web' = Hyperliquid wallet page, 'pm' = Polymarket wallet page
-    if (k === 'web' || k === 'pm') count(env, k, url.searchParams.get('l') || '');
+    const k = url.searchParams.get('k');  // 'web' / 'pm' = a verdict on the Hyperliquid / Polymarket page, 'memo' = a click to the sample memo
+    if (k === 'web' || k === 'pm' || k === 'memo' || k === 'ask') count(env, k, url.searchParams.get('l') || '', url.searchParams.get('s') || '');
     return new Response(null, {status: 204, headers: CORS});
   }
 

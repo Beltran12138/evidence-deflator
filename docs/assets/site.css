@@ -228,3 +228,19 @@ h1 code,h2 code,h3 code,.row-title code{font-size:.78em;padding:2px 7px;vertical
 .example-result .ex-num{display:block;margin-top:8px;font-size:12.5px;color:var(--muted)}
 .example-result .ex-more{display:block;margin-top:8px;font-size:13.5px;color:var(--ink)}
 .data.memo-table td,.data.memo-table th{white-space:normal}
+.wcharts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:24px}
+@media (max-width:860px){.wcharts{grid-template-columns:minmax(0,1fr)}}
+.wfig{margin:0}.wfig figcaption{font-size:13.5px;color:var(--ink-2);margin:0 0 8px;min-height:2.6em}
+.chart .line{fill:none;stroke:var(--ink);stroke-width:1.6}.chart .line.proj{stroke-dasharray:5 4}
+.chart .ddzone{fill:var(--accent-soft)}.chart .pk{fill:var(--accent)}.chart .frz{stroke:var(--pos);stroke-dasharray:2 3}
+.wnext{margin-top:22px;max-width:760px}.wnext h3{font-size:18px;margin-bottom:6px}.wnext ul{margin:0;padding-left:20px;color:var(--ink-2);font-size:14.5px}.wnext li{margin:5px 0}
+.wcta{margin-top:18px;font-size:15px;max-width:760px}
+.wfine{margin-top:14px;max-width:760px;color:var(--ink-2);font-size:13.5px}.wfine summary{cursor:pointer;color:var(--ink-2)}.wfine p{margin:8px 0 0}
+.boards-dots{border-top:1px solid var(--rule)}
+.brow,.baxis{display:grid;grid-template-columns:minmax(150px,230px) minmax(0,1fr) 120px;gap:18px;align-items:center;padding:10px 0;border-bottom:1px solid var(--rule);text-decoration:none;color:inherit}
+.baxis{border-bottom:0;padding:6px 0 0}.baxis .bstrip{position:relative;height:16px;font:11px var(--mono);color:var(--muted)}.baxis .bstrip span{position:absolute;transform:translateX(-50%)}
+.brow:hover{background:var(--sunk)}.bname b{display:block;font-weight:550}.bname span{font-size:12.5px;color:var(--ink-2)}
+.bstrip svg{display:block;width:100%;height:30px}.bstrip .ax{stroke:var(--rule)}.bstrip .bar{stroke:var(--accent);stroke-width:2}.bstrip .zone{fill:var(--accent-soft)}.bstrip .pt{fill:var(--ink);fill-opacity:.5}
+.bcount{text-align:right;font-size:12px;color:var(--ink-2)}.bcount b{display:block;font:500 15px var(--mono)}.bcount span{display:block}
+@media (max-width:640px){.brow,.baxis{grid-template-columns:minmax(0,1fr) 92px}.brow .bstrip,.baxis .bstrip{grid-column:1/-1;grid-row:2}.baxis .bname,.baxis .bcount{display:none}}
+.venue-switch{display:flex;gap:4px;margin-bottom:18px}.venue-switch a{font-size:13.5px;padding:6px 12px;border:1px solid var(--rule);border-radius:999px;color:var(--ink-2);text-decoration:none}.venue-switch a[aria-current]{color:var(--bg);background:var(--ink);border-color:var(--ink)}

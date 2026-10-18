@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
 <link rel="stylesheet" href="/assets/chrome.css?v=4f9c136c">
-<link rel="stylesheet" href="/assets/site.css?v=528e76b9">
+<link rel="stylesheet" href="/assets/site.css?v=8285d371">
 <link rel="alternate" hreflang="en" href="https://evidencedeflator.com/wallet/">
 <link rel="alternate" hreflang="zh-Hans" href="https://evidencedeflator.com/zh-hans/">
 <link rel="alternate" hreflang="zh-Hant" href="https://evidencedeflator.com/zh-hant/">
@@ -30,7 +30,7 @@
 <body>
 <header class="site-header"><div class="container">
 <a class="brand" href="/zh-hans/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
-<nav class="nav" aria-label="主导航"><a href="/zh-hans/" aria-current="page">查钱包</a><a href="/zh-hans/q/hyperliquid-trader-skill-or-luck/">实力还是运气？</a><a href="/zh-hans/q/how-many-months-of-backtest/">要几个月？</a><a href="/zh-hans/q/why-leaderboard-winner-is-not-evidence/">榜首不算证据</a><a href="/zh-hans/method/">方法</a><a href="/zh-hans/api/">API</a></nav>
+<nav class="nav" aria-label="主导航"><a href="/zh-hans/" aria-current="page">查钱包</a><a href="/zh-hans/memo/sample/">评估报告样例</a><a href="/zh-hans/method/">方法</a><a href="/zh-hans/api/">给 agent 用</a></nav>
 <div class="header-cta"><a class="gh" href="/zh-hans/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">简体</a><a class="gh" href="/zh-hant/" hreflang="zh-Hant" lang="zh-Hant">繁體</a><a class="gh" href="/wallet/" hreflang="en" lang="en">EN</a><a class="gh" href="https://github.com/Beltran12138/evidence-deflator"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a></div>
 </div></header>
 
@@ -61,10 +61,18 @@
    <div><b id="wm">—</b><span id="wml">按当前夏普，过排行榜门槛需要的记录月数</span></div>
   </div>
  </div>
+ <div class="wcharts" id="wcharts" hidden>
+  <figure class="wfig"><figcaption id="wcurvecap"></figcaption><div class="chart" id="wcurve"></div></figure>
+  <figure class="wfig"><figcaption id="wprojcap"></figcaption><div class="chart" id="wproj"></div></figure>
+ </div>
  <ul class="wflags" id="wflags"></ul>
- <div class="wdd" id="wdd" hidden><p id="wddt"></p>
-  <p class="muted small">正持有它？优势是在同一份记录上量出来的，而这份记录通常是因为表现好才被找到的，所以更可能偏高而不是偏低；真实优势更小的话，回撤会比这里说的更常见。这是一个读数，不是持有或卖出的信号。</p></div>
- <p class="muted small" style="margin-top:10px">t 说的是这份记录本身，不是跟单能赚多少。跟单者总在交易者之后下单，规模也不同；持仓越短，这段延迟吃掉的优势越多。</p>
+ <div class="wdd" id="wdd" hidden><p id="wddt"></p></div>
+ <div class="wnext" id="wnextbox" hidden><h3>什么会改变这个结论</h3><ul id="wnext"></ul></div>
+ <p class="wcta">正在决定要不要把钱交给这份记录？<a href="/zh-hans/memo/sample/">看看一页评估报告包括什么</a> · <a href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">申请一份</a>。</p>
+ <details class="wfine"><summary>据此行动之前请读</summary>
+  <p>t 说的是这份记录本身，不是跟单能赚多少。跟单者总在交易者之后下单，规模也不同；持仓越短，这段延迟吃掉的优势越多。</p>
+  <p>回撤读数用的优势是在同一份记录上量出来的，而这份记录通常是因为表现好才被找到的，所以优势更可能偏高；真实优势更小的话，回撤会比这里说的更常见。这是一个读数，不是持有或卖出的信号。</p>
+ </details>
  <div class="btns" style="margin:18px 0 8px"><button class="btn btn-secondary copy" id="wcopy" data-copy=""><span class="cp">复制这个结果的链接</span><span class="ok">已复制</span></button>
   <a class="btn btn-secondary" id="whl" href="#" rel="noopener">在 Hyperliquid 上查看</a></div>
  <p class="muted small" id="wnote"></p>
@@ -118,7 +126,7 @@
 </div></footer>
 <script src="/assets/site.js"></script>
 <script src="/assets/site.js"></script><script src="/assets/hl.js?v=222fe2a9"></script>
-<script>window.WALLET = {"N": 47248, "NV": 9478, "T": {"say": {"loses": ["亏损，而且不是运气差", "tag-red", "t 不高于 −2：在能测量的那些周里，这个钱包亏得太稳定，运气解释不了。"], "luck": ["和运气分不开", "tag-red", "t 低于 2：这样的记录靠运气出现的频率太高，说明不了实力。"], "clears_single": ["过了单次检验，没过排行榜门槛", "tag-amber", "如果你是随手挑中这个钱包的，这个强度够了。如果你是在排行榜上找到它的，需要 t ≥ {BAR}。"], "clears_board": ["过了排行榜门槛", "tag-green", "即使考虑到它是从 {N} 个{U}里挑出来的，这份记录也够强。"], "too_short": ["记录太短，还说不了", "tag-grey", "账户里至少有 $1,000 的历史不足 8 周。"]}, "tag": {"loses": "亏损", "luck": "运气", "clears_single": "单次通过", "clears_board": "过门槛", "too_short": "太短"}, "meterAria": "t 与两个门槛", "meterT2": "t = 2 · 单次检验", "meterBest": "{N} 选 1 · {bar}", "notAddr": ["这不是 Hyperliquid 地址", "应为 0x 加 40 位十六进制字符。"], "reading": "正在读取公开记录…", "noReach": "连不上 Hyperliquid", "noHist": "这个地址没有历史记录", "months": {"noSharpe": "至少要有 8 周记录才能估计", "never": ["永远", "夏普为零或负数时，多长的记录都过不了门槛"], "done": "个月：记录已经过了排行榜门槛", "more": "如果夏普保持不变，过排行榜门槛还需要的记录", "yr": " 年", "mo": " 个月"}, "notes": {"no_losing_week": "记录里没有一个亏损周。这和做市、吃资金费率或卖尾部风险的策略一致；t 衡量的是稳定性，不是一笔还没发生的亏损有多大。", "one_week_majority": "单独一周贡献了一半以上的收益，这份记录主要靠那一周撑着。", "pnl_outside_record": "全期盈亏的大部分记在账户不足 $1,000 的时段，无法换算成收益率。结论只覆盖能测量的那些周。"}, "wnote": "历史起于 {start}。{now} UTC 读取自 api.hyperliquid.xyz。", "dd": {"peak": "现在处在峰值。历史最深回撤：周收益率累计 −{deep}%。", "below": "低于峰值：峰值以来的周收益率加起来是 −{now}%，已持续 {wk} 周。按同样方法量，历史最深回撤：−{deep}%。", "share": "如果优势就是记录显示的这么大，这样的记录有 {share}% 的时间至少处在这么深的回撤里：{read}", "ordinary": "对它来说是正常回撤。", "unusual": "少见，但不算离谱。", "rare": "很少见。要么是运气差，要么优势比记录显示的小。", "noEdge": "记录没有显示正的优势，所以对它来说没有哪种回撤算正常。"}, "unitAcct": "账户", "unitVault": "金库（vault）", "vault": "这是一个金库（vault）：{name}。管理人自己持有 {lf}%，从存款人的盈利里抽 {c}%；分数按金库抽成前的盈亏计算。", "vaultBar": "门槛按「从 Hyperliquid 列出的 {NV} 个金库里挑出」计算，包括已关闭的。", "selfPath": "/zh-hans/", "countUrl": "https://api.evidencedeflator.com/api/count?k=web&l=zh-hans"}};</script>
-<script src="/assets/wallet.js?v=307f40cf"></script>
+<script>window.WALLET = {"N": 47248, "NV": 9478, "T": {"say": {"loses": ["亏损，而且不是运气差", "tag-red", "t 不高于 −2：在能测量的那些周里，这个钱包亏得太稳定，运气解释不了。"], "luck": ["和运气分不开", "tag-red", "t 低于 2：这样的记录靠运气出现的频率太高，说明不了实力。"], "clears_single": ["过了单次检验，没过排行榜门槛", "tag-amber", "如果你是随手挑中这个钱包的，这个强度够了。如果你是在排行榜上找到它的，需要 t ≥ {BAR}。"], "clears_board": ["过了排行榜门槛", "tag-green", "即使考虑到它是从 {N} 个{U}里挑出来的，这份记录也够强。"], "too_short": ["记录太短，还说不了", "tag-grey", "账户里至少有 $1,000 的历史不足 8 周。"]}, "tag": {"loses": "亏损", "luck": "运气", "clears_single": "单次通过", "clears_board": "过门槛", "too_short": "太短"}, "meterAria": "t 与两个门槛", "meterT2": "t = 2 · 单次检验", "meterBest": "{N} 选 1 · {bar}", "notAddr": ["这不是 Hyperliquid 地址", "应为 0x 加 40 位十六进制字符。"], "reading": "正在读取公开记录…", "noReach": "连不上 Hyperliquid", "noHist": "这个地址没有历史记录", "months": {"noSharpe": "至少要有 8 周记录才能估计", "never": ["永远", "夏普为零或负数时，多长的记录都过不了门槛"], "done": "个月：记录已经过了排行榜门槛", "more": "如果夏普保持不变，过排行榜门槛还需要的记录", "yr": " 年", "mo": " 个月"}, "notes": {"no_losing_week": "记录里没有一个亏损周。这和做市、吃资金费率或卖尾部风险的策略一致；t 衡量的是稳定性，不是一笔还没发生的亏损有多大。", "one_week_majority": "单独一周贡献了一半以上的收益，这份记录主要靠那一周撑着。", "pnl_outside_record": "全期盈亏的大部分记在账户不足 $1,000 的时段，无法换算成收益率。结论只覆盖能测量的那些周。"}, "wnote": "历史起于 {start}。{now} UTC 读取自 api.hyperliquid.xyz。", "dd": {"peak": "现在处在峰值。历史最深回撤：周收益率累计 −{deep}%。", "below": "低于峰值：峰值以来的周收益率加起来是 −{now}%，已持续 {wk} 周。按同样方法量，历史最深回撤：−{deep}%。", "share": "如果优势就是记录显示的这么大，这样的记录有 {share}% 的时间至少处在这么深的回撤里：{read}", "ordinary": "对它来说是正常回撤。", "unusual": "少见，但不算离谱。", "rare": "很少见。要么是运气差，要么优势比记录显示的小。", "noEdge": "记录没有显示正的优势，所以对它来说没有哪种回撤算正常。"}, "charts": {"curveCap": "记录本身：从起点开始把周收益率相加。阴影是从峰值回落的当前回撤。", "curveAria": "记录的累计周收益率", "frozen": "冻结", "projCap": "假如夏普保持 {S}：记录越长 t 怎么增长，以及什么时候能到各道门槛。", "projNone": "没有测到正的优势，同样的记录再长也不会让 t 变大。", "projAria": "t 随记录长度的预测", "now": "现在", "over30": "30 年以上", "nextMore": "更长的记录：夏普保持 {S} 的话，大约再要 {m} 才能到 {BAR} 的门槛。", "nextNoEdge": "出现正的优势：夏普为零或负数时，多长的记录都过不了任何门槛。", "nextCohort": "前向记录：这个钱包是 2026-10-14 冻结的 200 个之一，冻结之后的记录单独计分，2026-12-09 首读。", "nextNotCohort": "前向记录：只有你选中它之后的结果才能检验这次选择。记下今天的日期，过一段时间再查。", "nextDd": "一次比上面那些深得多的回撤：那意味着优势比记录显示的小。"}, "unitAcct": "账户", "unitVault": "金库（vault）", "vault": "这是一个金库（vault）：{name}。管理人自己持有 {lf}%，从存款人的盈利里抽 {c}%；分数按金库抽成前的盈亏计算。", "vaultBar": "门槛按「从 Hyperliquid 列出的 {NV} 个金库里挑出」计算，包括已关闭的。", "selfPath": "/zh-hans/", "countUrl": "https://api.evidencedeflator.com/api/count?k=web&l=zh-hans"}};</script>
+<script src="/assets/wallet.js?v=5e8c8dfc"></script>
 </body>
 </html>

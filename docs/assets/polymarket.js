@@ -5,6 +5,9 @@
 // The page sets window.PM = {N, bar, selfPath, countUrl}.
 (() => {
  const {N, bar, selfPath, countUrl} = window.PM, $ = id => document.getElementById(id);
+ // ?team=1 once marks this browser as ours (?team=0 clears it), so the counts can leave our own testing out.
+ const team = (() => { try { const q = new URLSearchParams(location.search).get('team'); if (q === '1') localStorage.setItem('ed_team', '1'); if (q === '0') localStorage.removeItem('ed_team'); return localStorage.getItem('ed_team') === '1'; } catch (e) { return false; } })();
+ const tally = u => { try { fetch(u + (team ? '&s=team' : ''), {method: 'POST', mode: 'no-cors', keepalive: true}); } catch (e) {} };
  const API = 'https://data-api.polymarket.com/', CAP = 3000;
  const f = (x, d = 2) => x == null || !isFinite(x) ? '—' : Number(x).toFixed(d);
  const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -117,7 +120,7 @@
   $('pflags').innerHTML = notes.map(n => `<li>${n}</li>`).join('');
   $('pcopy').dataset.copy = location.origin + selfPath + '?a=' + a;
   $('pnote').textContent = `${t.won} of ${t.resolved} resolved positions won, at an average price of ${f(100 * t.meanPrice, 0)}¢. Read ${new Date().toISOString().slice(0, 16).replace('T', ' ')} UTC from data-api.polymarket.com.`;
-  try { fetch(countUrl, {method: 'POST', mode: 'no-cors', keepalive: true}); } catch (e) {}
+  tally(countUrl);
  }
 
  $('pform').addEventListener('submit', e => { e.preventDefault(); run($('paddr').value); });
