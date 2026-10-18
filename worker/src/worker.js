@@ -33,6 +33,7 @@ function checkWallet(address, pickedFrom, pf) {
   return {
     address, ...sc, verdict: v.key, bar: v.bar, picked_from: pickedFrom ?? null,
     months_more_to_clear: months == null ? null : Math.round(Math.max(months - have, 0) * 10) / 10,
+    luck_one_in: sc.t == null ? null : Math.round(10 / HL.luck(sc.t, pickedFrom || 1)) / 10,
     flags: HL.flags(pf, w.rets, w.counted),
     history_from: day(w.start), history_to: day(w.end),
     page: `${SITE}/wallet/?a=${address}`,
@@ -157,6 +158,7 @@ async function telegram(env, chatId, text) {
     const lines = [
       SAY[r.verdict] + (vault ? ` (vault: ${vault.name})` : ''),
       `t ${r.t == null ? '—' : r.t.toFixed(2)} · bar ${r.bar.toFixed(2)} (best of ${n.toLocaleString('en')} ${vault ? 'vaults' : 'accounts'}) · ${r.weeks ?? 0} weeks`,
+      ...(r.luck_one_in == null ? [] : [`Luck alone, among ${n.toLocaleString('en')}: ${r.luck_one_in <= 1.02 ? 'almost certain' : r.luck_one_in < 2 ? 'more likely than not' : '1 in ' + Math.round(r.luck_one_in).toLocaleString('en')}`]),
       ...r.flags.map(k => '• ' + (FLAG_TEXT[k] || k)),
       '',
       'Full check: ' + r.page,
