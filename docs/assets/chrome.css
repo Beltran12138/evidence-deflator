@@ -2,31 +2,41 @@
    including the calculator, which keeps its own component styles. */
 
 :root{
-  --bg:#FAF9F6; --surface:#FFFFFF; --sunk:#F3F1EC;
-  --ink:#15171C; --ink-2:#43474F; --muted:#767B83; --faint:#A3A7AD;
-  --rule:#E5E2DB; --rule-2:#EFECE6;
-  --accent:#C8462B; --accent-soft:rgba(200,70,43,.09);
-  --pos:#2D6A4F; --pos-soft:rgba(45,106,79,.10);
+  /* light, the default: white paper, ink and one ink-blue for actions */
+  --bg:#FFFFFF; --surface:#FFFFFF; --sunk:#F4F5F7;
+  --ink:#111418; --ink-2:#40454D; --muted:#6E737B; --faint:#A6AAB0;
+  --rule:#E3E5E8; --rule-2:#EEF0F2;
+  --primary:#1D3E7A; --on-primary:#FFFFFF;
+  --accent:#B3261E; --accent-soft:rgba(179,38,30,.07);
+  --pos:#1E6B47; --pos-soft:rgba(30,107,71,.10);
   --warn:#9A6A12; --warn-soft:rgba(154,106,18,.10);
-  --link:#1F4E8C;
-  --serif:'Source Serif 4','Source Serif Pro',Georgia,'Times New Roman',serif;
+  --link:#1D3E7A;
+  --serif:Newsreader,'Source Serif 4',Georgia,'Times New Roman',serif;
   --sans:Inter,'Segoe UI',system-ui,-apple-system,sans-serif;
   --mono:'JetBrains Mono','IBM Plex Mono',Consolas,ui-monospace,monospace;
+  --head-weight:560; --head-track:-.01em;
   --w:1160px; --pad:24px; --radius:6px;
   color-scheme:light;
 }
-@media (prefers-color-scheme:dark){
-  :root{
-    --bg:#0F1013; --surface:#16181C; --sunk:#1B1E23;
-    --ink:#ECE9E3; --ink-2:#BDBAB3; --muted:#8C9097; --faint:#5E6268;
-    --rule:#272A30; --rule-2:#1F2227;
-    --accent:#E66A4B; --accent-soft:rgba(230,106,75,.12);
-    --pos:#6FB08C; --pos-soft:rgba(111,176,140,.12);
-    --warn:#D3A34A; --warn-soft:rgba(211,163,74,.12);
-    --link:#8FB4E8;
-    color-scheme:dark;
-  }
+/* dark, on request (the header toggle): a terminal, amber for the bar, figures in mono */
+:root[data-theme="dark"]{
+  --bg:#0B0D10; --surface:#12151A; --sunk:#171B21;
+  --ink:#E8EAED; --ink-2:#B4B9C1; --muted:#858B94; --faint:#555B64;
+  --rule:#242930; --rule-2:#1B1F25;
+  --primary:#F2A33A; --on-primary:#0B0D10;
+  --accent:#F2A33A; --accent-soft:rgba(242,163,58,.12);
+  --pos:#5FC08C; --pos-soft:rgba(95,192,140,.12);
+  --warn:#F2A33A; --warn-soft:rgba(242,163,58,.12);
+  --link:#8FB4E8;
+  --serif:'IBM Plex Sans',Inter,system-ui,sans-serif;
+  --sans:'IBM Plex Sans',Inter,system-ui,sans-serif;
+  --head-weight:600; --head-track:-.02em;
+  color-scheme:dark;
 }
+.theme-toggle{background:none;border:1px solid var(--rule);color:var(--ink-2);border-radius:999px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.theme-toggle:hover{color:var(--ink);border-color:var(--ink-2)}.theme-toggle svg{width:16px;height:16px}
+.theme-toggle .moon{display:inline}.theme-toggle .sun{display:none}
+:root[data-theme="dark"] .theme-toggle .moon{display:none}:root[data-theme="dark"] .theme-toggle .sun{display:inline}
 
 .container{max-width:var(--w);margin:0 auto;padding-inline:var(--pad)}
 a{color:inherit;text-decoration:underline;text-decoration-color:var(--faint);text-underline-offset:3px}

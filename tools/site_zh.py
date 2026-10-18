@@ -53,8 +53,9 @@ def months(t, sharpe):
 def head(B, lang, title, desc, path, alt, extra=""):
     serif = SERIF[lang]
     style = (f'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={serif.replace(" ", "+")}:wght@500;600&display=swap">\n'
-             f"<style>:root{{--serif:'Source Serif 4',Georgia,'{serif}',{FONTS[lang]},serif;"
+             f"<style>:root{{--serif:Newsreader,Georgia,'{serif}',{FONTS[lang]},serif;"
              f"--sans:Inter,{FONTS[lang]},system-ui,sans-serif}}"
+             f":root[data-theme=dark]{{--serif:'IBM Plex Sans',{FONTS[lang]},system-ui,sans-serif;--sans:'IBM Plex Sans',{FONTS[lang]},system-ui,sans-serif}}"
              "h1,h2,h3{letter-spacing:0}h1{line-height:1.3}h2{line-height:1.35}</style>\n")
     return B.head(title, desc, path, extra=style + extra, lang=HTML_LANG[lang], alt=alt)
 
@@ -68,7 +69,7 @@ def header(B, P, lang, active, alt):
     return f"""<header class="site-header"><div class="container">
 <a class="brand" href="{P}">{B.MARK}Evidence Deflator</a>
 <nav class="nav" aria-label="主导航">{links}</nav>
-<div class="header-cta">{switch}<a class="gh" href="{B.REPO}">{B.GH}<span>GitHub</span></a></div>
+<div class="header-cta">{B.THEME_TOGGLE}{switch}<a class="gh" href="{B.REPO}">{B.GH}<span>GitHub</span></a></div>
 </div></header>
 """
 

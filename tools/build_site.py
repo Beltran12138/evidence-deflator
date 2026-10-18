@@ -84,12 +84,20 @@ def head(title, desc, path, og=f"{SITE}/leaderboard/og-2026-10.png", extra="", l
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{FAVICON}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+<script>try{{if(localStorage.getItem('ed_theme')==='dark')document.documentElement.dataset.theme='dark'}}catch(e){{}}
+function edTheme(){{var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}}catch(e){{}}}}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="{asset("chrome.css")}">
 <link rel="stylesheet" href="{asset("site.css")}">
 {hreflang(alt)}{extra}{BEACON}</head>
 <body>
 """
+
+
+# Light is the default; the toggle switches to dark and remembers it (localStorage, set before paint in head()).
+THEME_TOGGLE = ('<button class="theme-toggle" type="button" aria-label="Switch light or dark" title="Light or dark" onclick="edTheme()">'
+                '<svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>'
+                '<svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>')
 
 
 def header(active, alt=None):
@@ -99,7 +107,7 @@ def header(active, alt=None):
     return f"""<header class="site-header"><div class="container">
 <a class="brand" href="/">{MARK}Evidence Deflator</a>
 <nav class="nav" aria-label="Main">{links}</nav>
-<div class="header-cta"><a class="gh" href="{zh}" hreflang="zh-Hans" lang="zh-Hans">中文</a><a class="gh" href="{REPO}">{GH}<span>GitHub</span></a></div>
+<div class="header-cta">{THEME_TOGGLE}<a class="gh" href="{zh}" hreflang="zh-Hans" lang="zh-Hans">中文</a><a class="gh" href="{REPO}">{GH}<span>GitHub</span></a></div>
 </div></header>
 """
 
