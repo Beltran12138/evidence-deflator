@@ -262,7 +262,7 @@ def wallet_page(B, hl, lang):
 
 <section><div class="container">
  <div class="sec-head"><div><div class="eyebrow">Hyperliquid，按证据排名，不按利润 · {day}</div><h2 style="margin-top:12px">{N:,} 个账户里，最难用运气解释的几份记录</h2>
- <p>还没有一个过 {bar:.2f}，也就是「{N:,} 选 1」的门槛。「单靠运气」指的是：假如整个榜单上没有一个人有实力，仍然有人做出这么强的记录的概率。</p></div><a class="more" href="{P}ranking/">名人战绩，同一把尺子 →</a></div>
+ <p>「随手挑中，单靠运气」指的是：如果你没看任何排名、随手挑中这份记录，没有实力也能做到这么强的概率。从 {N:,} 个账户里挑第一，这种强度靠运气本来就会出现，所以还没有一个过 {bar:.2f}。</p></div><a class="more" href="{P}ranking/">名人战绩，同一把尺子 →</a></div>
  {B.evidence_rank_html(hl, lang, P)}
  <p class="muted small" style="margin-top:8px">取自全期 PnL 和 30 日 ROI 两个前 100 名。判决按 t；扣掉 BTC 后的 t 并列显示，正式切换会作为一次带日期的方法变更公布。</p>
 </div></section>
@@ -280,14 +280,6 @@ def wallet_page(B, hl, lang):
  <p class="muted small" style="margin-top:10px">门槛：单个结果需要 t ≥ 2；从 N 个账户的榜单里扫出来的钱包，要过「N 选 1」的门槛，这里是 {bar:.2f}。† 这个钱包的大部分盈亏是在账户不足 $1,000 时记下的，无法换算成收益率；t 只覆盖能测量的那些周。全部 {pnl['shown']} + {roi['shown']} 行见 <a href="/data/hl/latest.json">latest.json</a>（由 <a href="{B.REPO}/blob/main/tools/build_hl_board.py"><code>tools/build_hl_board.py</code></a> 生成）。</p>
 </div></section>
 {cohort_html}
-<section><div class="container">
- <div class="sec-head"><div><div class="eyebrow">为什么是现在</div><h2 style="margin-top:12px">AI 让一份好看的战绩几乎不花钱就能造出来。稀缺的是把它和运气分开。</h2></div></div>
- <div class="stats" style="margin:8px 0 6px">
-  <div><b>来源</b><span>一个 agent 一分钟能试 50 组参数、留下最好看的那条曲线。AI 交易 agent、AI 金库、AI 荐股号发布战绩的速度，已经快过任何人核查的速度。这套方法最早量的是 17 篇 LLM 交易论文，没有一篇的干净样本够 48 个月。</span></div>
-  <div><b>对象</b><span>AI 交易比赛，用同一把尺子重新打分：<a href="/audits/006-alpha-arena-season-1.html">Alpha Arena</a>、<a href="/audits/011-recall-perps-competitions.html">Recall</a>、<a href="/leaderboard/">Liquidity Arena 和 AI-Trader</a>。</span></div>
-  <div><b>用户</b><span>替人挑交易员、挑金库的 agent，可以先查证据：<a href="{P}api/">HTTP 接口和 MCP 服务</a>，数字和本页相同。</span></div>
- </div>
-</div></section>
 <section><div class="container narrow prose">
  <h2>怎么读一个钱包</h2>
  <p><strong>收益率来自盈亏，不来自账户余额。</strong>账户余额会随充值和提现变化，盈亏不会。每周收益率 = 累计盈亏在这一周的变化 ÷ 周初的账户价值。周初账户低于 $1,000 的周跳过。</p>
@@ -422,6 +414,9 @@ def method_page(B, lang):
 
 <h2 id="trackers">0.8 · 和聪明钱工具有什么不同</h2>
 <p>Hyperdash 的 Copy Score、HyprSwarm 的 ELO、Hashdive 的 Smart Score、Nansen 的标签，回答的是「谁在赚钱、他持有什么」。没有一家报告分数里有多少能用运气解释，也没有一家考虑分数是从几万人里挑出来的。Hyperdash 自己的教程里，一个 30 天记录的钱包 Copy Score 是 96/100；不到 8 周的记录，本站根本不打分。它们告诉你谁在赚钱，我们告诉你那能不能复制。跟单平台按跟单量赚钱，一个说「头部是运气」的分数和它们的生意相反；我们不收被评方的钱。</p>
+
+<h2 id="why-now">0.9 · 为什么是现在</h2>
+<p>AI 让一份好看的战绩几乎不花钱就能造出来：一个 agent 一分钟能试 50 组参数、留下最好看的那条曲线；AI 交易 agent、AI 金库、AI 荐股号发布战绩的速度，已经快过任何人核查的速度。这套方法最早量的是 17 篇 LLM 交易论文，没有一篇的干净样本够 48 个月。AI 交易比赛用同一把尺子重新打分（<a href="/audits/006-alpha-arena-season-1.html">Alpha Arena</a>、<a href="/audits/011-recall-perps-competitions.html">Recall</a>、<a href="/leaderboard/">Liquidity Arena 和 AI-Trader</a>）；替人挑交易员、挑金库的 agent，可以先通过 <a href="{P}api/">HTTP 接口和 MCP 服务</a>查证据。</p>
 
 <h2 id="open-book">1 · 开卷月数</h2>
 <p>在模型官方公布的训练截止日把回测窗口切开。截止日当月及之前的月份，无法排除被模型见过：模型可能已经知道当时发生了什么。截止日之后的月份才是干净的。</p>
@@ -651,6 +646,7 @@ def ranking_page(B, lang):
  <div><b>{by['brk']['z']:.2f}</b><span>伯克希尔 {by['brk']['years']:.0f} 年，对比标普 500；2001 年以后是 {by['brk_2001']['z']:.2f}</span></div>
  <div><b>{n_scored}</b><span>份记录已打分；另有 {len(d['needs_data'])} 位名人没有可以打分的公开收益序列</span></div>
 </div>
+<p style="margin:6px 0 14px"><b>长度已经算在 z 里。</b>记录越短，要到同样的 z，单位风险的收益就得越高；所以 3 年的金库 3.4 和巴菲特 61 年的 2.8 在同一把尺子上：金库的收益稳得多，所以短记录也能走到这个分数。z 说不了优势能不能持续；61 年的记录经历过的市场环境，3 年的记录还没遇到过。比较两行之前，先看长度那一列。</p>
 {B.ranking_table(d, lang, P)}
 <p class="muted small" style="margin-top:10px">z 是扣掉大盘之后的证据：美股和基金对比标普 500（含股息），钱包对比 BTC，Polymarket 对比每一份的买入价。钱包这几行同时列出钱包判决目前使用的未扣 t。「运气」是完全没有实力的情况下，一份记录走到这么强的概率：分别按随手挑中、以及从 {d['bar_n']:,} 个里挑第一来算。数据：<a href="/data/ranking/latest.json">latest.json</a>。</p>
 

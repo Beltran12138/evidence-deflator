@@ -361,6 +361,33 @@ def main():
                  "venue": "nof1 Alpha Arena, season 1", "source": "audit 006", "benchmark": "none (raw returns)", "z": 0.54, "z_raw": 0.54,
                  "beta": None, "years": None, "flags": [], "verdict": grade(0.54, BAR)})
 
+    # hedge funds that publish no return series: yearly net returns as reported by the press or the firm,
+    # each year with its source (docs/data/ranking/hedge_funds_press.json), against the letter's S&P column
+    hp = os.path.join(ROOT, "docs", "data", "ranking", "hedge_funds_press.json")
+    if os.path.exists(hp):
+        with open(hp, encoding="utf-8") as f:
+            press = json.load(f)
+        for fd in press["funds"]:
+            ys = {}
+            for y in fd["years"]:
+                ys.setdefault(int(y["year"]), y["net_pct"] / 100)
+            ks = sorted(k for k in ys if k in bs)
+            run, best = [], []
+            for k in ks:  # longest run of consecutive years
+                run = run + [k] if run and k == run[-1] + 1 else [k]
+                best = run if len(run) > len(best) else best
+            sc = score_series({str(k): ys[k] for k in best}, {str(k): bs[k] for k in best}, 1) if len(best) >= 8 else None
+            row = {"id": "hf_" + fd["id"], "group": "press", "name": fd["name"], "who": fd.get("manager"),
+                   "venue": f"Yearly net returns as reported, {len(best)} consecutive years", "benchmark": "S&P 500 with dividends",
+                   "source": "press and firm reports, one source per year (hedge_funds_press.json)", "years_found": len(ys)}
+            if sc:
+                row.update(sc)
+                row["z_10y"] = None
+                row["verdict"] = grade(sc["z"], BAR)
+            else:
+                row["error"] = f"{len(best)} consecutive years reported; 8 needed"
+            rows.append(row)
+
     # holdings-based estimates (tools/build_13f_clones.py), labelled as estimates
     cp = os.path.join(ROOT, "docs", "data", "ranking", "clones.json")
     if os.path.exists(cp):

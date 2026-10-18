@@ -183,25 +183,17 @@ const S=[
  </div>
  <div class="src">麻吉：Hyperliquid 公开 API，10-18 现算 · Theo4：Polymarket 公开 API，10-15；账户归属见 CNBC 2024-10-24 · Serenity：Quantral 10-12 统计，z 为我们换算</div>
 </div>`,
-// 04
-`<div class="slide">
- <div class="eyebrow">04 · 这把尺子会说「过」吗？拿大师试一试</div>
- <h2>西蒙斯过了。巴菲特用了 61 年，<br>才到「有希望」</h2>
- <svg class="ch" id="tl" viewBox="0 0 1136 270"></svg>
- <div class="lead fs" style="font-size:19px;margin-top:6px">被证明本来就需要很长的记录。Hyperliquid 上最老的一条记录，才从 2023 年 5 月开始。</div>
- <div class="src">年收益对标普 500（含股息）回归，看 alpha 的 t，再换算成和钱包同一把尺子的 z · 伯克希尔：2025 年致股东信附表（每股市值）· 大奖章：Cornell (2019) 表 1，费后净收益，数据源自 Zuckerman (2019)</div>
-</div>`,
 // 05
 `<div class="slide">
- <div class="eyebrow">05 · 那谁不像运气？证据排名</div>
- <h2>按证据排，不按名气排</h2>
- <div class="lead fs" style="font-size:19px">全部先扣掉各自的大盘（美股对标普、钱包对 BTC），再用同一把尺子：</div>
- <svg class="ch" id="rk" viewBox="0 0 1136 400"></svg>
+ <div class="eyebrow">04 · 这把尺子会说「过」吗？拿名人校准</div>
+ <h2>西蒙斯过了。巴菲特 61 年，才到「有希望」</h2>
+ <div class="lead fs" style="font-size:17px;margin-top:6px">每份记录先扣掉自己的大盘（美股对标普、钱包对 BTC），再用同一把尺子</div>
+ <svg class="ch" id="rk" viewBox="0 0 1136 420"></svg>
  <div class="src">evidencedeflator.com/ranking · 2026-10-18 · 美股基金 Yahoo 复权价（1988 起）· 钱包 Hyperliquid 公开接口</div>
 </div>`,
 // 06
 `<div class="slide">
- <div class="eyebrow">06 · 现场</div>
+ <div class="eyebrow">05 · 现场</div>
  <div class="demo">
   <div><h2>报一个地址，<br>你想跟的，或者跟过的</h2>
    <div class="lead fs" style="font-size:19px">浏览器直接读 Hyperliquid 的公开数据，不经过我们的服务器。收益按 PnL 算，出入金不算。</div></div>
@@ -211,7 +203,9 @@ const S=[
     <button data-a="0x020ca66c30bec2c4fe3861a94e4db4a498a35872">麻吉大哥</button>
     <button data-a="0xdfc24b077bc1425ad1dea75bcb6f8158e10df303">HLP 做市金库</button>
     <button data-a="0x4ec8fe22a531a96c8a846aaf5cbef73202649a80">PnL 榜前列</button>
+    <button id="drec" type="button" title="没网时用">录屏</button>
    </div>
+   <img id="dgif" src="assets/demo-fallback.gif" alt="现场演示录屏" hidden style="width:100%;margin-top:12px;border:1px solid var(--rule)">
    <div class="vt" id="dtitle"></div>
    <div class="rows"><div><dt>t</dt><dd id="dt">—</dd></div><div><dt>可测周数</dt><dd id="dw">—</dd></div><div><dt>按现在的水平，离 4.90 还差</dt><dd id="dm">—</dd></div></div>
    <div class="vn" id="dnote"></div>
@@ -220,7 +214,7 @@ const S=[
 </div>`,
 // 07
 `<div class="slide">
- <div class="eyebrow">07 · 和聪明钱工具有什么不一样</div>
+ <div class="eyebrow">06 · 和聪明钱工具有什么不一样</div>
  <h2>它们告诉你谁在赚钱。<br>我们告诉你，那能不能复制。</h2>
  <div class="cmp">
   <div><div class="h">一个跟单榜的头名</div><div class="q">Copy Score 96 / 100</div>
@@ -232,7 +226,7 @@ const S=[
 </div>`,
 // 08
 `<div class="slide">
- <div class="eyebrow">08 · 一个请求</div>
+ <div class="eyebrow">07 · 一个请求</div>
  <div class="ask">
   <div><h2>钱跟着一份战绩走之前，<br>先看它还剩多少证据</h2>
    <ol class="fs"><li><b>手上有正在考虑跟的地址、金库或 AI 交易项目</b>：会后发我，前 5 位免费写一页评估</li><li>做跟单、金库、交易平台的：可以把证据分放进你的榜单</li><li>12 月 9 日，我们冻结的 200 个钱包第一次读数，结果公开，包括我们说错的部分</li></ol></div>
@@ -245,25 +239,6 @@ S.forEach((h,i)=>{const b=document.createElement('button');b.textContent=String(
  const t=document.createElement('div');t.innerHTML=h.trim();stage.appendChild(t.firstChild);});
 const $=id=>document.getElementById(id);
 
-// 04 masters: alpha t against the S&P 500, on the same z scale as the wallets
-(function(){
- const R=[
-  {n:'大奖章基金',d:'西蒙斯 · 1988–2018 · 31 年 · 费后',z:7.05,v:'证据充分'},
-  {n:'伯克希尔',d:'巴菲特 · 1965–2025 · 61 年',z:2.77,v:'有希望，未证实'},
-  {n:'伯克希尔 2001 年以后',d:'巴菲特 · 2001–2025 · 25 年',z:1.79,v:'像运气'},
-  {n:'麻吉大哥',d:'对照 · 钱包算法，余额最高那天',z:-1.20,v:'像运气',neg:1}];
- const W=1136,L=300,Rr=W-150,lo=-2,hi=7.6,x=v=>L+(v-lo)/(hi-lo)*(Rr-L),rh=56,top=34;
- let s=`<line class="t2" x1="${x(2)}" x2="${x(2)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(2)-8}" y="22" text-anchor="end">2 · 随便挑一个人</text>`+
-  `<line class="bar" x1="${x(BAR)}" x2="${x(BAR)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(BAR)-8}" y="22" text-anchor="end" style="fill:var(--red)">4.90 · 4.7 万人里挑</text>`+
-  `<line class="ax" x1="${x(0)}" x2="${x(0)}" y1="${top}" y2="${top+R.length*rh}"/>`;
- R.forEach((r,i)=>{const yy=top+i*rh+10,a=x(Math.min(0,r.z)),b=x(Math.max(0,r.z));
-  s+=`<text x="0" y="${yy+15}" class="lbl" style="font-weight:700">${r.n}</text><text x="0" y="${yy+34}" class="lbl2">${r.d}</text>`+
-   `<rect x="${a}" y="${yy+4}" width="${b-a}" height="24" class="${r.neg?'fillneg':'fill'}" opacity=".85"/>`+
-   `<text x="${r.neg?a-8:b+8}" y="${yy+21}" text-anchor="${r.neg?'end':'start'}" style="fill:var(--ink);font-weight:700">${r.z.toFixed(2)}</text>`+
-   `<text x="${W}" y="${yy+21}" text-anchor="end" class="lbl" style="fill:${r.neg||r.z<2?'var(--red)':'var(--ink)'}">${r.v}</text>`;});
- $('tl').innerHTML=s;
-})();
-
 // 05 evidence ranking: famous records, each against its own market (docs/data/ranking/latest.json)
 (function(){
  const R=[
@@ -272,10 +247,11 @@ const $=id=>document.getElementById(id);
   {n:"先锋医疗保健基金",d:"Ed Owens 管到 2012 · 39 年 · 对标普（含行业）",t:4.18},
   {n:"HLP 做市金库",d:"Hyperliquid 自己的金库 · 3.5 年 · 对 BTC",t:3.39},
   {n:"伯克希尔",d:"巴菲特 · 61 年 · 对标普",t:2.77},
+  {n:"伯克希尔，2001 年以后",d:"巴菲特 · 25 年 · 对标普",t:1.79},
   {n:"ARK 创新 ETF",d:"木头姐 · 12 年 · 对标普",t:-0.63,neg:1},
   {n:"富达麦哲伦（1988 年起）",d:"1988–2026 · 林奇 1990 年离任 · 对标普",t:-1.28,neg:1},
   {n:"麻吉大哥",d:"黄立成 · 对 BTC",t:-1.19,neg:1}];
- const W=1136,L=300,Rr=W-40,lo=-2,hi=7.6,x=v=>L+(v-lo)/(hi-lo)*(Rr-L),rh=42,top=34;
+ const W=1136,L=300,Rr=W-40,lo=-2,hi=7.6,x=v=>L+(v-lo)/(hi-lo)*(Rr-L),rh=39,top=30;
  let s=`<line class="t2" x1="${x(2)}" x2="${x(2)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(2)-8}" y="22" text-anchor="end">2 · 随便挑一个人</text>`+
   `<line class="bar" x1="${x(BAR)}" x2="${x(BAR)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(BAR)-8}" y="22" text-anchor="end" style="fill:var(--red)">4.90 · 4.7 万人里挑</text>`+
   `<line class="ax" x1="${x(0)}" x2="${x(0)}" y1="${top}" y2="${top+R.length*rh}"/>`;
@@ -284,7 +260,7 @@ const $=id=>document.getElementById(id);
   s+=`<text x="0" y="${yy+13}" class="lbl" style="font-weight:700">${r.n}</text><text x="0" y="${yy+30}" class="lbl2">${r.d}</text>`+
    `<rect x="${a}" y="${yy+4}" width="${b-a}" height="20" class="${r.neg?'fillneg':'fill'}" opacity=".85"/>`+
    `<text x="${r.neg?a-8:b+8}" y="${yy+19}" text-anchor="${r.neg?'end':'start'}" style="fill:var(--ink);font-weight:700">${r.t.toFixed(2)}</text>`;});
- s+=`<text x="${L}" y="${top+R.length*rh+26}" class="lbl2">只有大奖章过了线。离线最近的两个：一只医疗行业基金（含行业的涨幅），和 Danoff 一个人管了 36 年的 Contrafund。</text>`;
+ s+=`<text x="${L}" y="${top+R.length*rh+26}" class="lbl2">只有大奖章过了线。被证明本来就要很长的记录：巴菲特用了 61 年；Hyperliquid 最老的记录从 2023 年 5 月才开始。</text>`;
  $('rk').innerHTML=s;
 })();
 
@@ -316,6 +292,7 @@ async function demo(a){
  $('dnote').textContent=fl.map(f=>NOTE[f]||'').join(' ');
 }
 $('dform').addEventListener('submit',e=>{e.preventDefault();demo($('daddr').value);});
+$('drec').onclick=()=>{const g=$('dgif');g.hidden=!g.hidden;if(!g.hidden)g.src='assets/demo-fallback.gif?'+Date.now();};
 document.querySelectorAll('.exb button').forEach(b=>b.onclick=()=>demo(b.dataset.a));
 
 let cur=-1;
@@ -323,7 +300,7 @@ function go(i){if(i<0||i>=S.length||i===cur)return;cur=i;
  [...stage.children].forEach((el,k)=>el.classList.toggle('on',k===i));
  [...nav.children].forEach((el,k)=>el.classList.toggle('on',k===i));
  if(i===2)coin();
- if(i===6)setTimeout(()=>$('daddr').focus(),300);}
+ if(i===5)setTimeout(()=>$('daddr').focus(),300);}
 document.addEventListener('keydown',e=>{
  if(document.activeElement===$('daddr')&&e.key!=='Escape')return;
  if(e.key==='Escape')document.activeElement.blur();
@@ -332,7 +309,7 @@ document.addEventListener('keydown',e=>{
  else if(/^[0-8]$/.test(e.key))go(+e.key);
 });
 go(+(new URLSearchParams(location.search).get("s")||0));
-{const qa=new URLSearchParams(location.search).get("a");if(qa){go(6);demo(qa);}}
+{const u=new URLSearchParams(location.search),qa=u.get("a"),pre=u.get("pre");if(qa){go(5);demo(qa);}else if(pre){go(5);$('daddr').value=pre;$('dtitle').textContent='读取中…';$('dtitle').className='vt dim';}}
 function fit(){document.documentElement.style.zoom=Math.max(1,Math.min(innerWidth/1280,innerHeight/720)).toFixed(3)}
 addEventListener('resize',fit);fit();
 </script>

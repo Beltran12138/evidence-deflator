@@ -7,7 +7,7 @@
    "board": "Top by all-time PnL",
    "ranked_from": 47270,
    "shown": 100,
-   "scored": 96,
+   "scored": 98,
    "t_bar_single": 2.0,
    "t_bar_best_of_n": 4.9,
    "n_t_ge_2": 9,
@@ -572,24 +572,6 @@
      "months_to_clear": 496.0,
      "flags": [],
      "history_from": "2024-02-28"
-    },
-    {
-     "rank": 26,
-     "address": "0x85530f0ff6496c72a619f37a60f3c1a59077737f",
-     "display": null,
-     "vault": null,
-     "account_value": 149055696.03,
-     "pnl_all_time": 76282935.38,
-     "roi_30d": 0.0,
-     "weeks": 48.5,
-     "intervals": 48,
-     "sharpe": 1.205,
-     "t_student": 1.164,
-     "dof": 46.9,
-     "t": 1.149,
-     "months_to_clear": 198.4,
-     "flags": [],
-     "history_from": "2025-11-12"
     },
     {
      "rank": 27,
@@ -1455,24 +1437,6 @@
     },
     {
      "rank": 67,
-     "address": "0xfc667adba8d4837586078f4fdcdc29804337ca06",
-     "display": null,
-     "vault": null,
-     "account_value": 127655355.56,
-     "pnl_all_time": 38885548.92,
-     "roi_30d": 0.1436,
-     "weeks": 49.5,
-     "intervals": 49,
-     "sharpe": 1.58,
-     "t_student": 1.541,
-     "dof": 47.9,
-     "t": 1.514,
-     "months_to_clear": 115.4,
-     "flags": [],
-     "history_from": "2025-10-15"
-    },
-    {
-     "rank": 68,
      "address": "0x0f991873aab3e14191978946d48f30f624ae9867",
      "display": null,
      "vault": null,
@@ -1899,7 +1863,7 @@
      "n_btc": 81,
      "months_to_clear": 2364.7,
      "flags": [],
-     "history_from": null
+     "history_from": "2024-02-07"
     },
     {
      "rank": 87,
@@ -1920,7 +1884,7 @@
      "n_btc": 94,
      "months_to_clear": 199.7,
      "flags": [],
-     "history_from": null
+     "history_from": "2023-12-13"
     },
     {
      "rank": 88,
@@ -2003,42 +1967,6 @@
      "beta_btc": 0.569,
      "n_btc": 82,
      "months_to_clear": 111.8,
-     "flags": [],
-     "history_from": "2024-01-10"
-    },
-    {
-     "rank": 90,
-     "address": "0x4f8613500222a4b6e7f570c23ec59c7d936977f1",
-     "display": null,
-     "vault": null,
-     "account_value": 51598893.83,
-     "pnl_all_time": 29583424.53,
-     "roi_30d": 0.0,
-     "weeks": 45.5,
-     "intervals": 45,
-     "sharpe": 1.344,
-     "t_student": 1.257,
-     "dof": 43.6,
-     "t": 1.239,
-     "months_to_clear": 159.5,
-     "flags": [],
-     "history_from": "2025-12-03"
-    },
-    {
-     "rank": 91,
-     "address": "0xbbbc35dfac3a00a03a8fde3540eca4f0e15c5e64",
-     "display": null,
-     "vault": null,
-     "account_value": 13578785.66,
-     "pnl_all_time": 29572898.56,
-     "roi_30d": -0.4012,
-     "weeks": 144.5,
-     "intervals": 82,
-     "sharpe": 1.604,
-     "t_student": 2.674,
-     "dof": 76.5,
-     "t": 2.606,
-     "months_to_clear": 111.9,
      "flags": [],
      "history_from": "2024-01-10"
     },

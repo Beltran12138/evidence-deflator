@@ -19,7 +19,7 @@
 function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/chrome.css?v=4e0582a5">
-<link rel="stylesheet" href="/assets/site.css?v=90a1a9ad">
+<link rel="stylesheet" href="/assets/site.css?v=dcbe4c81">
 <link rel="alternate" hreflang="en" href="https://evidencedeflator.com/method/">
 <link rel="alternate" hreflang="zh-Hans" href="https://evidencedeflator.com/zh-hans/method/">
 <link rel="alternate" hreflang="zh-Hant" href="https://evidencedeflator.com/zh-hant/method/">
@@ -53,7 +53,7 @@ function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if
 <p><strong>单靠运气会出现什么。</strong>一个没有实力、随手挑中的钱包，t ≥ 2 大约 44 次里出现 1 次（2.3%），这一档叫「有希望，未证实」。一池 N 份全都没有实力的记录，其中任何一个过 bar(N) 的概率也约是 2.3%，这一档叫「证据充分」。在按利润排名的榜单上，靠运气到 t = 2 的远不止 44 个里 1 个，因为按利润排名本身偏爱运气好的连胜；<a href="/audits/012-null-board-simulation.html">审计 012</a> 做了模拟：在全期 PnL 榜上，单靠运气前 100 名就有约 15% 到 t ≥ 2，比真实榜单还多，所以那里的「有希望」就是运气；在 30 日 ROI 榜上，运气约 4%，真实榜单有 15–18%。</p>
 <p><strong>真实的优势需要什么。</strong>按 t ≈ 夏普 × √年数 加上噪声，真实年化夏普为 S 的交易者，过 Hyperliquid 榜单门槛 4.90 的概率：</p>
 <div class="table-wrap"><table class="data compact"><thead><tr><th>真实夏普</th><th class="r">1 年</th><th class="r">2 年</th><th class="r">3 年</th><th class="r">5 年</th></tr></thead><tbody><tr><td>夏普 2</td><td class="r"><1%</td><td class="r">2%</td><td class="r">8%</td><td class="r">33%</td></tr><tr><td>夏普 3</td><td class="r">3%</td><td class="r">26%</td><td class="r">62%</td><td class="r">96%</td></tr><tr><td>夏普 4</td><td class="r">18%</td><td class="r">78%</td><td class="r">98%</td><td class="r">>99%</td></tr><tr><td>夏普 5</td><td class="r">54%</td><td class="r">99%</td><td class="r">>99%</td><td class="r">>99%</td></tr></tbody></table></div>
-<p>所以夏普 3（很少有基金能长期保持）大约要 2.7 年记录才有一半把握，夏普 2 要约 6.0 年。Hyperliquid PnL 前 100 的记录长度中位数是 1.6 年。假如这些记录每一份的真实夏普都是 3，到现在应该约有 23 个过线；实际是 0 个。没有人过线，是记录短、又没有被证实的实力时的样子，不说明这道门槛永远过不了。</p>
+<p>所以夏普 3（很少有基金能长期保持）大约要 2.7 年记录才有一半把握，夏普 2 要约 6.0 年。Hyperliquid PnL 前 100 的记录长度中位数是 1.7 年。假如这些记录每一份的真实夏普都是 3，到现在应该约有 22 个过线；实际是 0 个。没有人过线，是记录短、又没有被证实的实力时的样子，不说明这道门槛永远过不了。</p>
 <p><strong>用赔率表示运气。</strong>页面上的运气同时写成赔率和百分比：一份正态分数为 t 的记录，如果是从一池 N 份全都没有实力的记录里挑出来的，池里任何一个至少走到这么强的概率是 1 − (1 − (1 − Φ(t)))^N。N = 1 时就是普通的单侧尾部概率，t = 2 时是 44 次里 1 次。让 47,248 个人各猜 10 次抛硬币，平均约有 46 个人 10 次全对。放到排行榜上，他们就排在最前面。</p>
 <p><strong>你的挑选范围，决定你的门槛。</strong>钱包页会问你是怎么找到这个钱包的：随手挑中（门槛 2.00）、从 10 个左右的名单里（2.84）、从某个前 100 名里（3.51），还是从整个榜单里（4.90）。只有你知道答案；默认按整个榜单算，因为大多数钱包是这样被找到的。</p>
 
@@ -72,6 +72,9 @@ function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if
 
 <h2 id="trackers">0.8 · 和聪明钱工具有什么不同</h2>
 <p>Hyperdash 的 Copy Score、HyprSwarm 的 ELO、Hashdive 的 Smart Score、Nansen 的标签，回答的是「谁在赚钱、他持有什么」。没有一家报告分数里有多少能用运气解释，也没有一家考虑分数是从几万人里挑出来的。Hyperdash 自己的教程里，一个 30 天记录的钱包 Copy Score 是 96/100；不到 8 周的记录，本站根本不打分。它们告诉你谁在赚钱，我们告诉你那能不能复制。跟单平台按跟单量赚钱，一个说「头部是运气」的分数和它们的生意相反；我们不收被评方的钱。</p>
+
+<h2 id="why-now">0.9 · 为什么是现在</h2>
+<p>AI 让一份好看的战绩几乎不花钱就能造出来：一个 agent 一分钟能试 50 组参数、留下最好看的那条曲线；AI 交易 agent、AI 金库、AI 荐股号发布战绩的速度，已经快过任何人核查的速度。这套方法最早量的是 17 篇 LLM 交易论文，没有一篇的干净样本够 48 个月。AI 交易比赛用同一把尺子重新打分（<a href="/audits/006-alpha-arena-season-1.html">Alpha Arena</a>、<a href="/audits/011-recall-perps-competitions.html">Recall</a>、<a href="/leaderboard/">Liquidity Arena 和 AI-Trader</a>）；替人挑交易员、挑金库的 agent，可以先通过 <a href="/zh-hans/api/">HTTP 接口和 MCP 服务</a>查证据。</p>
 
 <h2 id="open-book">1 · 开卷月数</h2>
 <p>在模型官方公布的训练截止日把回测窗口切开。截止日当月及之前的月份，无法排除被模型见过：模型可能已经知道当时发生了什么。截止日之后的月份才是干净的。</p>

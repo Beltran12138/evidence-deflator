@@ -270,3 +270,8 @@ table.rank td{vertical-align:top}table.rank .mbar{min-width:170px;gap:8px}table.
 table.rank td:nth-child(2){min-width:260px;max-width:380px;white-space:normal}
 #ranktab .mbar{min-width:130px}
 .cfields{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin:6px 4px}.cf{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted,#666)}.cf input{font:15px var(--mono,ui-monospace,monospace);padding:8px 10px;border:1px solid var(--line,#ddd);border-radius:6px;background:transparent;color:var(--ink,inherit)}
+.wslide{flex-basis:100%;margin:6px 0 2px}.wslide input[type=range]{width:100%;accent-color:var(--accent);margin:0}
+.wticks{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}.wticks button{font:inherit;font-size:12px;padding:5px 6px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);color:var(--ink-2);cursor:pointer;text-align:center;line-height:1.3}
+.wticks button[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);background:var(--sunk);font-weight:600}
+#whead.flip{animation:vflip .5s ease}@keyframes vflip{0%{opacity:.2;transform:translateY(4px)}100%{opacity:1;transform:none}}
+@media (max-width:560px){.wticks{grid-template-columns:repeat(2,1fr)}}

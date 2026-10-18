@@ -7,17 +7,20 @@
  // ?team=1 once marks this browser as ours (?team=0 clears it), so the counts can leave our own testing out.
  const team = (() => { try { const q = new URLSearchParams(location.search).get('team'); if (q === '1') localStorage.setItem('ed_team', '1'); if (q === '0') localStorage.removeItem('ed_team'); return localStorage.getItem('ed_team') === '1'; } catch (e) { return false; } })();
  const tally = u => { try { fetch(u + (team ? '&s=team' : ''), {method: 'POST', mode: 'no-cors', keepalive: true}); } catch (e) {} };
- function meter(t, bar, n) {
-  // drawn at the box's own pixel width, so the labels stay readable on a phone
+ let barX = null;  // where the bar was drawn last, so a change of pool slides it instead of jumping
+ function meter(t, bar, n, scaleBar) {
+  // drawn at the box's own pixel width, so the labels stay readable on a phone. The scale is set by
+  // the largest bar the pool selector can reach (scaleBar), so the record's dot stays put while the bar moves.
   const W = Math.max(320, Math.round(($('wmeter').clientWidth || 1028) - 28));
-  const lo = Math.min(-1, Math.floor(t ?? 0)), hi = Math.max(Math.ceil(bar + .5), Math.ceil(t ?? 0)), H = 92, L = 14, R = 14;
+  const lo = Math.min(-1, Math.floor(t ?? 0)), hi = Math.max(Math.ceil((scaleBar || bar) + .5), Math.ceil(t ?? 0)), H = 92, L = 14, R = 14;
   const x = v => L + (v - lo) / (hi - lo) * (W - L - R);
-  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${T.meterAria}">`;
-  s += `<rect class="zone" x="${x(bar)}" y="22" width="${W - R - x(bar)}" height="40"/>`;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${T.meterAria}" data-barx="${x(bar)}">`;
+  s += `<g class="bargrp"><rect class="zone" x="${x(bar)}" y="22" width="${W - R - x(bar)}" height="40"/>`;
   const step = W < 600 && hi - lo > 10 ? 2 : 1;
   for (let v = lo; v <= hi; v++) if ((v - lo) % step === 0 || v === 2) s += `<line class="ax" x1="${x(v)}" x2="${x(v)}" y1="22" y2="62"/><text class="lab" x="${x(v)}" y="84" text-anchor="middle">${v}</text>`;
   s += `<line class="t2" x1="${x(2)}" x2="${x(2)}" y1="8" y2="62"/><text class="t2lab" x="${x(2) - 6}" y="16" text-anchor="end">${T.meterT2}</text>`;
   if (bar - 2 > 0.05) s += `<line class="bar" x1="${x(bar)}" x2="${x(bar)}" y1="8" y2="62"/><text class="barlab" x="${x(bar) - 6}" y="16" text-anchor="end" dy="${W >= 600 && x(bar) - x(2) < 170 ? 14 : 0}">${W < 600 ? f(bar) : fill(T.meterBest, {N: n, bar: f(bar)})}</text>`;
+  s += '</g>';
   // the dot starts at t = 0 and slides to the reading (see .chart .pt.slide; skipped with reduced motion)
   if (t != null) s += `<circle class="pt best slide" cx="${x(0)}" cy="42" r="7" data-dx="${x(Math.max(lo, Math.min(hi, t))) - x(0)}"/>`;
   return s + '</svg>';
@@ -123,29 +126,44 @@
  // "How did you find this wallet?": the pool it was picked from sets the bar. 0 stands for the
  // whole board (or the vault list); the choice goes in the URL as &n= so a shared link keeps it.
  let last = null, pick = (() => { const q = +new URLSearchParams(location.search).get('n'); return [1, 10, 100].includes(q) ? q : 0; })();
+ // A slider with four stops (picked blind, ~10, a top 100, the whole board): moving it slides the bar
+ // and the verdict changes on the spot, while the record's dot stays where it is.
  function pool() {
-  const F = T.found, L = last;
-  $('wfound').innerHTML = `<span class="wfq">${F.q}</span>` + F.opts.map(([k, label]) =>
-   `<button type="button" data-n="${k}" aria-pressed="${k === pick}">${fill(label, {N: L.n, U: L.vault && NV ? T.unitVault : T.unitAcct})}</button>`).join('') + `<span class="wfh">${F.hint}</span>`;
-  $('wfound').querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
-   pick = +b.dataset.n; $('wfound').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
-   history.replaceState(null, '', T.selfPath + '?a=' + L.a + (pick ? '&n=' + pick : '')); render();
-  }));
+  const F = T.found, L = last, U = L.vault && NV ? T.unitVault : T.unitAcct, idx = F.opts.findIndex(o => o[0] === pick);
+  $('wfound').innerHTML = `<span class="wfq">${F.q}</span><div class="wslide"><input type="range" min="0" max="${F.opts.length - 1}" step="1" value="${idx}" aria-label="${F.q}">`
+   + `<div class="wticks">${F.opts.map(([k, label], i) => `<button type="button" data-i="${i}" aria-pressed="${i === idx}">${fill(label, {N: L.n, U})}</button>`).join('')}</div></div>`
+   + `<span class="wfh">${F.hint}</span>`;
+  const range = $('wfound').querySelector('input');
+  const set = i => {
+   pick = F.opts[i][0]; range.value = i;
+   $('wfound').querySelectorAll('.wticks button').forEach((b, j) => b.setAttribute('aria-pressed', j === i));
+   history.replaceState(null, '', T.selfPath + '?a=' + L.a + (pick ? '&n=' + pick : '')); render(true);
+  };
+  range.addEventListener('input', () => set(+range.value));
+  $('wfound').querySelectorAll('.wticks button').forEach(b => b.addEventListener('click', () => set(+b.dataset.i)));
  }
- function render() {
+ function render(poolOnly) {
   const {rets, start, sc, fl, adj, NN, n, U, inCohort, frozenMs} = last, M = T.months, C = T.charts;
   const NP = pick || NN, opt = T.found.opts.find(o => o[0] === pick), FROM = fill(opt[2], {N: n, U});
   const v = HL.verdict(sc, NP), [title, tag, sub] = T.say[v.key];
   $('whead').textContent = title; $('wtag').innerHTML = `<span class="tag ${tag}">${T.tag[v.key]}</span>`;
   $('wsub').textContent = fill(NP === 1 && v.key === 'clears_board' ? T.found.blindStrong : sub, {BAR: f(v.bar), N: n, U, FROM});
-  $('wmeter').innerHTML = meter(sc.t, v.bar, NP.toLocaleString('en'));
-  const dot = $('wmeter').querySelector('.slide');
-  if (dot) requestAnimationFrame(() => requestAnimationFrame(() => { dot.style.transform = `translateX(${dot.dataset.dx}px)`; }));
+  $('wmeter').innerHTML = meter(sc.t, v.bar, NP.toLocaleString('en'), HL.bar(NN));
+  const dot = $('wmeter').querySelector('.slide'), svg = $('wmeter').querySelector('svg'), g = svg.querySelector('.bargrp'), bx = +svg.dataset.barx;
+  const still = poolOnly || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (dot) { if (poolOnly) { dot.style.transition = 'none'; dot.style.transform = `translateX(${dot.dataset.dx}px)`; }
+   else requestAnimationFrame(() => requestAnimationFrame(() => { dot.style.transform = `translateX(${dot.dataset.dx}px)`; })); }
+  if (poolOnly && barX != null && !still) {  // slide the bar from where it was
+   g.style.transform = `translateX(${barX - bx}px)`;
+   requestAnimationFrame(() => requestAnimationFrame(() => { g.style.transition = 'transform .6s cubic-bezier(.2,.7,.2,1)'; g.style.transform = 'none'; }));
+   $('whead').classList.remove('flip'); void $('whead').offsetWidth; $('whead').classList.add('flip');
+  }
+  barX = bx;
   $('wt').textContent = f(sc.t); $('ws').textContent = fill(T.tLabel, {S: f(sc.sharpe)}); $('ww').textContent = sc.weeks ?? '—';
   const lk = HL.luck(sc.t, NP);
   if (lk == null) { $('wl').textContent = '—'; $('wlp').textContent = ''; }
   else { const [o, pc] = odds(lk); $('wl').textContent = o; $('wlp').textContent = pc; }
-  $('wl').style.fontSize = lk != null && lk >= 0.5 ? '0.72em' : '';
+  $('wl').style.fontSize = lk != null && lk >= 0.5 ? '22px' : '';
   $('wll').textContent = fill(T.luck.label, {FROM});
   $('wbtc').hidden = !(adj && adj.t_btc != null);
   if (adj && adj.t_btc != null) $('wbtc').textContent = fill(T.btc, {T: f(adj.t_btc), B: f(adj.beta_btc), N: adj.n_btc});

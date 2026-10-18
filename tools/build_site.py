@@ -389,7 +389,7 @@ def evidence_rank_html(hl, lang="en", P="/", k=6):
         found = ((f"#{r['rank']} by all-time PnL" if key == "pnl" else f"#{r['rank']} by 30-day ROI") if not zh else
                  (f"全期 PnL 第 {r['rank']}" if key == "pnl" else f"30 日 ROI 第 {r['rank']}"))
         yrs = r["weeks"] / 52
-        o, pc = luck_odds(r["t"], N, lang)
+        o, pc = luck_odds(r["t"], 1, lang)
         notes = []
         if "no_losing_week" in r["flags"]:
             notes.append("no losing week: check for market making or selling tail risk" if not zh else "一周都没亏过：先查是不是做市或卖尾部风险")
@@ -408,14 +408,14 @@ def evidence_rank_html(hl, lang="en", P="/", k=6):
                 f'<td class="r">{yrs:.1f}{" yr" if not zh else " 年"}</td>'
                 f'<td><span class="mbar"><span class="track"><span class="fill" style="width:{w:.1f}%"></span><span class="t2" style="left:{2 / bar * 100:.1f}%"></span></span><span class="mono">{r["t"]:.2f}</span></span></td>'
                 f'<td class="r mono">{"—" if tb is None else f"{tb:.2f}"}</td>'
-                f'<td class="r">{o}<span class="muted small" style="display:block">{pc}</span></td>'
+                f'<td class="r">{o} <span class="muted small">({pc})</span></td>'
                 f'<td class="small">{"; ".join(notes)}</td></tr>')
     if not zh:
         head_ = ('<th class="r">#</th><th>Record</th><th class="r">Length</th><th>t (bar {bar:.2f})</th><th class="r">t after BTC</th>'
-                 f'<th class="r">Luck alone, among {N:,}</th><th>Notes</th>').replace("{bar:.2f}", f"{bar:.2f}")
+                 f'<th class="r">Luck, picked blind</th><th>Notes</th>').replace("{bar:.2f}", f"{bar:.2f}")
     else:
         head_ = (f'<th class="r">#</th><th>记录</th><th class="r">长度</th><th>t（门槛 {bar:.2f}）</th><th class="r">扣掉 BTC 后的 t</th>'
-                 f'<th class="r">{N:,} 人里单靠运气</th><th>备注</th>')
+                 f'<th class="r">随手挑中，单靠运气</th><th>备注</th>')
     return f'<div class="table-wrap"><table class="data compact rank"><thead><tr>{head_}</tr></thead><tbody>{out}</tbody></table></div>'
 
 
@@ -474,20 +474,20 @@ def build_home(rows, lb):
                 extra=ld(APP_LD) + BAIDU_META) + header("home") + f"""
 <main>
 <div class="container hero">
- <div class="eyebrow"><span class="dot"></span>Evidence for trading records</div>
+ <div class="eyebrow"><span class="dot"></span>Leaderboards rank by profit. We rank by evidence.</div>
  <h1 class="display">Is that trading record skill, or could it be luck?</h1>
- <p class="lede">{coin_line(hp['ranked_from'])} Leaderboards rank by profit. We rank by how hard a record is to explain by luck. Paste a Hyperliquid address or a Polymarket wallet to check one.</p>
- <div class="tabs hero-tabs" role="tablist" aria-label="Which venue" style="margin-top:26px;max-width:640px"><button type="button" role="tab" aria-selected="true" data-act="/wallet/" data-ph="0x… Hyperliquid address">Hyperliquid</button><button type="button" role="tab" aria-selected="false" data-act="/polymarket/" data-ph="0x… address or Polymarket username">Polymarket</button></div>
+ <div class="tabs hero-tabs" role="tablist" aria-label="Which venue" style="margin-top:22px;max-width:640px"><button type="button" role="tab" aria-selected="true" data-act="/wallet/" data-ph="0x… Hyperliquid address">Hyperliquid</button><button type="button" role="tab" aria-selected="false" data-act="/polymarket/" data-ph="0x… address or Polymarket username">Polymarket</button></div>
  <form class="wcheck" id="hcheck" action="/wallet/" method="get" autocomplete="off" style="margin-top:14px">
   <input name="a" placeholder="0x… Hyperliquid address" spellcheck="false" aria-label="Hyperliquid address">
   <button class="btn btn-primary" type="submit">Check <span class="arr">→</span></button>
  </form>
  {ELSEWHERE_EN}
  <p class="small" style="margin-top:6px">Got a performance claim instead of an address? <a href="/claim/">Paste the claim →</a></p>
+ <p class="lede" style="margin-top:22px">{coin_line(hp['ranked_from'])} Paste an address and see how much of its record luck alone could explain, once you count how many accounts it was picked from.</p>
  <div class="rankbox">
   <div class="eyebrow" style="margin-top:34px">Hyperliquid, ranked by evidence instead of profit · {hl['fetched'][:10]}</div>
   <h2 style="margin-top:10px">The records hardest to explain by luck, among {hp['ranked_from']:,} accounts</h2>
-  <p class="muted">None clears {hp['t_bar_best_of_n']:.2f}, the bar for the best of {hp['ranked_from']:,}, yet. “Luck alone” is the chance that, with no skill anywhere on the board, someone would still post a record this strong.</p>
+  <p class="muted">“Luck, picked blind” is how often a record this strong turns up with no skill behind it, if you had picked it without looking at any ranking. Picked as the best of {hp['ranked_from']:,}, records this strong are expected by chance: that is why none clears {hp['t_bar_best_of_n']:.2f} yet.</p>
   {evidence_rank_html(hl)}
   <p class="muted small" style="margin-top:8px">From the all-time PnL and 30-day ROI top 100s. The verdict uses t; the BTC-adjusted t is shown alongside until a dated method change. <a href="/ranking/">Famous records, same ruler →</a></p>
  </div>
@@ -511,19 +511,9 @@ def build_home(rows, lb):
  </details>
 </div>
 
-{boards_html(hl)}
 <section id="forward"><div class="container">
  <div class="sec-head"><div><div class="eyebrow">Forward record</div><h2 style="margin-top:12px">Every record found by looking back was picked. So we froze some, and score only what happens next.</h2>
  <p><b>{hc.get('members', 0)} Hyperliquid wallets</b> from today’s two top-100 boards, frozen {hc.get('frozen_at', '')[:10]}: first reading <b>{hc.get('first_readings', '')}</b>. <b>Papertrade</b>, three groups of 100 including a random control, frozen {pt['frozen_at'][:10]}: readings <b>10-23</b> and <b>10-30</b>. Each list is published with its hash when frozen, and every reading is published whatever it shows.</p></div><a class="more" href="/record/">Our record, scored in public →</a></div>
-</div></section>
-
-<section id="why-now"><div class="container">
- <div class="sec-head"><div><div class="eyebrow">Why now</div><h2 style="margin-top:12px">AI makes a good-looking record nearly free to produce. Telling it apart from luck is the scarce part.</h2></div></div>
- <div class="stats" style="margin:8px 0 6px">
-  <div><b>Source</b><span>An agent can try fifty variants a minute and keep the best curve. AI trading agents, AI vaults and AI stock tipsters now publish records faster than anyone can check them. This method started on 17 LLM trading papers; none had 48 clean months.</span></div>
-  <div><b>Subject</b><span>AI trading competitions, rescored on the same ruler: <a href="/audits/006-alpha-arena-season-1.html">Alpha Arena</a>, <a href="/audits/011-recall-perps-competitions.html">Recall</a>, <a href="/leaderboard/">Liquidity Arena and AI-Trader</a>.</span></div>
-  <div><b>User</b><span>Agents that pick a trader or a vault for someone can check the evidence first: <a href="/api/">an HTTP API and an MCP server</a>, the same numbers as this page.</span></div>
- </div>
 </div></section>
 
 <section><div class="container">
@@ -635,12 +625,12 @@ LB.load('/leaderboard/2026-10.json').then(d=>{
 
 RANKING_ALT = {"en": "/ranking/", "zh-Hans": "/zh-hans/ranking/", "zh-Hant": "/zh-hant/ranking/"}
 RANK_T = {
-    "en": dict(groups=[("all", "All"), ("markets", "Stocks and funds"), ("clones", "13F estimates"), ("crypto", "Crypto"), ("ai", "AI agents")],
+    "en": dict(groups=[("all", "All"), ("markets", "Stocks and funds"), ("press", "Hedge funds, as reported"), ("clones", "13F estimates"), ("crypto", "Crypto"), ("ai", "AI agents")],
                tag={"clears_board": ("tag-green", "strong"), "clears_single": ("tag-amber", "promising"), "luck": ("tag-red", "looks like luck"),
                     "loses": ("tag-red", "losing"), "too_short": ("tag-grey", "too early")},
                head='<th class="r">#</th><th>Record</th><th class="r">Length</th><th>z after the market · bar {bar}</th><th class="r">Last 10 yr</th><th class="r">Luck, picked blind</th><th class="r">Luck, best of {n}</th>',
                yr=" yr", events="{e} events", raw="raw"),
-    "zh": dict(groups=[("all", "全部"), ("markets", "美股与基金"), ("clones", "13F 估算"), ("crypto", "加密"), ("ai", "AI agent")],
+    "zh": dict(groups=[("all", "全部"), ("markets", "美股与基金"), ("press", "对冲基金（媒体报道）"), ("clones", "13F 估算"), ("crypto", "加密"), ("ai", "AI agent")],
                tag={"clears_board": ("tag-green", "证据充分"), "clears_single": ("tag-amber", "有希望"), "luck": ("tag-red", "像运气"),
                     "loses": ("tag-red", "在亏"), "too_short": ("tag-grey", "太早")},
                head='<th class="r">#</th><th>记录</th><th class="r">长度</th><th>扣掉大盘后的 z（门槛 {bar}）</th><th class="r">最近 10 年</th><th class="r">运气，随手挑中</th><th class="r">运气，{n} 选 1</th>',
@@ -680,6 +670,7 @@ RANK_ZH = {  # id: (name, who, note) for the Chinese pages; None keeps the origi
 def venue_zh(v):
     v = v.replace("Yearly returns", "逐年收益").replace("nof1 Alpha Arena, season 1", "nof1 Alpha Arena 第一季")
     v = re.sub(r"^13F holdings, (\d+) quarters$", r"13F 持仓，\1 个季度", v)
+    v = re.sub(r"^Yearly net returns as reported, (\d+) consecutive years$", r"报道的逐年净收益，连续 \1 年", v)
     v = re.sub(r"^Fund (\d+), monthly$", r"基金 \1，按月", v)
     v = re.sub(r"#(\d+) by all-time PnL", r"全期 PnL 第 \1", v)
     v = re.sub(r"#(\d+) by 30-day ROI", r"30 日 ROI 第 \1", v)
@@ -712,6 +703,9 @@ def ranking_table(d, lang="en", P="/"):
         notes = []
         if "no_losing_week" in (r.get("flags") or []):
             notes.append("no losing week" if not zh else "一周都没亏过")
+        if r["group"] == "press":
+            notes.append("yearly returns as reported by the press or the firm, one cited source per year; not audited" if not zh else
+                         "逐年收益来自媒体或基金自己的报道，每一年都有出处；不是审计数")
         if r["group"] == "clones":
             notes.append("estimate from 13F holdings: long US stocks only, held from one quarter end to the next" if not zh else
                          "按 13F 持仓估算：只含美股多头，从一个季度末持有到下一个季度末")
@@ -759,9 +753,11 @@ def build_ranking_page():
  <div><b>{by['brk']['z']:.2f}</b><span>Berkshire Hathaway over {by['brk']['years']:.0f} years against the S&amp;P 500; {by['brk_2001']['z']:.2f} from 2001 on</span></div>
  <div><b>{n_scored}</b><span>records scored; {len(d['needs_data'])} famous names have no public return series to score</span></div>
 </div>
+<p style="margin:6px 0 14px"><b>Length is already in z.</b> A short record needs more return per unit of risk to reach the same z, so a 3-year vault at 3.4 and Buffett’s 61 years at 2.8 are on one scale: the vault’s returns were far steadier, so a short record could get that far. What z cannot say is whether an edge will last; a 61-year record has survived regimes a 3-year one has not met. Check the length column before comparing two rows.</p>
 {ranking_table(d)}
 <p class="muted small" style="margin-top:10px">z is the evidence after taking out the market: stocks and funds against the S&amp;P 500 with dividends, wallets against BTC, Polymarket against the price paid for each share. Wallet rows also show the raw t that the wallet verdict uses today. “Luck alone” is the chance that, with no skill at all, a record gets this far: picked blind, and as the best of {d['bar_n']:,}. Data: <a href="/data/ranking/latest.json">latest.json</a>.</p>
 
+{boards_html(json.load(open(os.path.join(DOCS, "data", "hl", "latest.json"), encoding="utf-8")))}
 <div class="prose narrow" style="margin-top:34px">
 <h2 id="missing">Famous, but not on the list</h2>
 <ul>{nd}</ul>
@@ -955,6 +951,9 @@ t      = Sharpe × √(years of data)</div>
 <h2 id="trackers">How this differs from smart-money trackers</h2>
 <p>Hyperdash’s Copy Score, HyprSwarm’s ELO, Hashdive’s Smart Score and Nansen’s labels answer “who is making money, and what are they holding?”. None of them reports how much of a score luck could explain, or allows for the score being the best of tens of thousands. Hyperdash’s own guide shows a wallet with a Copy Score of 96/100 on a 30-day record; under eight weeks, this site does not score a record at all. They tell you who is making money; this tells you whether it could be repeated. Copy-trading venues earn on copied volume, so a score that says the top of the board is luck runs against their business; we are not paid by the rated.</p>
 
+<h2 id="why-now">Why now</h2>
+<p>AI makes a good-looking record nearly free to produce. An agent can try fifty variants a minute and keep the best curve; AI trading agents, AI vaults and AI stock tipsters now publish records faster than anyone can check them. This method started on 17 LLM trading papers, none with 48 clean months. AI trading competitions are rescored on the same ruler (<a href="/audits/006-alpha-arena-season-1.html">Alpha Arena</a>, <a href="/audits/011-recall-perps-competitions.html">Recall</a>, <a href="/leaderboard/">Liquidity Arena and AI-Trader</a>), and agents that pick a trader or a vault for someone can check the evidence first through <a href="/api/">the HTTP API and MCP server</a>.</p>
+
 <h2 id="principles">Principles</h2>
 <ul>
  <li>Sources are public and fetched on a stated date. Numbers are recomputed, not copied.</li>
@@ -979,7 +978,7 @@ t      = Sharpe × √(years of data)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>On this page</h4><ul><li><a href="#open-book">Open-book months</a></li><li><a href="#clean-months">Clean months needed</a></li><li><a href="#selection">The bar after selection</a></li><li><a href="#leaderboards">Leaderboards</a></li><li><a href="#wallets">Wallets</a></li><li><a href="#yes">Can it say yes?</a></li><li><a href="#masters">Famous records</a></li><li><a href="#btc">Against BTC</a></li><li><a href="#trackers">Vs smart-money trackers</a></li><li><a href="#principles">Principles</a></li><li><a href="#limits">Limits</a></li></ul></div>
+ <div class="box"><h4>On this page</h4><ul><li><a href="#open-book">Open-book months</a></li><li><a href="#clean-months">Clean months needed</a></li><li><a href="#selection">The bar after selection</a></li><li><a href="#leaderboards">Leaderboards</a></li><li><a href="#wallets">Wallets</a></li><li><a href="#yes">Can it say yes?</a></li><li><a href="#masters">Famous records</a></li><li><a href="#btc">Against BTC</a></li><li><a href="#trackers">Vs smart-money trackers</a></li><li><a href="#why-now">Why now</a></li><li><a href="#principles">Principles</a></li><li><a href="#limits">Limits</a></li></ul></div>
  <div class="box"><h4>Try it</h4><ul><li><a href="/check/">Check a backtest in the browser</a></li><li><a href="/api/">Python, CLI and MCP</a></li></ul></div>
 </aside>
 </div></main>

@@ -28,9 +28,9 @@
   --pos:#5FC08C; --pos-soft:rgba(95,192,140,.12);
   --warn:#F2A33A; --warn-soft:rgba(242,163,58,.12);
   --link:#8FB4E8;
-  --serif:'IBM Plex Sans',Inter,system-ui,sans-serif;
-  --sans:'IBM Plex Sans',Inter,system-ui,sans-serif;
-  --head-weight:600; --head-track:-.02em;
+  --serif:Newsreader,'Source Serif 4',Georgia,'Times New Roman',serif;
+  --sans:Inter,'Segoe UI',system-ui,-apple-system,sans-serif;
+  --head-weight:560; --head-track:-.01em;
   color-scheme:dark;
 }
 .theme-toggle{background:none;border:1px solid var(--rule);color:var(--ink-2);border-radius:999px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
