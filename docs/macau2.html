@@ -183,10 +183,11 @@ const S=[
 </div>`,
 // 04
 `<div class="slide">
- <div class="eyebrow">04 · 为什么前 100 名没人过 4.90</div>
- <h2>不是尺子坏了，是考试时间还没到</h2>
- <div class="lead fs">Hyperliquid 上最老的一条记录，从 2023 年 5 月开始。一个真有本事的人，也还没有足够长的记录证明自己。</div>
- <svg class="ch" id="tl" viewBox="0 0 1136 250"></svg>
+ <div class="eyebrow">04 · 这把尺子会说「过」吗？拿大师试一试</div>
+ <h2>西蒙斯过了。巴菲特用了 61 年，<br>才到「有希望」</h2>
+ <svg class="ch" id="tl" viewBox="0 0 1136 270"></svg>
+ <div class="lead fs" style="font-size:19px;margin-top:6px">被证明本来就需要很长的记录。Hyperliquid 上最老的一条记录，才从 2023 年 5 月开始。</div>
+ <div class="src">年收益对标普 500（含股息）回归，看 alpha 的 t，再换算成和钱包同一把尺子的 z · 伯克希尔：2025 年致股东信附表（每股市值）· 大奖章：Cornell (2019) 表 1，费后净收益，数据源自 Zuckerman (2019)</div>
 </div>`,
 // 05
 `<div class="slide">
@@ -242,19 +243,22 @@ S.forEach((h,i)=>{const b=document.createElement('button');b.textContent=String(
  const t=document.createElement('div');t.innerHTML=h.trim();stage.appendChild(t.firstChild);});
 const $=id=>document.getElementById(id);
 
-// 04 timeline: years of record against what it takes
+// 04 masters: alpha t against the S&P 500, on the same z scale as the wallets
 (function(){
- const W=1136,x0=40,x1=W-30,yrs=6.5,x=v=>x0+v/yrs*(x1-x0),y=150;
- let s='<defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#D9D2C3" stroke-width="3"/></pattern></defs>';
- s+=`<rect class="void" x="${x(3.44)}" y="${y-70}" width="${x1-x(3.44)}" height="70"/><text x="${x(3.44)+12}" y="${y-48}" class="lbl2">这么长的记录，Hyperliquid 上还不存在</text>`;
- s+=`<line class="ax" x1="${x0}" x2="${x1}" y1="${y}" y2="${y}"/>`;
- for(let v=0;v<=6;v++)s+=`<line class="ax" x1="${x(v)}" x2="${x(v)}" y1="${y}" y2="${y+6}"/><text x="${x(v)}" y="${y+24}" text-anchor="middle">${v} 年</text>`;
- const mk=(v,t1,t2,up,red)=>{const yy=up?y-18:y+52;return `<circle cx="${x(v)}" cy="${y}" r="6" class="${red?'warn':'fill'}"/><line x1="${x(v)}" x2="${x(v)}" y1="${up?y-10:y+30}" y2="${up?y-6:y+34}" class="ax"/>`+
-  `<text x="${x(v)}" y="${up?y-104:yy+4}" text-anchor="middle" class="lbl">${t1}</text><text x="${x(v)}" y="${up?y-84:yy+24}" text-anchor="middle" class="lbl2">${t2}</text>`;};
- s+=mk(1.6,'1.6 年','前 100 名记录的中位数',false);
- s+=mk(3.44,'3.4 年','最老的记录（HLP，2023-05 起）',false);
- s+=mk(2.7,'2.7 年','夏普 3 的高手：过线机会才五五开',true,true);
- s+=mk(6.0,'6 年','夏普 2：五五开',true,true);
+ const R=[
+  {n:'大奖章基金',d:'西蒙斯 · 1988–2018 · 31 年 · 费后',z:7.05,v:'证据充分'},
+  {n:'伯克希尔',d:'巴菲特 · 1965–2025 · 61 年',z:2.77,v:'有希望，未证实'},
+  {n:'伯克希尔 2001 年以后',d:'巴菲特 · 2001–2025 · 25 年',z:1.79,v:'像运气'},
+  {n:'麻吉大哥',d:'对照 · 钱包算法，余额最高那天',z:-1.20,v:'像运气',neg:1}];
+ const W=1136,L=300,Rr=W-150,lo=-2,hi=7.6,x=v=>L+(v-lo)/(hi-lo)*(Rr-L),rh=56,top=34;
+ let s=`<line class="t2" x1="${x(2)}" x2="${x(2)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(2)-8}" y="22" text-anchor="end">2 · 随便挑一个人</text>`+
+  `<line class="bar" x1="${x(BAR)}" x2="${x(BAR)}" y1="10" y2="${top+R.length*rh}"/><text x="${x(BAR)-8}" y="22" text-anchor="end" style="fill:var(--red)">4.90 · 4.7 万人里挑</text>`+
+  `<line class="ax" x1="${x(0)}" x2="${x(0)}" y1="${top}" y2="${top+R.length*rh}"/>`;
+ R.forEach((r,i)=>{const yy=top+i*rh+10,a=x(Math.min(0,r.z)),b=x(Math.max(0,r.z));
+  s+=`<text x="0" y="${yy+15}" class="lbl" style="font-weight:700">${r.n}</text><text x="0" y="${yy+34}" class="lbl2">${r.d}</text>`+
+   `<rect x="${a}" y="${yy+4}" width="${b-a}" height="24" class="${r.neg?'fillneg':'fill'}" opacity=".85"/>`+
+   `<text x="${r.neg?a-8:b+8}" y="${yy+21}" text-anchor="${r.neg?'end':'start'}" style="fill:var(--ink);font-weight:700">${r.z.toFixed(2)}</text>`+
+   `<text x="${W}" y="${yy+21}" text-anchor="end" class="lbl" style="fill:${r.neg||r.z<2?'var(--red)':'var(--ink)'}">${r.v}</text>`;});
  $('tl').innerHTML=s;
 })();
 
