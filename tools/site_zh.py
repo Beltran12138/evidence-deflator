@@ -82,7 +82,7 @@ def footer(B, P, scripts=""):
   <p style="margin-top:14px;max-width:340px">交易战绩是实力还是运气？开源的证据检验工具，看一份记录里有多少算数。</p></div>
  <div><h4>产品</h4><ul><li><a href="{P}">查 Hyperliquid 钱包</a></li><li><a href="/polymarket/">查 Polymarket 钱包（英文）</a></li><li><a href="{B.TG_BOT}">Telegram 机器人</a></li><li><a href="{B.EXT_URL}">Chrome 插件</a></li><li><a href="/audits/">审计（英文）</a></li><li><a href="{P}api/">API 与 MCP</a></li><li><a href="{P}memo/sample/">评估报告样例</a></li><li><a href="{P}method/">方法</a></li><li><a href="/">英文版首页</a></li></ul></div>
  <div><h4>问题</h4><ul>{qs}</ul></div>
- <div><h4>项目</h4><ul><li><a href="{B.REPO}">GitHub</a></li><li><a href="/privacy/">隐私（英文）</a></li><li><a href="/terms/">条款（英文）</a></li></ul></div>
+ <div><h4>项目</h4><ul><li><a href="{P}record/">我们的记分</a></li><li><a href="{B.REPO}">GitHub</a></li><li><a href="/privacy/">隐私（英文）</a></li><li><a href="/terms/">条款（英文）</a></li></ul></div>
 </div>
 <div class="foot-note"><span>开源 · MIT · v{B.VERSION}</span><span>统计估计，不构成投资建议。</span></div>
 </div></footer>
@@ -200,7 +200,7 @@ def wallet_page(B, hl, lang):
   <div><b>每天</b><span>由仓库里的定时任务从公开 API 刷新</span></div>
  </div>
  <p class="muted small mono" style="overflow-wrap:anywhere">{html.escape(c['file'])} · sha256 {c['sha256']}</p>
- <div class="btns" style="margin-top:12px"><a class="btn btn-secondary" href="/data/hl/{html.escape(c['file'])}">冻结名单</a><a class="btn btn-secondary" href="/data/hl/latest.json">每日分数（JSON）</a></div>
+ <div class="btns" style="margin-top:12px"><a class="btn btn-secondary" href="/data/hl/{html.escape(c['file'])}">冻结名单</a><a class="btn btn-secondary" href="/data/hl/latest.json">每日分数（JSON）</a><a class="btn btn-secondary" href="{P}record/">什么结果算我们错</a></div>
 </div></section>
 """
 
@@ -582,6 +582,51 @@ def memo_page(B, lang):
     return finish(page, lang)
 
 
+def record_page(B, lang):
+    P = LANGS[lang]
+    d = B.record_data()
+    pt, hl = d["calls"]
+    st = {"pending": ("tag-grey", "待读"), "overdue": ("tag-red", "逾期：读数还没公布"), "done": ("tag-green", "已读")}
+    status = lambda c: f'<span class="tag {st[c["status"]][0]}">{st[c["status"]][1]}</span>'
+    when = lambda x: x.replace("T", " ").replace("Z", " UTC")
+    frozen = "".join(f'<tr><td>{"Hyperliquid 前向队列" if f["what"] == "hl" else "Papertrade 全期榜单"}</td><td class="r">{f["n"]:,}</td>'
+                     f'<td class="mono">{when(f["at"])}</td><td class="mono" style="white-space:normal;overflow-wrap:anywhere"><a href="{f["file"]}">{html.escape(f["file"].rsplit("/", 1)[1])}</a><br>sha256 {f["sha256"]}</td></tr>' for f in d["frozen"])
+    chain = "".join(f'<tr><td class="mono">{o["date"]}</td><td>{"以太坊" if o["chain"] == "Ethereum" else o["chain"]}</td><td>{o["agent"]}</td><td class="r">{o["t"]}</td><td>{o["tag"]}</td>'
+                    f'<td class="mono" style="white-space:normal;overflow-wrap:anywhere"><a href="{o["url"]}{o["tx"]}" rel="noopener">{o["tx"][:10]}…{o["tx"][-6:]}</a></td></tr>' for o in d["onchain"])
+    alt = {"en": "/record/", **{k: f"{v}record/" for k, v in LANGS.items()}}
+    page = head(B, lang, "我们的记分 · Evidence Deflator", "Evidence Deflator 做过的每一个前向判断：在任何结果出现之前，写下日期和「什么结果算我们错」。",
+                f"{P}record/", alt) + header(B, P, lang, "", alt) + f"""
+<main class="container article narrow prose">
+<div class="eyebrow"><span class="dot"></span>我们的记分 · 生成于 {d['today']}</div>
+<h1 style="margin-top:16px">我们也在被考核</h1>
+<p class="lede" style="margin-top:14px">给别人的战绩打分的工具，自己也该有一份记录。下面每一个判断，都在任何结果出现之前写下了日期，以及什么结果算我们错。每次读数都在这里公布，不论结果如何。读数日期过了还没填结果，会显示为逾期。</p>
+
+<h2 id="calls">可检验的判断</h2>
+
+<h3 id="papertrade">1 · Papertrade 排行榜预测不了之后的表现 {status(pt)}</h3>
+<p><b>写下</b>于 2026-10-16，在冻结之前（先提交 commit <code>{pt['written_commit']}</code>，再提交冻结文件）。<b>冻结</b>于 {when(pt['frozen'])}。<b>读数</b>：2026-10-23（中期）和 2026-10-30（主读数）。</p>
+<p><b>什么结果算我们错：</b>2026-10-30 读数时，24 小时 PnL 前 100 名在「冻结后赚钱的钱包比例」上，比用随机种子抽出的对照组高出 15 个百分点以上，并且中位数大于零。那就说明这个榜单有信息量，我们会照实说。冻结后仍在交易的钱包不足 30 个，算「数据不够」，不算结果。全文：<a href="{pt['prereg']}">PREREG.md</a>（英文）· <a href="{pt['audit']}">审计 010</a>（英文）。</p>
+
+<h3 id="hl-cohort">2 · Hyperliquid 榜单头部几乎没有前向实力 {status(hl)}</h3>
+<p><b>冻结</b>于 {when(hl['frozen'])}：当天全期 PnL 和 30 日 ROI 两个前 100 名单上的每一个地址，共 {d['cohort']['members']} 个钱包，只按冻结之后的表现打分。<b>读数</b>：2026-12-09，这是钱包最早能在冻结后攒满 8 周记录的日子。</p>
+<p><b>写下</b>于 2026-10-18。名单和规则是 2026-10-14 冻结的，但当时没有写下「什么结果算我们错」；这里补写，晚了四天，仍在任何钱包能被打分之前。</p>
+<p><b>什么结果算我们错：</b>冻结后记录满 8 周的钱包里，到 2026-12-09 读数时，超过 10% 在这段记录上达到 t ≥ 2。单靠运气约 2.3%；假如其中多数人的真实夏普是 3，大约五个里有一个能到（正态近似；小样本校正会让它略低）。超过 10% 就说明这些榜单挑出的实力比我们说的多，我们会照实说。同时报告、不设及格线：冻结前「有希望」（t ≥ 2）的钱包和其余钱包相比，冻结后 t 大于零的比例。满 8 周的钱包不足 30 个，算「数据不够」，读数推迟到 2027-01-06。</p>
+
+<h2 id="frozen">我们冻结的名单</h2>
+<p>每个文件连同完整修改历史都在仓库里，冻结之后的任何改动都会出现在 git 记录里，哈希值也会对不上。</p>
+<div class="table-wrap"><table class="data"><thead><tr><th>名单</th><th class="r">条目</th><th>冻结时间</th><th>文件和 sha256</th></tr></thead><tbody>{frozen}</tbody></table></div>
+
+<h2 id="onchain">改不了的读数</h2>
+<p>从项目唯一的反馈地址 <code>0xF02cF39d6b91Ac62B1D21d0F1C39335118c1F9A1</code> 写进 ERC-8004 声誉注册表。这些是读数，不是预测：agent 注册以来那段记录的 t。<a href="/data/erc8004/README.md">怎么生成的</a>（英文）。</p>
+<div class="table-wrap"><table class="data"><thead><tr><th>日期</th><th>链</th><th>Agent</th><th class="r">t</th><th>字段</th><th>交易</th></tr></thead><tbody>{chain}</tbody></table></div>
+
+<h2 id="errors">错误</h2>
+<p>站上每个数字都由仓库里的脚本重新计算，每个已发布页面的改动都在 git 历史里。觉得哪个数字错了，请<a href="{B.REPO}/issues/new?title=Wrong%20number%3A%20">提一个 issue</a>，写明页面和数字；更正会公开进行，并在这里列出日期和 commit。到目前为止的更正：无。这份清单是手工维护的；<a href="{B.REPO}/issues?q=is%3Aissue">所有提过的 issue</a> 都是公开的，可以对照核查。</p>
+</main>
+""" + footer(B, P)
+    return finish(page, lang)
+
+
 def build(B):
     import json, os
     with open(os.path.join(B.DOCS, "data", "hl", "latest.json"), encoding="utf-8") as f:
@@ -591,5 +636,6 @@ def build(B):
         B.write(f"{P.strip('/')}/method/index.html", method_page(B, lang))
         B.write(f"{P.strip('/')}/api/index.html", api_page(B, lang))
         B.write(f"{P.strip('/')}/memo/sample/index.html", memo_page(B, lang))
+        B.write(f"{P.strip('/')}/record/index.html", record_page(B, lang))
         for rel, page in question_pages(B, hl, lang):
             B.write(rel, page)

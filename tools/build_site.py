@@ -120,7 +120,7 @@ def footer(scripts=""):
   <p style="margin-top:14px;max-width:340px">Whether a trading record can be told apart from luck, once you allow for how it was picked. Open source.</p></div>
  <div><h4>Product</h4><ul><li><a href="/wallet/">Hyperliquid check</a></li><li><a href="/polymarket/">Polymarket check</a></li><li><a href="{TG_BOT}">Telegram bot</a></li><li><a href="{EXT_URL}">Chrome extension</a></li><li><a href="/audits/">Audits</a></li><li><a href="/leaderboard/">AI trading leaderboard</a></li><li><a href="/check/">Check a backtest</a></li><li><a href="/api/">API and MCP</a></li></ul></div>
  <div><h4>Method</h4><ul><li><a href="/method/">How it works</a></li><li><a href="/method/#principles">Principles</a></li><li><a href="/q/hyperliquid-trader-skill-or-luck/">Skill or luck?</a></li><li><a href="/q/how-many-months-of-backtest/">How many months?</a></li><li><a href="/q/why-leaderboard-winner-is-not-evidence/">Why #1 is not evidence</a></li><li><a href="/leaderboard/2026-10.json">Data (JSON)</a></li></ul></div>
- <div><h4>Project</h4><ul><li><a href="{REPO}">GitHub</a></li><li><a href="https://pypi.org/project/evidence-deflator/">PyPI</a></li><li><a href="/memo/sample/">Sample memo</a></li><li><a href="{ISSUE_AUDIT}">Request an audit</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+ <div><h4>Project</h4><ul><li><a href="{REPO}">GitHub</a></li><li><a href="https://pypi.org/project/evidence-deflator/">PyPI</a></li><li><a href="/record/">Our record</a></li><li><a href="/memo/sample/">Sample memo</a></li><li><a href="{ISSUE_AUDIT}">Request an audit</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
 </div>
 <div class="foot-note"><span>Open source · MIT · v{VERSION}</span><span>“Cannot be ruled out as seen” is the strongest claim we make about a model’s training data.</span></div>
 </div></footer>
@@ -414,7 +414,7 @@ def build_home(rows, lb):
 {boards_html(hl)}
 <section id="forward"><div class="container">
  <div class="sec-head"><div><div class="eyebrow">Forward record</div><h2 style="margin-top:12px">Every record found by looking back was picked. So we froze some, and score only what happens next.</h2>
- <p><b>{hc.get('members', 0)} Hyperliquid wallets</b> from today’s two top-100 boards, frozen {hc.get('frozen_at', '')[:10]}: first reading <b>{hc.get('first_readings', '')}</b>. <b>Papertrade</b>, three groups of 100 including a random control, frozen {pt['frozen_at'][:10]}: readings <b>10-23</b> and <b>10-30</b>. Each list is published with its hash when frozen, and every reading is published whatever it shows.</p></div><a class="more" href="/wallet/#forward">The frozen lists →</a></div>
+ <p><b>{hc.get('members', 0)} Hyperliquid wallets</b> from today’s two top-100 boards, frozen {hc.get('frozen_at', '')[:10]}: first reading <b>{hc.get('first_readings', '')}</b>. <b>Papertrade</b>, three groups of 100 including a random control, frozen {pt['frozen_at'][:10]}: readings <b>10-23</b> and <b>10-30</b>. Each list is published with its hash when frozen, and every reading is published whatever it shows.</p></div><a class="more" href="/record/">Our record, scored in public →</a></div>
 </div></section>
 
 <section><div class="container">
@@ -803,7 +803,7 @@ def build_wallet():
   <div><b>daily</b><span>refreshed from the public API by a scheduled job in the repository</span></div>
  </div>
  <p class="muted small mono" style="overflow-wrap:anywhere">{html.escape(c['file'])} · sha256 {c['sha256']}</p>
- <div class="btns" style="margin-top:12px"><a class="btn btn-secondary" href="/data/hl/{html.escape(c['file'])}">Frozen list</a><a class="btn btn-secondary" href="/data/hl/latest.json">Daily scores (JSON)</a></div>
+ <div class="btns" style="margin-top:12px"><a class="btn btn-secondary" href="/data/hl/{html.escape(c['file'])}">Frozen list</a><a class="btn btn-secondary" href="/data/hl/latest.json">Daily scores (JSON)</a><a class="btn btn-secondary" href="/record/">What would count against us</a></div>
 </div></section>
 """
 
@@ -1080,6 +1080,85 @@ def _months(t, sharpe):
     return f"{m:.0f} months" if m < 36 else f"{m / 12:.1f} years"
 
 
+RECORD_ALT = {"en": "/record/", "zh-Hans": "/zh-hans/record/", "zh-Hant": "/zh-hant/record/"}
+
+
+def record_data():
+    """Everything /record/ shows, for both languages: the calls with a test and the date each was written
+    down, the frozen lists with their hashes, and the on-chain readings. A reading date that has passed
+    with no result filled in shows as overdue, which is a mark against us too."""
+    from datetime import datetime, timezone
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    with open(os.path.join(DOCS, "data", "hl", "latest.json"), encoding="utf-8") as f:
+        hc = json.load(f)["cohort"]
+    with open(os.path.join(DOCS, "data", "papertrade", "frozen-2026-10-16.json"), encoding="utf-8") as f:
+        pt = json.load(f)
+    calls = [  # result stays None until a reading is published; then it is the outcome, whatever it is
+        {"id": "papertrade", "audit": "/audits/010-papertrade-leaderboard.html", "prereg": "/data/papertrade/PREREG.md",
+         "written": "2026-10-16", "written_commit": "2cd7deb", "frozen": pt["frozen_at"], "readings": ["2026-10-23", "2026-10-30"], "result": None},
+        {"id": "hl_cohort", "audit": "/wallet/#forward", "prereg": "/record/#hl-cohort",
+         "written": "2026-10-18", "written_commit": None, "frozen": hc["frozen_at"], "readings": ["2026-12-09"], "result": None},
+    ]
+    for c in calls:
+        due = [d for d in c["readings"] if d <= today]
+        c["status"] = "done" if c["result"] else ("overdue" if due else "pending")
+    frozen = [
+        {"what": "hl", "file": "/data/hl/" + hc["file"], "sha256": hc["sha256"], "at": hc["frozen_at"], "n": hc["members"]},
+        {"what": "pt_board", "file": "/data/papertrade/" + pt["board_file"], "sha256": pt["board_csv_sha256"], "at": pt["frozen_at"], "n": pt["board_rows"]},
+    ]
+    onchain = [  # docs/data/erc8004/README.md
+        {"date": "2026-10-17", "chain": "Base", "agent": "DegenAI · agentId 19136", "t": "1.33", "tag": "single",
+         "tx": "0xeaedbc13bf17a7cbd30c7509825217691aa2669d44a8637fb2379f9bb401a385", "url": "https://basescan.org/tx/"},
+        {"date": "2026-10-17", "chain": "Ethereum", "agent": "DegenAI · agentId 23121", "t": "1.33", "tag": "single",
+         "tx": "0x716b5e99cce13a5b7d0190f9b6c02923aafd02168e77016def8f266647f7d8f7", "url": "https://etherscan.io/tx/"},
+    ]
+    return {"today": today, "calls": calls, "frozen": frozen, "onchain": onchain, "cohort": hc}
+
+
+def build_record():
+    d = record_data()
+    st = {"pending": ("tag-grey", "Pending"), "overdue": ("tag-red", "Overdue: reading not yet published"), "done": ("tag-green", "Read")}
+    pt, hl = d["calls"]
+    def status(c):
+        cls, txt = st[c["status"]]
+        return f'<span class="tag {cls}">{txt}</span>'
+    frozen = "".join(f'<tr><td>{"Hyperliquid forward cohort" if f["what"] == "hl" else "Papertrade all-time board"}</td><td class="r">{f["n"]:,}</td>'
+                     f'<td class="mono">{f["at"].replace("T", " ").replace("Z", " UTC")}</td><td class="mono" style="white-space:normal;overflow-wrap:anywhere"><a href="{f["file"]}">{html.escape(f["file"].rsplit("/", 1)[1])}</a><br>sha256 {f["sha256"]}</td></tr>' for f in d["frozen"])
+    chain = "".join(f'<tr><td class="mono">{o["date"]}</td><td>{o["chain"]}</td><td>{o["agent"]}</td><td class="r">{o["t"]}</td><td>{o["tag"]}</td>'
+                    f'<td class="mono" style="white-space:normal;overflow-wrap:anywhere"><a href="{o["url"]}{o["tx"]}" rel="noopener">{o["tx"][:10]}…{o["tx"][-6:]}</a></td></tr>' for o in d["onchain"])
+    page = head("Our record · Evidence Deflator", "Every forward call Evidence Deflator has made, written down with a date and the result that would show it wrong, before any outcome existed.",
+                "/record/", alt=RECORD_ALT) + header("", RECORD_ALT) + f"""
+<main class="container article narrow prose">
+<div class="eyebrow"><span class="dot"></span>Our record · built {d['today']}</div>
+<h1 style="margin-top:16px">We are scored too</h1>
+<p class="lede" style="margin-top:14px">A check that rates other people’s records should keep one of its own. Each call below was written down with a date, and with the result that would show we were wrong, before any outcome existed. Every reading is published here, whatever it shows. A reading date that passes without a result shows as overdue.</p>
+
+<h2 id="calls">Calls with a test</h2>
+
+<h3 id="papertrade">1 · Papertrade’s leaderboard does not predict what comes next {status(pt)}</h3>
+<p><b>Written</b> 2026-10-16, before the freeze (commit <code>{pt['written_commit']}</code>, then the frozen file). <b>Frozen</b> {pt['frozen'].replace('T', ' ').replace('Z', ' UTC')}. <b>Readings</b> 2026-10-23 (interim) and 2026-10-30 (primary).</p>
+<p><b>What would count against us:</b> at the 2026-10-30 reading, the 24-hour PnL top 100 beats a seeded random control by more than 15 percentage points in the share of wallets that made money after the freeze, with a median above zero. Then the board carries information, and we will say so. Fewer than 30 wallets trading after the freeze reads as “not enough data”, not as a result. Full text: <a href="{pt['prereg']}">PREREG.md</a> · <a href="{pt['audit']}">audit 010</a>.</p>
+
+<h3 id="hl-cohort">2 · Hyperliquid’s top boards hold little forward skill {status(hl)}</h3>
+<p><b>Frozen</b> {hl['frozen'].replace('T', ' ').replace('Z', ' UTC')}: every address on that day’s all-time PnL and 30-day ROI top 100s, {d['cohort']['members']} wallets, scored only on what they do after the freeze. <b>Reading</b> 2026-12-09, the first day a wallet can have eight weeks of record after the freeze.</p>
+<p><b>Written</b> 2026-10-18. The list and its rule were frozen on 2026-10-14, but the result that would count against us was not written down then; it is written here, four days later and before any wallet can be scored.</p>
+<p><b>What would count against us:</b> of the cohort wallets with at least eight weeks of record after the freeze, more than 10% reach t ≥ 2 on that record at the 2026-12-09 reading. Luck alone gives about 2.3%; if most of them had a true Sharpe of 3, roughly one in five would (normal approximation; the small-sample correction makes it somewhat lower). More than 10% would mean these boards pick up more skill than we say, and we will say so. Reported alongside, with no pass mark: for wallets that were promising before the freeze (t ≥ 2) against the rest, the share with t above zero after it. Fewer than 30 wallets with eight weeks reads as “not enough data”, and the reading moves to 2027-01-06.</p>
+
+<h2 id="frozen">Lists we froze</h2>
+<p>Each file is in the repository with its full history, so a change after the freeze would show in git and break the hash.</p>
+<div class="table-wrap"><table class="data"><thead><tr><th>List</th><th class="r">Entries</th><th>Frozen</th><th>File and sha256</th></tr></thead><tbody>{frozen}</tbody></table></div>
+
+<h2 id="onchain">Readings we cannot edit</h2>
+<p>Written to the ERC-8004 reputation registry from <code>0xF02cF39d6b91Ac62B1D21d0F1C39335118c1F9A1</code>, the project’s only feedback address. These are readings, not predictions: t on the agent’s record since it registered. <a href="/data/erc8004/README.md">How they are built</a>.</p>
+<div class="table-wrap"><table class="data"><thead><tr><th>Date</th><th>Chain</th><th>Agent</th><th class="r">t</th><th>Field</th><th>Transaction</th></tr></thead><tbody>{chain}</tbody></table></div>
+
+<h2 id="errors">Errors</h2>
+<p>Every number on the site is recomputed by scripts in the repository, and every change to a published page is in its git history. If you think a number is wrong, <a href="{REPO}/issues/new?title=Wrong%20number%3A%20">open an issue</a> with the page and the number; corrections are made in public and listed here with the date and the commit. Corrections so far: none. This list is kept by hand; <a href="{REPO}/issues?q=is%3Aissue">every issue ever filed</a> is public, so you can check it against them.</p>
+</main>
+""" + footer()
+    write("record/index.html", page)
+
+
 def build_questions():
     with open(os.path.join(DOCS, "data", "hl", "latest.json"), encoding="utf-8") as f:
         hl = json.load(f)
@@ -1273,6 +1352,7 @@ def main():
     build_404()
     build_questions()
     build_legal()
+    build_record()
     import site_zh
     site_zh.build(_sys.modules[__name__])
     inject_chrome()
