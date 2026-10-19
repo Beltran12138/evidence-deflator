@@ -38,7 +38,7 @@ h2{font-size:36px;font-weight:700;line-height:1.3}
 .cover .who{margin-top:40px;font-size:22px;color:var(--ink)}
 .cover .who span{display:block;font-size:18px;color:var(--dim);margin-top:8px}
 /* hook: three people */
-.people{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px}
+.people{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:26px;max-width:1000px}
 .pc{background:var(--paper);border:1px solid var(--rule);padding:22px 22px 18px;display:flex;flex-direction:column}
 .who3{display:flex;align-items:center;gap:14px}
 .av{width:68px;height:68px;border-radius:50%;object-fit:cover;flex:none;border:1px solid var(--rule)}
@@ -134,7 +134,7 @@ h2{font-size:36px;font-weight:700;line-height:1.3}
 // Numbers and sources: OneDrive/桌面/创业_dc/澳门路演_v2_讲稿_1018.md (数字来源表).
 // Hyperliquid 榜单 latest.json 2026-10-18T09:20Z：47,270 账户；门槛 4.90。证据排名 docs/data/ranking/latest.json。
 // 麻吉 0x020c…5872（ENS machibigbrother.eth）：2026-10-18 现取 portfolio；9-21 余额 $12.40M、累计 PnL −$24.5M、全部记录 t −1.20；10-15 低点 $28,028。
-// Theo4：docs/data/cex/polymarket-2026-10-15.json，PnL $22.05M 第 1，t 2.05，门槛 5.33（榜单 450,853）。
+// 桥水：Greg Jensen，Odd Lots 2026-09-11（转写快照 OneDrive/桌面/创业_dc/_sources/20261018/）；2.5 年过 t = 2 需夏普 2/√2.5 = 1.26。
 // Serenity：Quantral 2026-10-12，274 条已判喊单 59.5%；t 按二项分布换算（基准 50% → 3.15，60% → −0.17）。
 const N=47270, BAR=4.90;
 const QR='<svg width="175" height="175" class="segno"><g transform="scale(4.2683)"><path fill="#ffffff" d="M0 0h41v41h-41z"/><path class="qrline" stroke="#17171B" d="M4 4.5h7m2 0h2m1 0h3m1 0h2m1 0h2m2 0h1m2 0h7m-33 1h1m5 0h1m2 0h3m1 0h5m2 0h3m3 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m2 0h1m2 0h3m2 0h2m3 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m1 0h2m1 0h1m2 0h1m3 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h3m1 0h2m1 0h2m3 0h1m1 0h1m3 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h2m2 0h1m2 0h1m2 0h1m2 0h1m2 0h1m-25 1h1m1 0h5m2 0h2m1 0h4m1 0h1m4 0h1m1 0h1m1 0h5m-31 1h1m2 0h1m1 0h1m3 0h1m2 0h1m5 0h4m1 0h1m2 0h2m1 0h2m1 0h1m-31 1h2m1 0h2m1 0h2m5 0h2m1 0h1m2 0h1m2 0h2m2 0h1m1 0h2m-32 1h1m4 0h1m1 0h6m1 0h3m3 0h2m3 0h1m2 0h3m-30 1h6m4 0h1m6 0h2m2 0h1m1 0h2m1 0h3m2 0h1m-33 1h2m1 0h3m2 0h2m1 0h1m1 0h5m2 0h2m1 0h1m2 0h1m3 0h3m-33 1h2m3 0h5m1 0h1m1 0h2m2 0h1m1 0h1m5 0h2m2 0h3m-30 1h1m1 0h2m1 0h3m1 0h3m2 0h1m2 0h8m1 0h3m-31 1h4m1 0h3m1 0h3m1 0h2m2 0h1m1 0h1m2 0h1m1 0h2m1 0h2m3 0h1m-30 1h3m3 0h5m2 0h2m1 0h2m2 0h1m2 0h2m1 0h2m1 0h1m-31 1h1m1 0h6m2 0h1m1 0h4m3 0h2m2 0h4m1 0h2m-29 1h3m2 0h1m2 0h1m4 0h6m2 0h2m1 0h5m-32 1h3m1 0h3m2 0h1m1 0h1m1 0h1m2 0h1m5 0h2m1 0h1m1 0h3m1 0h2m-33 1h3m2 0h1m1 0h2m2 0h3m1 0h1m2 0h1m2 0h1m1 0h1m2 0h1m2 0h1m2 0h1m-33 1h1m1 0h3m1 0h2m2 0h1m1 0h1m2 0h4m2 0h2m2 0h1m2 0h1m2 0h1m-32 1h1m3 0h2m1 0h2m1 0h4m1 0h1m2 0h1m2 0h3m1 0h1m2 0h4m-32 1h1m2 0h2m1 0h3m3 0h1m2 0h1m1 0h2m3 0h8m-22 1h2m1 0h4m1 0h1m1 0h4m2 0h1m3 0h1m1 0h1m1 0h1m-33 1h7m4 0h2m2 0h2m1 0h1m1 0h5m1 0h1m1 0h1m1 0h1m-31 1h1m5 0h1m1 0h2m1 0h2m1 0h1m5 0h5m3 0h3m-31 1h1m1 0h3m1 0h1m1 0h1m1 0h6m2 0h1m5 0h6m2 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m3 0h1m1 0h3m3 0h1m3 0h1m2 0h1m1 0h3m-33 1h1m1 0h3m1 0h1m1 0h1m2 0h4m2 0h1m2 0h8m1 0h1m-30 1h1m5 0h1m2 0h2m1 0h3m1 0h1m1 0h4m3 0h2m1 0h1m1 0h1m-31 1h7m1 0h3m2 0h1m3 0h1m1 0h1m2 0h1m1 0h4m3 0h1"/></g></svg>';
@@ -147,16 +147,14 @@ const S=[
 </div>`,
 // 01
 `<div class="slide">
- <h2>这三位明星交易员，谁是真本事？</h2>
+ <h2>这两位明星交易员，谁是真本事？</h2>
  <div class="people">
   <div class="pc"><div class="who3"><img class="av" src="assets/av/machi.png" alt=""><div><div class="name">麻吉大哥</div><div class="venue">HYPERLIQUID</div></div></div>
    <div class="big">$1,240万</div><div class="what">9 月 21 日的账户余额。公开报道：四个月从 $5.6 万做到 $1,225 万。</div></div>
-  <div class="pc"><div class="who3"><div class="av mono2">T4</div><div><div class="name">Theo4</div><div class="venue">POLYMARKET</div></div></div>
-   <div class="big">$2,205万</div><div class="what">Polymarket 历史盈利榜第 1 名，「法国巨鲸」。</div></div>
   <div class="pc"><div class="who3"><img class="av" src="assets/av/serenity.png" alt=""><div><div class="name">Serenity</div><div class="venue">X · 美股 · 约 100 万粉丝</div></div></div>
    <div class="big">+1,116%</div><div class="what">自己公布的今年收益，主打 AI 供应链选股。</div></div>
  </div>
- <div class="src">账户数据：Hyperliquid、Polymarket 公开 API（10-15 至 10-18）· 报道：Lookonchain · Serenity 收益为本人自报，未经审计</div>
+ <div class="src">账户数据：Hyperliquid 公开 API（10-18）· 报道：Lookonchain · Serenity 收益为本人自报，未经审计</div>
 </div>`,
 // 02
 `<div class="slide">
@@ -194,7 +192,6 @@ const S=[
   <div class="rlist">
    <div><b>西蒙斯 · 大奖章</b><em class="t grn">6.93</em><span>唯一过 4.90 的记录</span></div>
    <div><b>巴菲特 · 伯克希尔</b><em class="t">3.15</em><span>61 年。随手挑中算强证据：靠运气约 1/1,200</span></div>
-   <div><b>Theo4</b><em class="t">2.05</em><span>当榜首还不够（门槛 5.33）：9 个事件押的是同一场大选</span></div>
    <div><b>Serenity</b><em class="t">0–3.15</em><span>说对 59.5%：今年闭眼买 AI 股也能对六成，t 接近 0</span></div>
    <div><b>麻吉大哥</b><em class="t red">−1.20</em><span>像运气</span></div>
   </div>
@@ -215,16 +212,16 @@ const S=[
   <div><b>4.7 万</b><span>Hyperliquid 榜上账户，任一可查</span></div>
   <div><b>85</b><span>份名人、基金、对冲基金记录</span></div>
   <div><b>美股 + 加密</b><span>同一把尺子</span></div>
-  <div><b>0</b><span>不收被评方一分钱，方法和代码公开</span></div>
+  <div><b>买方付费</b><span>被评方 0 元；接入的跟单平台、金库、AI agent 付费（规划中）</span></div>
  </div>
 </div>`,
 // 06
 `<div class="slide">
- <h2>AI 让造一份好看的战绩，几乎不花钱</h2>
+ <h2>AI 开始替人管钱：连桥水的 AI 基金，也得拿证据说话</h2>
  <div class="wgrid">
   <div class="vs">
-   <div><div class="h">跟单平台的头名</div><div class="q">Copy Score 96 / 100</div><div class="x">30 天赚 $62 万（Hyperdash 官方教程示例）</div></div>
-   <div><div class="h">同一份记录，我们怎么说</div><div class="q">还太早，看不出来</div><div class="x">30 天只有 4 个周数据点，运气和本事分不开</div></div>
+   <div><div class="h">桥水 CIO，2026 年 9 月</div><div class="q">「AI 基金赢的比例，和 Pure Alpha 差不多」</div><div class="x">AI 做决策的基金，运行 2.5 年；没给收益，也没给波动</div></div>
+   <div><div class="h">同一句话，我们怎么说</div><div class="q">还看不出来</div><div class="x">2.5 年的记录，夏普至少要 1.26 才算有证据</div></div>
   </div>
   <div>
    <ul class="road">
