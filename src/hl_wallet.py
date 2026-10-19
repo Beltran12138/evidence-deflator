@@ -353,6 +353,10 @@ def check(address: str, picked_from: Optional[int] = None, pf: Optional[Dict[str
         **sc,
         "verdict": v["key"],
         "bar": v["bar"],
+        # For a caller that gates on the result with a fixed rule rather than reading the prose.
+        "clears_bar": sc.get("t") is not None and sc["t"] >= v["bar"],
+        "bar_rule": (f"best of {picked_from}: t >= {v['bar']}" if picked_from and picked_from > 1
+                     else "picked blind: t >= 2"),
         "picked_from": picked_from,
         "months_more_to_clear": (None if months is None else round(max(months - have, 0), 1)),
         "luck_one_in": (None if sc.get("t") is None else round(1 / luck(sc["t"], picked_from or 1), 1)),

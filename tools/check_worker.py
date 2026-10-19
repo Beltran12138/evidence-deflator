@@ -20,7 +20,7 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 sys.path.insert(0, os.path.join(ROOT, "src"))
 import hl_wallet  # noqa: E402
 
-KEYS = ("weeks", "intervals", "sharpe", "t_student", "dof", "t", "verdict", "bar",
+KEYS = ("weeks", "intervals", "sharpe", "t_student", "dof", "t", "verdict", "bar", "clears_bar", "bar_rule",
         "months_more_to_clear", "flags", "history_from", "history_to")
 
 NODE = r"""

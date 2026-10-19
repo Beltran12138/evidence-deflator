@@ -39,6 +39,7 @@ from __future__ import annotations
 
 import os
 import sys
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 # Support running the file directly from a checkout, not just as an installed
@@ -56,6 +57,8 @@ from track_record import track_record as _track_record  # noqa: E402
 import trial_count  # noqa: E402
 import trace_audit as _trace_audit  # noqa: E402
 import hl_wallet  # noqa: E402
+
+SOURCE = "Hyperliquid public info API, portfolio allTime (accountValueHistory, pnlHistory)"
 
 try:
     from mcp.server.fastmcp import FastMCP
@@ -575,11 +578,19 @@ def hyperliquid_wallet(address: str, picked_from: Optional[int] = None) -> Dict[
         held under $1,000, so it cannot be turned into a return). **Report the
         flags with the verdict.** A past record is not the user's future
         returns after fees, latency and slippage.
+
+        For a fixed-rule gate, read ``clears_bar`` (t at or above ``bar``,
+        which ``bar_rule`` states) instead of the prose; ``source``,
+        ``fetched_at`` and the history dates say what data it rests on.
     """
     if not (isinstance(address, str) and address.startswith("0x") and len(address) == 42):
         raise ValueError("address must be 0x followed by 40 hex characters")
     int(address[2:], 16)
-    return hl_wallet.check(address.lower(), picked_from=picked_from)
+    r = hl_wallet.check(address.lower(), picked_from=picked_from)
+    r["source"] = SOURCE
+    r["fetched_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    r["method_url"] = "https://evidencedeflator.com/method/"
+    return r
 
 
 @mcp.tool()

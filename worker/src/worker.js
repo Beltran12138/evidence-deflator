@@ -9,6 +9,7 @@
 const SITE = 'https://evidencedeflator.com';
 const SERVER = {name: 'evidence-deflator', version: '0.3.0'};
 const ADDR = /^0x[0-9a-fA-F]{40}$/;
+const SOURCE = 'Hyperliquid public info API, portfolio allTime (accountValueHistory, pnlHistory)';
 
 function verdict(sc, pickedFrom) {
   // Same keys and bars as verdict() in src/hl_wallet.py.
@@ -31,7 +32,11 @@ function checkWallet(address, pickedFrom, pf) {
   const months = sc.sharpe ? HL.monthsToClear(v.bar, sc.sharpe) : null;
   const have = sc.t != null ? (sc.weeks || 0) / 4.345 : 0;
   return {
-    address, ...sc, verdict: v.key, bar: v.bar, picked_from: pickedFrom ?? null,
+    address, ...sc, verdict: v.key, bar: v.bar,
+    // For a caller that gates on the result with a fixed rule rather than reading the prose.
+    clears_bar: sc.t != null && sc.t >= v.bar,
+    bar_rule: pickedFrom && pickedFrom > 1 ? `best of ${pickedFrom}: t >= ${v.bar}` : 'picked blind: t >= 2',
+    picked_from: pickedFrom ?? null,
     months_more_to_clear: months == null ? null : Math.round(Math.max(months - have, 0) * 10) / 10,
     luck_one_in: sc.t == null ? null : Math.round(10 / HL.luck(sc.t, pickedFrom || 1)) / 10,
     flags: HL.flags(pf, w.rets, w.counted),
@@ -44,7 +49,8 @@ async function walletFromApi(address, pickedFrom) {
   if (!ADDR.test(address || '')) throw new RangeError('address must be 0x followed by 40 hex characters');
   const pf = await HL.fetchPortfolio(address.toLowerCase());
   if (!Array.isArray(pf) || !pf.length) throw new RangeError('no portfolio history for ' + address);
-  return checkWallet(address.toLowerCase(), pickedFrom, pf);
+  return {...checkWallet(address.toLowerCase(), pickedFrom, pf), source: SOURCE,
+          fetched_at: new Date().toISOString().slice(0, 19) + 'Z', method_url: SITE + '/method/'};
 }
 
 const TOOL = {
@@ -57,7 +63,9 @@ const TOOL = {
     'Ask how the user found the wallet: if from a leaderboard, pass ' +
     'its size as picked_from (Hyperliquid ranks about 47,000 accounts); omitting it drops the bar from about 4.9 to 2. ' +
     'Verdicts: too_short (say "cannot tell yet", not "no skill"), luck, clears_single, clears_board, loses. ' +
-    'Always report the flags with the verdict. A past record is not the user\'s future returns.',
+    'Always report the flags with the verdict. A past record is not the user\'s future returns. ' +
+    'To gate an action on the result with a fixed rule, read clears_bar (t at or above bar, stated in bar_rule), ' +
+    'not the prose; source, fetched_at and history_from/history_to say what data it rests on.',
   inputSchema: {
     type: 'object',
     properties: {
@@ -65,6 +73,20 @@ const TOOL = {
       picked_from: {type: 'integer', minimum: 1, description: 'How many wallets it was chosen from (leaderboard size if found on one)'},
     },
     required: ['address'],
+  },
+  outputSchema: {
+    type: 'object',
+    properties: {
+      address: {type: 'string'},
+      verdict: {type: 'string', enum: ['too_short', 'luck', 'clears_single', 'clears_board', 'loses']},
+      t: {type: ['number', 'null']}, sharpe: {type: ['number', 'null']}, weeks: {type: ['integer', 'null']},
+      bar: {type: 'number'}, clears_bar: {type: 'boolean'}, bar_rule: {type: 'string'},
+      picked_from: {type: ['integer', 'null']}, luck_one_in: {type: ['number', 'null']},
+      months_more_to_clear: {type: ['number', 'null']}, flags: {type: 'array', items: {type: 'string'}},
+      history_from: {type: ['string', 'null']}, history_to: {type: ['string', 'null']},
+      source: {type: 'string'}, fetched_at: {type: 'string'}, method_url: {type: 'string'}, page: {type: 'string'},
+    },
+    required: ['address', 'verdict', 't', 'bar', 'clears_bar', 'bar_rule', 'flags', 'source', 'fetched_at'],
   },
   annotations: {readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true},
 };
