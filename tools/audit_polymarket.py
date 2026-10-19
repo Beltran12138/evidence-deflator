@@ -9,9 +9,16 @@ too low for how things turned out? Under no skill, a share bought at price p pay
 probability p, so edge = outcome - p has mean 0 and variance p(1 - p).
 
   z_naive   = sum(edge) / sqrt(sum p(1-p))          positions treated as independent
-  z_cluster = sum(edge) / sqrt(sum_e (sum edge in event e)^2)   positions in one event share an outcome
+  z_cluster = sum(edge) / sqrt(max(sum_e (sum edge in event e)^2, floor))   positions in one event share an outcome
+  floor     = sum of p(1-p) over markets where only one side is held        no-skill variance
 
 z_cluster is the headline: bets on the same event (an election, a season) are one bet, not many.
+The denominator never falls below the no-skill variance. Without that floor, a wallet that
+only buys favourites (price 0.85-0.99) and has not yet lost shows tiny realised edges, and the clustered
+denominator shrinks with them: under no skill, 47% of such wallets with 9 events cleared z = 2, and
+thirty wins bought at 0.995 scored z = 5.48, above the best-of-N bar (audit 2026-10-18). A market where
+both Yes and No are held contributes nothing to the floor: one side always pays, so the equal-weighted pair
+has a fixed edge. Counting it as two independent bets cut Theo4 from 2.05 to 1.36 for his hedges alone.
 Positions are equal-weighted (one position, one observation); the dollar-weighted edge is reported
 alongside. avgPrice is the average buy price, so positions partly sold before resolution are
 scored on what was bought. Resolved positions come from two lists: closed-positions (sold or
@@ -95,13 +102,17 @@ def test(pos):
     for p, e in zip(res, edge):
         by_event[p.get("eventSlug") or p.get("conditionId")] += e
     clus = sum(v * v for v in by_event.values())
+    sides = defaultdict(list)
+    for p in res:
+        sides[p.get("conditionId") or p.get("asset")].append(float(p["avgPrice"]))
+    floor = sum(ps[0] * (1 - ps[0]) for ps in sides.values() if len(ps) == 1)
     w = [float(p.get("totalBought") or 0) * float(p["avgPrice"]) for p in res]  # dollars spent
     return {"resolved": len(res), "events": len(by_event), "won": sum(p["curPrice"] == 1 for p in res),
             "mean_price": round(sum(float(p["avgPrice"]) for p in res) / len(res), 3),
             "mean_edge": round(sum(edge) / len(res), 4),
             "dollar_weighted_edge": round(sum(e * x for e, x in zip(edge, w)) / sum(w), 4) if sum(w) else None,
             "z_naive": round(sum(edge) / math.sqrt(var), 2) if var else None,
-            "z_cluster": round(sum(edge) / math.sqrt(clus), 2) if clus else None}
+            "z_cluster": round(sum(edge) / math.sqrt(max(clus, floor)), 2) if max(clus, floor) else None}
 
 
 def main():

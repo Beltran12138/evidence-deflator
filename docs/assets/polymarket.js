@@ -2,6 +2,8 @@
 // Each resolved position asks whether the price paid was too low for how things turned out:
 // with no skill a share bought at p pays 1 with probability p, so edge = outcome - p has mean 0, variance p(1-p).
 // Positions in one event share an outcome, so the headline z sums edge by event (z_cluster).
+// Its denominator never falls below the no-skill variance, summed over markets where only one side is held:
+// otherwise a favourites-only wallet that has not lost yet scores high on tiny edges (see tools/audit_polymarket.py).
 // The page sets window.PM = {N, bar, selfPath, countUrl}.
 (() => {
  const {N, bar, selfPath, countUrl} = window.PM, $ = id => document.getElementById(id);
@@ -59,9 +61,12 @@
   const ev = new Map();
   res.forEach((p, i) => { const k = p.eventSlug || p.conditionId; ev.set(k, (ev.get(k) || 0) + edge[i]); });
   const clus = [...ev.values()].reduce((s, x) => s + x * x, 0), tot = edge.reduce((a, b) => a + b, 0);
+  const sides = new Map();
+  res.forEach(p => { const k = p.conditionId || p.asset; sides.set(k, [...(sides.get(k) || []), Number(p.avgPrice)]); });
+  const floor = [...sides.values()].reduce((s, ps) => s + (ps.length === 1 ? ps[0] * (1 - ps[0]) : 0), 0), den = Math.max(clus, floor);
   return {resolved: res.length, events: ev.size, won: res.filter(p => p.curPrice === 1).length,
           meanPrice: res.reduce((s, p) => s + Number(p.avgPrice), 0) / res.length, meanEdge: tot / res.length,
-          zNaive: v ? tot / Math.sqrt(v) : null, z: clus ? tot / Math.sqrt(clus) : null};
+          zNaive: v ? tot / Math.sqrt(v) : null, z: den ? tot / Math.sqrt(den) : null};
  }
 
  function meter(z) {
