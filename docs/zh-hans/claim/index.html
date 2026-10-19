@@ -19,7 +19,7 @@
 function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/chrome.css?v=666db965">
-<link rel="stylesheet" href="/assets/site.css?v=dcbe4c81">
+<link rel="stylesheet" href="/assets/site.css?v=4318b782">
 <link rel="alternate" hreflang="en" href="https://evidencedeflator.com/claim/">
 <link rel="alternate" hreflang="zh-Hans" href="https://evidencedeflator.com/zh-hans/claim/">
 <link rel="alternate" hreflang="zh-Hant" href="https://evidencedeflator.com/zh-hant/claim/">
@@ -51,7 +51,7 @@ function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if
  <p class="muted small" style="margin-top:14px">截图和 PDF：装了我们 <a href="/zh-hans/api/">MCP 工具</a>的 AI 助手（Claude、ChatGPT、Cursor）可以读出来，再跑同样的算术。本页用固定规则读文本，每一项都摆出来，不在看不见的地方猜。你贴的内容不会离开你的浏览器。</p>
 </div>
 <script>window.CLAIM = {"T": {"f": {"sharpe": "夏普（年化）", "annual": "年化收益，%", "vol": "波动率，%", "mdd": "最大回撤，%", "years": "记录长度，年", "trials": "试过的版本数"}, "how": {"given": "宣称里给的", "derived": "由收益 ÷ 波动率算出"}, "miss": {"sharpe": "没有夏普，也没有波动率。不知道波动有多大，收益说明不了是不是运气。", "ddNotVol": "给了最大回撤，没给波动率。回撤不能代替波动率：它取决于记录的长度和走势。", "years": "没有记录长度。", "trials": "展示这一个之前，试过多少个版本、策略或模型。没写就按 1 个算，而这几乎从来不是真的。", "backtest": "这是回测，没提实盘：结果是在已知的数据上拟合出来的。"}, "verdict": {"incomplete": "还没法检验", "strong": "证据充分", "strong1": "随手挑中的话，过了 t = 2", "promising": "有希望，未证实", "luck": "像运气", "loses": "在亏，而且不是运气差"}, "body": "夏普 {S}（{HOW}），{Y} 年，t ≈ {T}。如果是从 {N} 个里挑出来的，门槛是 {BAR}。单靠运气做到这么强：{L}。按这个夏普，总共要约 {NEED} 的记录才能过门槛。", "needS1": "{Y} 年的记录，夏普至少要 {NS} 才能过 t = 2。去问它的夏普，或者收益和波动率。", "needS": "{Y} 年的记录，夏普至少要 {NS} 才能过 t = 2；如果是从 {N} 个里挑出来的，门槛是 {BAR}，夏普要 {NSB}。去问它的夏普，或者收益和波动率。", "likely": "多半能", "one": "{X} 次里 1 次", "yr": " 年", "mo": " 个月", "never": "多长都不够（夏普不大于零）"}};</script>
-<script src="/assets/hl.js?v=f2d7220e"></script><script src="/assets/claim.js?v=781f93c0"></script>
+<script src="/assets/hl.js?v=69074bdd"></script><script src="/assets/claim.js?v=781f93c0"></script>
 </main><footer class="site-footer"><div class="container">
 <div class="foot-grid">
  <div><a class="brand" href="/zh-hans/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
