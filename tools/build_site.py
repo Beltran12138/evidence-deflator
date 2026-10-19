@@ -819,6 +819,8 @@ CLAIM_T = {
            "verdict": {"incomplete": "Cannot be checked yet", "strong": "Strong evidence", "strong1": "Clears t = 2, picked blind",
                        "promising": "Promising, not proven", "luck": "Looks like luck", "loses": "Losing, and not by chance"},
            "body": "Sharpe {S} ({HOW}) over {Y} years gives t ≈ {T}. Picked as the best of {N}, the bar is {BAR}. Luck alone gets a record this strong: {L}. At this Sharpe, clearing the bar needs about {NEED} of record in total.",
+           "needS1": "Over {Y} years, a record clears t = 2 only with a Sharpe of at least {NS}. Ask for the Sharpe, or the return and its volatility.",
+           "needS": "Over {Y} years, a record clears t = 2 only with a Sharpe of at least {NS}, and the bar for the best of {N} ({BAR}) only with {NSB}. Ask for the Sharpe, or the return and its volatility.",
            "likely": "more likely than not", "one": "1 in {X}", "yr": " years", "mo": " months", "never": "no length of record (Sharpe at or below zero)"},
     "zh": {"f": {"sharpe": "夏普（年化）", "annual": "年化收益，%", "vol": "波动率，%", "mdd": "最大回撤，%", "years": "记录长度，年", "trials": "试过的版本数"},
            "how": {"given": "宣称里给的", "derived": "由收益 ÷ 波动率算出"},
@@ -830,15 +832,19 @@ CLAIM_T = {
            "verdict": {"incomplete": "还没法检验", "strong": "证据充分", "strong1": "随手挑中的话，过了 t = 2",
                        "promising": "有希望，未证实", "luck": "像运气", "loses": "在亏，而且不是运气差"},
            "body": "夏普 {S}（{HOW}），{Y} 年，t ≈ {T}。如果是从 {N} 个里挑出来的，门槛是 {BAR}。单靠运气做到这么强：{L}。按这个夏普，总共要约 {NEED} 的记录才能过门槛。",
+           "needS1": "{Y} 年的记录，夏普至少要 {NS} 才能过 t = 2。去问它的夏普，或者收益和波动率。",
+           "needS": "{Y} 年的记录，夏普至少要 {NS} 才能过 t = 2；如果是从 {N} 个里挑出来的，门槛是 {BAR}，夏普要 {NSB}。去问它的夏普，或者收益和波动率。",
            "likely": "多半能", "one": "{X} 次里 1 次", "yr": " 年", "mo": " 个月", "never": "多长都不够（夏普不大于零）"},
 }
 CLAIM_EX = {
     "en": [("AI strategy, backtest", "Our AI strategy returned 45% a year over 3 years with a Sharpe of 2.1, the best of 200 backtested variants."),
            ("Copy-trading pitch", "Live for 18 months: total return 120%, max drawdown 15%."),
-           ("Fund factsheet", "Annualized return 14%, volatility 16%, live since 2016.")],
+           ("Fund factsheet", "Annualized return 14%, volatility 16%, live since 2016."),
+           ("Bridgewater's AI fund", "Bridgewater's AI-run fund, at it for 2.5 years: \"winning in markets at about similar rate as Pure Alpha\" (Greg Jensen, Odd Lots, 2026-09-11).")],
     "zh": [("AI 策略回测", "AI 量化策略回测 3 年，年化 45%，夏普 2.1，从 200 组参数里选出。"),
            ("带单宣传", "实盘 18 个月，累计收益 120%，最大回撤 15%。"),
-           ("基金宣传页", "年化收益 14%，波动率 16%，2016 年至 2026 年实盘。")],
+           ("基金宣传页", "年化收益 14%，波动率 16%，2016 年至 2026 年实盘。"),
+           ("桥水的 AI 基金", "桥水由 AI 做决策的基金运行了 2.5 年，「在市场上赢的比例和 Pure Alpha 差不多」（Greg Jensen，Odd Lots 播客，2026-09-11）。")],
 }
 
 

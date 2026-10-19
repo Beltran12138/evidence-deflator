@@ -80,6 +80,10 @@
                         L: lk >= 0.5 ? T.likely : fill(T.one, {X: Math.round(1 / lk).toLocaleString('en')}),
                         NEED: S > 0 ? (need >= 2 ? fmt(need, 1) + T.yr : Math.round(need * 12) + T.mo) : T.never});
   }
+  else if (v.years != null && v.years > 0) {  // length but no Sharpe: say what Sharpe the length would need
+   body = fill(n > 1 ? T.needS : T.needS1, {Y: fmt(v.years, 1), NS: fmt(2 / Math.sqrt(v.years)), BAR: fmt(bar),
+                                            N: n.toLocaleString('en'), NSB: fmt(bar / Math.sqrt(v.years))});
+  }
   $('cverdict').innerHTML = `<span class="tag ${cls}">${head}</span>`;
   $('cbody').textContent = body;
   $('cmiss').innerHTML = miss.map(s => `<li>${s}</li>`).join('');
