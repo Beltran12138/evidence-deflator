@@ -38,7 +38,7 @@ h2{font-size:36px;font-weight:700;line-height:1.3}
 .cover .who{margin-top:40px;font-size:22px;color:var(--ink)}
 .cover .who span{display:block;font-size:18px;color:var(--dim);margin-top:8px}
 /* hook: three people */
-.people{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:26px;max-width:1000px}
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:26px;max-width:1200px}
 .pc{background:var(--paper);border:1px solid var(--rule);padding:22px 22px 18px;display:flex;flex-direction:column}
 .who3{display:flex;align-items:center;gap:14px}
 .av{width:68px;height:68px;border-radius:50%;object-fit:cover;flex:none;border:1px solid var(--rule)}
@@ -147,14 +147,16 @@ const S=[
 </div>`,
 // 01
 `<div class="slide">
- <h2>这两位明星交易员，谁是真本事？</h2>
+ <h2>这三份明星战绩，谁是真本事？</h2>
  <div class="people">
   <div class="pc"><div class="who3"><img class="av" src="assets/av/machi.png" alt=""><div><div class="name">麻吉大哥</div><div class="venue">HYPERLIQUID</div></div></div>
    <div class="big">$1,240万</div><div class="what">9 月 21 日的账户余额。公开报道：四个月从 $5.6 万做到 $1,225 万。</div></div>
   <div class="pc"><div class="who3"><img class="av" src="assets/av/serenity.png" alt=""><div><div class="name">Serenity</div><div class="venue">X · 美股 · 约 100 万粉丝</div></div></div>
    <div class="big">+1,116%</div><div class="what">自己公布的今年收益，主打 AI 供应链选股。</div></div>
+  <div class="pc"><div class="who3"><div class="av mono2">AI</div><div><div class="name">Jev</div><div class="venue">TYPESAFE · AI 交易模型</div></div></div>
+   <div class="big">+17.5%</div><div class="what">142 天回测的收益。最近爆火，一批 AI 交易机器人都接上了它。</div></div>
  </div>
- <div class="src">账户数据：Hyperliquid 公开 API（10-18）· 报道：Lookonchain · Serenity 收益为本人自报，未经审计</div>
+ <div class="src">账户数据：Hyperliquid 公开 API（10-18）· 报道：Lookonchain · Serenity 收益为本人自报，未经审计 · Jev 回测：TradeRank《What Is Jev?》（09-18）</div>
 </div>`,
 // 02
 `<div class="slide">
@@ -194,6 +196,7 @@ const S=[
    <div><b>巴菲特 · 伯克希尔</b><em class="t">3.15</em><span>61 年。随手挑中算强证据：靠运气约 1/1,200</span></div>
    <div><b>Serenity</b><em class="t">0–3.15</em><span>说对 59.5%：今年闭眼买 AI 股也能对六成，t 接近 0</span></div>
    <div><b>麻吉大哥</b><em class="t red">−1.20</em><span>像运气</span></div>
+   <div><b>Jev · AI 交易模型</b><em class="t red">−0.21</em><span>同一段回测再跑一次：−17.4%。实盘模拟赛 9 天，只成交 1 笔</span></div>
   </div>
  </div>
 </div>`,
@@ -229,7 +232,7 @@ const S=[
     <li><div class="w">下一步</div><div class="d">跟单平台、金库接入证据分；AI 交易 agent、AI 金库的证据评级</div></li>
     <li><div class="w">12 月 9 日</div><div class="d">我们冻结的 200 个钱包第一次公开读数，包括我们说错的部分</div></li>
    </ul>
-   <div class="agent">AI 交易 agent、AI 金库、AI 喊单越多，<b>每一份战绩越需要一个不收被评方钱的证据评级。</b></div>
+   <div class="agent">AI 把生成一个交易策略的成本压到几乎为零：<b>生成不再稀缺，验证才稀缺。</b></div>
   </div>
  </div>
 </div>`,
