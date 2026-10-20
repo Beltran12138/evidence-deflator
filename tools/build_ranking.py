@@ -392,6 +392,18 @@ def main():
     rows.append({"id": "ai_alpha_arena", "group": "ai", "name": "Best model in Alpha Arena season 1", "who": "AI model (6 competed)",
                  "venue": "nof1 Alpha Arena, season 1", "source": "audit 006", "benchmark": "none (raw returns)", "z": 0.54, "z_raw": 0.54,
                  "beta": None, "years": None, "flags": [], "verdict": grade(0.54, BAR)})
+    # TradeRank season 10 (audit 013): its leader, and Jev, the decision model the bot wave is built on
+    tp = os.path.join(ROOT, "docs", "data", "traderank", "traderank-2026-10-20.json")
+    if os.path.exists(tp):
+        with open(tp, encoding="utf-8") as f:
+            rs = json.load(f)["running_season"]
+        names = {"jev": "Jev (TypeSafe)"}
+        lead = max((m for m in rs["models"] if m["t"] is not None), key=lambda m: m["t"])
+        for m in [lead] + [m for m in rs["models"] if m["model"] == "jev" and m is not lead]:
+            rows.append({"id": "ai_tr_" + m["model"], "group": "ai", "name": names.get(m["model"], f"Leader of TradeRank season 10 ({m['model']})"),
+                         "who": "AI model", "venue": f"TradeRank season 10, day {rs['days_elapsed']} of {rs['days_total']} ({rs['field']} models, simulated)",
+                         "source": "TradeRank public API (audit 013)", "benchmark": "none (raw returns, days long)", "z": m["t"], "z_raw": m["t"],
+                         "beta": None, "years": None, "flags": [], "verdict": grade(m["t"], BAR)})
 
     # hedge funds that publish no return series: yearly net returns as reported by the press or the firm,
     # each year with its source (docs/data/ranking/hedge_funds_press.json), against the letter's S&P column

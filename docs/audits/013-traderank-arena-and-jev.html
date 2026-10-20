@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audit 013 · TradeRank&#x27;s LLM trading arena (10 seasons plus the running one) and Jev, TypeSafe&#x27;s decision model · Evidence Deflator</title>
+<meta name="description" content="No model in any scored season reaches t = 2; the running season&#x27;s leader is at 1.19 against a bar of 3.08. Since Season 7 models average 3 to 7 trades a season. TradeRank&#x27;s own Jev backtest: +17.52% and −17.35% on two runs of the same window. No Jev trading bot we found publishes a mainnet wallet.">
+<link rel="canonical" href="https://evidencedeflator.com/audits/013-traderank-arena-and-jev.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Evidence Deflator">
+<meta property="og:title" content="Audit 013 · TradeRank&#x27;s LLM trading arena (10 seasons plus the running one) and Jev, TypeSafe&#x27;s decision model · Evidence Deflator">
+<meta property="og:description" content="No model in any scored season reaches t = 2; the running season&#x27;s leader is at 1.19 against a bar of 3.08. Since Season 7 models average 3 to 7 trades a season. TradeRank&#x27;s own Jev backtest: +17.52% and −17.35% on two runs of the same window. No Jev trading bot we found publishes a mainnet wallet.">
+<meta property="og:url" content="https://evidencedeflator.com/audits/013-traderank-arena-and-jev.html">
+<meta property="og:image" content="https://evidencedeflator.com/leaderboard/og-2026-10.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='4' fill='%2315171C'/%3E%3Crect x='3' y='4' width='18' height='2' fill='%23E66A4B'/%3E%3Crect x='4.5' y='13' width='3' height='7' fill='%23FAF9F6'/%3E%3Crect x='9.5' y='9.5' width='3' height='10.5' fill='%23FAF9F6'/%3E%3Crect x='14.5' y='15' width='3' height='5' fill='%23FAF9F6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script>try{if(localStorage.getItem('ed_theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}
+function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/chrome.css?v=666db965">
+<link rel="stylesheet" href="/assets/site.css?v=dcbe4c81">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e38b718917cf4c2891f9038a6a597a88", "spa": true}'></script>
+</head>
+<body>
+<header class="site-header"><div class="container">
+<a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+<nav class="nav" aria-label="Main"><a href="/wallet/">Check</a><a href="/ranking/">Ranking</a><a href="/audits/" aria-current="page">Audits</a><a href="/method/">Method</a><a href="/api/">For agents</a></nav>
+<div class="header-cta"><button class="theme-toggle" type="button" aria-label="Switch light or dark" title="Light or dark" onclick="edTheme()"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button><a class="gh" href="/zh-hans/" hreflang="zh-Hans" lang="zh-Hans">中文</a><a class="gh" href="https://github.com/Beltran12138/evidence-deflator"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a></div>
+</div></header>
+
+<main class="container article"><div class="split">
+<article class="prose">
+<div class="eyebrow"><a href="/audits/" style="text-decoration:none">Audits</a> / 013</div>
+<h1 style="margin-top:16px">TradeRank&#x27;s LLM trading arena (10 seasons plus the running one) and Jev, TypeSafe&#x27;s decision model</h1>
+<div class="meta"><span class="tag tag-red">0 reach t = 2</span><span class="mono">2026-10-20</span><span>Sources public, fetched on the stated date</span></div>
+<div class="callout" style="margin-top:0"><div class="eyebrow" style="margin-bottom:10px">Finding</div>No model in any scored season reaches t = 2; the running season&#x27;s leader is at 1.19 against a bar of 3.08. Since Season 7 models average 3 to 7 trades a season. TradeRank&#x27;s own Jev backtest: +17.52% and −17.35% on two runs of the same window. No Jev trading bot we found publishes a mainnet wallet.</div>
+<p>The subject is the arena's format and the claims around Jev, not any one model's makers.</p>
+<h2>Subject</h2>
+<p><a href="https://www.traderank.ai">TradeRank</a> runs month-long seasons in which AI models each trade $10,000 of simulated capital in the same 60 assets (10 cryptocurrencies, 50 US large caps), with one decision a day at 16:00 UTC. Ten seasons have ended since 2025-12-22; Season 10 (22 models) opened 2026-10-10.</p>
+<p><a href="https://typesafe.ai">Jev</a> is TypeSafe's "decision model": it does not write text, it returns a probability for each answer to a typed question. It launched in September 2026 and was quickly wired into trading bots; TradeRank added it to Season 9 on 2026-09-18 as the one entrant that is not a language model. Media coverage presents it as a fast, cheap brain for trading agents.</p>
+<h2>Three inputs</h2>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knowledge cutoff</td>
+<td>Live seasons: not applicable, closed-book by construction. TradeRank's Jev backtest (2026-02-02 to 2026-06-23): Jev's training cutoff is not published, so that window cannot be ruled out as seen; TradeRank masks tickers, dates and raw prices, which reduces the risk.</td>
+</tr>
+<tr>
+<td>Window</td>
+<td>20 to 34 days per season; the running season is at day 9 of 28.</td>
+</tr>
+<tr>
+<td>Attempts</td>
+<td>4 to 22 models per season; the season winner is the best of that many.</td>
+</tr>
+</tbody>
+</table>
+<h2>Finding</h2>
+<p><strong>No model in any scored season clears the bar for its field, and none reaches even t = 2.</strong> A 28-day season would need an annualised Sharpe of about 10 to 11 for its winner to clear. For Jev, TradeRank's own backtest already reports that its profit is noise: two runs of the same model over the same 142 days returned <strong>+17.52% and −17.35%</strong>.</p>
+<ul>
+<li>Data: TradeRank's public files and API, no key, fetched 2026-10-20 02:32 UTC: the season index (<code>/data/competitions/index.json</code>), the daily reports where published, and the running season's equity at every cycle close (<code>api.traderank.ai/api/arena/equities</code>). Script: <code>tools/audit_traderank.py</code>; output: <a href="/data/traderank/traderank-2026-10-20.json"><code>traderank-2026-10-20.json</code></a>.</li>
+<li>Method: returns between cycle closes → the estimator behind the <a href="/wallet/">wallet check</a> (Sharpe × √years, Student-t on effective degrees of freedom, back on the normal scale). The bar for the best of N is Bonferroni, one-sided.</li>
+</ul>
+<h3>The running season (Season 10, day 9)</h3>
+<p>The bar for the best of 22 is <strong>t ≥ 3.08</strong>. Scored: 21 (one model's equity has not moved). t ≥ 2: <strong>0 of 21</strong>. The leader's t is 1.19.</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Return</th>
+<th>t</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-6.1 Sol Pro</td>
+<td>+1.22%</td>
+<td>1.19</td>
+</tr>
+<tr>
+<td>Muse Spark 1.3</td>
+<td>+0.37%</td>
+<td>0.30</td>
+</tr>
+<tr>
+<td>Claude Opus 5.5</td>
+<td>+0.23%</td>
+<td>0.36</td>
+</tr>
+<tr>
+<td>Jev</td>
+<td>−0.40%</td>
+<td>−0.21</td>
+</tr>
+<tr>
+<td>Seed 2.1 Turbo</td>
+<td>−7.82%</td>
+<td>−1.41</td>
+</tr>
+<tr>
+<td>Mistral Large 4</td>
+<td>−8.08%</td>
+<td>−1.87</td>
+</tr>
+</tbody>
+</table>
+<p>Over the same days Bitcoin fell 1.21% and the S&amp;P 500 1.43% (TradeRank's own figures), so a model that held cash beat most of the field.</p>
+<h3>Ten finished seasons</h3>
+<table>
+<thead>
+<tr>
+<th>Season</th>
+<th>Start</th>
+<th>Days</th>
+<th>Models</th>
+<th>Winner</th>
+<th>Winner's return</th>
+<th>Winner's trades</th>
+<th>Trades per model</th>
+<th>Sharpe the winner would need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>2025-12-22</td>
+<td>20</td>
+<td>4</td>
+<td>Grok 4-1 Fast</td>
+<td>+3.78%</td>
+<td>n/a</td>
+<td>80.5</td>
+<td>10.8</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2026-01-11</td>
+<td>28</td>
+<td>9</td>
+<td>Reverse Kimi</td>
+<td>+10.34%</td>
+<td>n/a</td>
+<td>88.7</td>
+<td>10.1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2026-02-08</td>
+<td>28</td>
+<td>13</td>
+<td>Reverse DeepSeek</td>
+<td>+1.88%</td>
+<td>n/a</td>
+<td>73.8</td>
+<td>10.5</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2026-03-23</td>
+<td>34</td>
+<td>9</td>
+<td>MiniMax M2.5</td>
+<td>−0.63%</td>
+<td>n/a</td>
+<td>21.8</td>
+<td>9.2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2026-04-26</td>
+<td>27</td>
+<td>9</td>
+<td>MiniMax M2.7</td>
+<td>+6.94%</td>
+<td>n/a</td>
+<td>13.9</td>
+<td>10.3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2026-05-23</td>
+<td>28</td>
+<td>10</td>
+<td>Gemini 3.5 Flash</td>
+<td>+13.76%</td>
+<td>n/a</td>
+<td>12.7</td>
+<td>10.2</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2026-06-20</td>
+<td>28</td>
+<td>11</td>
+<td>Kimi K2.7 Code</td>
+<td>+2.14%</td>
+<td>13</td>
+<td>14.5</td>
+<td>10.4</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2026-07-18</td>
+<td>26</td>
+<td>12</td>
+<td>Nemotron 3 Ultra</td>
+<td>+1.98%</td>
+<td>2</td>
+<td>3.2</td>
+<td>10.9</td>
+</tr>
+<tr>
+<td>8</td>
+<td>2026-08-15</td>
+<td>28</td>
+<td>14</td>
+<td>Inkling</td>
+<td>+12.82%</td>
+<td>7</td>
+<td>7.3</td>
+<td>10.6</td>
+</tr>
+<tr>
+<td>9</td>
+<td>2026-09-12</td>
+<td>28</td>
+<td>18</td>
+<td>Nemotron 3.5 Lightning</td>
+<td>+3.84%</td>
+<td>4</td>
+<td>5.3</td>
+<td>10.9</td>
+</tr>
+</tbody>
+</table>
+<p>Daily reports are published for only some seasons. The two with at least 20 (Seasons 1 and 6) were scored from the reports' cumulative returns: 0 of 8 and 0 of 11 reach t = 2; the highest t is 0.42 and 0.40. In Season 1 the published winner appears in only 5 of 23 reports, too few to score.</p>
+<p>Since Season 7, models average <strong>3 to 7 trades a season</strong>, and two recent winners made 2 and 4. A result built on four trades cannot be told from luck by any statistic; the season's ranking orders the field, it does not measure skill.</p>
+<h2>Jev</h2>
+<table>
+<thead>
+<tr>
+<th>What is claimed</th>
+<th>Source</th>
+<th>What the numbers show</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Zero Hallucinations"; "$42 Per Billion input tokens"</td>
+<td>typesafe.ai</td>
+<td>The price checks out: OpenRouter lists $0.042 per million input tokens, $0 per million output. "Zero hallucinations" is a claim about the output format (typed answers with a confidence figure), not about whether the answers are right.</td>
+</tr>
+<tr>
+<td>"Most queries complete in about 100 ms"</td>
+<td>docs.typesafe.ai</td>
+<td>Consistent with secondary reports of 70 to 500 ms. Speed is not evidence of an edge.</td>
+</tr>
+<tr>
+<td>Returns "calibrated probabilities"</td>
+<td>jevymarket README (a third-party bot)</td>
+<td>TradeRank's backtest: Jev's 80% price range held the outcome <strong>68%</strong> of the time, and its direction calls did no better than a formula that assumes each asset keeps its average drift (p = 0.66).</td>
+</tr>
+<tr>
+<td>Backtest profit</td>
+<td>TradeRank, "What Is Jev?", 2026-09-18</td>
+<td>+17.52% and −17.35% on two runs of the same model over the same window; −2.58% under the live sizing. Five identical requests returned probabilities up to 0.07 apart, so TradeRank asks each question five times and averages.</td>
+</tr>
+<tr>
+<td>Season 9 result</td>
+<td>TradeRank's Jev page</td>
+<td>The same page gives two results: "16th of 18 … at −0.39%" in its summary and "8th of 18, −1.26%, 3 trades" in its results table. Either way, three trades.</td>
+</tr>
+<tr>
+<td>Season 10 so far</td>
+<td>TradeRank API</td>
+<td>1 closed trade (a loss) and two open short positions. At the day-9 close, 5th of 22 at −0.40%; at fetch time, marked to market, 3rd at +0.56%. The rank moves with two open positions.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Bots built on Jev publish no record that can be checked.</strong> We looked at the two open-source Jev trading bots that coverage pointed to as live, and at the trading category of the Made with Jev directory. Neither bot publishes a mainnet wallet. jev-trade's README says "real fills"; its own <code>llms.txt</code> says the public desk "is a live testnet demo". jevymarket logs its trades to a local SQLite file "so Jev's calibration can be checked against resolutions later"; no results are published. The directory listed no trader wallet. That is a coverage of three places, not of every Jev bot.</p>
+<h2>Why the window decides it</h2>
+<p>t = Sharpe × √years. A 28-day season is 7.7% of a year, so √years is about 0.28. Clearing a field of 9 to 22 needs a t of 2.80 to 3.08, so a winner would need an annualised Sharpe of about 10 to 11. The arena is a useful comparison of how models behave under the same rules; one season cannot rank them by skill.</p>
+<h2>Limits</h2>
+<ul>
+<li>Simulated capital at live prices: no slippage or market impact beyond what TradeRank models.</li>
+<li>Season 10's figures are at day 9 of 28 and will change. The finished seasons' trade counts and winners come from TradeRank's season index; the per-model scores for Seasons 1 and 6 come from daily reports, which are mid-season snapshots with gaps, not final standings.</li>
+<li>Daily returns of a portfolio that holds the same positions for days are not independent; positive autocorrelation would make the t values above too high, so the finding (no one reaches 2) is conservative in that direction.</li>
+<li>The Jev backtest numbers are TradeRank's, quoted, not recomputed; the backtest's data is not public.</li>
+</ul>
+<h2>What would fix it</h2>
+<p>Publish each model's equity for every finished season (the running season's API already does), and the bar for the field size next to the standings. Keep the same models across seasons: a model that places well season after season builds a forward record, which no single season can. For Jev bots: a public wallet address is enough for anyone to run the <a href="/wallet/">wallet check</a>.</p>
+<p>Recheck: when Season 10 closes on 2026-11-07 (<code>python tools/audit_traderank.py OUT.json</code>).</p>
+</article>
+<aside class="aside">
+ <div class="box"><h4>Three inputs</h4><ul><li>The model’s knowledge cutoff</li><li>The test window</li><li>How many attempts the result was picked from</li></ul></div>
+ <div class="box"><h4>Rules</h4><ul><li>Numbers recomputed, not copied</li><li>A missing input is a finding, not a verdict</li><li>No judgement of intent</li></ul></div>
+ <div class="box"><h4>More audits</h4><ul><li><a href="/audits/012-null-board-simulation.html">← 012 · Our own &quot;promising&quot; verdict on Hyperliquid-sized boards, against 200 simulated boards with no skill</a></li><li><a href="/audits/">All audits</a></li></ul></div>
+ <a class="btn btn-secondary" href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">Request an audit</a>
+</aside>
+</div></main>
+<footer class="site-footer"><div class="container">
+<div class="foot-grid">
+ <div><a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+  <p style="margin-top:14px;max-width:340px">Whether a trading record can be told apart from luck, once you allow for how it was picked. Open source.</p></div>
+ <div><h4>Product</h4><ul><li><a href="/wallet/">Hyperliquid check</a></li><li><a href="/polymarket/">Polymarket check</a></li><li><a href="https://t.me/SkillOrLuckBot">Telegram bot</a></li><li><a href="https://chromewebstore.google.com/detail/evidence-deflator/fbhanjlioldbpgmncefioidcpkdhjbhn">Chrome extension</a></li><li><a href="/audits/">Audits</a></li><li><a href="/leaderboard/">AI trading leaderboard</a></li><li><a href="/check/">Check a backtest</a></li><li><a href="/api/">API and MCP</a></li></ul></div>
+ <div><h4>Method</h4><ul><li><a href="/method/">How it works</a></li><li><a href="/method/#principles">Principles</a></li><li><a href="/q/hyperliquid-trader-skill-or-luck/">Skill or luck?</a></li><li><a href="/q/how-many-months-of-backtest/">How many months?</a></li><li><a href="/q/why-leaderboard-winner-is-not-evidence/">Why #1 is not evidence</a></li><li><a href="/leaderboard/2026-10.json">Data (JSON)</a></li></ul></div>
+ <div><h4>Project</h4><ul><li><a href="https://github.com/Beltran12138/evidence-deflator">GitHub</a></li><li><a href="https://pypi.org/project/evidence-deflator/">PyPI</a></li><li><a href="/record/">Our record</a></li><li><a href="/memo/sample/">Sample memo</a></li><li><a href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">Request an audit</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="foot-note"><span>Open source · MIT · v0.2.0</span><span>“Cannot be ruled out as seen” is the strongest claim we make about a model’s training data.</span></div>
+</div></footer>
+<script src="/assets/site.js"></script>
+</body>
+</html>

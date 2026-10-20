@@ -155,6 +155,7 @@ AUDIT_TAGS = {  # short status shown in lists; the finding text comes from audit
     "010": ("Frozen, readings 10-23 / 10-30", "grey"),
     "011": ("0 of 149 clear the bar", "red"),
     "012": ("PnL board: chance · ROI board: above chance", "amber"),
+    "013": ("0 reach t = 2", "red"),
 }
 
 
@@ -295,6 +296,10 @@ def boards_html(hl):
         rows.append(("Recall", "AI agent perps competitions, 10 of them", ts, (min(bars), max(bars)), "/audits/011-recall-perps-competitions.html"))
     # Alpha Arena season 1: the six t values in audit 006's table
     rows.append(("Alpha Arena", "season 1, 6 AI models", [0.54, 0.41, -0.43, -0.70, -0.59, -0.83], 2.67, "/audits/006-alpha-arena-season-1.html"))
+    tr = load("traderank", "traderank-2026-10-20.json")
+    if tr:
+        rs = tr["running_season"]
+        rows.append(("TradeRank", f"AI models, season 10 at day {rs['days_elapsed']}, Jev included", [m["t"] for m in rs["models"] if m["t"] is not None], rs["bar_best_of_n"], "/audits/013-traderank-arena-and-jev.html"))
     lo_x, hi_x, W, H = -4.0, 6.0, 600, 30
     X = lambda v: 6 + (min(max(v, lo_x), hi_x) - lo_x) / (hi_x - lo_x) * (W - 12)
     def strip(ts, bar):
