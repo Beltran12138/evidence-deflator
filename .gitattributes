@@ -1,0 +1,4 @@
+# Assets whose content hash goes into page URLs (tools/build_site.py asset()):
+# keep them LF on every checkout so Windows and Linux builds hash the same bytes.
+docs/assets/*.css text eol=lf
+docs/assets/*.js text eol=lf
