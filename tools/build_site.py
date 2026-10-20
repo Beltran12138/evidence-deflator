@@ -41,7 +41,7 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
            "%3Crect x='3' y='4' width='18' height='2' fill='%23E66A4B'/%3E%3Crect x='4.5' y='13' width='3' height='7' fill='%23FAF9F6'/%3E"
            "%3Crect x='9.5' y='9.5' width='3' height='10.5' fill='%23FAF9F6'/%3E%3Crect x='14.5' y='15' width='3' height='5' fill='%23FAF9F6'/%3E%3C/svg%3E")
 
-NAV = [("wallet", "Check", "/wallet/"), ("ranking", "Ranking", "/ranking/"), ("audits", "Audits", "/audits/"), ("method", "Method", "/method/"), ("api", "For agents", "/api/")]
+NAV = [("wallet", "Check", "/wallet/"), ("ranking", "Ranking", "/ranking/"), ("audits", "Audits", "/audits/"), ("method", "Method", "/method/"), ("agent", "AI agents", "/agent/"), ("api", "API", "/api/")]
 
 COPY_ICON = '<span class="cp">copy</span><span class="ok">copied</span>'
 
@@ -489,6 +489,7 @@ def build_home(rows, lb):
  </form>
  {ELSEWHERE_EN}
  <p class="small" style="margin-top:6px">Got a performance claim instead of an address? <a href="/claim/">Paste the claim →</a></p>
+ <p class="small" style="margin-top:6px">Building or checking an AI trading agent? It ran N backtests: <a href="/agent/">what is the best one worth →</a></p>
  <p class="lede" style="margin-top:22px">{coin_line(hp['ranked_from'])} Paste an address and see how much of its record luck alone could explain, once you count how many accounts it was picked from.</p>
  <div class="rankbox">
   <div class="eyebrow" style="margin-top:34px">Hyperliquid, ranked by evidence instead of profit · {hl['fetched'][:10]}</div>
@@ -516,6 +517,11 @@ def build_home(rows, lb):
   <p>How high the bar sits also depends on how independent the accounts are: {hp['t_bar_best_of_n']:.2f} if each is a separate bet, about 2.6 by our rough estimate if many trade alike ({n_corr} clear that). <a href="/method/#yes">Can it say yes</a> · <a href="/method/#wallets">how the bar is set</a>.</p>
  </details>
 </div>
+
+<section id="agents"><div class="container">
+ <div class="sec-head"><div><div class="eyebrow">For AI trading agents</div><h2 style="margin-top:12px">An agent can run ten thousand backtests in a weekend. Its best one has to clear the bar for all of them.</h2>
+ <p>CICC’s factor loop tested 16,939 candidates; its best factor reached t = 3.37 against a bar of 4.69 for that many tries. An agent’s tries can be counted from its log, so the correction no longer depends on what anyone remembers.</p></div><a class="more" href="/agent/">For AI agents →</a></div>
+</div></section>
 
 <section id="forward"><div class="container">
  <div class="sec-head"><div><div class="eyebrow">Forward record</div><h2 style="margin-top:12px">Every record found by looking back was picked. So we froze some, and score only what happens next.</h2>
@@ -1284,6 +1290,7 @@ def build_wallet():
  <p><strong>Short records are not over-read.</strong> A t computed from a handful of weeks has fat tails: with eight weeks and no skill at all, t ≥ 2 turns up about twice as often as the bar assumes. So t is taken from Student’s t with the record’s effective degrees of freedom (fewer when a few long gaps carry the record) and put back on the usual scale. For a long record it is close to Sharpe × √years; for a short one it is lower. Tested: with no skill, the share of records reaching 2 stays at the nominal 2.3% however sparsely the history was sampled.</p>
  <p><strong>Two bars.</strong> If you came to this wallet with no prior selection, t ≥ 2 is the usual bar. If you found it by sorting a leaderboard, you picked the best of many, and the bar rises with the number you picked from (Bonferroni on {pnl['ranked_from']:,} accounts: {pnl['t_bar_best_of_n']:.2f}). Most people find wallets on leaderboards. That bar counts every account as independent; accounts that trade alike are fewer independent bets, which would lower it to about 2.6 by our <a href="https://github.com/Beltran12138/evidence-deflator#a-track-record-with-no-model-behind-it">rough estimate</a> (an order of magnitude, not a measurement).</p>
  <p><strong>What t cannot see.</strong> Tail risk that has not happened yet. A strategy that sells insurance can show no losing week for a long time. Where the record has no losing week, or one week made most of the gains, the page says so. A seller that scales its positions to recent volatility can keep its weeks looking ordinary before a large loss and, scaled down, around it, so these notes can miss it.</p>
+ <p><strong>Other wallets.</strong> The check scores the one address you paste. Whatever its owner makes in other wallets, a copier of this one does not get. And someone who runs ten wallets and shows only the best is showing the best of ten, which should face a higher bar; we cannot tell how many wallets they run.</p>
  <p><strong>The drawdown reading.</strong> Most money arrives after a strong run and leaves in the drawdown that follows, which is often an ordinary one; the gap between a strategy’s return and its investors’ return is, in one manager’s words, “usually the biggest cost” (<a href="https://www.toptradersunplugged.com/podcast/why-investors-keep-getting-trend-following-wrong-ft-patrick-welton/" rel="noopener">Patrick Welton on Top Traders Unplugged</a>). So the page says how far the record is below its own peak, in weekly returns added up since the peak (the same returns t uses; compounding would describe a portfolio nobody held, since accounts add and withdraw money), and how much of its time a record with the same measured edge and volatility spends at least that far down. Under 2% is rare enough to doubt the edge; 10% or more is ordinary. The share comes from the drawdown distribution of a random walk with that drift, corrected for weekly sampling, and is checked against simulation.</p>
  <p><strong>Evidence is not what a copier gets.</strong> t measures the record the trader made. A copier enters after the trader, at another size and with other fees; the shorter the holding period, the more of the edge the delay costs, and a size that works for $50k may move the market at $5M. A record that clears the bar is evidence about the trader, not a forecast of your return.</p>
  <p><strong>What it counts.</strong> The PnL Hyperliquid records for the account: perps and the spot account, which holds HIP-4 outcome contracts. Trading on HyperEVM, such as Papertrade or HyperEVM options protocols, is not in it. A wallet that sells options on HyperEVM and hedges with perps shows only the hedge.</p>
@@ -1714,6 +1721,7 @@ LLMS_TXT = f"""# Evidence Deflator
 - [JSON API]({API_HOST}/api/wallet?a=0x393d0b87ed38fc779fd9611144ae649ba6082109): `GET /api/wallet?a=<address>&picked_from=<N>`
 - [Remote MCP server]({API_HOST}/mcp): streamable HTTP, one read-only tool `hyperliquid_wallet(address, picked_from)`
 - [API, Python package and plugin install]({SITE}/api/)
+- [For AI trading agents]({SITE}/agent/): the bar for the best of N backtests, and tools that count the tries from an agent's log
 
 ## Questions
 
@@ -1728,6 +1736,70 @@ LLMS_TXT = f"""# Evidence Deflator
 - [Frozen forward cohort, 2026-10-14]({SITE}/data/hl/cohort-2026-10-14.json): 200 wallets scored only on PnL after the freeze
 - [Source code]({REPO})
 """
+
+
+AGENT_ALT = {"en": "/agent/", "zh-Hans": "/zh-hans/agent/", "zh-Hant": "/zh-hant/agent/"}
+# Worked example: audit 014 (CICC's factor loop), the report's own figures over 2025-01-01..2026-07-08.
+AGENT_EXAMPLE = {"tries": 16939, "sharpe": 2.74, "years": 1.51, "audit": "/audits/014-cicc-loop-factor-engine.html"}
+
+
+def agent_calc_js(T):
+    """The calculator on /agent/: t = Sharpe x sqrt(years) against the bar for the best of N (HL.bar)."""
+    return f"""<script src="{asset('hl.js')}"></script>
+<script>(function(){{const T={json.dumps(T, ensure_ascii=False)},f=document.getElementById('acalc'),o=document.getElementById('aout'),
+ v=k=>parseFloat(f.elements[k].value),fmt=(x,d)=>x.toLocaleString(T.loc,{{minimumFractionDigits:d,maximumFractionDigits:d}});
+ function run(){{const n=Math.max(1,Math.round(v('n'))),s=v('s'),y=v('y');if(!(s>0&&y>0)){{o.innerHTML='';return;}}
+  const t=s*Math.sqrt(y),b=HL.bar(n),need=b/Math.sqrt(y),more=(b/s)**2-y,cls=t>=b?'tag-green':t>=2?'tag-amber':'tag-red',
+   say=t>=b?T.clears:t>=2?T.single:T.luck;
+  o.innerHTML=`<p class="ex-head"><span class="tag ${{cls}}">${{say}}</span></p><p class="mono">t = ${{fmt(t,2)}} · ${{T.bar.replace('{{N}}',fmt(n,0))}} = ${{fmt(b,2)}}</p>`+
+   `<p>${{T.need.replace('{{S}}',fmt(need,2))}}${{t<b?' '+T.more.replace('{{Y}}',fmt(more,1)):''}}</p>`;}}
+ f.addEventListener('input',run);f.addEventListener('submit',e=>{{e.preventDefault();run();}});
+ document.getElementById('aex').addEventListener('click',()=>{{f.elements.n.value={AGENT_EXAMPLE['tries']};f.elements.s.value={AGENT_EXAMPLE['sharpe']};f.elements.y.value={AGENT_EXAMPLE['years']};run();}});run();}})();</script>"""
+
+
+def build_agent():
+    ex = AGENT_EXAMPLE
+    T = {"loc": "en", "bar": "bar for the best of {N}", "clears": "Clears the bar for this many tries",
+         "single": "Would pass as the only try; not as the best of this many", "luck": "Within what luck produces for this many tries",
+         "need": "At this length, the best of this many needs an annual Sharpe of {S}.",
+         "more": "At its own Sharpe it would need about {Y} more years."}
+    page = head("For AI trading agents · Evidence Deflator",
+                "Your agent ran N backtests and reported the best. How much evidence is left once the tries are counted? Calculator, worked example, and tools that count the tries from the agent's own log.",
+                "/agent/", alt=AGENT_ALT) + header("agent", AGENT_ALT) + f"""
+<main class="container article narrow prose">
+<div class="eyebrow"><span class="dot"></span>For AI trading agents</div>
+<h1 style="margin-top:16px">Your agent ran N backtests. What is the best one worth?</h1>
+<p class="lede" style="margin-top:14px">An agent that searches for a strategy reports its best result. The number of tries behind it is the one fact the report leaves out. In an agent loop it is also the one fact that can be counted from the log, so the correction for picking the best no longer depends on what anyone remembers.</p>
+
+<form class="wcheck" id="acalc" autocomplete="off" style="margin-top:22px">
+ <label class="small" style="flex:1 1 160px">Tries<input name="n" type="number" min="1" step="1" value="200" style="width:100%"></label>
+ <label class="small" style="flex:1 1 160px">Best annual Sharpe<input name="s" type="number" min="0" step="0.01" value="2" style="width:100%"></label>
+ <label class="small" style="flex:1 1 160px">Years tested<input name="y" type="number" min="0.1" step="0.01" value="2" style="width:100%"></label>
+</form>
+<div id="aout" aria-live="polite" style="margin-top:10px"></div>
+<p class="small muted"><button type="button" class="copy" id="aex">Load a real example</button> CICC’s factor loop: {ex['tries']:,} candidates tested, best single factor Sharpe {ex['sharpe']} over {ex['years']} years. <a href="{ex['audit']}">Audit 014</a>.</p>
+
+<h2 id="how">How the number is worked out</h2>
+<p>t = Sharpe × √years. A result picked blind needs t ≥ 2. The best of N tries needs the t that luck alone would reach less than 2.3% of the time across all N, so the bar rises with N: about 3.4 for 69 tries, 4.7 for 16,939. Tries that resemble each other are fewer independent chances than the count says, so this bar is the strict end; the result is still only as honest as the count. <a href="/method/#selection">The bar after selection</a>.</p>
+
+<h2 id="count">Count the tries instead of asking for them</h2>
+<ul>
+ <li><b>Claude Code plugin.</b> A hook sees every backtest command the agent runs, keeps the count for the session, and tells the agent in context what the best result now has to clear. <code>/plugin marketplace add Beltran12138/evidence-deflator</code>, then <code>/plugin install evidence-deflator@evidence-deflator</code>.</li>
+ <li><b>Any agent’s log.</b> <code>tools/trace_audit.py</code> reads a Claude Code or Codex session log and counts tries under each definition you give it (script runs, hypotheses, verdict lines). The counts often differ by an order of magnitude, and it reports the spread rather than one number. It also checks whether the held-out data was opened before the plan was written down.</li>
+ <li><b>Where the count came from.</b> The Python package keeps the provenance next to the number: a count a person declared, one derived from a grid, or one read from a log. Only the last can be checked.</li>
+</ul>
+
+<h2 id="window">Two more inputs: window and training cutoff</h2>
+<p>A backtest run by a language model over months before the model’s training cutoff cannot rule out that the model has read about what happened. Only months after the cutoff are clean. <a href="/check/">Check a backtest</a> splits the window for you.</p>
+
+<h2 id="pick">For agents that pick traders</h2>
+<p>An agent about to copy a trader or a vault can ask first: the hosted MCP tool <code>hyperliquid_wallet(address, picked_from)</code> and a JSON endpoint return the same verdict as the <a href="/wallet/">wallet check</a>, with a <code>clears_bar</code> field for a fixed rule. <a href="/api/">API and MCP</a>.</p>
+
+<h2 id="not">What this does not do</h2>
+<p>It does not judge whether a strategy makes sense, run your backtest, or ask a language model to grade anything: every verdict is arithmetic on numbers you can check. Over a short window, t measures consistency, not the loss that has not happened yet.</p>
+</main>
+""" + footer(agent_calc_js(T))
+    write("agent/index.html", page)
 
 
 def build_crawl_files():
@@ -1762,6 +1834,7 @@ def main():
     build_leaderboard(lb)
     build_method()
     build_api()
+    build_agent()
     build_wallet()
     build_polymarket()
     build_memo_sample()

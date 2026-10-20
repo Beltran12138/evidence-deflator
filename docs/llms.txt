@@ -8,6 +8,7 @@
 - [JSON API](https://api.evidencedeflator.com/api/wallet?a=0x393d0b87ed38fc779fd9611144ae649ba6082109): `GET /api/wallet?a=<address>&picked_from=<N>`
 - [Remote MCP server](https://api.evidencedeflator.com/mcp): streamable HTTP, one read-only tool `hyperliquid_wallet(address, picked_from)`
 - [API, Python package and plugin install](https://evidencedeflator.com/api/)
+- [For AI trading agents](https://evidencedeflator.com/agent/): the bar for the best of N backtests, and tools that count the tries from an agent's log
 
 ## Questions
 

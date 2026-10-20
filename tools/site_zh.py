@@ -62,7 +62,7 @@ def head(B, lang, title, desc, path, alt, extra=""):
 
 def header(B, P, lang, active, alt):
     cur = ' aria-current="page"'
-    nav = [("wallet", "查钱包", P), ("ranking", "证据排名", f"{P}ranking/"), ("memo", "评估报告样例", f"{P}memo/sample/"), ("method", "方法", f"{P}method/"), ("api", "给 agent 用", f"{P}api/")]
+    nav = [("wallet", "查钱包", P), ("ranking", "证据排名", f"{P}ranking/"), ("memo", "评估报告样例", f"{P}memo/sample/"), ("method", "方法", f"{P}method/"), ("agent", "AI agent", f"{P}agent/"), ("api", "API", f"{P}api/")]
     links = "".join(f'<a href="{u}"{cur if k == active else ""}>{t}</a>' for k, t, u in nav)
     switch = "".join(f'<a class="gh" href="{alt[k]}" hreflang="{k}" lang="{k}"{cur if k == lang else ""}>{t}</a>'
                      for k, t in (("zh-Hans", "⟦JIAN⟧"), ("zh-Hant", "⟦FAN⟧"), ("en", "EN")))
@@ -225,6 +225,7 @@ def wallet_page(B, hl, lang):
  <div class="wex muted small">试试：{ex}</div>
  <p class="muted small elsewhere">也可以在 <a href="{B.TG_BOT}" rel="noopener">Telegram 上用 @SkillOrLuckBot</a>（发地址，回结论），或装 <a href="{B.EXT_URL}" rel="noopener">Chrome 插件</a>，在 Hyperliquid、Binance 和 OKX 跟单页面上直接显示结论。</p>
  <p class="small" style="margin-top:6px">手上是一段业绩宣称，不是地址？<a href="{P}claim/">贴宣称原文 →</a></p>
+ <p class="small" style="margin-top:6px">在做或在评估 AI 交易 agent？它跑了 N 次回测，<a href="{P}agent/">最好的那个还值多少 →</a></p>
  <p class="muted small" style="margin-top:6px">准备把钱交给某个交易员或金库？看看<a href="{P}memo/sample/">一页评估报告样例</a>（以 HLP 金库为例）。</p>
 </div>
 
@@ -287,6 +288,7 @@ def wallet_page(B, hl, lang):
  <p><strong>短记录不会被高估。</strong>只有几周数据算出来的 t 尾部很厚：8 周记录、完全没有实力，t ≥ 2 出现的频率大约是门槛假设的两倍。所以 t 取自按记录有效自由度计算的 Student t 分布（靠少数几段长间隔撑起来的记录，自由度更低），再换回常用的尺度。记录长时，它接近 夏普 × √年数；记录短时会更低。已检验：没有实力时，无论历史采样多稀疏，达到 2 的比例都保持在名义上的 2.3%。</p>
  <p><strong>两个门槛。</strong>如果你没有经过任何筛选就来看这个钱包，t ≥ 2 是常用门槛。如果你是在排行榜上排序找到它的，你就是从很多个里挑了最好的那个，门槛会随候选数量上升（对 {N:,} 个账户做 Bonferroni 校正：{bar:.2f}）。大多数人都是在排行榜上找到钱包的。这个门槛把每个账户都当作独立的；做法相近的账户其实算不上那么多次独立下注，考虑这一点门槛会降到约 2.6，但这只是<a href="https://github.com/Beltran12138/evidence-deflator#a-track-record-with-no-model-behind-it">粗估</a>（数量级，不是测量值）。</p>
  <p><strong>t 看不到什么。</strong>还没发生的尾部风险。卖保险式的策略可以很长时间没有一个亏损周。记录里没有亏损周、或者某一周贡献了大部分收益时，页面会标出来。按近期波动率调整仓位的卖方，在大亏之前、以及缩小仓位后的大亏前后，每周看起来都可能很正常，这些提示可能抓不到它。</p>
+ <p><strong>别的钱包。</strong>这里只评你贴进来的这一个地址。它的主人在别的钱包里赚多少，跟这个钱包的人拿不到。反过来，一个人开十个钱包、只晒最好的那个，等于从十份记录里挑了最好的一份，门槛应该更高；他有几个钱包，我们看不到。</p>
  <p><strong>回撤读数。</strong>大多数钱是在一段好表现之后进来的，又在随后的回撤里离开，而那次回撤往往很正常。一位基金经理说，策略收益和投资者实际收益之间的差距「通常是最大的成本」（<a href="https://www.toptradersunplugged.com/podcast/why-investors-keep-getting-trend-following-wrong-ft-patrick-welton/" rel="noopener">Patrick Welton，Top Traders Unplugged</a>）。所以页面会显示记录现在比自己的峰值低多少（把峰值以来的周收益率直接相加，和 t 用的是同一组收益率；账户会充值和提现，复利算出来的是一个没人真正持有过的组合），以及优势和波动都与它相同的记录，有多少比例的时间至少处在这么深的回撤里。低于 2% 少见到足以怀疑优势；10% 以上算正常。这个比例来自带漂移随机游走的回撤分布，针对按周采样做了修正，并用模拟核对过。</p>
  <p><strong>证据不等于跟单能拿到的结果。</strong>t 衡量的是交易者自己做出的记录。跟单者在交易者之后入场，规模和费用都不同；持仓越短，延迟吃掉的优势越多，$5 万能做的规模放到 $500 万可能会推动价格。过了门槛的记录是关于这个交易者的证据，不是对你收益的预测。</p>
  <p><strong>算进了什么。</strong>Hyperliquid 为这个账户记录的盈亏：永续，以及现货账户（HIP-4 结果合约也记在这里）。HyperEVM 上的交易不在其中，比如 Papertrade 或 HyperEVM 上的期权协议。在 HyperEVM 上卖期权、用永续对冲的钱包，这里只看得到对冲那一侧。</p>
@@ -728,6 +730,56 @@ def record_page(B, lang):
     return finish(page, lang)
 
 
+def agent_page(B, lang):
+    P = LANGS[lang]
+    ex = B.AGENT_EXAMPLE
+    T = {"loc": "zh-CN", "bar": "{N} 次里挑最好的，门槛", "clears": "过了这么多次尝试的门槛",
+         "single": "如果只试了这一次算过；作为这么多次里最好的，不算", "luck": "在这么多次尝试里，运气就能做到",
+         "need": "在这个长度上，这么多次里最好的那个需要年化夏普 {S}。",
+         "more": "按它自己的夏普，还要再跑约 {Y} 年。"}
+    if lang == "zh-Hant":
+        T = {k: hant(v) for k, v in T.items()}
+        T["loc"] = "zh-HK"
+    alt = B.AGENT_ALT
+    page = head(B, lang, "给 AI 交易 agent · Evidence Deflator",
+                "你的 agent 跑了 N 次回测，报告了最好的那个。把尝试次数算进去，还剩多少证据？计算器、真实案例，以及从 agent 自己的日志里数出尝试次数的工具。",
+                f"{P}agent/", alt) + header(B, P, lang, "agent", alt) + f"""
+<main class="container article narrow prose">
+<div class="eyebrow"><span class="dot"></span>给 AI 交易 agent</div>
+<h1 style="margin-top:16px">你的 agent 跑了 N 次回测，最好的那个还值多少？</h1>
+<p class="lede" style="margin-top:14px">一个替你找策略的 agent，会报告它找到的最好结果。背后试了多少次，是报告里唯一不写的事实。而在 agent 的循环里，这恰好是唯一能从日志里数出来、不用靠谁记的事实，所以「挑了最好的」这层校正，不再取决于任何人的记性。</p>
+
+<form class="wcheck" id="acalc" autocomplete="off" style="margin-top:22px">
+ <label class="small" style="flex:1 1 160px">尝试次数<input name="n" type="number" min="1" step="1" value="200" style="width:100%"></label>
+ <label class="small" style="flex:1 1 160px">最好结果的年化夏普<input name="s" type="number" min="0" step="0.01" value="2" style="width:100%"></label>
+ <label class="small" style="flex:1 1 160px">回测年数<input name="y" type="number" min="0.1" step="0.01" value="2" style="width:100%"></label>
+</form>
+<div id="aout" aria-live="polite" style="margin-top:10px"></div>
+<p class="small muted"><button type="button" class="copy" id="aex">载入真实案例</button> 中金的因子挖掘 loop：测试了 {ex['tries']:,} 个候选，最好的单个因子在 {ex['years']} 年里夏普 {ex['sharpe']}。<a href="{ex['audit']}">审计 014</a>（英文）。</p>
+
+<h2 id="how">怎么算</h2>
+<p>t = 夏普 × √年数。随手挑的一个结果，要 t ≥ 2。从 N 次尝试里挑出的最好结果，门槛是「N 次里单靠运气、有人到达的概率低于 2.3%」的那个 t，所以门槛随 N 升高：69 次约 3.4，16,939 次约 4.7。彼此相似的尝试，独立机会比次数少，所以这个门槛偏严；而结果最多和这个次数一样诚实。<a href="{P}method/">方法</a>。</p>
+
+<h2 id="count">别问次数，去数次数</h2>
+<ul>
+ <li><b>Claude Code 插件。</b>一个 hook 看到 agent 运行的每一条回测命令，记下本次会话的次数，并在上下文里告诉 agent：现在最好的结果要过多少。<code>/plugin marketplace add Beltran12138/evidence-deflator</code>，然后 <code>/plugin install evidence-deflator@evidence-deflator</code>。</li>
+ <li><b>任何 agent 的日志。</b><code>tools/trace_audit.py</code> 读 Claude Code 或 Codex 的会话日志，按你给的每一种定义（脚本运行、假设、判决行）分别计数。几种计数常常差一个数量级，它报告的是这个差距，而不是一个数。它还会检查：留作最后检验的数据，是不是在写下计划之前就被打开过。</li>
+ <li><b>次数从哪来。</b>Python 包把来源和数字放在一起：人自己报的、按参数网格算的、还是从日志里读的。只有最后一种能核对。</li>
+</ul>
+
+<h2 id="window">另外两个输入：时间窗和训练截止日</h2>
+<p>语言模型在它训练截止日之前的月份上跑回测，无法排除模型已经读到过当时发生了什么。只有截止日之后的月份是干净的。<a href="/check/">检验一个回测</a>（英文）会帮你切分时间窗。</p>
+
+<h2 id="pick">给挑交易员的 agent</h2>
+<p>准备跟单某个交易员或金库的 agent，可以先问一句：托管的 MCP 工具 <code>hyperliquid_wallet(address, picked_from)</code> 和 JSON 接口，给出和<a href="{P}">查钱包</a>页面一样的结论，并带一个 <code>clears_bar</code> 字段，方便按固定规则判断。<a href="{P}api/">API 与 MCP</a>。</p>
+
+<h2 id="not">它不做什么</h2>
+<p>它不判断一个策略有没有道理，不替你跑回测，也不让语言模型打分：每个结论都是你能核对的算术。在短时间窗里，t 衡量的是稳定性，不是还没发生的那次亏损。</p>
+</main>
+""" + footer(B, P, B.agent_calc_js(T))
+    return finish(page, lang)
+
+
 def build(B):
     import json, os
     with open(os.path.join(B.DOCS, "data", "hl", "latest.json"), encoding="utf-8") as f:
@@ -736,6 +788,7 @@ def build(B):
         B.write(f"{P.strip('/')}/index.html", wallet_page(B, hl, lang))
         B.write(f"{P.strip('/')}/method/index.html", method_page(B, lang))
         B.write(f"{P.strip('/')}/api/index.html", api_page(B, lang))
+        B.write(f"{P.strip('/')}/agent/index.html", agent_page(B, lang))
         B.write(f"{P.strip('/')}/memo/sample/index.html", memo_page(B, lang))
         B.write(f"{P.strip('/')}/record/index.html", record_page(B, lang))
         B.write(f"{P.strip('/')}/ranking/index.html", ranking_page(B, lang))
