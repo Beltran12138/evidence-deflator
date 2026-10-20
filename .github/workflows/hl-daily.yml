@@ -1,5 +1,6 @@
 # Daily refresh of the Hyperliquid wallet board and the frozen cohort's forward record.
-# Writes docs/data/hl/latest.json and docs/wallet/index.html, commits only if they changed.
+# Also rescores the forward registry (wallets registered through GitHub issues).
+# Writes docs/data/hl/latest.json, docs/data/registry/registry.json and the pages built from them, commits only if they changed.
 name: hl-daily
 on:
   schedule:
@@ -7,6 +8,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  issues: read
 concurrency:
   group: hl-daily
   cancel-in-progress: false
@@ -20,17 +22,20 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install markdown opencc-python-reimplemented==0.1.7
-      - name: Build board and cohort
+      - name: Build board, cohort and registry
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python tools/build_hl_board.py --cache .hlcache --refresh \
             --out docs/data/hl/latest.json --cohort docs/data/hl/cohort-2026-10-14.json
           python tools/check_hl_parity.py --cache .hlcache
+          python tools/build_registry.py --out docs/data/registry/registry.json
           python tools/build_site.py
       - name: Commit if changed
         run: |
           git config user.name "hl-daily"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/data/hl/latest.json docs/wallet/index.html docs/index.html docs/sitemap.xml docs/q docs/zh-hans docs/zh-hant
+          git add docs/data/hl/latest.json docs/wallet/index.html docs/index.html docs/sitemap.xml docs/q docs/zh-hans docs/zh-hant docs/data/registry docs/registry
           if git diff --cached --quiet; then echo "no change"; exit 0; fi
           git commit -m "data: Hyperliquid board $(date -u +%Y-%m-%d)"
           git push

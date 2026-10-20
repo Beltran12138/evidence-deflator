@@ -1794,12 +1794,64 @@ def build_agent():
 
 <h2 id="pick">For agents that pick traders</h2>
 <p>An agent about to copy a trader or a vault can ask first: the hosted MCP tool <code>hyperliquid_wallet(address, picked_from)</code> and a JSON endpoint return the same verdict as the <a href="/wallet/">wallet check</a>, with a <code>clears_bar</code> field for a fixed rule. <a href="/api/">API and MCP</a>.</p>
+<p>To use it as a gate, the Python package turns a verdict into allow or deny: <code>python -m hl_wallet 0xADDRESS --picked-from N --gate</code> exits 0 only for a record that clears the bar for how it was picked, and denies a record too short to score, so “cannot tell” means a limit of zero.</p>
+
+<h2 id="registry">Register before it happens</h2>
+<p>A record found by looking back was picked. Register an agent’s wallet and only what it does afterwards counts, timestamped by GitHub and listed whatever it shows. <a href="/registry/">Forward registry</a>.</p>
 
 <h2 id="not">What this does not do</h2>
 <p>It does not judge whether a strategy makes sense, run your backtest, or ask a language model to grade anything: every verdict is arithmetic on numbers you can check. Over a short window, t measures consistency, not the loss that has not happened yet.</p>
 </main>
 """ + footer(agent_calc_js(T))
     write("agent/index.html", page)
+
+
+REGISTER_URL = f"{REPO}/issues/new?template=register-agent.yml"
+
+
+def build_registry_page():
+    p = os.path.join(DOCS, "data", "registry", "registry.json")
+    d = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {"rows": [], "entries": 0, "bar_best_of_list": 2.0, "generated": ""}
+    e = html.escape
+    def t_cell(r):
+        if r.get("t") is None:
+            return f'<span class="muted">{r.get("weeks") or 0:g} of {d.get("min_weeks", 8)} weeks</span>'
+        return f'{r["t"]:.2f}'
+    body = "".join(
+        f'<tr><td>{e(r["name"]) or "—"}<br><span class="small muted">{e(r["model"]) + " · " if r["model"] else ""}by {e(r["registrant"])}{" (" + str(r["registrant_wallets"]) + " wallets)" if r["registrant_wallets"] > 1 else ""}</span></td>'
+        f'<td class="mono"><a href="/wallet/?a={r["address"]}">{r["address"][:6]}…{r["address"][-4:]}</a></td>'
+        f'<td class="mono"><a href="{e(r["issue"])}">{r["registered_at"][:10]}</a></td>'
+        f'<td class="r mono">{t_cell(r)}</td>'
+        f'<td class="mono small"><span title="{e(r["commitment"])}">{e(r["commitment"][:10]) + "…" if len(r["commitment"]) > 10 else e(r["commitment"]) or "—"}</span>{"<br>tried: " + e(r["trials_declared"]) + " (declared)" if r["trials_declared"] else ""}</td></tr>'
+        for r in d["rows"])
+    table = (f'<div class="table-wrap"><table class="data"><thead><tr><th>Agent</th><th>Wallet</th><th>Registered</th><th class="r">t since</th><th>Commitment</th></tr></thead><tbody>{body}</tbody></table></div>'
+             if d["rows"] else '<p class="muted">No wallets registered yet.</p>')
+    page = head("Forward registry · Evidence Deflator",
+                "Register a trading agent's wallet; from that moment on, only what it does counts. Timestamped by GitHub, scored daily, listed whatever it shows.",
+                "/registry/") + header("agent") + f"""
+<main class="container article prose">
+<div class="eyebrow"><span class="dot"></span>Forward registry{' · updated ' + d['generated'][:10] if d.get('generated') else ''}</div>
+<h1 style="margin-top:16px">Registered before it happened</h1>
+<p class="lede" style="margin-top:14px">A record found by looking back was picked; a record registered before it happened was not. Register an agent’s wallet by opening a GitHub issue. From that moment, only what the wallet does counts, scored daily with the same estimator as the <a href="/wallet/">wallet check</a>.</p>
+<div class="btns" style="margin:22px 0 8px"><a class="btn btn-primary" href="{REGISTER_URL}">Register a wallet <span class="arr">→</span></a><span class="muted small">Needs a GitHub account. Everything in the form is public.</span></div>
+
+<h2 id="list">The list</h2>
+{table}
+<p class="small muted">{d['entries']} registered. Read one at a time, a record needs t ≥ 2 after registration. The best of this list has to clear {d['bar_best_of_list']:.2f}, the bar for the best of {max(d['entries'], 1)}. At least {d.get('min_weeks', 8)} weekly intervals after registration before a t is shown.</p>
+
+<h2 id="rules">Rules</h2>
+<ul>
+ <li><b>The time is GitHub’s.</b> Registration is when GitHub says the issue was opened; we do not set or edit it.</li>
+ <li><b>Only after counts.</b> Nothing the wallet did before registration enters its score.</li>
+ <li><b>Nobody is removed for doing badly.</b> The same address registered twice keeps its first registration. Only entries that break the form (no valid address, spam) are left out, with the issue labelled “invalid” in public.</li>
+ <li><b>Several wallets, one person.</b> Each entry shows how many wallets the same GitHub account has registered. The best of someone’s ten wallets is the best of ten, not one record.</li>
+ <li><b>Declared is declared.</b> Model, commitment hash and the count of strategies tried are shown as the registrant wrote them. Only the wallet’s record is checked.</li>
+ <li><b>Not an endorsement.</b> Being listed says nothing about an agent beyond its numbers, and nothing here is investment advice.</li>
+</ul>
+<p>For an agent that decides before it moves money, the same rule is available as a gate: <code>python -m hl_wallet 0xADDRESS --picked-from N --gate</code> allows only a record that clears its bar, and denies one too short to score. <a href="/agent/">For AI agents</a>.</p>
+</main>
+""" + footer()
+    write("registry/index.html", page)
 
 
 def build_crawl_files():
@@ -1835,6 +1887,7 @@ def main():
     build_method()
     build_api()
     build_agent()
+    build_registry_page()
     build_wallet()
     build_polymarket()
     build_memo_sample()

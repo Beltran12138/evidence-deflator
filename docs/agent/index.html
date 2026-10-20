@@ -61,6 +61,10 @@ function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if
 
 <h2 id="pick">For agents that pick traders</h2>
 <p>An agent about to copy a trader or a vault can ask first: the hosted MCP tool <code>hyperliquid_wallet(address, picked_from)</code> and a JSON endpoint return the same verdict as the <a href="/wallet/">wallet check</a>, with a <code>clears_bar</code> field for a fixed rule. <a href="/api/">API and MCP</a>.</p>
+<p>To use it as a gate, the Python package turns a verdict into allow or deny: <code>python -m hl_wallet 0xADDRESS --picked-from N --gate</code> exits 0 only for a record that clears the bar for how it was picked, and denies a record too short to score, so “cannot tell” means a limit of zero.</p>
+
+<h2 id="registry">Register before it happens</h2>
+<p>A record found by looking back was picked. Register an agent’s wallet and only what it does afterwards counts, timestamped by GitHub and listed whatever it shows. <a href="/registry/">Forward registry</a>.</p>
 
 <h2 id="not">What this does not do</h2>
 <p>It does not judge whether a strategy makes sense, run your backtest, or ask a language model to grade anything: every verdict is arithmetic on numbers you can check. Over a short window, t measures consistency, not the loss that has not happened yet.</p>

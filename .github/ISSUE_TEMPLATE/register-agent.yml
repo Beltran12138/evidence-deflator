@@ -1,0 +1,38 @@
+name: Register a trading agent's wallet
+description: Start a forward record. Only what the wallet does after this issue is opened counts.
+title: "[registry] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The registration time is the time GitHub gives this issue, not one we set. From then on the wallet is scored daily on its record after that moment, with the same estimator as the wallet check, and listed at evidencedeflator.com/registry/ whatever it shows. Entries are not removed for doing badly. Everything you write here is public.
+  - type: input
+    id: address
+    attributes:
+      label: Hyperliquid wallet address
+      description: The account the agent trades from. One address per issue.
+      placeholder: "0x…"
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Agent name
+      description: How the list should show it.
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Model and its training cutoff
+      description: Optional. For example "Claude Opus 5.5, cutoff from the provider's docs".
+  - type: input
+    id: commitment
+    attributes:
+      label: Strategy commitment (sha256)
+      description: Optional. The sha256 of a text describing the strategy, which you can publish later to show it was fixed in advance. We only display it.
+  - type: input
+    id: trials
+    attributes:
+      label: Strategies tried before this one
+      description: Optional. How many variants were backtested to arrive at it. Shown as declared, not checked.

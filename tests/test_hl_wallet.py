@@ -77,3 +77,20 @@ def test_check_offline_with_candles_reports_btc_adjusted_t():
     r = hw.check("0x" + "0" * 40, pf=portfolio(pts), candles=candles_from(prices, t0=0))
     assert r["t_btc"] is not None and r["n_btc"] == 29
     assert hw.check("0x" + "0" * 40, pf=portfolio(pts))["t_btc"] is None
+
+
+def test_gate_allows_only_a_record_that_clears_and_denies_cannot_tell():
+    pts, pnl = [], 0.0
+    for i in range(60):
+        pts.append((i * W, 50_000.0, pnl))
+        pnl += 50_000.0 * (0.022 if i % 2 == 0 else -0.002)
+    strong = hw.check("0x" + "0" * 40, picked_from=47_153, pf=portfolio(pts))
+    g = hw.gate(strong)
+    assert g["allow"] and g["reason"] == "clears_board" and g["rule"] == "best of 47153: t >= 4.9"
+    assert not hw.gate(strong, min_weeks=100)["allow"]
+    assert hw.gate(strong, min_weeks=100)["reason"] == "below_min_weeks"
+    short = hw.check("0x" + "0" * 40, picked_from=47_153, pf=portfolio(pts[:5]))
+    assert hw.gate(short) == {**hw.gate(short), "allow": False, "reason": "too_short"}
+    # a record that would pass blind but was picked off a board is denied
+    assert not hw.gate({"t": 3.0, "clears_bar": False, "verdict": "clears_single", "bar": 4.9, "weeks": 60,
+                        "bar_rule": "best of 47153: t >= 4.9"})["allow"]

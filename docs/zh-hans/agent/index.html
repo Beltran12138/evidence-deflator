@@ -63,6 +63,10 @@ function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if
 
 <h2 id="pick">给挑交易员的 agent</h2>
 <p>准备跟单某个交易员或金库的 agent，可以先问一句：托管的 MCP 工具 <code>hyperliquid_wallet(address, picked_from)</code> 和 JSON 接口，给出和<a href="/zh-hans/">查钱包</a>页面一样的结论，并带一个 <code>clears_bar</code> 字段，方便按固定规则判断。<a href="/zh-hans/api/">API 与 MCP</a>。</p>
+<p>要当关口用，Python 包可以把结论变成「放行 / 拒绝」：<code>python -m hl_wallet 0x地址 --picked-from N --gate</code> 只对「按挑选方式过了门槛」的记录返回 0；记录太短、算不出来的一律拒绝，也就是「看不出来」等于额度为零。</p>
+
+<h2 id="registry">事先登记</h2>
+<p>回头找出来的记录，都是挑过的。把 agent 的钱包登记下来，之后的表现才算数，时间由 GitHub 记录，不论结果如何都公开列出。<a href="/registry/">前向登记表</a>（英文）。</p>
 
 <h2 id="not">它不做什么</h2>
 <p>它不判断一个策略有没有道理，不替你跑回测，也不让语言模型打分：每个结论都是你能核对的算术。在短时间窗里，t 衡量的是稳定性，不是还没发生的那次亏损。</p>

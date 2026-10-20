@@ -368,6 +368,30 @@ def check(address: str, picked_from: Optional[int] = None, pf: Optional[Dict[str
     }
 
 
+def gate(res: Dict[str, Any], min_weeks: Optional[float] = None) -> Dict[str, Any]:
+    """A fixed allow/deny rule on a ``check()`` result, for a caller that moves money on it.
+
+    Allows only a record that clears the bar for how it was picked (``clears_bar``), and,
+    if ``min_weeks`` is given, has at least that many scored weeks. Everything else is
+    denied, including a record too short to score: "cannot tell" is a limit of zero, not
+    a pass. The rule and the reason come back with the decision so the caller can log them.
+    """
+    weeks = res.get("weeks") or 0
+    if res.get("t") is None:
+        allow, reason = False, "too_short"
+    elif min_weeks is not None and weeks < min_weeks:
+        allow, reason = False, "below_min_weeks"
+    elif res.get("clears_bar"):
+        allow, reason = True, res.get("verdict")
+    else:
+        allow, reason = False, res.get("verdict")
+    rule = res.get("bar_rule") or "picked blind: t >= 2"
+    if min_weeks is not None:
+        rule += f"; at least {min_weeks:g} weeks"
+    return {"address": res.get("address"), "allow": allow, "reason": reason, "rule": rule,
+            "t": res.get("t"), "bar": res.get("bar"), "weeks": weeks}
+
+
 def main(argv: Optional[List[str]] = None) -> None:
     import argparse
     ap = argparse.ArgumentParser(prog="python -m hl_wallet",
@@ -375,8 +399,16 @@ def main(argv: Optional[List[str]] = None) -> None:
     ap.add_argument("address")
     ap.add_argument("--picked-from", type=int, default=None,
                     help="how many wallets it was chosen from (the leaderboard size if found on one)")
+    ap.add_argument("--gate", action="store_true",
+                    help="print an allow/deny decision instead; exit status 0 allows, 1 denies")
+    ap.add_argument("--min-weeks", type=float, default=None, help="with --gate, also require this many scored weeks")
     a = ap.parse_args(argv)
-    print(json.dumps(check(a.address.lower(), picked_from=a.picked_from), indent=2))
+    res = check(a.address.lower(), picked_from=a.picked_from)
+    if a.gate:
+        g = gate(res, a.min_weeks)
+        print(json.dumps(g, indent=2))
+        raise SystemExit(0 if g["allow"] else 1)
+    print(json.dumps(res, indent=2))
 
 
 if __name__ == "__main__":
