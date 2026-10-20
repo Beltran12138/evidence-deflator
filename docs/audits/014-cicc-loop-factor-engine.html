@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audit 014 · CICC&#x27;s LLM agent loop that searched China A-share price-volume factors (report of 2026-08-03) · Evidence Deflator</title>
+<meta name="description" content="16,939 candidates backtested, 69 kept; every figure is on the window the filters were scored on (2025-01-01 to 2026-07-08). Best single factor t = 3.37, top-five blend 3.86, against a bar of 4.69 for the search. The loop logs its trial count but reports nothing adjusted for it.">
+<link rel="canonical" href="https://evidencedeflator.com/audits/014-cicc-loop-factor-engine.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Evidence Deflator">
+<meta property="og:title" content="Audit 014 · CICC&#x27;s LLM agent loop that searched China A-share price-volume factors (report of 2026-08-03) · Evidence Deflator">
+<meta property="og:description" content="16,939 candidates backtested, 69 kept; every figure is on the window the filters were scored on (2025-01-01 to 2026-07-08). Best single factor t = 3.37, top-five blend 3.86, against a bar of 4.69 for the search. The loop logs its trial count but reports nothing adjusted for it.">
+<meta property="og:url" content="https://evidencedeflator.com/audits/014-cicc-loop-factor-engine.html">
+<meta property="og:image" content="https://evidencedeflator.com/leaderboard/og-2026-10.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='4' fill='%2315171C'/%3E%3Crect x='3' y='4' width='18' height='2' fill='%23E66A4B'/%3E%3Crect x='4.5' y='13' width='3' height='7' fill='%23FAF9F6'/%3E%3Crect x='9.5' y='9.5' width='3' height='10.5' fill='%23FAF9F6'/%3E%3Crect x='14.5' y='15' width='3' height='5' fill='%23FAF9F6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script>try{if(localStorage.getItem('ed_theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}
+function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/chrome.css?v=666db965">
+<link rel="stylesheet" href="/assets/site.css?v=dcbe4c81">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e38b718917cf4c2891f9038a6a597a88", "spa": true}'></script>
+</head>
+<body>
+<header class="site-header"><div class="container">
+<a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+<nav class="nav" aria-label="Main"><a href="/wallet/">Check</a><a href="/ranking/">Ranking</a><a href="/audits/" aria-current="page">Audits</a><a href="/method/">Method</a><a href="/api/">For agents</a></nav>
+<div class="header-cta"><button class="theme-toggle" type="button" aria-label="Switch light or dark" title="Light or dark" onclick="edTheme()"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button><a class="gh" href="/zh-hans/" hreflang="zh-Hans" lang="zh-Hans">中文</a><a class="gh" href="https://github.com/Beltran12138/evidence-deflator"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a></div>
+</div></header>
+
+<main class="container article"><div class="split">
+<article class="prose">
+<div class="eyebrow"><a href="/audits/" style="text-decoration:none">Audits</a> / 014</div>
+<h1 style="margin-top:16px">CICC&#x27;s LLM agent loop that searched China A-share price-volume factors (report of 2026-08-03)</h1>
+<div class="meta"><span class="tag tag-red">0 of 69 clear the bar</span><span class="mono">2026-10-20</span><span>Sources public, fetched on the stated date</span></div>
+<div class="callout" style="margin-top:0"><div class="eyebrow" style="margin-bottom:10px">Finding</div>16,939 candidates backtested, 69 kept; every figure is on the window the filters were scored on (2025-01-01 to 2026-07-08). Best single factor t = 3.37, top-five blend 3.86, against a bar of 4.69 for the search. The loop logs its trial count but reports nothing adjusted for it.</div>
+<p>The subject is the reported evidence for the discovered factors, not the engineering of the loop or the research team.</p>
+<h2>Subject</h2>
+<p>On 2026-08-03 CICC's research department (China International Capital Corporation) published <em>Large-model series (7): an automated factor-discovery engine based on Loop Engineering</em>, a system that searches for daily price-volume factors in China A-shares without human input. Our source is the summary CICC's own research account reposted on Sina Finance on 2026-08-05 (snapshot kept, md5 <code>2d05a20b…</code>); we have not read the full PDF.</p>
+<p>The system runs as an agent loop of the kind Claude Code popularised: every five minutes a round generates 100 candidate factor expressions (25% mutation, 25% crossover, 15% parameter perturbation, 15% random, 20% written by an LLM from a list of 13 "mechanism families"), sub-agents and rules screen them, and a hard-coded backtest scores the survivors against 11 filters. A checkpoint file keeps "the hash set of factors already tested". The report's headline: after 581 rounds, <strong>16,939 candidates tested, 69 kept (0.41%)</strong>; the top five combined have an excess Sharpe of <strong>3.14</strong> and 18.3% annual excess return.</p>
+<h2>Three inputs</h2>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knowledge cutoff</td>
+<td>The LLM behind the 20% of LLM-written candidates is not named, so its cutoff is unknown. The scored window (2025-01-01 to 2026-07-08) is recent enough that a model released by mid-2026 may have read about which A-share patterns worked in 2025; that cannot be ruled out.</td>
+</tr>
+<tr>
+<td>Window</td>
+<td>Factor values on the last 600 trading days (early 2024 to July 2026). <strong>Every performance figure is stated for 2025-01-01 to 2026-07-08</strong>, 553 days, 1.51 years.</td>
+</tr>
+<tr>
+<td>Attempts</td>
+<td>16,939 candidates fully backtested; 58,100 generated (581 rounds × 100) before screening.</td>
+</tr>
+</tbody>
+</table>
+<h2>Finding</h2>
+<p><strong>No discovered factor clears the bar for the search that found it, and none of the reported performance is out of sample.</strong> The window used to select the factors is the window used to report them: the filters require positive excess return in 2025 and in 2026 and a 2026 Sharpe above 0.5, and the results are then shown for 2025 and 2026.</p>
+<ul>
+<li>Method: t = Sharpe × √years on the report's own excess Sharpe ratios and its stated window (1.51 years). The bar for the best of N is Bonferroni, one-sided, as everywhere on this site.</li>
+<li>The system already records its own trial count. It does not use it: no figure in the report is adjusted for the 16,939 tries.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>What is reported</th>
+<th>Excess Sharpe</th>
+<th>t over 1.51 years</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Top five combined (picked by Sharpe from the kept set; four flipped in sign)</td>
+<td>3.14</td>
+<td>3.86</td>
+</tr>
+<tr>
+<td>Best single factor ("gap-trend divergence")</td>
+<td>2.74</td>
+<td>3.37</td>
+</tr>
+<tr>
+<td>"Amplitude expansion and gap premium"</td>
+<td>2.64</td>
+<td>3.25</td>
+</tr>
+<tr>
+<td>Average of the class representatives</td>
+<td>1.63</td>
+<td>2.01</td>
+</tr>
+<tr>
+<td>Average of all 69 kept</td>
+<td>1.60</td>
+<td>1.97</td>
+</tr>
+<tr>
+<td>Average of factors found after the dominant structure was banned</td>
+<td>0.92</td>
+<td>1.13</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>If the search counted as</th>
+<th>Bar</th>
+<th>Clears it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16,939 backtested</td>
+<td>4.69</td>
+<td>none</td>
+</tr>
+<tr>
+<td>58,100 generated</td>
+<td>4.94</td>
+<td>none</td>
+</tr>
+<tr>
+<td>69 kept, the rejected ignored</td>
+<td>3.41</td>
+<td>only the top-five blend, which was itself picked from the 69</td>
+</tr>
+</tbody>
+</table>
+<p>At the search's real size a factor would need an excess Sharpe of about 3.8 over this window. The candidates are far from independent (the report says the overnight-gap field appears in 85% of the kept factors, and 51 of the 69 were found in one 50-round burst), so the effective number of tries is smaller than 16,939 and the Bonferroni bar is too strict. But it is not 69: the rejected 16,870 were rejected by looking at the same 553 days.</p>
+<h2>What the report says itself</h2>
+<ul>
+<li>Its risk note: tested on history, "cannot ensure out-of-sample performance".</li>
+<li>It credits the 11 filters with avoiding the risk of the metric being fitted back (Goodhart's law). Filters scored on the reporting window are part of the fit, not a guard against it.</li>
+<li>It reports concentration honestly: overnight-gap factors dominate because they did best "in the 2025–2026 A-share environment", and the factors found later average a Sharpe of 0.92 against 1.68 for the core family.</li>
+<li>Two counts disagree inside the summary: the representatives are "21 classes" in one paragraph and "28" in the conclusion, with the same average Sharpe of 1.63.</li>
+</ul>
+<h2>Why it matters beyond one report</h2>
+<p>This is the case the time and trial axes of this site were built for, at an institution's scale: an LLM agent loop that logs every candidate it tests, then reports the best of them without the count. Generating factors has become nearly free; the 16,939 tries took about three days. What did not get cheaper is the out-of-sample record that tells the best of them apart from the luckiest.</p>
+<h2>Limits</h2>
+<ul>
+<li>We read CICC's own summary, not the full report; the full PDF may contain a holdout we have not seen.</li>
+<li>Sharpe ratios are the report's, quoted, not recomputed; the factor expressions and return series are not public.</li>
+<li>The excess return is long top decile against the equal-weighted market with 0.1% one-way cost, as stated; we have not checked capacity or turnover.</li>
+<li>Converting Sharpe to t this way assumes weekly returns that are roughly independent; overlapping 5-day holdings would make the true t lower, not higher.</li>
+</ul>
+<h2>What would fix it</h2>
+<p>Publish the kept factors' returns from 2026-07-09 onward, a window none of them was selected on, and report every Sharpe next to the number of candidates tested to find it. The loop already stores that number.</p>
+<p>Recheck: when CICC publishes a follow-up with out-of-sample results, or after 2026-12-31 against any forward figures released by then.</p>
+</article>
+<aside class="aside">
+ <div class="box"><h4>Three inputs</h4><ul><li>The model’s knowledge cutoff</li><li>The test window</li><li>How many attempts the result was picked from</li></ul></div>
+ <div class="box"><h4>Rules</h4><ul><li>Numbers recomputed, not copied</li><li>A missing input is a finding, not a verdict</li><li>No judgement of intent</li></ul></div>
+ <div class="box"><h4>More audits</h4><ul><li><a href="/audits/013-traderank-arena-and-jev.html">← 013 · TradeRank&#x27;s LLM trading arena (10 seasons plus the running one) and Jev, TypeSafe&#x27;s decision model</a></li><li><a href="/audits/">All audits</a></li></ul></div>
+ <a class="btn btn-secondary" href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">Request an audit</a>
+</aside>
+</div></main>
+<footer class="site-footer"><div class="container">
+<div class="foot-grid">
+ <div><a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+  <p style="margin-top:14px;max-width:340px">Whether a trading record can be told apart from luck, once you allow for how it was picked. Open source.</p></div>
+ <div><h4>Product</h4><ul><li><a href="/wallet/">Hyperliquid check</a></li><li><a href="/polymarket/">Polymarket check</a></li><li><a href="https://t.me/SkillOrLuckBot">Telegram bot</a></li><li><a href="https://chromewebstore.google.com/detail/evidence-deflator/fbhanjlioldbpgmncefioidcpkdhjbhn">Chrome extension</a></li><li><a href="/audits/">Audits</a></li><li><a href="/leaderboard/">AI trading leaderboard</a></li><li><a href="/check/">Check a backtest</a></li><li><a href="/api/">API and MCP</a></li></ul></div>
+ <div><h4>Method</h4><ul><li><a href="/method/">How it works</a></li><li><a href="/method/#principles">Principles</a></li><li><a href="/q/hyperliquid-trader-skill-or-luck/">Skill or luck?</a></li><li><a href="/q/how-many-months-of-backtest/">How many months?</a></li><li><a href="/q/why-leaderboard-winner-is-not-evidence/">Why #1 is not evidence</a></li><li><a href="/leaderboard/2026-10.json">Data (JSON)</a></li></ul></div>
+ <div><h4>Project</h4><ul><li><a href="https://github.com/Beltran12138/evidence-deflator">GitHub</a></li><li><a href="https://pypi.org/project/evidence-deflator/">PyPI</a></li><li><a href="/record/">Our record</a></li><li><a href="/memo/sample/">Sample memo</a></li><li><a href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">Request an audit</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="foot-note"><span>Open source · MIT · v0.2.0</span><span>“Cannot be ruled out as seen” is the strongest claim we make about a model’s training data.</span></div>
+</div></footer>
+<script src="/assets/site.js"></script>
+</body>
+</html>

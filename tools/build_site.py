@@ -156,6 +156,7 @@ AUDIT_TAGS = {  # short status shown in lists; the finding text comes from audit
     "011": ("0 of 149 clear the bar", "red"),
     "012": ("PnL board: chance · ROI board: above chance", "amber"),
     "013": ("0 reach t = 2", "red"),
+    "014": ("0 of 69 clear the bar", "red"),
 }
 
 
