@@ -51,6 +51,10 @@ function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if
 <p><b>寫下</b>於 2026-10-18。名單和規則是 2026-10-14 凍結的，但當時沒有寫下「什麼結果算我們錯」；這裏補寫，晚了四天，仍在任何錢包能被評分之前。</p>
 <p><b>什麼結果算我們錯：</b>凍結後記錄滿 8 週的錢包裏，到 2026-12-09 讀數時，超過 10% 在這段記錄上達到 t ≥ 2。單靠運氣約 2.3%；假如其中多數人的真實夏普是 3，大約五個裏有一個能到（正態近似；小樣本校正會讓它略低）。超過 10% 就說明這些榜單挑出的實力比我們說的多，我們會照實說。同時報告、不設及格線：凍結前「有希望」（t ≥ 2）的錢包和其餘錢包相比，凍結後 t 大於零的比例。滿 8 週的錢包不足 30 個，算「數據不夠」，讀數推遲到 2027-01-06。</p>
 
+<h3 id="hl-ordering">3 · 我們的分數能給同一批錢包排序 <span class="tag tag-grey">待讀</span></h3>
+<p><b>寫下</b>於 2026-10-20，凍結後第六天，任何錢包都還沒攢滿凍結後 8 週記錄。名單和讀數日與第 2 條相同。第 2 條問榜單有沒有實力；這一條問我們自己的分數能不能分出好錢包和差錢包——拿它當放錢的關口，前提就是這一點。</p>
+<p><b>什麼結果算我們錯：</b>每個錢包凍結前的 t 與凍結後的 t 的秩相關係數小於或等於零。那樣我們就不再說這個分數可以用來決定放不放錢。只有相關係數大於零、且 95% 區間（按錢包重抽樣）不含零，才算我們對；介於兩者之間算「看不出來」。同時報告：凍結前按利潤排名與凍結後 t 的相關係數，以及兩者之差；只有差值的區間不含零才說「比按利潤排名強」（<a href="/data/hl/retro/RESULTS.md">回溯檢驗</a>沒過這一關，英文）。全文：<a href="/data/hl/COHORT_PREREG_ORDERING.md">COHORT_PREREG_ORDERING.md</a>（英文）。</p>
+
 <h2 id="frozen">我們凍結的名單</h2>
 <p>每個文件連同完整修改歷史都在倉庫裏，凍結之後的任何改動都會出現在 git 記錄裏，哈希值也會對不上。</p>
 <div class="table-wrap"><table class="data"><thead><tr><th>名單</th><th class="r">條目</th><th>凍結時間</th><th>文件和 sha256</th></tr></thead><tbody><tr><td>Hyperliquid 前向隊列</td><td class="r">200</td><td class="mono">2026-10-14 09:48 UTC</td><td class="mono" style="white-space:normal;overflow-wrap:anywhere"><a href="/data/hl/cohort-2026-10-14.json">cohort-2026-10-14.json</a><br>sha256 aacda553127fcc213669fc9ca05fd0dfe9de25a1b11d67a63974e867f3f36609</td></tr><tr><td>Papertrade 全期榜單</td><td class="r">14,381</td><td class="mono">2026-10-16 03:01 UTC</td><td class="mono" style="white-space:normal;overflow-wrap:anywhere"><a href="/data/papertrade/board-2026-10-16.csv.gz">board-2026-10-16.csv.gz</a><br>sha256 cfff36c92663091027f987b4c8575019633710c48eff38ca251bd347f7644113</td></tr></tbody></table></div>
