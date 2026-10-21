@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 替你下单之前（v10） · Evidence Deflator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+/* v10: same keynote ground as v9 (black, white, one red); one story: problem -> the gate -> signed limits -> what we found -> why it must be yours -> ask.
+   Content sits in the top ~77% of the frame and away from the edges (LED wall, heads in front). Numbers in mono. */
+:root{--bg:#050505;--ink:#F3F3F1;--mid:#A3A3A0;--low:#6B6B68;--red:#FF4B3E;--line:#262626;--mono:'JetBrains Mono',Consolas,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+nav{position:fixed;top:14px;right:24px;display:flex;gap:4px;z-index:3}
+nav button{font:12px Consolas,monospace;color:var(--low);background:none;border:0;padding:4px 6px;cursor:pointer}
+nav button.on{color:var(--ink)}
+footer{position:fixed;left:80px;bottom:26px;font-size:18px;color:var(--low);letter-spacing:.04em}
+main{height:76.9%;display:flex;zoom:1.3}
+.slide{display:none;flex:1;padding:50px 62px 0;flex-direction:column;justify-content:flex-start}
+.slide.on{display:flex;animation:in .4s ease both}
+.static .slide.on{animation:none}.static nav{display:none}
+@keyframes in{from{opacity:0}to{opacity:1}}
+h1{font-size:84px;font-weight:900;line-height:1.18;letter-spacing:-.01em}
+h2{font-size:62px;font-weight:900;line-height:1.2;letter-spacing:-.01em}
+.lede{font-size:30px;color:var(--mid);margin-top:22px;line-height:1.5;font-weight:500}
+.lede b{color:var(--ink);font-weight:700}
+.red{color:var(--red)}.mid{color:var(--mid)}
+.m{font-family:var(--mono);font-weight:700;letter-spacing:-.01em}
+.src{font-size:13px;color:var(--low);margin-top:24px;line-height:1.6}
+/* 00 */
+.cover{padding-top:96px}
+.cover .sub{font-size:34px;color:var(--mid);margin-top:30px;font-weight:500}
+.cover .who{margin-top:64px;font-size:26px;color:var(--mid)}.cover .who b{color:var(--ink);font-weight:700;margin-right:18px}
+/* 01 */
+.huge{font-size:280px;font-weight:900;line-height:.95;letter-spacing:-.04em;margin-top:4px}
+.huge small{font-size:86px;letter-spacing:0;margin-left:10px}
+.but{margin-top:34px;font-size:40px;font-weight:700;line-height:1.4}
+.but span{color:var(--mid);font-weight:500}
+/* 02 the refusal, as ledger lines */
+.tape{margin-top:46px;border-top:1px solid var(--line)}
+.tape .row{display:grid;grid-template-columns:150px 440px 1fr;align-items:baseline;gap:30px;padding:26px 0;border-bottom:1px solid var(--line)}
+.tape .t{font:500 22px var(--mono);color:var(--low)}
+.tape .o{font:800 46px var(--mono);letter-spacing:-.02em}
+.tape .d{font-size:30px;color:var(--mid)}
+.tape .d b{font:800 46px var(--mono);margin-right:22px}
+.tape .blk .o,.tape .blk .d b{color:var(--red)}
+.tape .ok .d b{color:var(--ink)}
+.said{margin-top:40px;font-size:30px;line-height:1.5;color:var(--mid);border-left:4px solid var(--red);padding-left:24px;max-width:1500px}
+.said b{color:var(--ink)}
+/* 03 signed limits */
+.two{display:grid;grid-template-columns:1.05fr 1fr;gap:70px;margin-top:40px;align-items:start}
+.doc{font:500 24px/1.75 var(--mono);color:var(--mid);border:1px solid var(--line);padding:28px 32px;border-radius:6px;background:#0C0C0C}
+.doc b{color:var(--ink);font-weight:700}.doc .k{color:var(--low)}.doc .sig{color:var(--red)}
+.pts{list-style:none}
+.pts li{font-size:32px;line-height:1.45;padding:0 0 30px;font-weight:500;color:var(--mid)}
+.pts li b{display:block;color:var(--ink);font-size:40px;font-weight:900;margin-bottom:6px}
+/* 04 stress test */
+.bars{margin-top:46px;max-width:1700px}
+.bar{display:grid;grid-template-columns:520px 1fr;align-items:center;gap:28px;margin-bottom:30px}
+.bar .lab{font-size:27px;color:var(--mid);line-height:1.35;text-align:right}.bar .lab b{color:var(--ink)}
+.bar .track{position:relative;height:74px;display:flex;align-items:center}
+.bar .fill{height:100%;background:#2A2A2A}
+.bar.hot .fill{background:var(--red)}
+.bar .v{font:800 46px var(--mono);margin-left:20px;white-space:nowrap}
+.bar.hot .v{position:absolute;right:22px;color:#050505}
+.so{margin-top:18px;font-size:34px;font-weight:700}.so span{color:var(--mid);font-weight:500}
+/* 05 why yours */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:50px;border-top:1px solid var(--line)}
+.vs div{padding:30px 40px 30px 0}
+.vs div+div{padding-left:40px;border-left:1px solid var(--line)}
+.vs h3{font-size:30px;color:var(--low);font-weight:500;margin-bottom:22px}
+.vs p{font-size:34px;line-height:1.5;font-weight:500;color:var(--mid);margin-bottom:14px}
+.vs .ours p{color:var(--ink);font-weight:700}
+.vs .ours h3{color:var(--red)}
+.now{margin-top:30px;font-size:26px;color:var(--mid)}.now b{color:var(--ink)}
+/* 06 ask */
+.ask{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:start}
+.ask ul{list-style:none;margin-top:44px;font-size:32px;line-height:1.5;color:var(--mid)}
+.ask li{margin-top:18px}.ask li b{color:var(--ink)}
+.qrs{display:flex;gap:28px;margin-top:10px}
+.qr{text-align:center;font-size:18px;color:var(--mid)}
+.qr svg,.qr img{display:block;width:230px;height:230px;margin:0 auto 12px;background:#fff;padding:12px}
+.qr.big svg,.qr.big img{width:290px;height:290px}
+</style>
+</head>
+<body>
+<nav id="nav"></nav>
+<main id="stage"></main>
+<footer>evidencedeflator.com</footer>
+<script>
+// v10 (2026-10-22). Script and sources: OneDrive/桌面/创业_dc/澳门路演_v10_讲稿_1022.md
+const QR='<svg width="175" height="175" class="segno"><g transform="scale(4.2683)"><path fill="#ffffff" d="M0 0h41v41h-41z"/><path class="qrline" stroke="#17171B" d="M4 4.5h7m2 0h2m1 0h3m1 0h2m1 0h2m2 0h1m2 0h7m-33 1h1m5 0h1m2 0h3m1 0h5m2 0h3m3 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m2 0h1m2 0h3m2 0h2m3 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m1 0h2m1 0h1m2 0h1m3 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h3m1 0h2m1 0h2m3 0h1m1 0h1m3 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h2m2 0h1m2 0h1m2 0h1m2 0h1m2 0h1m-25 1h1m1 0h5m2 0h2m1 0h4m1 0h1m4 0h1m1 0h1m1 0h5m-31 1h1m2 0h1m1 0h1m3 0h1m2 0h1m5 0h4m1 0h1m2 0h2m1 0h2m1 0h1m-31 1h2m1 0h2m1 0h2m5 0h2m1 0h1m2 0h1m2 0h2m2 0h1m1 0h2m-32 1h1m4 0h1m1 0h6m1 0h3m3 0h2m3 0h1m2 0h3m-30 1h6m4 0h1m6 0h2m2 0h1m1 0h2m1 0h3m2 0h1m-33 1h2m1 0h3m2 0h2m1 0h1m1 0h5m2 0h2m1 0h1m2 0h1m3 0h3m-33 1h2m3 0h5m1 0h1m1 0h2m2 0h1m1 0h1m5 0h2m2 0h3m-30 1h1m1 0h2m1 0h3m1 0h3m2 0h1m2 0h8m1 0h3m-31 1h4m1 0h3m1 0h3m1 0h2m2 0h1m1 0h1m2 0h1m1 0h2m1 0h2m3 0h1m-30 1h3m3 0h5m2 0h2m1 0h2m2 0h1m2 0h2m1 0h2m1 0h1m-31 1h1m1 0h6m2 0h1m1 0h4m3 0h2m2 0h4m1 0h2m-29 1h3m2 0h1m2 0h1m4 0h6m2 0h2m1 0h5m-32 1h3m1 0h3m2 0h1m1 0h1m1 0h1m2 0h1m5 0h2m1 0h1m1 0h3m1 0h2m-33 1h3m2 0h1m1 0h2m2 0h3m1 0h1m2 0h1m2 0h1m1 0h1m2 0h1m2 0h1m2 0h1m-33 1h1m1 0h3m1 0h2m2 0h1m1 0h1m2 0h4m2 0h2m2 0h1m2 0h1m2 0h1m-32 1h1m3 0h2m1 0h2m1 0h4m1 0h1m2 0h1m2 0h3m1 0h1m2 0h4m-32 1h1m2 0h2m1 0h3m3 0h1m2 0h1m1 0h2m3 0h8m-22 1h2m1 0h4m1 0h1m1 0h4m2 0h1m3 0h1m1 0h1m1 0h1m-33 1h7m4 0h2m2 0h2m1 0h1m1 0h5m1 0h1m1 0h1m1 0h1m-31 1h1m5 0h1m1 0h2m1 0h2m1 0h1m5 0h5m3 0h3m-31 1h1m1 0h3m1 0h1m1 0h1m1 0h6m2 0h1m5 0h6m2 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m3 0h1m1 0h3m3 0h1m3 0h1m2 0h1m1 0h3m-33 1h1m1 0h3m1 0h1m1 0h1m2 0h4m2 0h1m2 0h8m1 0h1m-30 1h1m5 0h1m2 0h2m1 0h3m1 0h1m1 0h4m3 0h2m1 0h1m1 0h1m-31 1h7m1 0h3m2 0h1m3 0h1m1 0h1m2 0h1m1 0h4m3 0h1"/></g></svg>';
+const S=[
+// 00
+`<div class="slide cover">
+ <h1>AI 替你下单之前，<br>谁来管住它？</h1>
+ <div class="sub">AI 交易 agent 的授权闸：限额由你签名，账本谁都能复核</div>
+ <div class="who"><b>伯纳德</b>Evidence Deflator 开发者 · 《AI 智能投资手册》第九章作者</div>
+</div>`,
+// 01
+`<div class="slide">
+ <div class="huge m">15<small>万</small></div>
+ <div class="lede">个 Robinhood 账户，已经让 <b>AI agent 替自己下单</b></div>
+ <div class="but">「我们不监督、不审计这些 agent。」<br><span>「agent 下的单，风险全部由你承担。」</span></div>
+ <div class="src">出处：Robinhood HOOD Summit 2026 新闻稿（公司自报）。原文：over 150,000 customers have opened agentic trading accounts / Robinhood does not control, supervise, monitor, recommend, or audit agents / You assume all risk for trades executed by AI agents（中文为本项目翻译）</div>
+</div>`,
+// 02
+`<div class="slide">
+ <h2>我们在 agent 和账户之间，加了一道闸</h2>
+ <div class="tape">
+  <div class="row blk"><span class="t">09:27:54</span><span class="o">买 ETH $5,000</span><span class="d"><b>拦下</b>超过你定的单笔上限 $500</span></div>
+  <div class="row ok"><span class="t">09:27:56</span><span class="o">买 BTC $300</span><span class="d"><b>放行</b>规则之内，成交</span></div>
+ </div>
+ <div class="said">agent 的回复：<b>「我没有把 $5,000 拆成十笔 $500 去绕开限额。」</b>要改限额，只能你自己改。</div>
+ <div class="src">2026-10-21 真实运行（时间为 UTC）：Claude 作为 agent，模拟盘按 Hyperliquid 实时价格成交。账本与 agent 原话：evidencedeflator.com/gate（demo-2026-10-21）</div>
+</div>`,
+// 03
+`<div class="slide">
+ <h2>限额由你的钱包签名，账本谁都能查</h2>
+ <div class="two">
+  <div class="doc"><span class="k">授权文件（节选）</span><br>
+   <b>标的</b>　 BTC, ETH<br><b>单笔</b>　 ≤ $500<br><b>日亏</b>　 ≤ $200<br><b>有效</b>　 至 2026-11-04<br>
+   <span class="k">可执行的唯一密钥</span>　0x1329…82Bb<br>
+   <span class="k">签名</span>　<span class="sig">0x9f1e…</span> ← 你的钱包</div>
+  <ul class="pts">
+   <li><b>agent 手里没有能下单的钥匙</b>只有闸门有，越界就拒</li>
+   <li><b>每一笔都签名入账</b>放行的、拦下的，都在</li>
+   <li><b>只凭账本就能审计</b>整份重写账本的伪造，也能查出来</li>
+  </ul>
+ </div>
+ <div class="src">授权文件、账本与审计结果：github.com/Beltran12138/evidence-deflator · docs/gate/demo-2026-10-21-mandate（测试钥匙签发）· 规格 docs/gate/MANDATE.md</div>
+</div>`,
+// 04
+`<div class="slide">
+ <h2>只设「每日亏损上限」，挡不住</h2>
+ <div class="bars">
+  <div class="bar"><div class="lab">你设的每日亏损上限</div><div class="track"><div class="fill" style="width:3.3%"></div><span class="v">$200</span></div></div>
+  <div class="bar hot"><div class="lab"><b>守规矩</b>但把额度用满的 agent<br>最坏一天（中位数）</div><div class="track"><div class="fill" style="width:100%"></div><span class="v">$6,007</span></div></div>
+  <div class="bar"><div class="lab">加上单标的仓位上限 $2,000 后</div><div class="track"><div class="fill" style="width:3.1%"></div><span class="v">$186</span></div></div>
+ </div>
+ <div class="so">它只拦新开的仓，<span>拦不住手里仓位继续亏。所以我们加了仓位上限。</span></div>
+ <div class="src">本项目压力测试：Hyperliquid BTC/ETH 199 天真实小时收益按日重抽样，闸门自身规则回放，30 天 × 1,000 次，起始 $10,000；单笔 $500、每日 20 笔。小时收盘价，未计强平、资金费、手续费（docs/data/gate-stress-2026-10-21.json）</div>
+</div>`,
+// 05
+`<div class="slide">
+ <h2>闸必须在你手里，不在卖 agent 的人手里</h2>
+ <div class="vs">
+  <div><h3>平台自带的护栏</h3><p>规则在卖 agent 的人手里</p><p>账本也在他手里</p><p>换个 agent、换个券商，就没了</p></div>
+  <div class="ours"><h3>Evidence Deflator 的闸</h3><p>限额由你签名</p><p>账本任何人都能复核</p><p>换 agent、换券商，都还在</p></div>
+ </div>
+ <div class="now">为什么是现在：10 月 19 日证监会主席吴清表示，近期将发布 AI 在证券期货业合规应用的意见，点名风险 <b class="red">算法黑箱</b></div>
+ <div class="src">出处：2026 金融街论坛年会主题演讲（正式文件尚未发布）</div>
+</div>`,
+// 06
+`<div class="slide">
+ <div class="ask">
+  <div><h1>钱交给 AI 之前，<br><span class="red">先给它装一道闸</span></h1>
+   <ul><li><b>开源 v0 已上线</b>：evidencedeflator.com/gate</li><li><b>找 3 个设计合作方</b>：在用 AI agent 交易的团队</li><li><b>约 30 分钟深聊</b>：扫码加我，16:30 我在现场</li></ul></div>
+  <div class="qrs"><div class="qr big"><img src="assets/wechat-qr.png" alt="微信" onerror="this.parentNode.remove()">微信 · 伯纳德</div><div class="qr">${QR}evidencedeflator.com</div></div>
+ </div>
+</div>`
+];
+const stage=document.getElementById('stage'),nav=document.getElementById('nav');
+S.forEach((h,i)=>{const b=document.createElement('button');b.textContent=String(i).padStart(2,'0');b.onclick=()=>go(i);nav.appendChild(b);
+ const t=document.createElement('div');t.innerHTML=h.trim();stage.appendChild(t.firstChild);});
+if(new URLSearchParams(location.search).has('static'))document.documentElement.classList.add('static');
+let cur=-1;
+function go(i){if(i<0||i>=S.length||i===cur)return;cur=i;
+ [...stage.children].forEach((el,k)=>el.classList.toggle('on',k===i));
+ [...nav.children].forEach((el,k)=>el.classList.toggle('on',k===i));}
+document.addEventListener('keydown',e=>{
+ if(['ArrowRight','PageDown',' '].includes(e.key))go(Math.min(cur+1,S.length-1));
+ else if(['ArrowLeft','PageUp'].includes(e.key))go(cur-1);
+ else if(/^[0-6]$/.test(e.key))go(+e.key);
+});
+go(+(new URLSearchParams(location.search).get("s")||0));
+function fit(){document.documentElement.style.zoom=Math.max(1,Math.min(innerWidth/1920,innerHeight/1080)).toFixed(3)}
+addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>
