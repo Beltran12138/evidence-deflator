@@ -1,0 +1,13 @@
+{
+  "broker": "sim",
+  "state_dir": ".",
+  "starting_cash": 10000,
+  "max_order_usd": 500,
+  "max_daily_loss_usd": 200,
+  "allow": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "max_orders_per_day": 20
+}

@@ -1450,6 +1450,7 @@ HAND_PAGES = [  # hand-maintained pages that only receive the shared head links,
     ("audit.html", "audits", "/audit.html"),
     ("case-nuclear.html", "audits", "/case-nuclear.html"),
     ("how-many-decisions.html", "check", "/how-many-decisions.html"),
+    ("gate/index.html", "agent", "/gate/"),
 ]
 
 

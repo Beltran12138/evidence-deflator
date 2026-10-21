@@ -10,6 +10,26 @@ pip install "git+https://github.com/Beltran12138/evidence-deflator"
 python -m hl_wallet 0xADDRESS --picked-from 47000
 ```
 
+**Agent gate** — put a rule gate between an AI trading agent and the account it
+trades ([evidencedeflator.com/gate](https://evidencedeflator.com/gate/)). The agent
+calls the gate instead of the broker: orders inside your rules (single-order size,
+daily loss, allowed symbols, orders per day) pass, the rest are refused, and every
+request goes into a ledger where each line carries the hash of the one before, so
+an edit anywhere is caught by `verify`. A weekly scorecard reads the ledger's equity
+the same way the wallet check does. Paper account at Hyperliquid's live prices out
+of the box; an Alpaca paper adapter is written against Alpaca's documented API but
+has not yet been run against a live account.
+
+```bash
+python src/agent_gate.py demo                  # scripted agent: allowed, blocked, tamper caught
+python src/agent_gate.py init gate.json        # default rules, then edit
+python src/gate_server.py --config gate.json   # the gate as an MCP server for your agent
+```
+
+A real run with Claude as the agent (it was told to put $5,000 into ETH; the $500
+single-order rule refused it, and it did not split the order to get round the
+limit): [docs/gate/demo-2026-10-21](docs/gate/demo-2026-10-21/).
+
 For agents, no install: remote MCP at `https://api.evidencedeflator.com/mcp`
 (tool `hyperliquid_wallet`), or JSON at
 `https://api.evidencedeflator.com/api/wallet?a=0xADDRESS&picked_from=47000`.
@@ -48,10 +68,12 @@ The same engine also separates **factual** from **definitional** disagreement
 between risk sources (two vendors can differ by 68 points and both be right),
 and returns a confidence label with an audit trail — see below.
 
-> Read-only. Pure Python standard library. No execution. One module makes a
-> network call: `hl_wallet` reads a wallet's public history from Hyperliquid's
-> info API (no key). Everything else is a pure transform of what the caller
-> supplies; the value is a *repeatable, comparable basis* — not data freshness.
+> The scoring is read-only, pure Python standard library, no execution. Two modules
+> make network calls: `hl_wallet` reads a wallet's public history from Hyperliquid's
+> info API (no key), and `agent_gate` reads live mid prices from the same API and,
+> with the Alpaca broker configured, places orders on *your* Alpaca paper account.
+> The gate is the only part that executes anything, and only on the account you
+> point it at. Everything else is a pure transform of what the caller supplies.
 
 ### One question, five domains
 
