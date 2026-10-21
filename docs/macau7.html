@@ -75,6 +75,17 @@ h2{font-size:62px;font-weight:900;line-height:1.2;letter-spacing:-.01em}
 .vs .ours p{color:var(--ink);font-weight:700}
 .vs .ours h3{color:var(--red)}
 .now{margin-top:30px;font-size:26px;color:var(--mid)}.now b{color:var(--ink)}
+/* 03 screenshot */
+.shot img{display:block;width:100%;border:1px solid var(--line);border-radius:6px}
+/* 05 roadmap */
+.road{display:grid;grid-template-columns:1.45fr 1fr .75fr;margin-top:40px;border-top:1px solid var(--line)}
+.road div{padding:26px 34px 10px 0}
+.road div+div{padding-left:34px;border-left:1px solid var(--line)}
+.road h3{font-size:26px;color:var(--low);font-weight:500;margin-bottom:18px}
+.road .live h3{color:var(--red)}
+.road p{font-size:28px;line-height:1.4;font-weight:500;color:var(--mid);margin-bottom:14px}
+.road .live p{color:var(--ink);font-weight:700}
+.why{margin-top:26px;font-size:24px;color:var(--mid)}.why b{color:var(--ink)}
 /* 06 ask */
 .ask{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:start}
 .ask ul{list-style:none;margin-top:44px;font-size:32px;line-height:1.5;color:var(--mid)}
@@ -108,29 +119,27 @@ const S=[
 </div>`,
 // 02
 `<div class="slide">
- <h2>我们在 agent 和账户之间，加了一道闸</h2>
+ <h2>我们在 agent 和券商账户之间，加了一道闸</h2>
  <div class="tape">
-  <div class="row blk"><span class="t">09:27:54</span><span class="o">买 ETH $5,000</span><span class="d"><b>拦下</b>超过你定的单笔上限 $500</span></div>
-  <div class="row ok"><span class="t">09:27:56</span><span class="o">买 BTC $300</span><span class="d"><b>放行</b>规则之内，成交</span></div>
+  <div class="row ok"><span class="t">12:14:38</span><span class="o">买 AAPL $300</span><span class="d"><b>放行</b>规则之内，已发给券商</span></div>
+  <div class="row blk"><span class="t">12:15:03</span><span class="o">买 SPY $5,000</span><span class="d"><b>拦下</b>超过你定的单笔上限 $500</span></div>
+  <div class="row blk"><span class="t">12:15:14</span><span class="o">买 TSLA $100</span><span class="d"><b>拦下</b>不在你允许的名单里</span></div>
  </div>
- <div class="said">agent 的回复：<b>「我没有把 $5,000 拆成十笔 $500 去绕开限额。」</b>上限只有你能改。</div>
- <div class="src">2026-10-21 真实运行（时间为 UTC）：Claude 作为 agent，模拟盘按 Hyperliquid 实时价格成交。账本与 agent 原话：evidencedeflator.com/gate（demo-2026-10-21）</div>
+ <div class="said">换成 Claude 当 agent，被拦下后它说：<b>「我没有把 $5,000 拆成十笔 $500 去绕开限额。」</b></div>
+ <div class="src">2026-10-21 Alpaca 美股模拟账户真实运行（时间为 UTC）；放行那笔 Alpaca 返回 accepted（盘前市价单，开盘成交）。agent 原话来自同日另一次运行（Claude 作 agent，Hyperliquid 模拟盘）。账本：github.com/Beltran12138/evidence-deflator · docs/gate/demo-2026-10-21-alpaca</div>
 </div>`,
 // 03
 `<div class="slide">
- <h2>上限用你的钱包签，账本谁都能查</h2>
+ <h2>上限由你签名，账本谁都能查</h2>
  <div class="two">
-  <div class="doc"><span class="k">授权文件（节选）</span><br>
-   <b>标的</b>　 BTC, ETH<br><b>单笔</b>　 ≤ $500<br><b>日亏</b>　 ≤ $200<br><b>有效期</b> 至 2026-11-04<br>
-   <span class="k">唯一能下单的密钥</span>　0x1329…82Bb<br>
-   <span class="k">签名</span>　<span class="sig">0x9f1e…</span> ← 你的钱包</div>
+  <div class="shot"><img src="assets/deck/sign-us-mandate.png" alt="签名页：授权文件预览"></div>
   <ul class="pts">
    <li><b>agent 手里没有能下单的钥匙</b>钥匙只在闸门里，越界就拦</li>
    <li><b>每一笔都签名入账</b>放行的、拦下的，都在</li>
    <li><b>只凭账本就能审计</b>就算有人把整本账重写一遍，也查得出来</li>
   </ul>
  </div>
- <div class="src">授权文件、账本与审计结果：github.com/Beltran12138/evidence-deflator · docs/gate/demo-2026-10-21-mandate（测试钥匙签发）· 规格 docs/gate/MANDATE.md</div>
+ <div class="src">截图：evidencedeflator.com/gate/sign 的授权预览。授权文件 docs/gate/demo-2026-10-22-us-mandate（测试钥匙签发，AAPL/SPY，Alpaca 模拟账户）· 规格 docs/gate/MANDATE.md</div>
 </div>`,
 // 04
 `<div class="slide">
@@ -145,20 +154,22 @@ const S=[
 </div>`,
 // 05
 `<div class="slide">
- <h2>闸必须在你手里，不在卖 agent 的人手里</h2>
- <div class="vs">
-  <div><h3>平台自带的护栏</h3><p>规则在卖 agent 的人手里</p><p>账本也在他手里</p><p>换个 agent、换个券商，就没了</p></div>
-  <div class="ours"><h3>Evidence Deflator 的闸</h3><p>上限由你来签</p><p>账本谁都能查</p><p>换 agent、换券商，都还在</p></div>
+ <h2>从一道闸，到 AI 交易的授权层</h2>
+ <div class="lede">闸在你手里，不在卖 agent 的人手里：<b>换 agent、换券商，都还在</b></div>
+ <div class="road">
+  <div class="live"><h3>已上线</h3><p>签名授权文件</p><p>闸门持钥，越界就拦</p><p>每笔签名入账，可审计</p><p>签名前压力测试</p><p>接 Alpaca、Hyperliquid 和 3 个开源框架</p></div>
+  <div><h3>下一步 · 规划</h3><p>一句话写授权</p><p>看例子确认后再签</p><p>多 agent、多券商一个面板</p></div>
+  <div><h3>之后 · 规划</h3><p>合规证明</p><p>给券商和审计方</p></div>
  </div>
- <div class="now">为什么是现在：10 月 19 日，证监会主席吴清说近期将发布 AI 在证券期货业合规应用的意见，点名风险：<b class="red">算法黑箱</b></div>
- <div class="src">出处：2026 金融街论坛年会主题演讲（正式文件尚未发布）</div>
+ <div class="why">为什么是现在：10 月 19 日，证监会主席吴清说近期将发布 AI 在证券期货业合规应用的意见，点名风险：<b class="red">算法黑箱</b></div>
+ <div class="src">出处：2026 金融街论坛年会主题演讲（正式文件尚未发布）。「规划」两栏尚未实现。</div>
 </div>`,
 // 06
 `<div class="slide">
  <div class="ask">
   <div><h1>钱交给 AI 之前，<br><span class="red">先给它装一道闸</span></h1>
-   <ul><li><b>开源第一版已上线</b>：evidencedeflator.com/gate</li><li><b>找 3 个共创伙伴</b>：正在用 AI agent 交易的团队</li><li><b>约 30 分钟深聊</b>：扫码加我，16:30 我在现场</li></ul></div>
-  <div class="qrs"><div class="qr big"><img src="assets/wechat-qr.png" alt="微信" onerror="this.parentNode.remove()">微信 · 伯纳德</div><div class="qr">${QR}evidencedeflator.com/gate</div></div>
+   <ul><li><b>体验</b>：evidencedeflator.com</li><li><b>欢迎交流</b> AI agent 交易：扫码加我，16:30 我在现场</li></ul></div>
+  <div class="qrs"><div class="qr big"><img src="assets/wechat-qr.png" alt="微信" onerror="this.parentNode.remove()">微信 · 伯纳德</div><div class="qr">${QR}evidencedeflator.com</div></div>
  </div>
 </div>`
 ];

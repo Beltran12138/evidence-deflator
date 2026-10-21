@@ -1,0 +1,31 @@
+{
+ "mandate": {
+  "type": "trading-mandate",
+  "version": "0",
+  "id": "49a7061e17cd4ff2",
+  "issuer": "0x3c5e32116F83d0316fe7315499c75b82cE43d94D",
+  "agent": "0x342F62CC6f2d5177162768ecb232f775B924746f",
+  "venue": "alpaca",
+  "account": "paper",
+  "scope": {
+   "allow": [
+    "AAPL",
+    "SPY"
+   ],
+   "sides": [
+    "buy",
+    "sell"
+   ],
+   "max_order_usd": 500,
+   "max_position_usd": 2000,
+   "max_daily_loss_usd": 200,
+   "max_orders_per_day": 20
+  },
+  "not_before": "2026-10-21T17:46:52Z",
+  "expires": "2026-11-04T17:46:52Z"
+ },
+ "sig": {
+  "scheme": "eip191",
+  "signature": "0x702902b6994ab1333b2bd3e0c24f2d5ae51c69b06876acc3cc0a6642a7dbf9c23813648603a307c61aa7ba91b690c434db3c0a14bde2daee6c7d963b8039bb481c"
+ }
+}
