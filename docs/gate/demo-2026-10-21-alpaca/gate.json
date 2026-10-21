@@ -1,0 +1,11 @@
+{
+  "broker": "alpaca",
+  "state_dir": ".",
+  "max_order_usd": 500,
+  "max_daily_loss_usd": 200,
+  "allow": [
+    "AAPL",
+    "SPY"
+  ],
+  "max_orders_per_day": 20
+}

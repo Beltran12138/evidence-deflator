@@ -10,8 +10,8 @@ wallet: weekly returns, t on the normal scale, and how much more record it would
 
 Brokers:
   sim     a paper account priced at Hyperliquid's live mid prices (public info API, no key). Crypto.
-  alpaca  Alpaca's paper trading API, keys from APCA_API_KEY_ID / APCA_API_SECRET_KEY. Written
-          against Alpaca's documented v2 endpoints; not yet run against a live paper account.
+  alpaca  Alpaca's paper trading API, keys from APCA_API_KEY_ID / APCA_API_SECRET_KEY. Run against
+          a live paper account on 2026-10-21 (docs/gate/demo-2026-10-21-alpaca).
 
 What the gate is not: it does not decide whether an order is a good idea, and it gives no advice.
 The rules are the owner's; the gate only enforces them and keeps the record.
@@ -178,7 +178,7 @@ class SimBroker:
 
 
 class AlpacaBroker:
-    """Alpaca paper trading (documented v2 REST). Not yet run against a live account."""
+    """Alpaca paper trading (v2 REST). Market orders, day; a pre-market order comes back "accepted" and fills at the open."""
 
     name = "alpaca"
     TRADE = "https://paper-api.alpaca.markets/v2"

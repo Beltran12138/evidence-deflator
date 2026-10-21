@@ -17,8 +17,8 @@ daily loss, allowed symbols, orders per day) pass, the rest are refused, and eve
 request goes into a ledger where each line carries the hash of the one before, so
 an edit anywhere is caught by `verify`. A weekly scorecard reads the ledger's equity
 the same way the wallet check does. Paper account at Hyperliquid's live prices out
-of the box; an Alpaca paper adapter is written against Alpaca's documented API but
-has not yet been run against a live account.
+of the box; with your own Alpaca paper keys it trades US stocks on your Alpaca paper
+account (run live on 2026-10-21: [docs/gate/demo-2026-10-21-alpaca](docs/gate/demo-2026-10-21-alpaca/)).
 
 ```bash
 python src/agent_gate.py demo                  # scripted agent: allowed, blocked, tamper caught
