@@ -87,9 +87,21 @@ def test_gate_fills_blocks_and_logs(tmp_path):
     assert g.ledger.verify() == {"ok": True, "lines": 3, "head": g.ledger.read()[-1]["hash"]}
 
 
+def test_position_limit_caps_build_up_but_not_reducing():
+    rules = dict(RULES, max_position_usd=1000)
+    # 8 held at 100 = $800; buying 3 more makes $1,100
+    r = ag.check({"symbol": "BTC", "side": "buy", "qty": 3.0}, ctx(position=8.0), rules)
+    assert len(r) == 1 and "position limit" in r[0]
+    assert ag.check({"symbol": "BTC", "side": "buy", "qty": 2.0}, ctx(position=8.0), rules) == []
+    # already over the cap (price rose): selling down passes, flipping to a big short does not
+    assert ag.check({"symbol": "BTC", "side": "sell", "qty": 5.0}, ctx(position=15.0), rules) == []
+    assert any("position limit" in x for x in ag.check({"symbol": "BTC", "side": "sell", "qty": 30.0},
+                                                       ctx(position=15.0), rules))
+
+
 def test_gate_daily_loss_from_ledger(tmp_path):
     px = {"BTC": 100.0}
-    g, clock = make(tmp_path, px, max_order_usd=10_000)
+    g, clock = make(tmp_path, px, max_order_usd=10_000, max_position_usd=None)
     g.place("BTC", "buy", usd=5000)          # 50 BTC, equity 10,000
     px["BTC"] = 95.0                          # equity 9,750: down 250 today
     clock.t += 60

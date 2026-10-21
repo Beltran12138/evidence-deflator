@@ -23,7 +23,7 @@ from typing import Any, Dict, List, Optional
 TYPE = "trading-mandate"
 VERSION = "0"
 HEADER = "Trading mandate v0 (evidencedeflator.com/gate/mandate)\n"
-SCOPE_KEYS = ("allow", "sides", "max_order_usd", "max_daily_loss_usd", "max_orders_per_day")
+SCOPE_KEYS = ("allow", "sides", "max_order_usd", "max_position_usd", "max_daily_loss_usd", "max_orders_per_day")
 
 
 def _eth():
@@ -148,7 +148,7 @@ def rules(signed: Dict[str, Any]) -> Dict[str, Any]:
     """The mandate's scope in the gate's rule vocabulary (agent_gate.check)."""
     sc = signed["mandate"]["scope"]
     return {"allow": sc.get("allow") or [], "max_order_usd": sc.get("max_order_usd"),
-            "max_daily_loss_usd": sc.get("max_daily_loss_usd"),
+            "max_position_usd": sc.get("max_position_usd"), "max_daily_loss_usd": sc.get("max_daily_loss_usd"),
             "max_orders_per_day": sc.get("max_orders_per_day"), "sides": sc.get("sides") or ["buy", "sell"]}
 
 

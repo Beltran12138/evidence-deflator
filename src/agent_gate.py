@@ -60,6 +60,7 @@ DEFAULTS: Dict[str, Any] = {
     "state_dir": ".gate",
     "starting_cash": 10000.0,
     "max_order_usd": 500.0,
+    "max_position_usd": 2000.0,
     "max_daily_loss_usd": 200.0,
     "allow": ["BTC", "ETH", "SOL"],
     "max_orders_per_day": 20,
@@ -350,6 +351,12 @@ def check(order: Dict[str, Any], ctx: Dict[str, Any], cfg: Dict[str, Any]) -> Li
         reasons.append(f"{sym} is not on the allow list {cfg['allow']}")
     if cfg.get("sides") and side not in cfg["sides"] and not reducing:
         reasons.append(f"{side} orders are not allowed (sides {cfg['sides']})")
+    if cfg.get("max_position_usd") is not None and not reducing:
+        after = pos + (qty if side == "buy" else -qty)
+        grows = abs(after) > abs(pos) or after * pos < 0  # bigger, or flipped to the other side
+        if abs(after) * price > cfg["max_position_usd"] and grows:
+            reasons.append(f"position would be ${abs(after) * price:,.2f}, above the "
+                           f"${cfg['max_position_usd']:,.0f} per-symbol position limit")
     if cfg.get("max_order_usd") is not None and notional > cfg["max_order_usd"]:
         reasons.append(f"order is ${notional:,.2f}, above the ${cfg['max_order_usd']:,.0f} single-order limit")
     if not reducing:
@@ -471,7 +478,8 @@ class Gate:
     def _rules(self) -> Dict[str, Any]:
         if self.mandate:
             return mandate_mod.rules(self.mandate)
-        return {k: self.cfg.get(k) for k in ("max_order_usd", "max_daily_loss_usd", "allow", "max_orders_per_day")}
+        return {k: self.cfg.get(k) for k in ("max_order_usd", "max_position_usd", "max_daily_loss_usd", "allow",
+                                             "max_orders_per_day")}
 
     def scorecard(self, picked_from: Optional[int] = None) -> Dict[str, Any]:
         return scorecard(self.ledger.read(), picked_from)

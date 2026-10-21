@@ -68,8 +68,9 @@ decision-confidence-mcp = "mcp_server:main"
 # Rule gate and ledger in front of an agent's trading account (src/agent_gate.py).
 agent-gate = "agent_gate:main"
 agent-gate-mcp = "gate_server:main"
+agent-gate-stress = "gate_stress:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
-py-modules = ["normalize", "decision_confidence", "evidence_deflator", "effective_window", "counterfactual", "messages", "trial_count", "track_record", "trace_audit", "hl_wallet", "mcp_server", "agent_gate", "gate_server", "mandate", "gate_adapters"]
+py-modules = ["normalize", "decision_confidence", "evidence_deflator", "effective_window", "counterfactual", "messages", "trial_count", "track_record", "trace_audit", "hl_wallet", "mcp_server", "agent_gate", "gate_server", "mandate", "gate_adapters", "gate_stress"]
 packages = ["adapters"]

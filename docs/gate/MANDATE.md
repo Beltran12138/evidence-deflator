@@ -43,6 +43,7 @@ The gate's earlier rules lived in a JSON file on the machine running the gate. T
 | `scope.allow` | Symbols that may be traded. Upper case. |
 | `scope.sides` | `buy`, `sell`, or both. An order that only shrinks an existing position is never blocked by this rule. |
 | `scope.max_order_usd` | Largest notional of a single order, at the price the gate used. |
+| `scope.max_position_usd` | Largest position in any one symbol after the order, at the gate's price. An order that makes a position bigger, or flips it to the other side, past this is refused; one that only shrinks it passes. Optional, but see "Stress test" below for why a mandate without it is much looser than it looks. Added 2026-10-21. |
 | `scope.max_daily_loss_usd` | Once equity is this far below its level at the first ledger line of the UTC day, only orders that reduce a position pass. |
 | `scope.max_orders_per_day` | Allowed orders per UTC day. Reducing orders are not counted against it once the limit is reached. |
 | `not_before`, `expires` | UTC, `YYYY-MM-DDTHH:MM:SSZ`. Valid from `not_before` up to, but not including, `expires`. |
@@ -101,6 +102,32 @@ For Hyperliquid, `audit --venue` also asks the exchange for every fill on the ac
 - **That the agent's trades were any good.** That is the scorecard's job (weekly returns from the same ledger, judged on the site's bar). The mandate only says the agent stayed inside the owner's limits.
 - **Anything to a broker.** No broker verifies these signatures today. A mandate is evidence for the owner, an auditor, or a dispute; the broker does not enforce it. On Hyperliquid, part of the authority is enforced by the venue itself, since the API wallet is a separate key the owner can replace (see below).
 
+## Stress test: what the limits allow before you sign them
+
+A daily-loss limit does not cap a day's loss. The gate applies it only when the agent asks for more risk. Positions already held keep moving after the limit is hit, and without a position limit, exposure keeps building across days.
+
+`python src/gate_stress.py --config gate.json --position-cap 2000` measures this. It replays the gate's own rule function against 199 real days of Hyperliquid hourly returns (BTC and ETH, 2026-04-04 to 2026-10-21). The returns are resampled in whole days, which keeps fat tails and the co-movement between the two coins. It runs two agents that never break a rule:
+- one that asks for the largest allowed order every hour;
+- one that trades at random.
+
+These are the results for the demo mandate ($500 largest order, $200 daily loss, 20 orders a day; 30 days, 1,000 runs, $10,000 start; `docs/data/gate-stress-2026-10-21.json`):
+
+| | Worst day, median | Worst day, 95th pct | Runs with a day past the $200 limit | Exposure at end, 95th pct |
+|---|---|---|---|---|
+| No position limit, agent using every limit | $6,007 | $13,657 | 100% | $239,808 |
+| No position limit, agent with no skill | $229 | $651 | 59% | $13,088 |
+| $2,000 position limit, agent using every limit | $186 | $389 | 42% | $4,922 |
+| $2,000 position limit, agent with no skill | $95 | $231 | 9% | $3,297 |
+
+Without a position limit, an agent that stays inside every rule can reach about 24 times the account in exposure within a month, and its median worst day is about 30 times the "daily loss limit". With a $2,000 position limit, the median worst day falls just under the limit ($186), and the 95th percentile comes to about twice it ($389).
+
+Caveats on these numbers:
+- They use hourly closes, which understate moves inside the hour.
+- Liquidation, funding and fees are not modelled.
+- They describe what the limits permit, not what any real agent will do.
+
+The gate's default config now includes `max_position_usd: 2000`.
+
 ## Hyperliquid: the gate holds the only key that can trade
 
 Hyperliquid lets a main account approve separate "API wallets" to sign orders for it: "A master account can approve API wallets to sign on behalf of the master account or any of the sub-accounts." It allows "1 unnamed approved wallet and up to 3 named ones", and an approval's "expiration can be at most 180 days in the future". Approving another wallet under the same name deregisters the old one. (Hyperliquid docs, `nonces-and-api-wallets` and the `exchange` endpoint page, read 2026-10-21.)
@@ -142,7 +169,7 @@ v0 follows AP2's shape but does not conform to it: no SD-JWT, no selective discl
 
 ## Versions
 
-- **v0 (this):** EIP-191, one agent key, the five scope fields above, file-based revocation.
+- **v0 (this):** EIP-191, one agent key, the six scope fields above (`max_position_usd` added 2026-10-21 after the stress test), file-based revocation.
 - **Candidates for v1,** none started:
   - EIP-712 typed mandates, so wallets show labelled fields;
   - AP2 SD-JWT encoding;

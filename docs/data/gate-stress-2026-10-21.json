@@ -1,0 +1,74 @@
+{
+ "meta": {
+  "days": 30,
+  "sims": 1000,
+  "equity": 10000.0,
+  "blocks": 199,
+  "symbols": [
+   "BTC",
+   "ETH"
+  ],
+  "first_day": "2026-04-04",
+  "last_day": "2026-10-21",
+  "position_cap": 2000.0,
+  "seed": 20261021
+ },
+ "rules": {
+  "allow": [
+   "BTC",
+   "ETH"
+  ],
+  "max_order_usd": 500,
+  "max_position_usd": null,
+  "max_daily_loss_usd": 200,
+  "max_orders_per_day": 20,
+  "sides": [
+   "buy",
+   "sell"
+  ]
+ },
+ "as_given": {
+  "max_out": {
+   "worst_day_loss_p50": 6006.79,
+   "worst_day_loss_p95": 13656.68,
+   "worst_day_loss_p99": 19251.87,
+   "share_of_runs_with_a_day_over_limit": 1.0,
+   "max_drawdown_p50": 13885.94,
+   "max_drawdown_p95": 26417.53,
+   "end_exposure_p50": 194253.79,
+   "end_exposure_p95": 239808.25
+  },
+  "random": {
+   "worst_day_loss_p50": 229.22,
+   "worst_day_loss_p95": 651.06,
+   "worst_day_loss_p99": 1052.38,
+   "share_of_runs_with_a_day_over_limit": 0.587,
+   "max_drawdown_p50": 480.51,
+   "max_drawdown_p95": 1403.59,
+   "end_exposure_p50": 5989.91,
+   "end_exposure_p95": 13088.04
+  }
+ },
+ "with_position_cap": {
+  "max_out": {
+   "worst_day_loss_p50": 185.97,
+   "worst_day_loss_p95": 389.26,
+   "worst_day_loss_p99": 458.66,
+   "share_of_runs_with_a_day_over_limit": 0.424,
+   "max_drawdown_p50": 474.21,
+   "max_drawdown_p95": 869.24,
+   "end_exposure_p50": 4072.34,
+   "end_exposure_p95": 4921.76
+  },
+  "random": {
+   "worst_day_loss_p50": 94.56,
+   "worst_day_loss_p95": 231.26,
+   "worst_day_loss_p99": 368.21,
+   "share_of_runs_with_a_day_over_limit": 0.089,
+   "max_drawdown_p50": 207.11,
+   "max_drawdown_p95": 474.84,
+   "end_exposure_p50": 1927.62,
+   "end_exposure_p95": 3297.45
+  }
+ }
+}

@@ -57,3 +57,4 @@ out/
 
 # personal contact image used by the local deck export only
 docs/assets/wechat-qr.png
+stress-cache/

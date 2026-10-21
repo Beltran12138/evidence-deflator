@@ -37,7 +37,10 @@ ledger line with it, so `audit` can check from the ledger alone that every allow
 inside limits the owner signed, and catches a wholesale rewrite that a bare hash chain cannot
 ([demo](docs/gate/demo-2026-10-21-mandate/)). On Hyperliquid the gate's key is the account's
 approved API wallet, so the agent never holds a key that can trade (signatures verified on
-testnet; no fill yet). The signing and Hyperliquid parts need `pip install eth-account "hyperliquid-python-sdk>=0.24"`.
+testnet; no fill yet). Before signing, `python src/gate_stress.py --config gate.json`
+replays the limits on real Hyperliquid hourly returns: without a per-symbol position limit, a
+rule-abiding agent's median worst day was ~30x the daily-loss limit, so the default config now
+sets `max_position_usd`. The signing and Hyperliquid parts need `pip install eth-account "hyperliquid-python-sdk>=0.24"`.
 
 For agents, no install: remote MCP at `https://api.evidencedeflator.com/mcp`
 (tool `hyperliquid_wallet`), or JSON at

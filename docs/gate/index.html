@@ -86,7 +86,7 @@ python src/agent_gate.py init gate.json          # 写一份默认规则，自�
 python src/gate_server.py --config gate.json     # 作为 MCP 服务器交给你的 agent</pre>
 <p class="note">规则文件（默认值）：</p>
 <pre>{"broker": "sim", "starting_cash": 10000,
- "max_order_usd": 500, "max_daily_loss_usd": 200,
+ "max_order_usd": 500, "max_position_usd": 2000, "max_daily_loss_usd": 200,
  "allow": ["BTC", "ETH", "SOL"], "max_orders_per_day": 20}</pre>
 <p class="note">接 Claude Code（只对这一次会话生效，不改你的设置）：<code>claude --mcp-config gate-mcp.json --strict-mcp-config</code>，gate-mcp.json 见 <a href="https://github.com/Beltran12138/evidence-deflator/blob/main/src/gate_server.py">gate_server.py</a> 顶部。</p>
 
@@ -98,6 +98,7 @@ python src/gate_server.py --config gate.json     # 作为 MCP 服务器交给你
 <tr><td>防篡改账本 + verify</td><td>可用</td></tr>
 <tr><td>签名授权（Trading Mandate v0）+ audit</td><td>可用。规则改由你用自己的钱包签名的授权文件给出，写明标的、单笔上限、每日亏损上限和有效期；闸门给账本每一行签名，任何人只拿账本就能复核每笔放行的单是否在授权内。整份重写账本的伪造，只靠哈希链查不出，现在能查出：见 <a href="https://github.com/Beltran12138/evidence-deflator/tree/main/docs/gate/demo-2026-10-21-mandate">演示</a>（<a href="demo-2026-10-21-mandate/ledger.jsonl">账本</a>）、<a href="sign/">签名页</a>、<a href="https://github.com/Beltran12138/evidence-deflator/blob/main/docs/gate/MANDATE.md">规格</a></td></tr>
 <tr><td>Hyperliquid（闸门持有唯一能下单的密钥）</td><td>已接入，测试网签名已验证（交易所从 approveAgent 和下单签名里都还原出了正确地址）；还没有成交，测试网需要入过金的地址领测试 USDC</td></tr>
+<tr><td>签名前压力测试</td><td>可用。用 Hyperliquid 199 天真实小时收益，回放闸门自己的规则：没有单标的仓位上限时，一个从不违规、但每次都把额度用满的 agent，30 天内敞口可到账户的约 24 倍，最坏一天的中位数约是"每日亏损上限"的 30 倍；加上 $2,000 仓位上限后降到约 1 倍。所以默认规则已加上仓位上限。见<a href="https://github.com/Beltran12138/evidence-deflator/blob/main/docs/gate/MANDATE.md#stress-test-what-the-limits-allow-before-you-sign-them">规格</a></td></tr>
 <tr><td>每周成绩单</td><td>可用；记录不满 8 周时只给运行时长，不给结论</td></tr>
 <tr><td>投资建议</td><td>不做。闸门不判断一笔单好不好，只执行你写的规则、记下发生了什么</td></tr>
 </table>

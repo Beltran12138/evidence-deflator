@@ -122,6 +122,7 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
         '签发人  ' + m.issuer + (acct ? (mine ? '  (= 已连接的钱包)' : '  ≠ 已连接的钱包，签了也无效') : ''),
         '闸门键  ' + m.agent, '账户    ' + m.venue + ' / ' + m.account,
         '标的    ' + (s.allow || []).join(', '), '单笔上限 $' + s.max_order_usd + '   每日亏损上限 $' + s.max_daily_loss_usd + '   每日笔数 ' + s.max_orders_per_day,
+        '单标的仓位上限 ' + (s.max_position_usd ? '$' + s.max_position_usd : '没有（注意：没有它，每日亏损上限挡不住已持仓位的亏损，见规格里的压力测试）'),
         '方向    ' + (s.sides || []).join(', '), '有效期  ' + m.not_before + ' → ' + m.expires].join('\n');
       if (m.agent && !$('agent').value) $('agent').value = m.agent;
     }
