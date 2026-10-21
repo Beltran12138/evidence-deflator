@@ -45,10 +45,10 @@ class CallbackBroker:
         self.account, self.price, self.submit = account, price, submit
 
 
-def _gate(cfg: Any, broker: CallbackBroker) -> agent_gate.Gate:
+def _gate(cfg: Any, broker: CallbackBroker, clock: Optional[Callable[[], float]] = None) -> agent_gate.Gate:
     if isinstance(cfg, str):
         cfg = agent_gate.load_config(cfg)
-    return agent_gate.Gate(cfg, broker=broker)
+    return agent_gate.Gate(cfg, broker=broker, **({"clock": clock} if clock else {}))
 
 
 # ---------------------------------------------------------------- ai-hedge-fund
@@ -120,7 +120,9 @@ class GatedStrategyMixin:
 
     Every order passed to submit_order is checked first; refused orders are logged with the gate's
     reasons and not sent; allowed ones go on to lumibot's own submit_order unchanged. Price is the
-    order's limit price if it has one, else get_last_price; equity is get_portfolio_value.
+    order's limit price if it has one, else get_last_price; equity is get_portfolio_value. The gate's
+    clock is lumibot's get_datetime when there is one, so in a backtest the daily rules run on
+    simulated days, not on the wall clock.
     """
 
     gate_config: Any = None
@@ -130,7 +132,9 @@ class GatedStrategyMixin:
 
     def _gate(self) -> agent_gate.Gate:
         if self._gate_obj is None:
-            self._gate_obj = _gate(self.gate_config, CallbackBroker(self._g_account, self._g_price, self._g_submit))
+            clock = (lambda: self.get_datetime().timestamp()) if hasattr(self, "get_datetime") else None
+            self._gate_obj = _gate(self.gate_config, CallbackBroker(self._g_account, self._g_price, self._g_submit),
+                                   clock)
         return self._gate_obj
 
     def submit_order(self, order, *args, **kwargs):  # noqa: D401 - lumibot's signature

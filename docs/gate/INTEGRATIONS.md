@@ -5,7 +5,7 @@
 | Project | What it does with orders | Adapter | Tested how |
 |---|---|---|---|
 | [ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) (virattt) | Places orders through a `Broker` protocol: `positions`, `cash`, `place_order` | `GatedHedgeFundBroker(inner_broker, "gate.json")` | Unit tests with a fake of that protocol. Also run against the project's real `SimBroker` and pydantic `Order`/`Fill`: one allowed fill, two refusals, and the wrapper passes `isinstance(…, Broker)` on its `runtime_checkable` protocol (2026-10-21) |
-| [lumibot](https://github.com/Lumiwealth/lumibot) (Lumiwealth) | Strategies call `submit_order`, which goes to one of a dozen brokers | `class Bot(GatedStrategyMixin, Strategy): gate_config = "gate.json"` | Unit tests against a fake with lumibot's method names and signatures (`submit_order`, `get_positions`, `get_cash`, `get_portfolio_value`, `get_last_price`). **Not yet run inside lumibot itself** |
+| [lumibot](https://github.com/Lumiwealth/lumibot) (Lumiwealth) | Strategies call `submit_order`, which goes to one of a dozen brokers | `class Bot(GatedStrategyMixin, Strategy): gate_config = "gate.json"` | Unit tests against a fake. Also run inside a real lumibot 4.6.23 backtest (`tools/lumibot_gate_backtest.py`, `PandasDataBacktesting`, synthetic daily bars, 2026-10-21): six orders, three refused (over the size limit, off the list, second order on one simulated day). Lumibot received exactly the three allowed ones, ending at 6 SPY = 10 − 5 + 1. The ledger's timestamps were the simulated days |
 | [TradingAgents](https://github.com/TauricResearch/TradingAgents) (TauricResearch) | Ends with a rating (Buy / Overweight / Hold / Underweight / Sell, or REVIEW) and places nothing | `execute_rating(gate, "NVDA", rating, buy_usd={"Buy": 200}, sell_fraction={"Sell": 1.0})` | Unit tests |
 
 ## ai-hedge-fund
@@ -37,6 +37,7 @@ class MyBot(GatedStrategyMixin, Strategy):
 - **Refused orders** are logged with the gate's reasons through `log_message`, and `submit_order` returns `None`. Allowed orders go to lumibot's own `submit_order` unchanged, including its `reason`/`evidence` journal.
 - **Price.** The gate checks size against the order's limit price if it has one, otherwise `get_last_price`.
 - **Equity** comes from `get_portfolio_value`.
+- **Clock.** The gate uses lumibot's `get_datetime`, so in a backtest the daily rules run on simulated days.
 - **Sides.** `buy*` counts as buy and `sell*` (including `sell_short`) as sell.
 - **Limits.** Multi-leg option orders are checked leg by leg as single orders. That is a known gap; the gate has no notion of a spread.
 
@@ -57,5 +58,5 @@ gate_adapters.execute_rating(gate, "NVDA", rating, buy_usd={"Buy": 200}, sell_fr
 
 ## Still to do
 
-- Run the lumibot mixin inside a real lumibot backtest before proposing it upstream. Their contribution guide asks for backtest-engine evidence, kept separate from fixture tests.
+- The lumibot run above used synthetic bars and one broker path (backtesting). It has not been run against a live or paper lumibot broker.
 - An MCP proxy, so the gate can sit in front of a trading MCP server (Alpaca's, or a broker's) while the agent keeps that server's other tools. Today `gate_server.py` is a separate MCP server with its own four tools.
