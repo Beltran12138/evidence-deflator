@@ -98,8 +98,8 @@ h2{font-size:62px;font-weight:900;line-height:1.2;letter-spacing:-.01em}
 .ask li{margin-top:18px}.ask li b{color:var(--ink)}
 .qrs{display:flex;gap:28px;margin-top:10px}
 .qr{text-align:center;font-size:18px;color:var(--mid)}
-.qr svg,.qr img{display:block;width:230px;height:230px;margin:0 auto 12px;background:#fff;padding:12px}
-.qr.big svg,.qr.big img{width:290px;height:290px}
+.qr svg,.qr img{display:block;width:260px;height:260px;margin:0 auto 12px;background:#fff;padding:12px}
+.qr.big svg,.qr.big img{width:260px;height:260px}
 </style>
 </head>
 <body>
@@ -170,7 +170,7 @@ const S=[
 `<div class="slide">
  <div class="ask">
   <div><h1>钱交给 AI 之前，<br><span class="red">先给它装一道闸</span></h1>
-   <ul><li><b>体验</b>：evidencedeflator.com</li><li><b>欢迎交流</b> AI agent 交易：扫码加我，16:30 我在现场</li></ul></div>
+   <ul><li><b>体验</b>：evidencedeflator.com</li><li><b>欢迎交流</b> AI agent 交易</li></ul></div>
   <div class="qrs"><div class="qr big"><img src="assets/wechat-qr.png" alt="微信" onerror="this.parentNode.remove()">微信 · 伯纳德</div><div class="qr">${QR}evidencedeflator.com</div></div>
  </div>
 </div>`
@@ -189,7 +189,7 @@ document.addEventListener('keydown',e=>{
  else if(/^[0-6]$/.test(e.key))go(+e.key);
 });
 go(+(new URLSearchParams(location.search).get("s")||0));
-function fit(){document.documentElement.style.zoom=Math.max(1,Math.min(innerWidth/1920,innerHeight/1080)).toFixed(3)}
+function fit(){document.documentElement.style.zoom=Math.min(innerWidth/1920,innerHeight/1080).toFixed(3)}  // scale down too, so a laptop window shows the 1920x1080 layout
 addEventListener('resize',fit);fit();
 </script>
 </body>
