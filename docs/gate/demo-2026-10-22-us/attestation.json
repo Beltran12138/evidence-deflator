@@ -1,0 +1,37 @@
+{
+ "statement": {
+  "type": "agent-gate-attestation",
+  "version": "0",
+  "ledger": {
+   "lines": 4,
+   "head": "3dc586f7176a4929123a7afd346bf01525732ee5ec20ee29950a1175008f4142",
+   "first": "2026-10-21T18:18:14Z",
+   "last": "2026-10-21T18:18:16Z"
+  },
+  "mandates": [
+   {
+    "hash": "8444f1aa3d89ff6a40289e41c13a6fe2945dd25cc817f923a435dd36b1917b92",
+    "id": "3fc1be88e1c488a3",
+    "issuer": "0x335c6301674485042D88523CDb16930222f90B41",
+    "agent": "0xB20532b7254c158fB8cB979BF530B66A9E9f1eC9",
+    "venue": "sim",
+    "account": "paper",
+    "expires": "2026-11-04T18:16:38Z"
+   }
+  ],
+  "orders": {
+   "allowed": 1,
+   "blocked": 2,
+   "errors": 0,
+   "rechecked": 1
+  },
+  "audit_ok": true,
+  "problems": [],
+  "issued_at": "2026-10-21T18:18:46Z"
+ },
+ "sig": {
+  "scheme": "eip191",
+  "signer": "0xB20532b7254c158fB8cB979BF530B66A9E9f1eC9",
+  "signature": "0x2da4f5cacd5bead86d8177f71d4397003febf11414e948d95ce0c3b32ae06ea434bb9ca2f1ba7cda3ed19ac8cdfaf56227b7148ba8440704901dbf8057f386211c"
+ }
+}

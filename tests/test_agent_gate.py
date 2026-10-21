@@ -135,4 +135,6 @@ def test_demo_shows_block_and_broken_chain():
 def test_mcp_surface_has_no_rule_or_ledger_writer():
     gs = pytest.importorskip("gate_server")
     names = {t.name for t in gs.mcp._tool_manager.list_tools()}
-    assert names == {"place_order", "account", "recent_log", "scorecard"}
+    # propose_mandate only writes an unsigned draft; the rules in force change only with the owner's
+    # signature (test_gate_features.test_propose_mandate_writes_a_draft_and_a_record checks this)
+    assert names == {"place_order", "account", "recent_log", "scorecard", "propose_mandate"}

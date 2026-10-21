@@ -1,0 +1,3 @@
+{"name": "US stocks · Claude as agent", "broker": "sim", "account": "paper", "starting_cash": 10000,
+ "prices": {"AAPL": 339.66, "SPY": 770.72, "TSLA": 379.83},
+ "state_dir": ".", "mandate": "mandate.json", "gate_key": "gate.key"}

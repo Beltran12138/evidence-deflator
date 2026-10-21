@@ -16,6 +16,7 @@ from the ledger alone.
 
 Brokers:
   sim          a paper account priced at Hyperliquid's live mid prices (public info API, no key). Crypto.
+               With "prices": {"AAPL": 339.66, ...} in the config it uses those fixed prices instead.
   alpaca       Alpaca's paper trading API, keys from APCA_API_KEY_ID / APCA_API_SECRET_KEY. Run against
                a live paper account on 2026-10-21 (docs/gate/demo-2026-10-21-alpaca).
   hyperliquid  Hyperliquid perps (testnet by default). The gate's key is the account's approved API
@@ -29,7 +30,10 @@ The rules are the owner's; the gate only enforces them and keeps the record.
     python src/agent_gate.py order BTC buy --usd 100 --config gate.json
     python src/agent_gate.py log | verify | audit | scorecard --config gate.json
     python src/agent_gate.py keygen .gate/gate.key        # the gate's own key
-    python src/agent_gate.py mandate draft|sign|attach|show|revoke --config gate.json
+    python src/agent_gate.py mandate draft|sign|attach|show|examples|revoke --config gate.json
+    python src/agent_gate.py attest --config gate.json        # a signed summary of the ledger for a third party
+    python src/agent_gate.py verify-attestation att.json --config gate.json
+    python src/agent_gate.py panel a/gate.json b/gate.json --html panel.html   # every gate on one page
     python src/gate_server.py --config gate.json  # the same gate as an MCP server for an agent
 """
 
@@ -324,6 +328,9 @@ def hl_approve_agent(owner_account, agent_address: str, name: str = "gate", netw
 
 def make_broker(cfg: Dict[str, Any], prices: Optional[Callable[[], Dict[str, float]]] = None):
     if cfg["broker"] == "sim":
+        if prices is None and cfg.get("prices"):  # fixed prices, e.g. US stocks recorded from a broker
+            fixed = {k.upper(): float(v) for k, v in cfg["prices"].items()}
+            prices = lambda: fixed  # noqa: E731
         return SimBroker(cfg["state_dir"], cfg["starting_cash"], prices)
     if cfg["broker"] == "alpaca":
         return AlpacaBroker()
@@ -388,6 +395,7 @@ class Gate:
         if cfg.get("mandate"):
             if not self.key:
                 raise SystemExit("a mandate names the gate's key; set gate_key in the config")
+        if cfg.get("mandate") and os.path.exists(cfg["mandate"]):
             self.mandate = mandate_mod.load(cfg["mandate"])
             bad = mandate_mod.verify(self.mandate, agent=self.key.address)
             if bad:
@@ -400,6 +408,8 @@ class Gate:
     def _mandate_state(self, now: float) -> Tuple[Optional[str], List[str]]:
         """Hash of the mandate in force (recorded in the ledger on first use) and reasons it does not hold now."""
         if not self.mandate:
+            if self.cfg.get("mandate"):  # a mandate is expected but not signed yet: nothing passes
+                return None, [f"mandate: none signed yet ({os.path.basename(self.cfg['mandate'])} does not exist)"]
             return None, []
         h = mandate_mod.mandate_hash(self.mandate)
         rows = self.ledger.read()
@@ -593,6 +603,131 @@ def audit(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
             "orders_allowed": n_allowed, "orders_rechecked": n_checked, "problems": problems}
 
 
+ATTEST_HEADER = "Agent gate attestation v0 (evidencedeflator.com/gate)\n"
+
+
+def attestation_statement(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """What the attestation asserts about a ledger: its head, its mandates, its counts and the audit result.
+
+    Everything here is recomputable from the ledger lines, which is how a third party checks it."""
+    a = audit(rows)
+    mands = []
+    for r in rows:
+        if r.get("kind") == "mandate":
+            m = r["signed"]["mandate"]
+            mands.append({"hash": r["mandate_hash"], "id": m["id"], "issuer": m["issuer"], "agent": m["agent"],
+                          "venue": m["venue"], "account": m["account"], "expires": m["expires"]})
+    orders = [r for r in rows if r.get("kind") == "order"]
+    return {"type": "agent-gate-attestation", "version": "0",
+            "ledger": {"lines": len(rows), "head": rows[-1]["hash"] if rows else GENESIS,
+                       "first": rows[0]["ts"] if rows else None, "last": rows[-1]["ts"] if rows else None},
+            "mandates": mands,
+            "orders": {"allowed": sum(1 for r in orders if r.get("decision") == "allow"),
+                       "blocked": sum(1 for r in orders if r.get("decision") == "block"),
+                       "errors": sum(1 for r in orders if r.get("decision") == "error"),
+                       "rechecked": a["orders_rechecked"]},
+            "audit_ok": a["ok"], "problems": a["problems"]}
+
+
+def attest(rows: List[Dict[str, Any]], key, now: Optional[float] = None) -> Dict[str, Any]:
+    """A signed, portable summary of the ledger for a broker, an auditor or a counterparty.
+
+    Signed with the gate's key (the key the mandate names), and bound to the ledger's head hash, so the
+    holder of the ledger file can confirm every number without trusting the gate or this project."""
+    st = dict(attestation_statement(rows), issued_at=_utc(now if now is not None else time.time()))
+    text = ATTEST_HEADER + _canon(st)
+    return {"statement": st, "sig": {"scheme": "eip191", "signer": key.address,
+                                     "signature": mandate_mod.sign_text(key, text)}}
+
+
+def verify_attestation(att: Dict[str, Any], rows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Check an attestation against the ledger it describes (the ledger may have grown since)."""
+    st, sig = att["statement"], att["sig"]
+    problems: List[str] = []
+    try:
+        who = mandate_mod.recover(ATTEST_HEADER + _canon(st), sig["signature"])
+    except Exception:
+        who = None
+    if not mandate_mod.same_addr(who, sig.get("signer")):
+        problems.append(f"signature recovers to {who}, not the stated signer {sig.get('signer')}")
+    agents = {m["agent"].lower() for m in st.get("mandates", [])}
+    if agents and (who or "").lower() not in agents:
+        problems.append(f"signed by {who}, which is not the gate key any recorded mandate names")
+    n = st["ledger"]["lines"]
+    if len(rows) < n:
+        problems.append(f"the ledger has {len(rows)} lines, the attestation covers {n}")
+    else:
+        again = attestation_statement(rows[:n])
+        for k in ("ledger", "mandates", "orders", "audit_ok", "problems"):
+            if again[k] != st[k]:
+                problems.append(f"{k} does not match the ledger: attested {st[k]}, recomputed {again[k]}")
+    return {"ok": not problems, "signer": who, "covers_lines": n, "ledger_lines_now": len(rows),
+            "problems": problems}
+
+
+def panel(cfg_paths: List[str], now: Optional[float] = None) -> List[Dict[str, Any]]:
+    """One row per gate (one per agent and account), read from each ledger alone: no broker call."""
+    now = now if now is not None else time.time()
+    day0 = now - now % DAY_S
+    out = []
+    for p in cfg_paths:
+        cfg = load_config(p)
+        rows = Ledger(os.path.join(cfg["state_dir"], "ledger.jsonl")).read()
+        orders = [r for r in rows if r.get("kind") == "order"]
+        today = [r for r in orders if r["ts_unix"] >= day0]
+        mands = [r["signed"]["mandate"] for r in rows if r.get("kind") == "mandate"]
+        revoked = any(r.get("kind") == "revocation" for r in rows)
+        eq = next((r["equity_after"] for r in reversed(rows) if r.get("equity_after") is not None), None)
+        a = audit(rows)
+        out.append({"name": cfg.get("name") or os.path.basename(os.path.dirname(os.path.abspath(p))),
+                    "broker": cfg["broker"], "config": p,
+                    "rules": ("mandate " + mands[-1]["id"] + (" (revoked)" if revoked else "")) if mands
+                    else "config file", "expires": mands[-1]["expires"] if mands else None,
+                    "lines": len(rows), "allowed": sum(1 for r in orders if r.get("decision") == "allow"),
+                    "blocked": sum(1 for r in orders if r.get("decision") == "block"),
+                    "allowed_today": sum(1 for r in today if r.get("decision") == "allow"),
+                    "blocked_today": sum(1 for r in today if r.get("decision") == "block"),
+                    "last": rows[-1]["ts"] if rows else None, "equity": eq,
+                    "audit_ok": a["ok"], "chain_ok": a["chain_ok"], "problems": len(a["problems"])})
+    return out
+
+
+def panel_text(rows: List[Dict[str, Any]]) -> str:
+    head = f"{'gate':<28} {'broker':<12} {'rules':<26} {'allowed':>7} {'blocked':>7} {'audit':>6}  last line"
+    lines = [head, "-" * len(head)]
+    for r in rows:
+        lines.append(f"{r['name'][:28]:<28} {r['broker']:<12} {r['rules'][:26]:<26} {r['allowed']:>7} "
+                     f"{r['blocked']:>7} {('ok' if r['audit_ok'] else 'FAIL'):>6}  {r['last'] or '-'}")
+    return "\n".join(lines)
+
+
+def panel_html(rows: List[Dict[str, Any]], generated: str) -> str:
+    def esc(s: Any) -> str:
+        return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    trs = ""
+    for r in rows:
+        eq = "—" if r["equity"] is None else f"${r['equity']:,.0f}"
+        until = ("until " + r["expires"]) if r["expires"] else "limits from the config file"
+        trs += (f"<tr><td><b>{esc(r['name'])}</b><span>{esc(r['broker'])}</span></td>"
+                f"<td>{esc(r['rules'])}<span>{esc(until)}</span></td>"
+                f"<td class=n>{r['allowed']}<span>{r['allowed_today']} today</span></td>"
+                f"<td class=n><i>{r['blocked']}</i><span>{r['blocked_today']} today</span></td>"
+                f"<td class=n>{eq}</td>"
+                f"<td class={'ok' if r['audit_ok'] else 'bad'}>{'audit ok' if r['audit_ok'] else 'audit FAILS'}"
+                f"<span>{r['lines']} lines · last {esc(r['last'] or '—')}</span></td></tr>")
+    return f"""<!doctype html><meta charset=utf-8><title>Agent gate · panel</title>
+<style>body{{margin:0;background:#F6F4EE;color:#141414;font:15px/1.5 Inter,'Segoe UI',system-ui,sans-serif;padding:40px 24px}}
+main{{max-width:1080px;margin:0 auto}}h1{{font:600 30px/1.2 Newsreader,Georgia,serif;margin:0}}
+p{{color:#6B6A64;margin:8px 0 26px}}table{{width:100%;border-collapse:collapse;background:#FFFDF8;border:1px solid #DCD7CB}}
+th{{font:500 11px 'JetBrains Mono',Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:#6B6A64;text-align:left;padding:12px 14px;border-bottom:1px solid #DCD7CB}}
+td{{padding:14px;border-bottom:1px solid #E7E3D9;vertical-align:top}}td span{{display:block;color:#6B6A64;font-size:12.5px;margin-top:2px}}
+td.n{{font:600 18px 'JetBrains Mono',Consolas,monospace}}td.n span{{font:12.5px Inter,sans-serif}}i{{font-style:normal;color:#B3261E}}
+.ok{{color:#1F6B47;font-weight:600}}.bad{{color:#B3261E;font-weight:700}}</style>
+<main><h1>Agent gate · every agent, every account</h1>
+<p>Read from each gate's own ledger, nothing from the brokers. Generated {esc(generated)} by <code>agent-gate panel</code>.</p>
+<table><tr><th>Gate</th><th>Rules</th><th>Allowed</th><th>Blocked</th><th>Equity</th><th>Ledger</th></tr>{trs}</table></main>"""
+
+
 def hl_unlogged_fills(rows: List[Dict[str, Any]], owner: str, network: str = "testnet") -> Dict[str, Any]:
     """Hyperliquid fills on the owner's account since the ledger began that no ledger line accounts for.
 
@@ -650,7 +785,7 @@ def demo(prices: Optional[Callable[[], Dict[str, float]]] = None) -> str:
 
 
 def mandate_cli(a: argparse.Namespace, cfg: Dict[str, Any]) -> None:
-    """draft | sign | attach | show | revoke, against the mandate path in the config."""
+    """draft | sign | attach | show | examples | revoke, against the mandate path in the config."""
     sub = a.args[0] if a.args else "show"
     path = cfg.get("mandate")
     if not path:
@@ -686,6 +821,11 @@ def mandate_cli(a: argparse.Namespace, cfg: Dict[str, Any]) -> None:
         print(json.dumps({"mandate": signed["mandate"], "hash": mandate_mod.mandate_hash(signed),
                           "problems_now": mandate_mod.verify(signed, now=time.time(), agent=agent)},
                          indent=1, ensure_ascii=False))
+    elif sub == "examples":
+        import mandate_examples
+        src = path if os.path.exists(path) else unsigned
+        doc = mandate_mod.load(src)
+        print(mandate_examples.render(mandate_examples.examples((doc.get("mandate") or doc)["scope"])))
     elif sub == "revoke":
         if not a.key:
             raise SystemExit("revoke needs --key FILE (the issuer's key)")
@@ -699,7 +839,8 @@ def mandate_cli(a: argparse.Namespace, cfg: Dict[str, Any]) -> None:
 def main(argv: Optional[List[str]] = None) -> None:
     ap = argparse.ArgumentParser(description="Rule gate and tamper-evident ledger for an AI trading agent.")
     ap.add_argument("cmd", choices=["demo", "order", "status", "log", "verify", "audit", "scorecard", "snapshot",
-                                    "init", "keygen", "mandate", "hl-approve"])
+                                    "init", "keygen", "mandate", "hl-approve", "attest", "verify-attestation",
+                                    "panel"])
     ap.add_argument("args", nargs="*")
     ap.add_argument("--config")
     ap.add_argument("--usd", type=float)
@@ -710,6 +851,7 @@ def main(argv: Optional[List[str]] = None) -> None:
     ap.add_argument("--key", help="mandate sign/revoke, hl-approve: a key file you hold")
     ap.add_argument("--sig", help="mandate attach: the wallet's signature")
     ap.add_argument("--venue", action="store_true", help="audit: also compare with the venue's fills (hyperliquid)")
+    ap.add_argument("--html", help="panel: also write the panel as a web page here")
     a = ap.parse_args(argv)
     if a.cmd == "demo":
         print(demo())
@@ -726,7 +868,34 @@ def main(argv: Optional[List[str]] = None) -> None:
             json.dump(DEFAULTS, f, indent=2)
         print(f"wrote {path}")
         return
+    if a.cmd == "panel":
+        paths = a.args or ([a.config] if a.config else [])
+        if not paths:
+            raise SystemExit("panel needs one or more gate config files")
+        rows = panel(paths)
+        print(panel_text(rows))
+        if a.html:
+            with open(a.html, "w", encoding="utf-8") as f:
+                f.write(panel_html(rows, _utc(time.time())))
+            print(f"wrote {a.html}")
+        return
     cfg = load_config(a.config)
+    if a.cmd in ("attest", "verify-attestation"):
+        led = Ledger(os.path.join(cfg["state_dir"], "ledger.jsonl"))
+        if a.cmd == "attest":
+            if not cfg.get("gate_key"):
+                raise SystemExit("attest signs with the gate's key; set gate_key in the config")
+            att = attest(led.read(), mandate_mod.load_key(cfg["gate_key"]))
+            path = a.args[0] if a.args else os.path.join(cfg["state_dir"], "attestation.json")
+            mandate_mod.save(att, path)
+            print(f"wrote {path}")
+            print(json.dumps(att["statement"], indent=1, ensure_ascii=False))
+        else:
+            if not a.args:
+                raise SystemExit("verify-attestation needs the attestation file")
+            print(json.dumps(verify_attestation(mandate_mod.load(a.args[0]), led.read()), indent=1,
+                             ensure_ascii=False))
+        return
     if a.cmd == "mandate":
         mandate_cli(a, cfg)
         return

@@ -42,6 +42,19 @@ replays the limits on real Hyperliquid hourly returns: without a per-symbol posi
 rule-abiding agent's median worst day was ~30x the daily-loss limit, so the default config now
 sets `max_position_usd`. The signing and Hyperliquid parts need `pip install eth-account "hyperliquid-python-sdk>=0.24"`.
 
+**From plain words to a signed mandate, and proof for a third party**
+([demo, US stocks, Claude as the agent](docs/gate/demo-2026-10-22-us/)):
+- The owner tells their own agent the limits in plain language; the agent calls the gate's MCP tool
+  `propose_mandate`, which returns a draft plus worked examples: orders at the edges of the limits
+  (one dollar over, a symbol off the list, a stop-loss sell after the daily loss is hit) with the
+  gate's decision on each, computed by code (`src/mandate_examples.py`), never by the model. The
+  signing page shows the same examples and asks the owner to confirm each before the sign button works.
+- `agent-gate attest` writes a summary of the ledger signed by the gate's key and bound to its head
+  hash; `agent-gate verify-attestation` lets a broker, auditor or counterparty recompute every number
+  from the ledger without trusting the gate.
+- `agent-gate panel a/gate.json b/gate.json --html panel.html`: every agent and account on one page,
+  read from the ledgers alone.
+
 For agents, no install: remote MCP at `https://api.evidencedeflator.com/mcp`
 (tool `hyperliquid_wallet`), or JSON at
 `https://api.evidencedeflator.com/api/wallet?a=0xADDRESS&picked_from=47000`.

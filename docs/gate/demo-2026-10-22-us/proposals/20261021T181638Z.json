@@ -1,0 +1,141 @@
+{
+ "status": "draft, not in force until the owner signs",
+ "owner_words": "只做苹果和 SPY，单笔不超过 500 美元，一天最多亏 200 美元，每只股票最多拿 2000 美元，一天最多下 20 笔，有效期两周。钱包地址 0x335c6301674485042D88523CDb16930222f90B41。",
+ "scope": {
+  "allow": [
+   "AAPL",
+   "SPY"
+  ],
+  "max_order_usd": 500.0,
+  "max_daily_loss_usd": 200.0,
+  "max_position_usd": 2000.0,
+  "max_orders_per_day": 20
+ },
+ "days": 14.0,
+ "examples": [
+  {
+   "title_zh": "平常的一笔：买 AAPL $300",
+   "title_en": "An ordinary order: buy AAPL $300",
+   "order": {
+    "symbol": "AAPL",
+    "side": "buy",
+    "usd": 300.0
+   },
+   "situation": {
+    "position_usd": 0.0,
+    "loss_today": 0.0,
+    "orders_today": 0
+   },
+   "decision": "allow",
+   "reasons": []
+  },
+  {
+   "title_zh": "比单笔上限多 1 美元：AAPL $501",
+   "title_en": "One dollar over the single-order limit: AAPL $501",
+   "order": {
+    "symbol": "AAPL",
+    "side": "buy",
+    "usd": 501.0
+   },
+   "situation": {
+    "position_usd": 0.0,
+    "loss_today": 0.0,
+    "orders_today": 0
+   },
+   "decision": "block",
+   "reasons": [
+    "order is $501.00, above the $500 single-order limit"
+   ]
+  },
+  {
+   "title_zh": "不在名单上的标的：TSLA $300",
+   "title_en": "A symbol not on the list: TSLA $300",
+   "order": {
+    "symbol": "TSLA",
+    "side": "buy",
+    "usd": 300.0
+   },
+   "situation": {
+    "position_usd": 0.0,
+    "loss_today": 0.0,
+    "orders_today": 0
+   },
+   "decision": "block",
+   "reasons": [
+    "TSLA is not on the allow list ['AAPL', 'SPY']"
+   ]
+  },
+  {
+   "title_zh": "已持有 AAPL $1,750，再买 $450（超过单标的仓位上限 $2,000）",
+   "title_en": "Holding $1,750 of AAPL, buying $450 more (past the $2,000 position limit)",
+   "order": {
+    "symbol": "AAPL",
+    "side": "buy",
+    "usd": 450.0
+   },
+   "situation": {
+    "position_usd": 1750.0,
+    "loss_today": 0.0,
+    "orders_today": 0
+   },
+   "decision": "block",
+   "reasons": [
+    "position would be $2,200.00, above the $2,000 per-symbol position limit"
+   ]
+  },
+  {
+   "title_zh": "今天已亏 $200，再开新仓 $300",
+   "title_en": "Down $200 today, opening $300 more",
+   "order": {
+    "symbol": "AAPL",
+    "side": "buy",
+    "usd": 300.0
+   },
+   "situation": {
+    "position_usd": 0.0,
+    "loss_today": 200.0,
+    "orders_today": 0
+   },
+   "decision": "block",
+   "reasons": [
+    "down $200.00 today, at or past the $200 daily-loss limit (only reducing orders pass)"
+   ]
+  },
+  {
+   "title_zh": "今天已亏 $200，卖出一半持仓止损 $500",
+   "title_en": "Down $200 today, selling half the position ($500) to cut the loss",
+   "order": {
+    "symbol": "AAPL",
+    "side": "sell",
+    "usd": 500.0
+   },
+   "situation": {
+    "position_usd": 1000.0,
+    "loss_today": 200.0,
+    "orders_today": 0
+   },
+   "decision": "allow",
+   "reasons": []
+  },
+  {
+   "title_zh": "今天已下满 20 笔，再下一笔",
+   "title_en": "20 orders already today, one more",
+   "order": {
+    "symbol": "AAPL",
+    "side": "buy",
+    "usd": 300.0
+   },
+   "situation": {
+    "position_usd": 0.0,
+    "loss_today": 0.0,
+    "orders_today": 20
+   },
+   "decision": "block",
+   "reasons": [
+    "20 orders today, the limit is 20"
+   ]
+  }
+ ],
+ "text_to_sign": "Trading mandate v0 (evidencedeflator.com/gate/mandate)\n{\"account\":\"paper\",\"agent\":\"0xB20532b7254c158fB8cB979BF530B66A9E9f1eC9\",\"expires\":\"2026-11-04T18:16:38Z\",\"id\":\"3fc1be88e1c488a3\",\"issuer\":\"0x335c6301674485042D88523CDb16930222f90B41\",\"not_before\":\"2026-10-21T18:16:38Z\",\"scope\":{\"allow\":[\"AAPL\",\"SPY\"],\"max_daily_loss_usd\":200.0,\"max_order_usd\":500.0,\"max_orders_per_day\":20,\"max_position_usd\":2000.0,\"sides\":[\"buy\",\"sell\"]},\"type\":\"trading-mandate\",\"venue\":\"sim\",\"version\":\"0\"}",
+ "next": "owner signs text_to_sign in their wallet (or at evidencedeflator.com/gate/sign), then runs: agent-gate mandate attach --sig 0x…"
+}
