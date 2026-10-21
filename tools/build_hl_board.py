@@ -30,7 +30,7 @@ from datetime import datetime, timezone
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 from hl_wallet import (  # noqa: E402,F401  (re-exported for tests and tools/check_hl_parity.py)
     ALPHA, INFO_URL, MIN_AV, MIN_WEEKS, N, WEEK_MS, alpha_vs, bar, bench_returns, flags, luck,
-    months_to_clear, score, t_to_z, weekly_returns, _betacf, _betai,
+    months_to_clear, recent_returns, score, t_to_z, weekly_returns, _betacf, _betai,
 )
 
 LB_URL = "https://stats-data.hyperliquid.xyz/Mainnet/leaderboard"

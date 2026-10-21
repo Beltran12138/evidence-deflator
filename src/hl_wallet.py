@@ -134,6 +134,22 @@ def weekly_returns(pf, since=None, with_times=False):
     return [(r, w) for r, w, _, _ in out], start, end, counted
 
 
+def recent_returns(pf, window="month"):
+    """Returns between consecutive samples of a short portfolio window (``month``: about one sample a
+    day for the last 30 days). Same rule as the weekly series: change in PnL over account value at the
+    start, intervals in weeks, samples starting below MIN_AV skipped. A finer look at the recent record,
+    reported next to the verdict and never used for it: the verdict and every pre-registered reading use
+    ``weekly_returns``, because only the weekly grid covers the whole history."""
+    w = pf.get(window) or {}
+    av = [(t, float(v)) for t, v in w.get("accountValueHistory", [])]
+    pnl = dict((t, float(v)) for t, v in w.get("pnlHistory", []))
+    out = []
+    for (ta, va), (tb, _) in zip(av, av[1:]):
+        if va >= MIN_AV and ta in pnl and tb in pnl and tb > ta:
+            out.append(((pnl[tb] - pnl[ta]) / va, (tb - ta) / WEEK_MS))
+    return out
+
+
 def flags(pf, rets, counted):
     """What t cannot see, reported next to it. Same rules as HL.flags in docs/assets/hl.js."""
     out = []

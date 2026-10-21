@@ -1122,6 +1122,7 @@ WALLET_T_EN = {
     "luck": {"label": "chance that luck alone gets a record this strong, for a wallet found {FROM}", "most": "more likely than not", "certain": "almost certain",
              "one": "1 in {X}", "units": [[1e12, " trillion"], [1e9, " billion"], [1e6, " million"]]},
     "tLabel": "Sharpe {S}",
+    "recent": "Last 30 days, about one sample a day: t = {T} (Sharpe {S}) over {N} intervals. A finer look at the recent record, not used for the verdict: only the weekly series covers the whole history, and the 2026-12-09 reading is pre-registered on it.",
     "btc": "After taking out BTC’s moves: t = {T}, with a beta of {B} to BTC over {N} weeks. The verdict above still uses the t without this adjustment; switching is planned as a dated method change.",
     "meterAria": "t against the two bars", "meterT2": "t = 2 · one test", "meterBest": "best of {N} · {bar}",
     "notAddr": ["That is not a Hyperliquid address", "Expected 0x followed by 40 hex characters."],
@@ -1129,7 +1130,8 @@ WALLET_T_EN = {
     "months": {"noSharpe": "needs 8 weeks of record before this can be estimated",
                "never": ["never", "at a Sharpe of zero or below, no length of record clears the bar"],
                "done": "more months needed: the record already clears the bar",
-               "more": "more record needed to clear the bar, if the Sharpe held", "yr": " yr", "mo": " mo"},
+               "more": "more record needed to clear the bar, if the Sharpe held",
+               "unprovable": "more record needed, if the Sharpe held: longer than {H} years, so this record cannot be told apart from luck on any realistic horizon", "yr": " yr", "mo": " mo"},
     "notes": {"no_losing_week": "No losing week in the record. Consistent with market making, funding carry or selling tail risk; t measures consistency, not the size of a loss that has not happened yet.",
               "one_week_majority": "One week produced more than half of all the gains. The record rests mostly on that week.",
               "pnl_outside_record": "Most of the all-time PnL was booked in periods that started with under $1,000 in the account, so it cannot be turned into a return. The verdict covers only the weeks that can be measured."},
@@ -1147,6 +1149,7 @@ WALLET_T_EN = {
                "projNone": "No positive edge measured, so more of the same record would not raise t.",
                "projAria": "Projected t against record length", "now": "now", "over30": "more than 30 years",
                "nextMore": "More record: about {m} more at a steady Sharpe of {S} to reach the bar of {BAR}.",
+               "nextUnprovable": "Cannot be proven: at a steady Sharpe of {S}, reaching the bar of {BAR} takes about {m} more, past the {H}-year horizon we treat as realistic for one venue and one strategy. More of the same record will not settle it; only a steadier edge, or a smaller pool to have picked it from, would.",
                "nextNoEdge": "A positive edge: at a Sharpe of zero or below, no length of record clears any bar.",
                "nextCohort": "The forward record: this wallet is one of the 200 frozen on 2026-10-14; its record after that day is scored separately, first reading 2026-12-09.",
                "nextNotCohort": "A forward record: only results after the day you picked this wallet test the pick. Note today's date and check again.",
@@ -1254,6 +1257,7 @@ def build_wallet():
    <div><b id="wt">—</b><span>t, adjusted for record length (≈ Sharpe × √years) · <span id="ws">annualised Sharpe, weekly</span></span></div>
   </div>
  </div>
+ <p class="muted small" id="wrecent" style="margin:10px 4px 0" hidden></p>
  <p class="muted small" id="wbtc" style="margin:10px 4px 0" hidden></p>
  <div class="wcharts" id="wcharts" hidden>
   <figure class="wfig"><figcaption id="wcurvecap"></figcaption><div class="chart" id="wcurve"></div></figure>

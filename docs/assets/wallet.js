@@ -117,7 +117,9 @@
   try { if (sc.t != null) adj = HL.alphaVs(rets, HL.benchReturns(await HL.fetchCandles('BTC', start), iv)); } catch (e) { adj = null; }
   await cohortP;
   const inCohort = cohort && cohort.members.some(m => m.address === a);
-  last = {a, rets, start, sc, fl, adj, NN, n, U, vault: !!vault, inCohort, frozenMs: inCohort ? cohort.frozen_at_ms : null};
+  // a finer look at the last 30 days (about one sample a day), shown next to the verdict, never in it
+  const rr = HL.recentReturns(pf), rc = HL.score(rr);
+  last = {a, rets, start, sc, fl, adj, NN, n, U, vault: !!vault, inCohort, frozenMs: inCohort ? cohort.frozen_at_ms : null, rc, rn: rr.length};
   pool(); render();
   $('wcopy').dataset.copy = location.origin + T.selfPath + '?a=' + a;
   $('wnote').textContent = start ? fill(T.wnote, {start: new Date(start).toISOString().slice(0, 10), now: new Date().toISOString().slice(0, 16).replace('T', ' ')}) : '';
@@ -142,6 +144,9 @@
   range.addEventListener('input', () => set(+range.value));
   $('wfound').querySelectorAll('.wticks button').forEach(b => b.addEventListener('click', () => set(+b.dataset.i)));
  }
+ // Past this much more record, the page says the record cannot be proven rather than "come back later":
+ // five years is longer than Hyperliquid has existed and than most single strategies last.
+ const HORIZON_MO = 60;
  function render(poolOnly) {
   const {rets, start, sc, fl, adj, NN, n, U, inCohort, frozenMs} = last, M = T.months, C = T.charts;
   const NP = pick || NN, opt = T.found.opts.find(o => o[0] === pick), FROM = fill(opt[2], {N: n, U});
@@ -165,6 +170,8 @@
   else { const [o, pc] = odds(lk); $('wl').textContent = o; $('wlp').textContent = pc; }
   $('wl').style.fontSize = lk != null && lk >= 0.5 ? '22px' : '';
   $('wll').textContent = fill(T.luck.label, {FROM});
+  $('wrecent').hidden = last.rc.t == null;
+  if (last.rc.t != null) $('wrecent').textContent = fill(T.recent, {T: f(last.rc.t), S: f(last.rc.sharpe), N: last.rn});
   $('wbtc').hidden = !(adj && adj.t_btc != null);
   if (adj && adj.t_btc != null) $('wbtc').textContent = fill(T.btc, {T: f(adj.t_btc), B: f(adj.beta_btc), N: adj.n_btc});
   const need = HL.monthsToClear(v.bar, sc.sharpe), have = (sc.weeks || 0) / 4.345;
@@ -172,7 +179,7 @@
   else if (need == null) { $('wm').textContent = M.never[0]; $('wml').textContent = M.never[1]; }
   else if (need <= have && v.key === 'clears_board') { $('wm').textContent = '0'; $('wml').textContent = M.done; }
   else if (need <= have) { $('wm').textContent = '< 1' + M.mo; $('wml').textContent = M.more; }
-  else { const m = need - have; $('wm').textContent = m >= 1188 ? '> 99' + M.yr : m >= 24 ? (m / 12).toFixed(1) + M.yr : Math.round(m) + M.mo; $('wml').textContent = M.more; }
+  else { const m = need - have; $('wm').textContent = m >= 1188 ? '> 99' + M.yr : m >= 24 ? (m / 12).toFixed(1) + M.yr : Math.round(m) + M.mo; $('wml').textContent = m > HORIZON_MO ? fill(M.unprovable, {H: HORIZON_MO / 12}) : M.more; }
   $('wflags').innerHTML = fl.map(k => `<li>${T.notes[k]}</li>`).join('');
   // where the record stands against its own peak, and how ordinary that is for its measured edge
   const dd = HL.drawdown(rets), D = T.dd, pc = x => (100 * x).toFixed(1);
@@ -191,7 +198,7 @@
    else { $('wprojcap').textContent = C.projNone; $('wproj').innerHTML = ''; }
   }
   const nx = [];
-  if (sc.sharpe > 0 && need > have) nx.push(fill(C.nextMore, {m: (need - have) > 360 ? C.over30 : (need - have) >= 24 ? ((need - have) / 12).toFixed(1) + M.yr : Math.round(need - have) + M.mo, S: f(sc.sharpe), BAR: f(v.bar)}));
+  if (sc.sharpe > 0 && need > have) nx.push(fill(need - have > HORIZON_MO ? C.nextUnprovable : C.nextMore, {m: (need - have) > 360 ? C.over30 : (need - have) >= 24 ? ((need - have) / 12).toFixed(1) + M.yr : Math.round(need - have) + M.mo, S: f(sc.sharpe), BAR: f(v.bar), H: HORIZON_MO / 12}));
   if (sc.sharpe != null && sc.sharpe <= 0) nx.push(C.nextNoEdge);
   nx.push(inCohort ? C.nextCohort : C.nextNotCohort);
   if (dd && dd.share_if_real != null) nx.push(C.nextDd);

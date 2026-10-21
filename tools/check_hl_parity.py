@@ -25,7 +25,8 @@ for (const f of files) {
   const pf = JSON.parse(require('fs').readFileSync(f, 'utf8'));
   const w = HL.weeklyReturns(pf), sc = HL.score(w.rets);
   out[f] = Object.assign(sc, {flags: HL.flags(pf, w.rets, w.counted)}, btc.length ? HL.alphaVs(w.rets, HL.benchReturns(btc, w.iv)) : {},
-                         {luck: sc.t == null ? null : Math.round(HL.luck(sc.t, 47254) * 1e6) / 1e6});
+                         {luck: sc.t == null ? null : Math.round(HL.luck(sc.t, 47254) * 1e6) / 1e6},
+                         {recent_t: HL.score(HL.recentReturns(pf)).t});
 }
 out.__bars = [1, 41, 47254, 23376].map(n => Math.round(HL.bar(n) * 100) / 100);
 console.log(JSON.stringify(out));
@@ -52,7 +53,8 @@ def main():
         rets = [(r, w) for r, w, _, _ in iv]
         p, j = dict(py.score(rets), flags=py.flags(pf, rets, counted)), js[f]
         p["luck"] = None if p["t"] is None else round(py.luck(p["t"], 47254), 6)
-        keys = ["weeks", "sharpe", "t_student", "dof", "t", "flags", "luck"]
+        p["recent_t"] = py.score(py.recent_returns(pf))["t"]
+        keys = ["weeks", "sharpe", "t_student", "dof", "t", "flags", "luck", "recent_t"]
         if btc:
             p.update(py.alpha_vs(iv, py.bench_returns(btc, iv)))
             keys += ["t_btc", "beta_btc", "n_btc"]

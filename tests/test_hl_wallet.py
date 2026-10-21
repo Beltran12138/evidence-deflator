@@ -94,3 +94,15 @@ def test_gate_allows_only_a_record_that_clears_and_denies_cannot_tell():
     # a record that would pass blind but was picked off a board is denied
     assert not hw.gate({"t": 3.0, "clears_bar": False, "verdict": "clears_single", "bar": 4.9, "weeks": 60,
                         "bar_rule": "best of 47153: t >= 4.9"})["allow"]
+
+
+def test_recent_returns_uses_month_window_and_skips_small_accounts():
+    W = hw.WEEK_MS
+    day = W // 7
+    pf = {"allTime": {"accountValueHistory": [], "pnlHistory": []},
+          "month": {"accountValueHistory": [[0, "500"], [day, "2000"], [2 * day, "2000"], [3 * day, "2100"]],
+                    "pnlHistory": [[0, "0"], [day, "10"], [2 * day, "30"], [3 * day, "20"]]}}
+    r = hw.recent_returns(pf)
+    # the first interval starts below MIN_AV and is skipped
+    assert r == [(20 / 2000, 1 / 7), (-10 / 2000, 1 / 7)]
+    assert hw.recent_returns({"allTime": {}}) == []

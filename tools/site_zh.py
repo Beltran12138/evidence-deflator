@@ -110,6 +110,7 @@ WALLET_T = {
               "blindStrong": "过了 t ≥ 2.00，也就是随手挑中一个钱包时的门槛。没有实力的话，一份记录靠运气走到这里，大约 44 次里有 1 次。"},
     "luck": {"label": "对一个{FROM}找到的钱包，单靠运气走到这么强的概率", "most": "多半能", "certain": "几乎必然", "one": "{X} 次里 1 次", "units": [[1e12, " 万亿"], [1e8, " 亿"], [1e5, " 万", 1e4]]},
     "tLabel": "夏普 {S}",
+    "recent": "近 30 天、约每天一个点：t = {T}（夏普 {S}），{N} 个区间。这是对近期记录更细的观察，不参与判决：只有周频序列覆盖全部历史，2026-12-09 的读数也事先写明用周频。",
     "btc": "扣掉 BTC 的涨跌之后：t = {T}（对 BTC 的 β 为 {B}，{N} 周）。上面的判决暂时仍按未扣的 t；正式切换会作为一次带日期的方法变更公布。",
     "meterAria": "t 与两个门槛", "meterT2": "t = 2 · 单次检验", "meterBest": "{N} 选 1 · {bar}",
     "notAddr": ["这不是 Hyperliquid 地址", "应为 0x 加 40 位十六进制字符。"],
@@ -117,7 +118,8 @@ WALLET_T = {
     "months": {"noSharpe": "至少要有 8 周记录才能估计",
                "never": ["永远", "夏普为零或负数时，多长的记录都过不了门槛"],
                "done": "个月：记录已经过了门槛",
-               "more": "如果夏普保持不变，过门槛还需要的记录", "yr": " 年", "mo": " 个月"},
+               "more": "如果夏普保持不变，过门槛还需要的记录",
+               "unprovable": "如果夏普保持不变还需要的记录：超过 {H} 年，在任何现实的期限里都无法和运气区分", "yr": " 年", "mo": " 个月"},
     "notes": {"no_losing_week": "记录里没有一个亏损周。这和做市、吃资金费率或卖尾部风险的策略一致；t 衡量的是稳定性，不是一笔还没发生的亏损有多大。",
               "one_week_majority": "单独一周贡献了一半以上的收益，这份记录主要靠那一周撑着。",
               "pnl_outside_record": "全期盈亏的大部分记在账户不足 $1,000 的时段，无法换算成收益率。结论只覆盖能测量的那些周。"},
@@ -135,6 +137,7 @@ WALLET_T = {
                "projNone": "没有测到正的优势，同样的记录再长也不会让 t 变大。",
                "projAria": "t 随记录长度的预测", "now": "现在", "over30": "30 年以上",
                "nextMore": "更长的记录：夏普保持 {S} 的话，大约再要 {m} 才能到 {BAR} 的门槛。",
+               "nextUnprovable": "无法证明：夏普保持 {S} 的话，到 {BAR} 的门槛大约还要 {m}，超过了我们视为现实的 {H} 年（一个平台、一种策略能持续的时间）。同样的记录再长也定不了；只有更稳的优势，或者从更小的范围里挑出来，才可能。",
                "nextNoEdge": "出现正的优势：夏普为零或负数时，多长的记录都过不了任何门槛。",
                "nextCohort": "前向记录：这个钱包是 2026-10-14 冻结的 200 个之一，冻结之后的记录单独计分，2026-12-09 首读。",
                "nextNotCohort": "前向记录：只有你选中它之后的结果才能检验这次选择。记下今天的日期，过一段时间再查。",
@@ -243,6 +246,7 @@ def wallet_page(B, hl, lang):
    <div><b id="wt">—</b><span>t 值，已按记录长度校正（≈ 夏普 × √年数）· <span id="ws">年化夏普比率（按周）</span></span></div>
   </div>
  </div>
+ <p class="muted small" id="wrecent" style="margin:10px 4px 0" hidden></p>
  <p class="muted small" id="wbtc" style="margin:10px 4px 0" hidden></p>
  <div class="wcharts" id="wcharts" hidden>
   <figure class="wfig"><figcaption id="wcurvecap"></figcaption><div class="chart" id="wcurve"></div></figure>

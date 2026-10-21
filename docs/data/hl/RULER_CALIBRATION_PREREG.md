@@ -35,4 +35,10 @@ Leakage. A record built with look-ahead passes any test on its returns (arXiv 26
 
 ## Results
 
-(not yet run)
+Run 2026-10-21 09:56 UTC with `tools/ruler_calibration.py` (seed 20261021, 200 draws per wallet). Scored series saved in `calibration/returns-2026-10-21.json`, numbers in `calibration/results-2026-10-21.json`. 181 of the 200 wallets had at least 8 weekly intervals; 19 left out.
+
+**Test 1, sign-flip placebo: calibrated.** Pass rate at t ≥ 2 is 1.35% against the nominal 2.275%, inside the 1.14%–4.55% band. It sits on the strict side, and stays there at every length (8–25 weeks 1.44%, 26–51 weeks 1.59%, 52+ weeks 1.17%). At t ≥ 3.5 the rate is 0.011% against a nominal 0.023%. Read: with skill removed, these real Hyperliquid return series clear the bars less often than the bars claim, not more. The likely cause is their fat tails: a few huge weeks inflate the standard deviation more than they move the mean once their signs are randomised. No change to verdicts (strict is the documented intent); the method page should say the bars are, if anything, conservative on this data.
+
+**Test 2, power on a planted annual Sharpe of 2: no flag.** Detected 54.0% against a predicted 56.4%, ratio 0.96 (flag below 0.7). The ruler finds a real edge of that size about as often as the normal approximation says it should.
+
+Limits: one cohort, one day; the cohort is drawn from the two leaderboards, so these are large, active accounts. Leakage is not tested (see above).

@@ -92,6 +92,19 @@ const HL = (() => {
     return {rets, start, end, counted, iv};
   }
 
+  // Same as hl_wallet.recent_returns: a finer look at the last 30 days, never used for the verdict.
+  function recentReturns(pf, key = 'month') {
+    const w = Object.fromEntries(pf)[key] || {};
+    const av = (w.accountValueHistory || []).map(([t, v]) => [t, +v]);
+    const pnl = new Map((w.pnlHistory || []).map(([t, v]) => [t, +v]));
+    const out = [];
+    for (let k = 0; k + 1 < av.length; k++) {
+      const [ta, va] = av[k], tb = av[k + 1][0];
+      if (va >= MIN_AV && pnl.has(ta) && pnl.has(tb) && tb > ta) out.push([(pnl.get(tb) - pnl.get(ta)) / va, (tb - ta) / WEEK_MS]);
+    }
+    return out;
+  }
+
   function score(rets) {
     const n = rets.length;
     if (n < MIN_WEEKS) return {weeks: n, sharpe: null, t: null};
@@ -220,6 +233,6 @@ const HL = (() => {
     } catch (e) { return null; }
   }
 
-  return {WEEK_MS, MIN_WEEKS, bar, monthsToClear, weeklyReturns, score, drawdown, flags, verdict, luck, benchReturns, alphaVs, fetchPortfolio, fetchVault, fetchCandles, cdf, inv, tToZ};
+  return {WEEK_MS, MIN_WEEKS, bar, monthsToClear, weeklyReturns, recentReturns, score, drawdown, flags, verdict, luck, benchReturns, alphaVs, fetchPortfolio, fetchVault, fetchCandles, cdf, inv, tToZ};
 })();
 if (typeof module !== 'undefined') module.exports = HL;
