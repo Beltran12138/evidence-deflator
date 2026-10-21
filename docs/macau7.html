@@ -31,7 +31,8 @@ h2{font-size:62px;font-weight:900;line-height:1.2;letter-spacing:-.01em}
 .src{font-size:13px;color:var(--low);margin-top:24px;line-height:1.6}
 /* 00 */
 .cover{padding-top:96px}
-.cover .sub{font-size:34px;color:var(--mid);margin-top:30px;font-weight:500}
+.cover .sub{font-size:34px;color:var(--mid);margin-top:30px;font-weight:500}.cover .sub b{color:var(--ink);font-weight:700}
+.tag{font:700 20px var(--mono);letter-spacing:.14em;color:var(--red);margin-bottom:18px;text-transform:uppercase}
 .cover .who{margin-top:64px;font-size:26px;color:var(--mid)}.cover .who b{color:var(--ink);font-weight:700;margin-right:18px}
 /* 01 */
 .huge{font-size:280px;font-weight:900;line-height:.95;letter-spacing:-.04em;margin-top:4px}
@@ -100,10 +101,10 @@ h2{font-size:62px;font-weight:900;line-height:1.2;letter-spacing:-.01em}
 .road .live p{color:var(--ink);font-weight:700}
 .why{margin-top:26px;font-size:24px;color:var(--mid)}.why b{color:var(--ink)}
 /* 05 duo */
-.duo{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:34px;align-items:start}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:20px;align-items:start}
 .duo figure{margin:0}
 .duo img{display:block;width:100%;border-radius:6px;border:1px solid var(--line)}
-.duo figcaption{margin-top:16px;font-size:26px;color:var(--mid);line-height:1.45}
+.duo figcaption{margin-top:10px;font-size:25px;color:var(--mid);line-height:1.4}
 .duo figcaption b{display:block;color:var(--red);font-size:26px;font-weight:700;margin-bottom:2px}
 /* 06 ask */
 .ask{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:start}
@@ -128,8 +129,9 @@ const QR='<svg width="148" height="148" viewBox="0 0 148 148" class="segno"><g t
 const S=[
 // 00
 `<div class="slide cover">
+ <div class="tag">交易里的 AI 对齐</div>
  <h1>AI 替你下单之前，<br>谁来管住它？</h1>
- <div class="sub">给 AI 交易 agent 装一道闸：上限你来签，账本谁都能查</div>
+ <div class="sub">AI agent 交易的基础设施：<b>Gate</b> 管住它，<b>Audit</b> 查清它，<b>Ranking</b> 判明它</div>
  <div class="who"><b>伯纳德</b>Evidence Deflator 开发者 · 《AI 智能投资手册》第九章作者</div>
 </div>`,
 // 01
@@ -141,6 +143,7 @@ const S=[
 </div>`,
 // 02
 `<div class="slide">
+ <div class="tag">GATE · 管住它</div>
  <h2>我们在 agent 和券商账户之间，加了一道闸</h2>
  <div class="tape">
   <div class="row ok"><span class="t">18:18:14</span><span class="o">买 AAPL $300</span><span class="d"><b>放行</b>规则之内，模拟成交</span></div>
@@ -152,6 +155,7 @@ const S=[
 </div>`,
 // 03
 `<div class="slide">
+ <div class="tag">GATE · 管住它</div>
  <h2>一句话说规则，看例子确认，再签名</h2>
  <div class="two wide">
   <div class="say"><span class="k">你对 agent 说</span>「只做苹果和 SPY，<br>单笔不超过 500 美元，<br>一天最多亏 200 美元……」<span class="k">agent 起草授权，<br>闸门用代码算出右边的例子</span><span class="k">你逐条确认，才能签名</span></div>
@@ -161,6 +165,7 @@ const S=[
 </div>`,
 // 04
 `<div class="slide">
+ <div class="tag">GATE · 我们自己测出来的</div>
  <h2>只设「每日亏损上限」，挡不住</h2>
  <div class="bars">
   <div class="bar"><div class="lab">你设的每日亏损上限</div><div class="track"><div class="fill" style="width:3.3%"></div><span class="v">$200</span></div></div>
@@ -172,11 +177,12 @@ const S=[
 </div>`,
 // 05
 `<div class="slide">
- <h2>管住它，还要判它：是本事还是运气</h2>
+ <div class="tag">AUDIT · RANKING</div>
+ <h2>管住它，还要查清它、判明它</h2>
  <div class="lede">代码谁都能写，<b>可信的记录和公道的评分写不出来</b></div>
  <div class="duo">
-  <figure><img src="assets/deck/panel.png" alt="多账户面板"><figcaption><b>闸门</b>每一笔签名入账，第三方拿账本就能复核</figcaption></figure>
-  <figure><img src="assets/deck/wallet-zh.png" alt="钱包检验"><figcaption><b>尺子</b>Hyperliquid 盈利榜前 100 名，还没有一个证据充分</figcaption></figure>
+  <figure><img src="assets/deck/panel.png" alt="多账户面板"><figcaption><b>Audit · 查清它</b>每一笔签名入账，第三方拿账本就能复核</figcaption></figure>
+  <figure><img src="assets/deck/wallet-zh.png" alt="钱包检验"><figcaption><b>Ranking · 判明它：本事还是运气</b>Hyperliquid 盈利榜前 100 名，还没有一个证据充分</figcaption></figure>
  </div>
  <div class="why">为什么是现在：6 月 23 日，7 名美国国会议员联名致信 SEC 主席，追问 agent 交易该有什么<b class="red">护栏</b>、出了事谁负责</div>
  <div class="src">左：agent-gate panel，三个闸门的账本（docs/gate/demo-2026-10-21-us/panel.html）。右：evidencedeflator.com 钱包检验，公开数据，按挑选范围定门槛（47,607 选 1，t ≥ 4.90）。国会致信：AdvisorHub 2026-06-26 报道</div>
