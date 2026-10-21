@@ -64,7 +64,14 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
 
 <h2>1 · 签授权文件</h2>
 <div class="step">
-<p class="note">两种方式拿到要签的文字：一是直接对你的 agent 说规则，比如“只买苹果和 SPY，单笔不超过 500，一天最多亏 200”，agent 用闸门的 <code>propose_mandate</code> 工具起草；二是在终端运行 <code>agent-gate mandate draft --config gate.json --issuer 你的地址</code>。把整段文字（从 “Trading mandate v0” 开始）原样贴进来。签名前请逐项看清楚范围和到期时间。</p>
+<p class="note">不用会 AI，也不用懂代码：用一句话写下你的规则，闸门把它变成授权。比如“只做苹果和 SPY，单笔不超过 500 美元，一天最多亏 200 美元，每只股票最多拿 2000 美元，两周有效”。这一步不用任何 AI，同一句话永远得到同一套规则；看不懂的地方会直接告诉你，不会替你猜。</p>
+<label for="nl">用一句话写规则</label>
+<textarea id="nl" spellcheck="false" style="min-height:80px;font-family:var(--sans)" placeholder="只做苹果和 SPY，单笔不超过 500 美元，一天最多亏 200 美元，每只股票最多拿 2000 美元，两周有效"></textarea>
+<div class="row"><div><label for="nlagent">闸门密钥地址（运行 agent-gate keygen 得到）</label><input id="nlagent" placeholder="0x…" spellcheck="false"></div>
+<div><label for="nlvenue">账户</label><select id="nlvenue"><option value="alpaca|paper">Alpaca 模拟账户</option><option value="alpaca|live">Alpaca 真实账户</option><option value="hyperliquid-testnet|">Hyperliquid 测试网</option><option value="hyperliquid-mainnet|">Hyperliquid 主网</option><option value="sim|sim">模拟盘</option></select></div></div>
+<button id="nlgo">看看闸门怎么理解</button>
+<div class="out" id="nlout" hidden></div>
+<p class="note">也可以直接对你的 agent 说规则，agent 用闸门的 <code>propose_mandate</code> 工具起草；或者在终端运行 <code>agent-gate mandate draft --config gate.json --issuer 你的地址</code>。拿到的整段文字（从 “Trading mandate v0” 开始）都贴在下面。签名前请逐项看清楚范围和到期时间。</p>
 <label for="msg">要签的文字</label>
 <textarea id="msg" spellcheck="false" placeholder="Trading mandate v0 (evidencedeflator.com/gate/mandate)&#10;{&quot;agent&quot;:&quot;0x…&quot;, …}"></textarea>
 <div class="out" id="preview"></div>
@@ -103,6 +110,7 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
 
 <!-- /site-footer -->
 <script src="/assets/mandate_examples.js"></script>
+<script src="/assets/mandate_text.js"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -130,7 +138,7 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
       $('preview').textContent = [
         '签发人  ' + m.issuer + (acct ? (mine ? '  (= 已连接的钱包)' : '  ≠ 已连接的钱包，签了也无效') : ''),
         '闸门键  ' + m.agent, '账户    ' + m.venue + ' / ' + m.account,
-        '标的    ' + (s.allow || []).join(', '), '单笔上限 $' + s.max_order_usd + '   每日亏损上限 $' + s.max_daily_loss_usd + '   每日笔数 ' + s.max_orders_per_day,
+        '标的    ' + (s.allow || []).join(', '), '单笔上限 $' + s.max_order_usd + '   每日亏损上限 $' + s.max_daily_loss_usd + '   每日笔数 ' + (s.max_orders_per_day == null ? '不限' : s.max_orders_per_day),
         '单标的仓位上限 ' + (s.max_position_usd ? '$' + s.max_position_usd : '没有（注意：没有它，每日亏损上限挡不住已持仓位的亏损，见规格里的压力测试）'),
         '方向    ' + (s.sides || []).join(', '), '有效期  ' + m.not_before + ' → ' + m.expires].join('\n');
       if (m.agent && !$('agent').value) $('agent').value = m.agent;
@@ -164,6 +172,46 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
     return boxes.length > 0 && Array.prototype.every.call(boxes, function (b) { return b.checked; });
   }
   $('msg').addEventListener('input', refresh);
+  var FIELD_ZH = { allow: '标的名单', max_order_usd: '单笔上限', max_daily_loss_usd: '每日亏损上限', max_position_usd: '单标的仓位上限',
+                   max_orders_per_day: '每日笔数', sides: '方向', days: '有效期（天）' };
+  var MISSING_ZH = { allow: '没说能交易哪些标的：不设名单，等于什么都能买', max_order_usd: '没说单笔上限',
+                     max_daily_loss_usd: '没说一天最多亏多少', max_position_usd: '没说每个标的最多拿多少：没有它，每日亏损上限挡不住仓位越堆越大' };
+  var ADDR = /^0x[0-9a-fA-F]{40}$/;
+  function canon(o) {
+    if (Array.isArray(o)) return '[' + o.map(canon).join(',') + ']';
+    if (o && typeof o === 'object') return '{' + Object.keys(o).sort().map(function (k) { return JSON.stringify(k) + ':' + canon(o[k]); }).join(',') + '}';
+    return JSON.stringify(o);
+  }
+  function iso(ms) { return new Date(Math.floor(ms / 1000) * 1000).toISOString().replace('.000Z', 'Z'); }
+  var nlId = null;
+  function fromSentence() {
+    var r = window.mandateText.parse($('nl').value);
+    var lines = ['闸门这样理解你的话：'];
+    r.cites.forEach(function (c) { lines.push('  ' + FIELD_ZH[c.field] + '：' + (Array.isArray(c.value) ? c.value.join(', ') : c.value) + '    ← 「' + c.words + '」'); });
+    if (r.notes.indexOf('default_days') >= 0) lines.push('  有效期（天）：' + r.days + '    ← 你没说，先按 ' + r.days + ' 天');
+    r.missing.forEach(function (k) { lines.push('  缺：' + MISSING_ZH[k]); });
+    r.notes.forEach(function (n) { if (n.indexOf('denied_symbols:') === 0) lines.push('  注意：你说了不要碰 ' + n.split(':')[1] + '；闸门只认白名单，请直接说出允许交易的标的'); });
+    r.unread.forEach(function (u) { lines.push('  没看懂：「' + u + '」'); });
+    var agent = $('nlagent').value.trim(), v = $('nlvenue').value.split('|');
+    var ready = !r.missing.some(function (k) { return k !== 'max_position_usd'; });
+    if (!ready) lines.push('', '先把上面缺的补进这句话，再生成要签的文字。');
+    else if (!acct || !ADDR.test(agent)) lines.push('', '规则齐了。' + (!acct ? '连接钱包' : '') + (!acct && !ADDR.test(agent) ? '、' : '') + (!ADDR.test(agent) ? '填上闸门密钥地址' : '') + '后，会自动生成要签的文字。');
+    $('nlout').textContent = lines.join('\n');
+    $('nlout').hidden = false;
+    if (!ready || !acct || !ADDR.test(agent)) return;
+    var sc = {};
+    ['allow', 'sides', 'max_order_usd', 'max_position_usd', 'max_daily_loss_usd', 'max_orders_per_day'].forEach(function (k) { if (r.scope[k] != null) sc[k] = r.scope[k]; });
+    sc.allow = Array.from(new Set(sc.allow.map(function (x) { return x.toUpperCase(); }))).sort();
+    if (!sc.sides) sc.sides = ['buy', 'sell'];
+    if (!nlId) nlId = Array.from(crypto.getRandomValues(new Uint8Array(8)), function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+    var now = Date.now();
+    var m = { type: 'trading-mandate', version: '0', id: nlId, issuer: acct, agent: agent, venue: v[0],
+              account: v[1] || acct, scope: sc, not_before: iso(now), expires: iso(now + r.days * 86400000) };
+    $('msg').value = HEADER + canon(m);
+    if (!$('agent').value) $('agent').value = agent;
+    refresh();
+  }
+  $('nlgo').onclick = fromSentence;
   // a draft can arrive in the link (#m=<base64url of the text>, from propose_mandate); the part after # never reaches a server
   if (location.hash.indexOf('#m=') === 0) {
     try {
@@ -182,6 +230,7 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
       acct = a[0];
       $('who').textContent = acct;
       refresh();
+      if ($('nl').value.trim()) fromSentence();
       $('agent').dispatchEvent(new Event('input'));
     } catch (e) { $('who').textContent = '连接被拒绝：' + (e.message || e); }
   };

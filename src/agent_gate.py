@@ -795,8 +795,17 @@ def mandate_cli(a: argparse.Namespace, cfg: Dict[str, Any]) -> None:
         if not (a.issuer and cfg.get("gate_key")):
             raise SystemExit("draft needs --issuer 0x… (the owner's address) and gate_key in the config")
         venue = cfg["broker"] + ("-" + cfg.get("network", "testnet") if cfg["broker"] == "hyperliquid" else "")
+        scope, days = cfg, a.days
+        if a.text:  # the owner's own sentence, read without a model
+            import mandate_text
+            r = mandate_text.parse(a.text, default_days=a.days)
+            print(mandate_text.render(r))
+            print()
+            if [k for k in r["missing"] if k != "max_position_usd"]:
+                raise SystemExit("not drafted: add what is missing to the sentence")
+            scope, days = r["scope"], r["days"]
         m = mandate_mod.draft(a.issuer, mandate_mod.address_of(cfg["gate_key"]), venue,
-                              cfg.get("account") or cfg["broker"], cfg, days=a.days)
+                              cfg.get("account") or cfg["broker"], scope, days=days)
         mandate_mod.save(m, unsigned)
         print(f"wrote {unsigned}\n\nSign this exact text with the issuer's wallet (Sign message / personal_sign),"
               f" then run: mandate attach --sig 0x…\n\n{mandate_mod.message(m)}")
@@ -850,6 +859,7 @@ def main(argv: Optional[List[str]] = None) -> None:
     ap.add_argument("--days", type=float, default=30.0, help="mandate draft: how long it lasts")
     ap.add_argument("--key", help="mandate sign/revoke, hl-approve: a key file you hold")
     ap.add_argument("--sig", help="mandate attach: the wallet's signature")
+    ap.add_argument("--text", help="mandate draft: the limits in one sentence, read without a model")
     ap.add_argument("--venue", action="store_true", help="audit: also compare with the venue's fills (hyperliquid)")
     ap.add_argument("--html", help="panel: also write the panel as a web page here")
     a = ap.parse_args(argv)

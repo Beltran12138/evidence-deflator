@@ -49,6 +49,10 @@ sets `max_position_usd`. The signing and Hyperliquid parts need `pip install eth
   (one dollar over, a symbol off the list, a stop-loss sell after the daily loss is hit) with the
   gate's decision on each, computed by code (`src/mandate_examples.py`), never by the model. The
   signing page shows the same examples and asks the owner to confirm each before the sign button works.
+- No agent and no code needed: on the signing page, or with `agent-gate mandate draft --text "…"`, the
+  owner writes the limits in one sentence (Chinese or English) and a small deterministic parser
+  (`src/mandate_text.py`, browser port tested against it) fills the rule fields, citing the words
+  each came from and naming anything it could not read. No model is involved.
 - `agent-gate attest` writes a summary of the ledger signed by the gate's key and bound to its head
   hash; `agent-gate verify-attestation` lets a broker, auditor or counterparty recompute every number
   from the ledger without trusting the gate.
