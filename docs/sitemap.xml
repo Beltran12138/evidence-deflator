@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://evidencedeflator.com/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://evidencedeflator.com/</loc></url>
   <url><loc>https://evidencedeflator.com/audit.html</loc></url>
   <url><loc>https://evidencedeflator.com/case-nuclear.html</loc></url>
   <url><loc>https://evidencedeflator.com/how-many-decisions.html</loc></url>
@@ -8,6 +8,7 @@
   <url><loc>https://evidencedeflator.com/macau4.html</loc></url>
   <url><loc>https://evidencedeflator.com/macau5.html</loc></url>
   <url><loc>https://evidencedeflator.com/macau6.html</loc></url>
+  <url><loc>https://evidencedeflator.com/macau7.html</loc></url>
   <url><loc>https://evidencedeflator.com/agent/</loc></url>
   <url><loc>https://evidencedeflator.com/api/</loc></url>
   <url><loc>https://evidencedeflator.com/audits/</loc></url>
@@ -27,6 +28,7 @@
   <url><loc>https://evidencedeflator.com/audits/014-cicc-loop-factor-engine.html</loc></url>
   <url><loc>https://evidencedeflator.com/check/</loc></url>
   <url><loc>https://evidencedeflator.com/claim/</loc></url>
+  <url><loc>https://evidencedeflator.com/evidence/</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://evidencedeflator.com/gate/</loc></url>
   <url><loc>https://evidencedeflator.com/leaderboard/</loc></url>
   <url><loc>https://evidencedeflator.com/leaderboard/methodology.html</loc></url>

@@ -41,7 +41,7 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
            "%3Crect x='3' y='4' width='18' height='2' fill='%23E66A4B'/%3E%3Crect x='4.5' y='13' width='3' height='7' fill='%23FAF9F6'/%3E"
            "%3Crect x='9.5' y='9.5' width='3' height='10.5' fill='%23FAF9F6'/%3E%3Crect x='14.5' y='15' width='3' height='5' fill='%23FAF9F6'/%3E%3C/svg%3E")
 
-NAV = [("wallet", "Check", "/wallet/"), ("ranking", "Ranking", "/ranking/"), ("audits", "Audits", "/audits/"), ("method", "Method", "/method/"), ("agent", "AI agents", "/agent/"), ("api", "API", "/api/")]
+NAV = [("gate", "Agent gate", "/"), ("wallet", "Check", "/wallet/"), ("ranking", "Ranking", "/ranking/"), ("audits", "Audits", "/audits/"), ("method", "Method", "/method/"), ("agent", "AI agents", "/agent/"), ("api", "API", "/api/")]
 
 COPY_ICON = '<span class="cp">copy</span><span class="ok">copied</span>'
 
@@ -101,14 +101,16 @@ THEME_TOGGLE = ('<button class="theme-toggle" type="button" aria-label="Switch l
                 '<svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>')
 
 
-def header(active, alt=None):
+def header(active, alt=None, other=None):
+    """``other`` = (href, label, hreflang) for the language switch; default is the Chinese version."""
     cur = ' aria-current="page"'
     links = "".join(f'<a href="{u}"{cur if k == active else ""}>{t}</a>' for k, t, u in NAV)
     zh = (alt or {}).get("zh-Hans", "/zh-hans/")
+    o_href, o_label, o_lang = other or (zh, "中文", "zh-Hans")
     return f"""<header class="site-header"><div class="container">
 <a class="brand" href="/">{MARK}Evidence Deflator</a>
 <nav class="nav" aria-label="Main">{links}</nav>
-<div class="header-cta">{THEME_TOGGLE}<a class="gh" href="{zh}" hreflang="zh-Hans" lang="zh-Hans">中文</a><a class="gh" href="{REPO}">{GH}<span>GitHub</span></a></div>
+<div class="header-cta">{THEME_TOGGLE}<a class="gh" href="{o_href}" hreflang="{o_lang}" lang="{o_lang}">{o_label}</a><a class="gh" href="{REPO}">{GH}<span>GitHub</span></a></div>
 </div></header>
 """
 
@@ -476,7 +478,7 @@ def build_home(rows, lb):
            '<span class="c"># claude_desktop_config.json, Cursor, Claude Code …</span>\n'
            '{ <span class="s">"mcpServers"</span>: { <span class="s">"evidence-deflator"</span>: { <span class="s">"command"</span>: <span class="s">"evidence-deflator-mcp"</span> } } }')
     page = head("Evidence Deflator · Is that trading record skill, or could it be luck?",
-                "Paste any Hyperliquid address and see whether its record can be told apart from luck. Open-source evidence checks for trading records, leaderboards and AI backtests.", "/",
+                "Paste any Hyperliquid address and see whether its record can be told apart from luck. Open-source evidence checks for trading records, leaderboards and AI backtests.", "/evidence/",
                 extra=ld(APP_LD) + BAIDU_META) + header("home") + f"""
 <main>
 <div class="container hero">
@@ -542,7 +544,7 @@ def build_home(rows, lb):
  const best=rows.reduce((a,r)=>r.t>a.t?r:a,rows[0]);
  document.getElementById('hero-chart').innerHTML=LB.strip({board:p.board,rows,entries:p.ranked_from,t_bar_best_of_n:p.t_bar_best_of_n,max_t_rank:best.rank},{h:170,flip:true});LB.play(document.getElementById('hero-chart'));});</script>
 """)
-    write("index.html", page)
+    write("evidence/index.html", page)  # the homepage until 2026-10-22; "/" is now the agent gate (tools/gate_home.py)
 
 
 # ---------------------------------------------------------------- leaderboard
@@ -1454,7 +1456,6 @@ HAND_PAGES = [  # hand-maintained pages that only receive the shared head links,
     ("audit.html", "audits", "/audit.html"),
     ("case-nuclear.html", "audits", "/case-nuclear.html"),
     ("how-many-decisions.html", "check", "/how-many-decisions.html"),
-    ("gate/index.html", "agent", "/gate/"),
     ("gate/sign/index.html", "agent", "/gate/sign/"),
 ]
 
@@ -1872,7 +1873,7 @@ def build_crawl_files():
                 continue
             urls.append("/" + (rel[: -len("index.html")] if name == "index.html" else rel))
     urls.sort(key=lambda u: (u.count("/"), u))
-    daily = {"/", "/wallet/"}  # rebuilt from the daily Hyperliquid data
+    daily = {"/evidence/", "/wallet/"}  # rebuilt from the daily Hyperliquid data
     body = "".join(f"  <url><loc>{SITE}{u}</loc>" + (f"<lastmod>{fresh}</lastmod>" if u in daily else "") + "</url>\n"
                    for u in urls)
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -1889,6 +1890,8 @@ def main():
         lb = json.load(f)
     rows = build_audits()
     build_home(rows, lb)
+    import gate_home
+    gate_home.build(_sys.modules[__name__])
     build_leaderboard(lb)
     build_method()
     build_api()
