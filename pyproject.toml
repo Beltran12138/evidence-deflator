@@ -71,5 +71,5 @@ agent-gate-mcp = "gate_server:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
-py-modules = ["normalize", "decision_confidence", "evidence_deflator", "effective_window", "counterfactual", "messages", "trial_count", "track_record", "trace_audit", "hl_wallet", "mcp_server", "agent_gate", "gate_server", "mandate"]
+py-modules = ["normalize", "decision_confidence", "evidence_deflator", "effective_window", "counterfactual", "messages", "trial_count", "track_record", "trace_audit", "hl_wallet", "mcp_server", "agent_gate", "gate_server", "mandate", "gate_adapters"]
 packages = ["adapters"]
