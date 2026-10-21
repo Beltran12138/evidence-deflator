@@ -76,11 +76,17 @@ h2{font-size:62px;font-weight:900;line-height:1.2;letter-spacing:-.01em}
 .vs .ours h3{color:var(--red)}
 .now{margin-top:30px;font-size:26px;color:var(--mid)}.now b{color:var(--ink)}
 /* 03 */
-.two.wide{grid-template-columns:.75fr 1.25fr;gap:50px}
+.two.wide{grid-template-columns:.9fr 1.1fr;gap:70px}
 .say{font-size:34px;line-height:1.5;font-weight:700}
 .say .k{display:block;font-size:24px;color:var(--low);font-weight:500;margin:22px 0 8px}
 .say .k:first-child{margin-top:0}
 .say .k+.k{margin-top:14px}
+.exs{border-top:1px solid var(--line)}
+.exs .k{display:block;font-size:24px;color:var(--low);margin:0 0 6px}
+.exs .k:last-child{margin:22px 0 0}
+.ex{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);font-size:34px;font-weight:500;color:var(--mid)}
+.ex b{color:var(--ink);font-family:var(--mono);font-weight:800}
+.ex i{font-style:normal;font-size:34px;font-weight:900}.ex .no{color:var(--red)}.ex .ok{color:var(--ink)}
 /* 03 screenshot */
 .shot img{display:block;width:100%;border:1px solid var(--line);border-radius:6px}
 /* 05 roadmap */
@@ -96,10 +102,13 @@ h2{font-size:62px;font-weight:900;line-height:1.2;letter-spacing:-.01em}
 .ask{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:start}
 .ask ul{list-style:none;margin-top:44px;font-size:32px;line-height:1.5;color:var(--mid)}
 .ask li{margin-top:18px}.ask li b{color:var(--ink)}
-.qrs{display:flex;gap:28px;margin-top:10px}
+.try{display:flex;align-items:center;gap:32px;margin-top:56px}
+.try .qr svg{width:200px;height:200px;margin:0}
+.try b{display:block;font-size:30px;color:var(--ink);font-weight:900}.try span{font-size:34px;color:var(--mid)}
+.qr.big{font-size:22px;color:var(--mid);line-height:1.6}.qr.big b{display:block;font-size:30px;color:var(--ink);margin-bottom:2px}
 .qr{text-align:center;font-size:18px;color:var(--mid)}
 .qr svg,.qr img{display:block;width:260px;height:260px;margin:0 auto 12px;background:#fff;padding:12px}
-.qr.big svg,.qr.big img{width:260px;height:260px}
+.qr.big svg,.qr.big img{width:400px;height:400px;margin-bottom:20px}
 </style>
 </head>
 <body>
@@ -127,21 +136,26 @@ const S=[
 `<div class="slide">
  <h2>我们在 agent 和券商账户之间，加了一道闸</h2>
  <div class="tape">
-  <div class="row ok"><span class="t">18:18:14</span><span class="o">买 AAPL $300</span><span class="d"><b>放行</b>规则之内，成交</span></div>
+  <div class="row ok"><span class="t">18:18:14</span><span class="o">买 AAPL $300</span><span class="d"><b>放行</b>规则之内，模拟成交</span></div>
   <div class="row blk"><span class="t">18:18:15</span><span class="o">买 SPY $5,000</span><span class="d"><b>拦下</b>超过你定的单笔上限 $500</span></div>
   <div class="row blk"><span class="t">18:18:16</span><span class="o">买 TSLA $100</span><span class="d"><b>拦下</b>不在你允许的名单里</span></div>
  </div>
- <div class="said">agent（Claude）被拦下后的回复：<b>「SPY 我不会拆成多笔小单来绕开上限。」</b></div>
- <div class="src">2026-10-21 真实运行（UTC）：Claude 作 agent，美股模拟盘，价格取同日 Alpaca 成交价；同一套闸门也已在 Alpaca 模拟账户实测。账本与原话：github 仓库 docs/gate/demo-2026-10-22-us</div>
+ <div class="said">agent（Claude）被拦下后的回复：<b>「SPY 我不会拆成多笔小单来绕开上限。」</b><br>就算它拆，第 5 笔 $500 也会撞上 $2,000 的仓位上限。</div>
+ <div class="src">2026-10-21 真实运行（UTC）：Claude 作 agent，美股模拟盘，价格取同日 Alpaca 成交价；同一套闸门也已在 Alpaca 模拟账户实测。账本与原话：github 仓库 docs/gate/demo-2026-10-21-us</div>
 </div>`,
 // 03
 `<div class="slide">
  <h2>一句话说规则，看例子确认，再签名</h2>
  <div class="two wide">
-  <div class="say"><span class="k">你对 agent 说</span>「只做苹果和 SPY，<br>单笔不超过 500 美元，<br>一天最多亏 200 美元……」<span class="k">agent 起草授权，闸门算出例子</span><span class="k">你逐条确认，再用自己的密钥签名</span></div>
-  <div class="shot"><img src="assets/deck/sign-examples.png" alt="签名页：逐条确认例子"></div>
+  <div class="say"><span class="k">你对 agent 说</span>「只做苹果和 SPY，<br>单笔不超过 500 美元，<br>一天最多亏 200 美元……」<span class="k">agent 起草授权，<br>闸门用代码算出右边的例子</span></div>
+  <div class="exs"><span class="k">闸门算出的例子（7 条中的 4 条）</span>
+   <div class="ex"><span>买 AAPL <b>$501</b></span><i class="no">拦下</i></div>
+   <div class="ex"><span>买 <b>TSLA</b> $300</span><i class="no">拦下</i></div>
+   <div class="ex"><span>今天已亏 $200，再开新仓</span><i class="no">拦下</i></div>
+   <div class="ex"><span>今天已亏 $200，卖出止损</span><i class="ok">放行</i></div>
+   <span class="k">你逐条确认后，签名按钮才会亮</span></div>
  </div>
- <div class="src">2026-10-21 真实运行：Claude 调用闸门的 propose_mandate 起草，例子由代码按授权算出，不由 AI 判断。截图：evidencedeflator.com/gate/sign。记录：docs/gate/demo-2026-10-22-us（测试钥匙签发）</div>
+ <div class="src">2026-10-21 真实运行：Claude 调用闸门的 propose_mandate 起草；例子由代码按授权算出，不由 AI 判断；完整 7 条见 evidencedeflator.com/gate/sign。记录：docs/gate/demo-2026-10-21-us（测试钥匙签发）</div>
 </div>`,
 // 04
 `<div class="slide">
@@ -151,7 +165,7 @@ const S=[
   <div class="bar hot"><div class="lab"><b>守规矩</b>、把额度用满的 agent<br>最坏那天的亏损（中位数）</div><div class="track"><div class="fill" style="width:100%"></div><span class="v">$6,007</span></div></div>
   <div class="bar"><div class="lab">加上单标的仓位上限 $2,000 后</div><div class="track"><div class="fill" style="width:3.1%"></div><span class="v">$186</span></div></div>
  </div>
- <div class="so">它只拦新开的仓，<span>拦不住手里仓位继续亏。所以我们加了仓位上限。</span></div>
+ <div class="so">它只拦新开的仓，<span>拦不住持仓越堆越大，30 天能堆到本金约 19 倍。所以加了仓位上限。</span></div>
  <div class="src">本项目压力测试：Hyperliquid BTC/ETH 199 天真实小时收益按日重抽样，闸门自身规则回放，30 天 × 1,000 次，起始 $10,000；单笔 $500、每日 20 笔。小时收盘价，未计强平、资金费、手续费（docs/data/gate-stress-2026-10-21.json）</div>
 </div>`,
 // 05
@@ -161,17 +175,17 @@ const S=[
  <div class="road">
   <div><h3>授权</h3><p>一句话起草授权</p><p>看例子确认再签</p><p>你的密钥签名，随时撤销</p></div>
   <div><h3>执行</h3><p>闸门持钥，越界就拦</p><p>签名前压力测试</p><p>接 Alpaca、Hyperliquid 和 3 个开源框架</p></div>
-  <div><h3>审计</h3><p>每笔签名入账</p><p>多账户一个面板</p><p>给券商和审计方的签名审计证明</p></div>
+  <div><h3>审计</h3><p>每笔签名入账</p><p>多账户一个面板</p><p>可导出的签名审计证明</p></div>
  </div>
- <div class="why">为什么是现在：10 月 19 日，证监会主席吴清说近期将发布 AI 合规应用的意见，点名风险：<b class="red">算法黑箱</b><br><b>黑箱可以不拆，但它的权限和每一步动作，必须有授权、有记录、可复核。</b></div>
- <div class="src">九项均已上线，开源可查：src/agent_gate.py · src/mandate_examples.py · src/gate_server.py；演示 docs/gate/demo-2026-10-22-us。出处：2026 金融街论坛年会主题演讲（正式文件尚未发布）</div>
+ <div class="why">为什么是现在：6 月 23 日，7 名美国国会议员联名致信 SEC 主席，追问 agent 交易该有什么<b class="red">护栏</b>、出了事谁负责</div>
+ <div class="src">九项都已实现，开源可查、可现场演示：src/agent_gate.py · src/mandate_examples.py · src/gate_server.py；演示 docs/gate/demo-2026-10-21-us。面板为命令行生成的网页；审计证明尚无券商接入。国会致信：AdvisorHub 2026-06-26 报道</div>
 </div>`,
 // 06
 `<div class="slide">
  <div class="ask">
   <div><h1>钱交给 AI 之前，<br><span class="red">先给它装一道闸</span></h1>
-   <ul><li><b>体验</b>：evidencedeflator.com</li><li><b>欢迎交流</b> AI agent 交易</li></ul></div>
-  <div class="qrs"><div class="qr big"><img src="assets/wechat-qr.png" alt="微信" onerror="this.parentNode.remove()">微信 · 伯纳德</div><div class="qr">${QR}evidencedeflator.com</div></div>
+   <div class="try"><div class="qr">${QR}</div><div><b>体验</b><span>evidencedeflator.com</span></div></div></div>
+  <div class="qr big"><img src="assets/wechat-qr.png" alt="微信" onerror="this.parentNode.remove()"><b>欢迎交流 AI agent 交易</b>微信 · 伯纳德</div>
  </div>
 </div>`
 ];

@@ -43,7 +43,7 @@ rule-abiding agent's median worst day was ~30x the daily-loss limit, so the defa
 sets `max_position_usd`. The signing and Hyperliquid parts need `pip install eth-account "hyperliquid-python-sdk>=0.24"`.
 
 **From plain words to a signed mandate, and proof for a third party**
-([demo, US stocks, Claude as the agent](docs/gate/demo-2026-10-22-us/)):
+([demo, US stocks, Claude as the agent](docs/gate/demo-2026-10-21-us/)):
 - The owner tells their own agent the limits in plain language; the agent calls the gate's MCP tool
   `propose_mandate`, which returns a draft plus worked examples: orders at the edges of the limits
   (one dollar over, a symbol off the list, a stop-loss sell after the daily loss is hit) with the

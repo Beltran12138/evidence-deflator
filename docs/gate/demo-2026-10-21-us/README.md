@@ -13,7 +13,7 @@ One defect found and fixed during the run: in run 1 Claude reported "the rules i
 Check it yourself (no keys needed):
 
 ```
-python src/agent_gate.py verify-attestation docs/gate/demo-2026-10-22-us/attestation.json --config docs/gate/demo-2026-10-22-us/gate.json
-python src/agent_gate.py audit --config docs/gate/demo-2026-10-22-us/gate.json
-python src/mandate_examples.py --scope docs/gate/demo-2026-10-22-us/mandate.json
+python src/agent_gate.py verify-attestation docs/gate/demo-2026-10-21-us/attestation.json --config docs/gate/demo-2026-10-21-us/gate.json
+python src/agent_gate.py audit --config docs/gate/demo-2026-10-21-us/gate.json
+python src/mandate_examples.py --scope docs/gate/demo-2026-10-21-us/mandate.json
 ```
