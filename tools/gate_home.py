@@ -9,9 +9,6 @@ import json
 import os
 
 PAPER = """<style>
-:root:not([data-theme="dark"]){--bg:#F6F4EE;--surface:#FFFDF8;--sunk:#EEEBE2;--rule:#DCD7CB;--rule-2:#E7E3D9;
- --ink:#141414;--ink-2:#3B3B38;--muted:#6B6A64;--faint:#A5A39B;--primary:#141414;--on-primary:#F6F4EE;--link:#141414;
- --accent:#B3261E;--pos:#1F6B47}
 body{background:var(--bg)}
 .gx h1{font-family:var(--serif);font-weight:560;font-size:clamp(34px,3.8vw,50px);line-height:1.1;letter-spacing:-.02em;margin:16px 0 0}
 .gx h2{font-family:var(--serif);font-weight:560;font-size:clamp(28px,3.2vw,38px);line-height:1.15;letter-spacing:-.015em;margin:0}

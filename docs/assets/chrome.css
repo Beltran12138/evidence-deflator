@@ -2,15 +2,15 @@
    including the calculator, which keeps its own component styles. */
 
 :root{
-  /* light, the default: white paper, ink and one ink-blue for actions */
-  --bg:#FFFFFF; --surface:#FFFFFF; --sunk:#F4F5F7;
-  --ink:#111418; --ink-2:#40454D; --muted:#6E737B; --faint:#A6AAB0;
-  --rule:#E3E5E8; --rule-2:#EEF0F2;
-  --primary:#1D3E7A; --on-primary:#FFFFFF;
+  /* light, the default: receipt paper, ink for actions, one red for refusals */
+  --bg:#F6F4EE; --surface:#FFFDF8; --sunk:#EEEBE2;
+  --ink:#141414; --ink-2:#3B3B38; --muted:#6B6A64; --faint:#A5A39B;
+  --rule:#DCD7CB; --rule-2:#E7E3D9;
+  --primary:#141414; --on-primary:#F6F4EE;
   --accent:#B3261E; --accent-soft:rgba(179,38,30,.07);
-  --pos:#1E6B47; --pos-soft:rgba(30,107,71,.10);
+  --pos:#1F6B47; --pos-soft:rgba(31,107,71,.10);
   --warn:#9A6A12; --warn-soft:rgba(154,106,18,.10);
-  --link:#1D3E7A;
+  --link:#141414;
   --serif:Newsreader,'Source Serif 4',Georgia,'Times New Roman',serif;
   --sans:Inter,'Segoe UI',system-ui,-apple-system,sans-serif;
   --mono:'JetBrains Mono','IBM Plex Mono',Consolas,ui-monospace,monospace;
