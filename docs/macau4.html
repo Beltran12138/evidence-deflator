@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 交易策略，是实力还是运气？（v7） · Evidence Deflator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* v7: dark ground, high contrast. Gold = the bar, red = fails, green = clears. Smallest stage text 22px. */
+:root{--bg:#0E1626;--paper:#162236;--ink:#F5F2EA;--ink2:#CBD3E0;--dim:#93A0B5;--rule:#2C3C57;--rule2:#223049;--gold:#F4B740;--red:#FF5E50;--green:#3FD99A}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans SC','Microsoft YaHei','PingFang SC',sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+.n,.mono{font-family:'JetBrains Mono',Consolas,monospace;font-variant-numeric:tabular-nums}
+header{position:fixed;top:0;left:0;right:0;height:48px;display:flex;align-items:center;padding:0 48px;border-bottom:1px solid var(--rule);background:var(--bg);z-index:3}
+.brand{font:700 16px 'Noto Sans SC',sans-serif;letter-spacing:.02em}.brand i{display:inline-block;width:10px;height:10px;background:var(--gold);margin-right:10px}
+nav{margin-left:auto;display:flex;gap:4px}
+nav button{font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim);background:none;border:1px solid transparent;padding:5px 8px;cursor:pointer}
+nav button.on{color:var(--ink);border-color:var(--rule)}
+footer{position:fixed;bottom:0;left:0;right:0;height:36px;display:flex;align-items:center;padding:0 48px;color:var(--dim);font:13px 'JetBrains Mono',Consolas,monospace}
+footer .k{margin-left:auto}
+main{height:100%;padding:48px 0 36px;display:flex}
+/* content stays in the top three quarters: the bottom quarter is hidden by heads in a hall */
+.slide{display:none;flex:1;padding:34px 72px 0;flex-direction:column;justify-content:flex-start}
+.slide.on{display:flex;animation:in .4s ease both}
+.static .slide.on{animation:none}.static nav,.static footer .k{display:none}
+@keyframes in{from{opacity:0}to{opacity:1}}
+.eyebrow{font:15px 'JetBrains Mono',Consolas,monospace;letter-spacing:.14em;color:var(--gold);margin-bottom:12px}
+h1{font-size:64px;font-weight:900;line-height:1.25}
+h2{font-size:40px;font-weight:700;line-height:1.3}
+.sub{font-size:22px;color:var(--ink2);margin-top:10px}
+.red{color:var(--red)}.gold{color:var(--gold)}.grn{color:var(--green)}.dim{color:var(--dim)}
+.src{font:12px 'JetBrains Mono',Consolas,monospace;color:var(--dim);margin-top:16px;line-height:1.5}
+.card{background:var(--paper);border:1px solid var(--rule);padding:24px 26px}
+/* 00 cover */
+.cover{padding-top:110px}
+.cover h1{font-size:76px}
+.cover .tag{margin-top:22px;font-size:34px;color:var(--gold);font-weight:700}
+.cover .who{margin-top:56px;font-size:24px;color:var(--ink2)}.cover .who b{color:var(--ink);font-size:28px;margin-right:14px}
+/* 01 the check, on a real case */
+.verd{display:grid;grid-template-columns:1fr auto 1.15fr;gap:28px;align-items:stretch;margin-top:26px;max-width:1240px}
+.in .k,.out .k{font:14px 'JetBrains Mono',Consolas,monospace;letter-spacing:.16em;color:var(--dim)}
+.in .row{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule2);padding:16px 0}
+.in .row span{font-size:24px;color:var(--ink2)}.in .row b{font:700 44px 'JetBrains Mono',Consolas,monospace}
+.arrow{align-self:center;font:400 54px 'JetBrains Mono',Consolas,monospace;color:var(--gold)}
+.out{border:2px solid var(--red)}
+.out .v{font-size:72px;font-weight:900;color:var(--red);margin-top:6px;line-height:1.1}
+.out .why{font-size:24px;color:var(--ink2);margin-top:8px}
+.gauge svg{width:100%;height:auto;display:block;overflow:visible;margin-top:14px}
+.gt{font:16px 'JetBrains Mono',Consolas,monospace;fill:var(--dim)}
+.gl{font:700 21px 'Noto Sans SC',sans-serif;fill:var(--ink)}
+.def{margin-top:22px;font-size:22px;color:var(--ink2)}.def b{color:var(--gold);font-weight:700}
+/* 02 random strategies */
+.rgrid{display:grid;grid-template-columns:1fr 360px;gap:34px;margin-top:20px;align-items:start;max-width:1260px}
+#rnd{width:100%;height:auto;display:block;background:var(--paper);border:1px solid var(--rule)}
+.rside .st{border-top:1px solid var(--rule);padding:16px 0}
+.rside .st b{display:block;font:700 46px 'JetBrains Mono',Consolas,monospace;line-height:1.1}
+.rside .st span{font-size:21px;color:var(--ink2)}
+.bars{display:flex;gap:16px;margin-top:22px;font-size:24px;color:var(--ink2);align-items:baseline;flex-wrap:wrap}
+.bars b{font:700 34px 'JetBrains Mono',Consolas,monospace;color:var(--gold)}
+/* 03 product */
+.pgrid{display:grid;grid-template-columns:560px 1fr;gap:30px;margin-top:20px;max-width:1260px;align-items:start}
+.chat{background:#0A111D;border:1px solid var(--rule);padding:20px 22px;font-size:20px;line-height:1.5}
+.chat .u{background:var(--rule);padding:10px 14px;border-radius:12px 12px 2px 12px;margin-left:auto;width:fit-content;max-width:92%}
+.chat .call{font:15px 'JetBrains Mono',Consolas,monospace;color:var(--dim);margin:14px 0 8px;border-left:3px solid var(--gold);padding:6px 0 6px 12px;line-height:1.6}
+.chat .call b{color:var(--gold);font-weight:400}.chat .call em{color:var(--red);font-style:normal}
+.chat .a{margin-top:6px}.chat .a b{color:var(--red)}
+.shot{border:1px solid var(--rule);background:#fff}
+.shot img{display:block;width:100%;height:auto}
+.shotcap{font-size:17px;color:var(--dim);margin-top:8px}
+.steps{display:flex;gap:12px;align-items:center;margin-top:24px;font-size:24px;flex-wrap:wrap}
+.steps span{background:var(--paper);border:1px solid var(--rule);padding:10px 18px}
+.steps span.key{border:2px solid var(--gold);color:var(--gold);font-weight:700}
+.steps i{font-style:normal;color:var(--dim)}
+.chan{font-size:20px;color:var(--ink2);margin-top:14px}
+/* 04 what we have checked */
+.wgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;margin-top:22px;max-width:1260px;align-items:stretch}
+.jev h3,.ppl h3{font-size:28px;font-weight:700}
+.jev .tagl{font-size:19px;color:var(--dim);margin-top:6px}
+.mir{display:flex;gap:46px;justify-content:center;align-items:center;height:250px;position:relative;margin-top:10px}
+.mir::before{content:'';position:absolute;left:30px;right:30px;top:50%;border-top:2px solid var(--dim)}
+.mb{display:flex;flex-direction:column;align-items:center;width:200px;height:250px}
+.mb i{display:block;width:110px;height:100px}
+.mb b{font:700 44px 'JetBrains Mono',Consolas,monospace}
+.mb span{font-size:18px;color:var(--ink2)}
+.mb.up{justify-content:flex-end;padding-bottom:125px}.mb.up i{background:var(--green)}.mb.up b{color:var(--green)}
+.mb.down{justify-content:flex-start;padding-top:125px}.mb.down i{background:var(--red)}.mb.down b{color:var(--red)}
+.jline{font-size:24px;margin-top:8px}.jline b{font-family:'JetBrains Mono',Consolas,monospace}
+.ppl .big{font:700 64px 'JetBrains Mono',Consolas,monospace;margin-top:4px}.ppl .big small{font-size:26px;color:var(--ink2);margin-left:10px;font-family:'Noto Sans SC',sans-serif;font-weight:400}
+.prow{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--rule2);padding:11px 0;font-size:22px}
+.prow b{font:700 30px 'JetBrains Mono',Consolas,monospace}
+.hlrow{margin-top:14px;border-top:2px solid var(--rule);padding-top:14px;font-size:22px;color:var(--ink2)}.hlrow b{font-size:34px;color:var(--red)}
+/* 05 why now */
+.now{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:auto auto;gap:18px;margin-top:24px;max-width:1240px}
+.nb.big{grid-row:1/3;border:2px solid var(--gold)}
+.nb .d{font:700 32px 'JetBrains Mono',Consolas,monospace}
+.nb.big .d{color:var(--gold)}
+.nb .q{font-size:34px;font-weight:700;margin-top:18px;line-height:1.45}
+.nb .x{font-size:22px;color:var(--ink2);margin-top:12px;line-height:1.5}
+.nb.big .x{font-size:26px}
+/* 06 ask */
+.ask{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:start}
+.ask h1{font-size:62px;line-height:1.3}
+.ask ol{list-style:none;margin-top:26px;font-size:25px;line-height:1.55;color:var(--ink2)}
+.ask li{border-top:1px solid var(--rule);padding:14px 0}.ask li b{color:var(--ink)}
+.qrs{display:flex;gap:20px}
+.qr{text-align:center;font:15px 'JetBrains Mono',Consolas,monospace;color:var(--ink2)}
+.qr svg,.qr img{display:block;width:200px;height:200px;margin:0 auto 10px;background:#fff;padding:10px}
+.qr.big svg,.qr.big img{width:260px;height:260px}
+</style>
+</head>
+<body>
+<header><div class="brand"><i></i>Evidence Deflator</div><nav id="nav"></nav></header>
+<main id="stage"></main>
+<footer><span>evidencedeflator.com · 每个数字都可以复算</span><span class="k">← →</span></footer>
+<script>
+// v7 (2026-10-20). Content and sources: OneDrive/桌面/创业_dc/澳门路演_v7_deck内容_1020.md
+const QR='<svg width="175" height="175" class="segno"><g transform="scale(4.2683)"><path fill="#ffffff" d="M0 0h41v41h-41z"/><path class="qrline" stroke="#0E1626" d="M4 4.5h7m2 0h2m1 0h3m1 0h2m1 0h2m2 0h1m2 0h7m-33 1h1m5 0h1m2 0h3m1 0h5m2 0h3m3 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m2 0h1m2 0h3m2 0h2m3 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m1 0h2m1 0h1m2 0h1m3 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h3m1 0h2m1 0h2m3 0h1m1 0h1m3 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h2m2 0h1m2 0h1m2 0h1m2 0h1m2 0h1m-25 1h1m1 0h5m2 0h2m1 0h4m1 0h1m4 0h1m1 0h1m1 0h5m-31 1h1m2 0h1m1 0h1m3 0h1m2 0h1m5 0h4m1 0h1m2 0h2m1 0h2m1 0h1m-31 1h2m1 0h2m1 0h2m5 0h2m1 0h1m2 0h1m2 0h2m2 0h1m1 0h2m-32 1h1m4 0h1m1 0h6m1 0h3m3 0h2m3 0h1m2 0h3m-30 1h6m4 0h1m6 0h2m2 0h1m1 0h2m1 0h3m2 0h1m-33 1h2m1 0h3m2 0h2m1 0h1m1 0h5m2 0h2m1 0h1m2 0h1m3 0h3m-33 1h2m3 0h5m1 0h1m1 0h2m2 0h1m1 0h1m5 0h2m2 0h3m-30 1h1m1 0h2m1 0h3m1 0h3m2 0h1m2 0h8m1 0h3m-31 1h4m1 0h3m1 0h3m1 0h2m2 0h1m1 0h1m2 0h1m1 0h2m1 0h2m3 0h1m-30 1h3m3 0h5m2 0h2m1 0h2m2 0h1m2 0h2m1 0h2m1 0h1m-31 1h1m1 0h6m2 0h1m1 0h4m3 0h2m2 0h4m1 0h2m-29 1h3m2 0h1m2 0h1m4 0h6m2 0h2m1 0h5m-32 1h3m1 0h3m2 0h1m1 0h1m1 0h1m2 0h1m5 0h2m1 0h1m1 0h3m1 0h2m-33 1h3m2 0h1m1 0h2m2 0h3m1 0h1m2 0h1m2 0h1m1 0h1m2 0h1m2 0h1m2 0h1m-33 1h1m1 0h3m1 0h2m2 0h1m1 0h1m2 0h4m2 0h2m2 0h1m2 0h1m2 0h1m-32 1h1m3 0h2m1 0h2m1 0h4m1 0h1m2 0h1m2 0h3m1 0h1m2 0h4m-32 1h1m2 0h2m1 0h3m3 0h1m2 0h1m1 0h2m3 0h8m-22 1h2m1 0h4m1 0h1m1 0h4m2 0h1m3 0h1m1 0h1m1 0h1m-33 1h7m4 0h2m2 0h2m1 0h1m1 0h5m1 0h1m1 0h1m1 0h1m-31 1h1m5 0h1m1 0h2m1 0h2m1 0h1m5 0h5m3 0h3m-31 1h1m1 0h3m1 0h1m1 0h1m1 0h6m2 0h1m5 0h6m2 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m3 0h1m1 0h3m3 0h1m3 0h1m2 0h1m1 0h3m-33 1h1m1 0h3m1 0h1m1 0h1m2 0h4m2 0h1m2 0h8m1 0h1m-30 1h1m5 0h1m2 0h2m1 0h3m1 0h1m1 0h4m3 0h2m1 0h1m1 0h1m-31 1h7m1 0h3m2 0h1m3 0h1m1 0h1m2 0h1m1 0h4m3 0h1"/></g></svg>';
+const S=[
+// 00
+`<div class="slide cover">
+ <div class="eyebrow">AI+X FUTURE SUMMIT 2026 · 澳门</div>
+ <h1>AI 交易策略，<br>是实力还是运气？</h1>
+ <div class="tag">AI 放钱之前的那道关</div>
+ <div class="who"><b>伯纳德</b>Evidence Deflator 开发者 · 《AI 智能投资手册》第九章作者</div>
+</div>`,
+// 01
+`<div class="slide">
+ <div class="eyebrow">某头部券商研究部的 AI agent · 2026 年 8 月</div>
+ <h2>AI 三天试了 16,939 次。我们的判定：不放行</h2>
+ <div class="verd">
+  <div class="card in"><div class="k">它自己公布的</div>
+   <div class="row"><span>一共试了</span><b>16,939</b></div>
+   <div class="row"><span>留下</span><b>69</b></div>
+   <div class="row"><span>最好那个的可信分</span><b>3.37</b></div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="card out"><div class="k">EVIDENCE DEFLATOR</div>
+   <div class="v">不放行</div>
+   <div class="why">试了 16,939 次，及格线要 <b class="gold">4.69</b></div>
+   <div class="gauge"><svg id="g1" viewBox="0 0 600 96"></svg></div>
+  </div>
+ </div>
+ <div class="def"><b>可信分</b> = 夏普 × √年数：赚得越稳、跑得越久，分越高</div>
+ <div class="src">出处：中金公司研究部《大模型系列（7）》，2026-08-03 · 可信分与及格线为我们按其公布的夏普（2.74）和区间（2025-01 至 2026-07）计算</div>
+</div>`,
+// 02
+`<div class="slide">
+ <h2>让电脑掷 16,939 次骰子，最好的那条也像股神</h2>
+ <div class="rgrid">
+  <canvas id="rnd" width="1700" height="760"></canvas>
+  <div class="rside">
+   <div class="st"><b>0</b><span>每条策略的真实能力：纯随机</span></div>
+   <div class="st"><b class="red" id="rt">3.84</b><span>最好那条的可信分，比上一页的 3.37 还高</span></div>
+   <div class="st"><b class="red" id="ra">+48%</b><span>它看起来的年化收益</span></div>
+  </div>
+ </div>
+ <div class="bars">所以挑得越多，及格线越高：<span>挑 1 个 <b>2.0</b></span><span>· 100 个 <b>3.5</b></span><span>· 16,939 个 <b>4.69</b></span></div>
+</div>`,
+// 03
+`<div class="slide">
+ <h2>AI 放钱之前，先来问一句</h2>
+ <div class="pgrid">
+  <div class="chat">
+   <div class="u">盈利榜第 3 名，赚了 3.77 亿美元，能跟吗？</div>
+   <div class="call"><b>hyperliquid_wallet</b>(address, picked_from=47440)<br>→ 可信分 <em>1.00</em> · 及格线 4.90 · verdict: <em>luck</em></div>
+   <div class="a">AI：<b>不建议跟。</b>从 4.7 万个账户里挑出来的第 3 名，66 周的记录和运气分不开。</div>
+  </div>
+  <div><div class="shot"><img src="assets/deck/wallet-verdict.png" alt="Evidence Deflator 钱包页判定"></div>
+   <div class="shotcap">同一个钱包在官网上的判定页</div></div>
+ </div>
+ <div class="steps"><span>数次数</span><i>→</i><span class="key">打折</span><i>→</i><span>放行 / 拒绝</span><i>→</i><span>登记后才算</span></div>
+ <div class="chan">美股 + 加密 · 网页、API、AI agent 工具（MCP）、Telegram · 被评方 0 元</div>
+</div>`,
+// 04
+`<div class="slide">
+ <h2>我们审过的</h2>
+ <div class="wgrid">
+  <div class="card jev"><h3>最火的 AI 决策模型 Jev</h3><div class="tagl">只给概率 · 约 100 毫秒一次 · 每百万 token 0.042 美元</div>
+   <div class="mir"><div class="mb up"><span>第一次回测</span><b>+17.5%</b><i></i></div><div class="mb down"><i></i><b>−17.4%</b><span>同一段行情再跑一次</span></div></div>
+   <div class="jline">说有 <b>80%</b> 把握的区间，实际只命中 <b class="red">68%</b></div>
+  </div>
+  <div class="card ppl"><h3>人也一样</h3>
+   <div class="big">1<small>/ 85 份公开记录过线</small></div>
+   <div class="prow"><span>西蒙斯 · 大奖章</span><b class="grn">6.93</b></div>
+   <div class="prow"><span>巴菲特 · 伯克希尔</span><b>3.15</b></div>
+   <div class="prow"><span>木头姐 · ARK 创新基金</span><b class="red">−0.49</b></div>
+   <div class="hlrow">Hyperliquid 盈利榜前 100：<b>0</b> 个过线</div>
+  </div>
+ </div>
+ <div class="src">出处：TradeRank《What Is Jev?》2026-09-18；typesafe.ai、OpenRouter · 85 份记录与盈利榜：evidencedeflator.com/ranking（先扣大盘与国债利率）</div>
+</div>`,
+// 05
+`<div class="slide">
+ <h2>为什么是现在</h2>
+ <div class="now">
+  <div class="card nb big"><div class="d">10-19 · 证监会</div><div class="q">「近期将发布实施人工智能在证券期货业安全合规应用的意见」</div><div class="x">点名的新型风险：<b class="red">算法黑箱</b></div></div>
+  <div class="card nb"><div class="d">15 万+</div><div class="x">Robinhood 的 AI 交易账户（公司称）· 平台写明「不监督、不审计」</div></div>
+  <div class="card nb"><div class="d">12-09</div><div class="x">我们冻结的 200 个钱包，第一次公开读数</div></div>
+ </div>
+ <div class="src">出处：吴清，2026 金融街论坛年会主题演讲，2026-10-19 · Robinhood，2026-09-29 发布会（账户数为公司自报）</div>
+</div>`,
+// 06
+`<div class="slide">
+ <div class="ask">
+  <div><h1>别问赚了多少，<br><span class="gold">先问试了几次</span></h1>
+   <ol><li><b>有在看的地址、金库或 AI 交易项目</b>：扫码发我，免费出一份证据报告</li><li><b>16:30 自由交流</b>：我在现场，带地址来当场查</li></ol></div>
+  <div class="qrs"><div class="qr big" id="wq"><img src="assets/wechat-qr.png" alt="微信" onerror="this.parentNode.remove()">微信 · 伯纳德</div><div class="qr">${QR}evidencedeflator.com</div></div>
+ </div>
+</div>`
+];
+const stage=document.getElementById('stage'),nav=document.getElementById('nav');
+S.forEach((h,i)=>{const b=document.createElement('button');b.textContent=String(i).padStart(2,'0');b.onclick=()=>go(i);nav.appendChild(b);
+ const t=document.createElement('div');t.innerHTML=h.trim();stage.appendChild(t.firstChild);});
+const $=id=>document.getElementById(id);
+if(new URLSearchParams(location.search).has('static'))document.documentElement.classList.add('static');
+
+// 01 gauge: 3.37 against the bar 4.69
+function gauge(){
+ const W=600,x=v=>20+v/5.2*(W-40);let s='';
+ s+=`<line x1="${x(0)}" x2="${x(5.2)}" y1="52" y2="52" stroke="#2C3C57" stroke-width="12" stroke-linecap="round"/>`;
+ s+=`<line x1="${x(0)}" x2="${x(3.37)}" y1="52" y2="52" stroke="#F5F2EA" stroke-width="12" stroke-linecap="round"/>`;
+ for(const v of [0,1,2,3,4,5])s+=`<text x="${x(v)}" y="92" text-anchor="middle" class="gt">${v}</text>`;
+ s+=`<circle cx="${x(3.37)}" cy="52" r="13" fill="#FF5E50"/><text x="${x(3.37)}" y="24" text-anchor="middle" class="gl">3.37</text>`;
+ s+=`<line x1="${x(4.69)}" x2="${x(4.69)}" y1="30" y2="74" stroke="#F4B740" stroke-width="5"/><text x="${x(4.69)}" y="24" text-anchor="middle" class="gl" fill="#F4B740">4.69</text>`;
+ $('g1').innerHTML=s;
+}
+
+// 02 400 of the 16,939 random strategies in grey, the best of all 16,939 in red (tools: scratchpad sim, seed 20261020)
+let RD=null;
+fetch('data/deck-random.json').then(r=>r.json()).then(d=>{RD=d;if(cur===2)rnd();}).catch(()=>{});
+function rnd(){
+ if(!RD)return;const c=$('rnd'),g=c.getContext('2d'),W=c.width,H=c.height,l=90,r=30,t=30,b=60;
+ const n=RD.best.length,lo=-60,hi=90,X=i=>l+i/(n-1)*(W-l-r),Y=v=>t+(hi-v)/(hi-lo)*(H-t-b);
+ g.fillStyle='#162236';g.fillRect(0,0,W,H);
+ g.font='26px Consolas, monospace';g.fillStyle='#93A0B5';g.textAlign='right';
+ for(const v of [-50,0,50]){g.strokeStyle=v?'#223049':'#93A0B5';g.lineWidth=v?1:2;g.beginPath();g.moveTo(l,Y(v));g.lineTo(W-r,Y(v));g.stroke();g.fillText((v>0?'+':'')+v+'%',l-12,Y(v)+9);}
+ g.textAlign='left';g.fillText('0',l,H-18);g.textAlign='right';g.fillText('1.5 年',W-r,H-18);
+ g.strokeStyle='rgba(203,211,224,.16)';g.lineWidth=1.6;
+ for(const p of RD.grey){g.beginPath();p.forEach((v,i)=>i?g.lineTo(X(i),Y(v)):g.moveTo(X(i),Y(v)));g.stroke();}
+ g.strokeStyle='#FF5E50';g.lineWidth=6;g.beginPath();RD.best.forEach((v,i)=>i?g.lineTo(X(i),Y(v)):g.moveTo(X(i),Y(v)));g.stroke();
+ g.fillStyle='#FF5E50';g.font='bold 34px "Noto Sans SC", sans-serif';g.textAlign='right';g.fillText('16,939 条里最好的一条',W-r-10,Y(RD.best[n-1])-22);
+ $('rt').textContent=RD.t.toFixed(2);$('ra').textContent='+'+Math.round(RD.ann)+'%';
+}
+
+let cur=-1;
+function go(i){if(i<0||i>=S.length||i===cur)return;cur=i;
+ [...stage.children].forEach((el,k)=>el.classList.toggle('on',k===i));
+ [...nav.children].forEach((el,k)=>el.classList.toggle('on',k===i));
+ if(i===1)gauge();if(i===2)rnd();}
+document.addEventListener('keydown',e=>{
+ if(['ArrowRight','PageDown',' '].includes(e.key))go(Math.min(cur+1,S.length-1));
+ else if(['ArrowLeft','PageUp'].includes(e.key))go(cur-1);
+ else if(/^[0-6]$/.test(e.key))go(+e.key);
+});
+go(+(new URLSearchParams(location.search).get("s")||0));
+function fit(){document.documentElement.style.zoom=Math.max(1,Math.min(innerWidth/1280,innerHeight/720)).toFixed(3)}
+addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>
