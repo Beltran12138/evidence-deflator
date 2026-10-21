@@ -57,6 +57,8 @@ Issues = "https://github.com/Beltran12138/evidence-deflator/issues"
 [project.optional-dependencies]
 # Core stays dependency-free. The MCP server is opt-in.
 mcp = ["mcp>=1.28"]
+# Signed trading mandates (eth-account) and the Hyperliquid broker (the SDK pins eth-account <0.14).
+gate = ["eth-account>=0.10,<0.14", "hyperliquid-python-sdk>=0.24"]
 dev = ["pytest>=7"]
 
 [project.scripts]
@@ -69,5 +71,5 @@ agent-gate-mcp = "gate_server:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
-py-modules = ["normalize", "decision_confidence", "evidence_deflator", "effective_window", "counterfactual", "messages", "trial_count", "track_record", "trace_audit", "hl_wallet", "mcp_server", "agent_gate", "gate_server"]
+py-modules = ["normalize", "decision_confidence", "evidence_deflator", "effective_window", "counterfactual", "messages", "trial_count", "track_record", "trace_audit", "hl_wallet", "mcp_server", "agent_gate", "gate_server", "mandate"]
 packages = ["adapters"]

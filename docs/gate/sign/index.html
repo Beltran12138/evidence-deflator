@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign a trading mandate · Agent gate · Evidence Deflator</title>
+<meta name="description" content="Sign a trading mandate for your AI agent with your own wallet, and approve the gate's key as a Hyperliquid API wallet. Everything is signed in your wallet; nothing passes through our server.">
+<!-- site-head -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='4' fill='%2315171C'/%3E%3Crect x='3' y='4' width='18' height='2' fill='%23E66A4B'/%3E%3Crect x='4.5' y='13' width='3' height='7' fill='%23FAF9F6'/%3E%3Crect x='9.5' y='9.5' width='3' height='10.5' fill='%23FAF9F6'/%3E%3Crect x='14.5' y='15' width='3' height='5' fill='%23FAF9F6'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://evidencedeflator.com/gate/sign/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+<link rel="stylesheet" href="/assets/chrome.css">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e38b718917cf4c2891f9038a6a597a88", "spa": true}'></script>
+<!-- /site-head -->
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans),'Microsoft YaHei','PingFang SC',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+.wrap{max-width:var(--w);margin:0 auto;padding:56px var(--pad) 80px}
+.kicker{font:500 12.5px/1 var(--mono);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+h1{font-family:var(--serif),'Noto Serif SC',serif;font-size:36px;font-weight:600;line-height:1.3;margin:14px 0 0;max-width:900px}
+.lede{font-size:17px;color:var(--ink-2);max-width:820px;margin-top:16px}
+h2{font-family:var(--serif),'Noto Serif SC',serif;font-size:22px;font-weight:600;margin:48px 0 10px}
+.step{border:1px solid var(--rule);border-radius:var(--radius);padding:20px 22px;max-width:860px;margin-top:14px;background:var(--surface,transparent)}
+textarea,input,select{width:100%;font:13.5px/1.5 var(--mono);color:var(--ink);background:var(--sunk);border:1px solid var(--rule);border-radius:var(--radius);padding:10px 12px}
+textarea{min-height:150px;resize:vertical}
+button{font:500 14px var(--sans);background:var(--ink);color:var(--bg);border:0;border-radius:var(--radius);padding:10px 18px;cursor:pointer;margin-top:12px}
+button:disabled{opacity:.4;cursor:default}
+.out{font:13px/1.6 var(--mono);word-break:break-all;background:var(--sunk);border:1px solid var(--rule);border-radius:var(--radius);padding:10px 12px;margin-top:12px;min-height:22px;white-space:pre-wrap}
+.note{color:var(--muted);font-size:14px;margin-top:10px}
+.warn{color:var(--accent)}
+code{font-family:var(--mono);font-size:.92em;font-variant-ligatures:none;text-transform:none;letter-spacing:0}
+label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:14px 0 6px}
+.row{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+@media (max-width:760px){.row{grid-template-columns:1fr}h1{font-size:28px}}
+</style>
+</head>
+<body data-ui="en">
+<!-- site-header -->
+<header class="site-header"><div class="container">
+<a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+<nav class="nav" aria-label="Main"><a href="/wallet/">Check</a><a href="/ranking/">Ranking</a><a href="/audits/">Audits</a><a href="/method/">Method</a><a href="/agent/" aria-current="page">AI agents</a><a href="/api/">API</a></nav>
+<div class="header-cta"><button class="theme-toggle" type="button" aria-label="Switch light or dark" title="Light or dark" onclick="edTheme()"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button><a class="gh" href="/zh-hans/" hreflang="zh-Hans" lang="zh-Hans">中文</a><a class="gh" href="https://github.com/Beltran12138/evidence-deflator"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a></div>
+</div></header>
+
+<!-- /site-header -->
+<main class="wrap">
+<div class="kicker">Agent gate · Trading Mandate v0</div>
+<h1>用你自己的钱包，给 AI agent 签一份交易授权</h1>
+<p class="lede">两步都在你的钱包里签名，这个页面不保存、也不上传任何东西。第一步签的是授权文件：哪些标的、单笔多大、一天最多亏多少、到哪天为止。第二步是在 Hyperliquid 上把闸门的密钥批准为你账户的 API 钱包：它能替你下单；用同一个名字批准另一把密钥，旧的就失效。（它能否提币，Hyperliquid 文档没有明说，我们还没实测。）agent 手里没有任何能下单的密钥。</p>
+<p class="note">规格：<a href="https://github.com/Beltran12138/evidence-deflator/blob/main/docs/gate/MANDATE.md">MANDATE.md</a>。</p>
+
+<div class="step">
+<button id="connect">连接钱包</button>
+<div class="out" id="who">未连接</div>
+</div>
+
+<h2>1 · 签授权文件</h2>
+<div class="step">
+<p class="note">在终端运行 <code>agent-gate mandate draft --config gate.json --issuer 你的地址</code>，把它打印出的整段文字（从 “Trading mandate v0” 开始）原样贴进来。签名前请逐项看清楚范围和到期时间。</p>
+<label for="msg">要签的文字</label>
+<textarea id="msg" spellcheck="false" placeholder="Trading mandate v0 (evidencedeflator.com/gate/mandate)&#10;{&quot;agent&quot;:&quot;0x…&quot;, …}"></textarea>
+<div class="out" id="preview"></div>
+<button id="signm" disabled>用钱包签名（personal_sign）</button>
+<label>签名，复制后运行 <code>agent-gate mandate attach --sig …</code></label>
+<div class="out" id="sig"></div>
+</div>
+
+<h2>2 · 在 Hyperliquid 上批准闸门的密钥</h2>
+<div class="step">
+<p class="note">闸门密钥的地址就是授权文件里的 <code>agent</code>。批准是 Hyperliquid 自己的 approveAgent 动作，由你的主钱包签名；最长 180 天有效，用同一个名字再批准一次即替换旧的。Hyperliquid 建议注销过的地址不要再用，所以每次批准请用 <code>keygen</code> 新生成的闸门密钥。</p>
+<div class="row">
+<div><label for="agent">闸门密钥地址</label><input id="agent" placeholder="0x…" spellcheck="false"></div>
+<div><label for="net">网络</label><select id="net"><option value="testnet" selected>testnet（测试网）</option><option value="mainnet">mainnet（真钱）</option></select></div>
+</div>
+<p class="note warn" id="mainwarn" hidden>主网：批准后这把密钥可以用你账户里的真钱下单。只在你已经用测试网跑过、并签好授权文件之后再做。</p>
+<button id="approve" disabled>用钱包签名并提交 approveAgent</button>
+<div class="out" id="res"></div>
+</div>
+
+<p class="note">没有检测到钱包？需要 MetaMask、Rabby 之类的浏览器钱包。测试网要先领测试 USDC：<a href="https://app.hyperliquid-testnet.xyz/drip">app.hyperliquid-testnet.xyz/drip</a>（Hyperliquid 要求这个地址在主网入过金）。</p>
+</main>
+<!-- site-footer -->
+<footer class="site-footer"><div class="container">
+<div class="foot-grid">
+ <div><a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+  <p style="margin-top:14px;max-width:340px">Whether a trading record can be told apart from luck, once you allow for how it was picked. Open source.</p></div>
+ <div><h4>Product</h4><ul><li><a href="/wallet/">Hyperliquid check</a></li><li><a href="/polymarket/">Polymarket check</a></li><li><a href="https://t.me/SkillOrLuckBot">Telegram bot</a></li><li><a href="https://chromewebstore.google.com/detail/evidence-deflator/fbhanjlioldbpgmncefioidcpkdhjbhn">Chrome extension</a></li><li><a href="/audits/">Audits</a></li><li><a href="/leaderboard/">AI trading leaderboard</a></li><li><a href="/check/">Check a backtest</a></li><li><a href="/api/">API and MCP</a></li></ul></div>
+ <div><h4>Method</h4><ul><li><a href="/method/">How it works</a></li><li><a href="/method/#principles">Principles</a></li><li><a href="/q/hyperliquid-trader-skill-or-luck/">Skill or luck?</a></li><li><a href="/q/how-many-months-of-backtest/">How many months?</a></li><li><a href="/q/why-leaderboard-winner-is-not-evidence/">Why #1 is not evidence</a></li><li><a href="/leaderboard/2026-10.json">Data (JSON)</a></li></ul></div>
+ <div><h4>Project</h4><ul><li><a href="https://github.com/Beltran12138/evidence-deflator">GitHub</a></li><li><a href="https://pypi.org/project/evidence-deflator/">PyPI</a></li><li><a href="/record/">Our record</a></li><li><a href="/memo/sample/">Sample memo</a></li><li><a href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">Request an audit</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="foot-note"><span>Open source · MIT · v0.2.0</span><span>“Cannot be ruled out as seen” is the strongest claim we make about a model’s training data.</span></div>
+</div></footer>
+<script src="/assets/site.js"></script>
+
+<!-- /site-footer -->
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var acct = null;
+  var HEADER = 'Trading mandate v0 (evidencedeflator.com/gate/mandate)\n';
+  var API = { testnet: 'https://api.hyperliquid-testnet.xyz', mainnet: 'https://api.hyperliquid.xyz' };
+
+  function hexUtf8(s) {
+    return '0x' + Array.prototype.map.call(new TextEncoder().encode(s), function (b) {
+      return b.toString(16).padStart(2, '0');
+    }).join('');
+  }
+  function parsed() {
+    var t = $('msg').value.replace(/\r\n/g, '\n').replace(/\s+$/, '');
+    if (t.indexOf(HEADER) !== 0) return null;
+    try { return { text: t, m: JSON.parse(t.slice(HEADER.length)) }; } catch (e) { return null; }
+  }
+  function refresh() {
+    var p = parsed();
+    if (!$('msg').value.trim()) { $('preview').textContent = ''; }
+    else if (!p) { $('preview').textContent = '这不是 agent-gate mandate draft 打印出的文字（应以 “Trading mandate v0” 开头，下一行是 JSON）。'; }
+    else {
+      var m = p.m, s = m.scope || {};
+      var mine = acct && m.issuer && m.issuer.toLowerCase() === acct.toLowerCase();
+      $('preview').textContent = [
+        '签发人  ' + m.issuer + (acct ? (mine ? '  (= 已连接的钱包)' : '  ≠ 已连接的钱包，签了也无效') : ''),
+        '闸门键  ' + m.agent, '账户    ' + m.venue + ' / ' + m.account,
+        '标的    ' + (s.allow || []).join(', '), '单笔上限 $' + s.max_order_usd + '   每日亏损上限 $' + s.max_daily_loss_usd + '   每日笔数 ' + s.max_orders_per_day,
+        '方向    ' + (s.sides || []).join(', '), '有效期  ' + m.not_before + ' → ' + m.expires].join('\n');
+      if (m.agent && !$('agent').value) $('agent').value = m.agent;
+    }
+    $('signm').disabled = !(acct && p);
+  }
+  $('msg').addEventListener('input', refresh);
+  $('net').addEventListener('change', function () { $('mainwarn').hidden = $('net').value !== 'mainnet'; });
+  $('agent').addEventListener('input', function () { $('approve').disabled = !(acct && /^0x[0-9a-fA-F]{40}$/.test($('agent').value.trim())); });
+
+  $('connect').onclick = async function () {
+    if (!window.ethereum) { $('who').textContent = '没有检测到浏览器钱包。'; return; }
+    try {
+      var a = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      acct = a[0];
+      $('who').textContent = acct;
+      refresh();
+      $('agent').dispatchEvent(new Event('input'));
+    } catch (e) { $('who').textContent = '连接被拒绝：' + (e.message || e); }
+  };
+
+  $('signm').onclick = async function () {
+    var p = parsed();
+    if (!p) return;
+    try {
+      var sig = await window.ethereum.request({ method: 'personal_sign', params: [hexUtf8(p.text), acct] });
+      $('sig').textContent = sig;
+    } catch (e) { $('sig').textContent = '未签名：' + (e.message || e); }
+  };
+
+  $('approve').onclick = async function () {
+    var agent = $('agent').value.trim(), net = $('net').value;
+    var chainHex = await window.ethereum.request({ method: 'eth_chainId' });
+    var nonce = Date.now();
+    var hlChain = net === 'mainnet' ? 'Mainnet' : 'Testnet';
+    var primary = 'HyperliquidTransaction:ApproveAgent';
+    var typed = {
+      types: {
+        EIP712Domain: [{ name: 'name', type: 'string' }, { name: 'version', type: 'string' },
+                       { name: 'chainId', type: 'uint256' }, { name: 'verifyingContract', type: 'address' }],
+        'HyperliquidTransaction:ApproveAgent': [{ name: 'hyperliquidChain', type: 'string' },
+          { name: 'agentAddress', type: 'address' }, { name: 'agentName', type: 'string' }, { name: 'nonce', type: 'uint64' }]
+      },
+      domain: { name: 'HyperliquidSignTransaction', version: '1', chainId: parseInt(chainHex, 16),
+                verifyingContract: '0x0000000000000000000000000000000000000000' },
+      primaryType: primary,
+      message: { hyperliquidChain: hlChain, agentAddress: agent, agentName: 'gate', nonce: nonce }
+    };
+    try {
+      var sig = await window.ethereum.request({ method: 'eth_signTypedData_v4', params: [acct, JSON.stringify(typed)] });
+      var signature = { r: '0x' + sig.slice(2, 66), s: '0x' + sig.slice(66, 130), v: parseInt(sig.slice(130, 132), 16) };
+      var action = { type: 'approveAgent', signatureChainId: chainHex, hyperliquidChain: hlChain,
+                     agentAddress: agent, agentName: 'gate', nonce: nonce };
+      var r = await fetch(API[net] + '/exchange', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: action, nonce: nonce, signature: signature, vaultAddress: null, expiresAfter: null })
+      });
+      $('res').textContent = JSON.stringify(await r.json());
+    } catch (e) { $('res').textContent = '未完成：' + (e.message || e); }
+  };
+})();
+</script>
+</body>
+</html>

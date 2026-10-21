@@ -1,0 +1,2 @@
+{"broker": "sim", "state_dir": ".", "starting_cash": 10000, "gate_key": "gate.key", "mandate": "mandate.json",
+ "allow": ["BTC", "ETH"], "max_order_usd": 500, "max_daily_loss_usd": 200, "max_orders_per_day": 20}

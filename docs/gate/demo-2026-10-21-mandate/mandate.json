@@ -1,0 +1,30 @@
+{
+ "mandate": {
+  "type": "trading-mandate",
+  "version": "0",
+  "id": "b7c793604429857a",
+  "issuer": "0x33b4d1A65Add2D423fac6a4F536A47bF215Ed488",
+  "agent": "0x1329D66802f3B6e74Ed7C95Ae3d56A8F420782Bb",
+  "venue": "sim",
+  "account": "sim",
+  "scope": {
+   "allow": [
+    "BTC",
+    "ETH"
+   ],
+   "max_order_usd": 500,
+   "max_daily_loss_usd": 200,
+   "max_orders_per_day": 20,
+   "sides": [
+    "buy",
+    "sell"
+   ]
+  },
+  "not_before": "2026-10-21T13:20:55Z",
+  "expires": "2026-11-04T13:20:55Z"
+ },
+ "sig": {
+  "scheme": "eip191",
+  "signature": "0x9f1ecc93fdbc90d17a46a3570db67f75918f81a4bb29ca451c2850b715532f674995887b12fabca9584d852908cbc62aeee407f117f5e5b02dd74841ed2eada21b"
+ }
+}

@@ -30,6 +30,15 @@ A real run with Claude as the agent (it was told to put $5,000 into ETH; the $50
 single-order rule refused it, and it did not split the order to get round the
 limit): [docs/gate/demo-2026-10-21](docs/gate/demo-2026-10-21/).
 
+**Signed mandates** ([docs/gate/MANDATE.md](docs/gate/MANDATE.md)): the rules can come from a
+document the owner signs with their own Ethereum wallet (symbols, largest order, daily loss,
+expiry) instead of the config file. The mandate names the gate's key; the gate signs every
+ledger line with it, so `audit` can check from the ledger alone that every allowed order was
+inside limits the owner signed, and catches a wholesale rewrite that a bare hash chain cannot
+([demo](docs/gate/demo-2026-10-21-mandate/)). On Hyperliquid the gate's key is the account's
+approved API wallet, so the agent never holds a key that can trade (signatures verified on
+testnet; no fill yet). The signing and Hyperliquid parts need `pip install eth-account "hyperliquid-python-sdk>=0.24"`.
+
 For agents, no install: remote MCP at `https://api.evidencedeflator.com/mcp`
 (tool `hyperliquid_wallet`), or JSON at
 `https://api.evidencedeflator.com/api/wallet?a=0xADDRESS&picked_from=47000`.
