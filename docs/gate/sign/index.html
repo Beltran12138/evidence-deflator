@@ -38,6 +38,8 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
 #exlist .allow{color:var(--pos)}#exlist .block{color:var(--accent)}
 #exlist .why{grid-column:1/4;color:var(--muted);font-size:12.5px;margin-top:-6px}
 #exlist input{width:auto;margin:0}
+.chips label{display:inline-block;margin:6px 14px 0 0;font:14px var(--sans);letter-spacing:0;text-transform:none;color:var(--ink-2)}
+#chq button+button{margin-left:8px}
 #exlist label{display:inline;margin:0;font:13px var(--sans);letter-spacing:0;text-transform:none;color:var(--ink-2)}
 @media (max-width:760px){.row{grid-template-columns:1fr}h1{font-size:28px}}
 </style>
@@ -71,6 +73,12 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
 <div><label for="nlvenue">账户</label><select id="nlvenue"><option value="alpaca|paper">Alpaca 模拟账户</option><option value="alpaca|live">Alpaca 真实账户</option><option value="hyperliquid-testnet|">Hyperliquid 测试网</option><option value="hyperliquid-mainnet|">Hyperliquid 主网</option><option value="sim|sim">模拟盘</option></select></div></div>
 <button id="nlgo">看看闸门怎么理解</button>
 <div class="out" id="nlout" hidden></div>
+<label>说不出数字？那就回答几张单子</label>
+<p class="note" style="margin-top:0">不问“你能承受多大风险”，直接给你看具体的单子，你只要选放行还是拦下。每条规则大约问三四次，最后都会标出来自你的哪几个回答。账户和闸门密钥地址用上面填的。</p>
+<div id="chsyms" class="chips"></div>
+<button id="chgo">开始回答</button>
+<div id="chq" hidden><div class="out" id="chtext"></div><button id="chyes">放行</button> <button id="chno">拦下</button></div>
+<div class="out" id="chout" hidden></div>
 <p class="note">也可以直接对你的 agent 说规则，agent 用闸门的 <code>propose_mandate</code> 工具起草；或者在终端运行 <code>agent-gate mandate draft --config gate.json --issuer 你的地址</code>。拿到的整段文字（从 “Trading mandate v0” 开始）都贴在下面。签名前请逐项看清楚范围和到期时间。</p>
 <label for="msg">要签的文字</label>
 <textarea id="msg" spellcheck="false" placeholder="Trading mandate v0 (evidencedeflator.com/gate/mandate)&#10;{&quot;agent&quot;:&quot;0x…&quot;, …}"></textarea>
@@ -111,6 +119,7 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
 <!-- /site-footer -->
 <script src="/assets/mandate_examples.js"></script>
 <script src="/assets/mandate_text.js"></script>
+<script src="/assets/mandate_choices.js"></script>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -199,18 +208,57 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
     $('nlout').textContent = lines.join('\n');
     $('nlout').hidden = false;
     if (!ready || !acct || !ADDR.test(agent)) return;
+    build(r.scope, r.days);
+  }
+  // The text to sign, from rule fields read from a sentence or from choices.
+  function build(scope, days) {
+    var agent = $('nlagent').value.trim(), v = $('nlvenue').value.split('|');
     var sc = {};
-    ['allow', 'sides', 'max_order_usd', 'max_position_usd', 'max_daily_loss_usd', 'max_orders_per_day'].forEach(function (k) { if (r.scope[k] != null) sc[k] = r.scope[k]; });
+    ['allow', 'sides', 'max_order_usd', 'max_position_usd', 'max_daily_loss_usd', 'max_orders_per_day'].forEach(function (k) { if (scope[k] != null) sc[k] = scope[k]; });
     sc.allow = Array.from(new Set(sc.allow.map(function (x) { return x.toUpperCase(); }))).sort();
     if (!sc.sides) sc.sides = ['buy', 'sell'];
     if (!nlId) nlId = Array.from(crypto.getRandomValues(new Uint8Array(8)), function (b) { return b.toString(16).padStart(2, '0'); }).join('');
     var now = Date.now();
     var m = { type: 'trading-mandate', version: '0', id: nlId, issuer: acct, agent: agent, venue: v[0],
-              account: v[1] || acct, scope: sc, not_before: iso(now), expires: iso(now + r.days * 86400000) };
+              account: v[1] || acct, scope: sc, not_before: iso(now), expires: iso(now + days * 86400000) };
     $('msg').value = HEADER + canon(m);
     if (!$('agent').value) $('agent').value = agent;
     refresh();
   }
+  // rules from choices
+  var CH_SYMS = ['AAPL', 'SPY', 'QQQ', 'NVDA', 'TSLA', 'MSFT', 'BTC', 'ETH'];
+  CH_SYMS.forEach(function (s) {
+    var l = document.createElement('label'); var c = document.createElement('input'); c.type = 'checkbox'; c.value = s;
+    l.appendChild(c); l.appendChild(document.createTextNode(' ' + s)); $('chsyms').appendChild(l);
+  });
+  var ch = null, chq = null;
+  var CH_NOTE = { order_all_blocked: '每一种金额你都拦下了：说明现在还不适合让 agent 下单，没有生成授权。',
+                  order_all_allowed: '每一种金额你都放行了：单笔上限先按最大的 $5,000，确认是你想要的。',
+                  max_daily_loss_usd_all_allowed: '亏多少你都让它继续：没有每日亏损上限。',
+                  max_position_usd_all_allowed: '拿多少你都放行：没有单标的仓位上限，每日亏损上限挡不住仓位越堆越大。' };
+  function chStep() {
+    chq = window.mandateChoices.next(ch);
+    if (chq) { $('chq').hidden = false; $('chtext').textContent = chq.q.text_zh + '\n放行，还是拦下？'; return; }
+    $('chq').hidden = true;
+    var r = window.mandateChoices.result(ch);
+    var lines = ['闸门从你的选择推出：'];
+    r.cites.forEach(function (c) { lines.push('  ' + FIELD_ZH[c.field] + '：' + (Array.isArray(c.value) ? c.value.join(', ') : '$' + c.value.toLocaleString('en-US')) + '    ← ' + c.words); });
+    r.notes.forEach(function (n) { if (CH_NOTE[n]) lines.push('  注意：' + CH_NOTE[n]); });
+    lines.push('  有效期（天）：14    ← 先按 14 天');
+    var agent = $('nlagent').value.trim();
+    var ok = r.scope.max_order_usd != null && r.scope.allow;
+    if (ok && (!acct || !ADDR.test(agent))) lines.push('', (!acct ? '连接钱包' : '') + (!acct && !ADDR.test(agent) ? '、' : '') + (!ADDR.test(agent) ? '填上闸门密钥地址' : '') + '后，再点一次“开始回答”就会生成要签的文字（不用重答）。');
+    $('chout').textContent = lines.join('\n'); $('chout').hidden = false;
+    if (ok && acct && ADDR.test(agent)) build(r.scope, 14);
+  }
+  $('chgo').onclick = function () {
+    var allow = Array.prototype.filter.call($('chsyms').querySelectorAll('input'), function (c) { return c.checked; }).map(function (c) { return c.value; });
+    if (!allow.length) { $('chout').textContent = '先勾选允许交易的标的。'; $('chout').hidden = false; return; }
+    if (ch && JSON.stringify(ch.allow) === JSON.stringify(allow) && !window.mandateChoices.next(ch)) { chStep(); return; }
+    ch = window.mandateChoices.start(allow[0], allow); $('chout').hidden = true; chStep();
+  };
+  $('chyes').onclick = function () { window.mandateChoices.answer(ch, chq.field, chq.amount, true); chStep(); };
+  $('chno').onclick = function () { window.mandateChoices.answer(ch, chq.field, chq.amount, false); chStep(); };
   $('nlgo').onclick = fromSentence;
   // a draft can arrive in the link (#m=<base64url of the text>, from propose_mandate); the part after # never reaches a server
   if (location.hash.indexOf('#m=') === 0) {
