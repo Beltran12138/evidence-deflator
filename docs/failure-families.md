@@ -183,6 +183,24 @@ This is also the first instance in the table where the authors disclosed the mec
 and the ranking still misled. Disclosure did not stop it, because the number travels
 without the sentence that qualifies it.
 
+**Consequence test for this sub-form (added 2026-10-26).** In a pre-registered coding of
+40 randomly sampled evaluation papers, the blind reviewers agreed on a family-2 hit in
+**34 of 40** papers, against 15 of 38 for the coder. Almost every proxy metric has a name
+broader than what it computes, so the second clause, applied word for word, separates
+almost nothing. An instance of this sub-form must now also pass:
+
+> **Using only the source, can you name one object on which reading the number by its name
+> and reading it by what it computes lead to different headline conclusions?** If you cannot,
+> the complaint is a general validity concern about a proxy, not this family.
+
+Two hits the test keeps: a graph generator said to *preserve the original degree
+distribution* because both graphs fall in the same three-level scale-free class, while the
+paper's own table puts the original exponent at 2.03 and the generated one at 2.56; and a
+persona simulator whose "different user behaviour" is a spread in the *agent's* goal
+achievement. The first clause (two numbers, one label) is unchanged. The test is not yet
+validated: it was written after seeing the 40 papers, so it is to be scored on a fresh
+sample before it counts as a result.
+
 ### 3. Method disagreement wearing the costume of factual disagreement
 
 Same construct, different instrument. The spread is a property of the vendor pair,
@@ -245,8 +263,17 @@ was in the experiment built around it.
 
 ### 4. Availability skew
 
-Which subjects have data is itself correlated with the answer. A threshold sweep
-cannot see this, because it only looks at the rows that have values.
+Which subjects have data — or which subjects the analysis keeps — is itself correlated
+with the answer. A threshold sweep cannot see this, because it only looks at the rows
+that have values.
+
+*(Definition widened 2026-10-26. The original sentence covered only subjects that lack
+data. In the random-sample study, four papers kept subjects by the outcome itself —
+reporting the best of several configurations chosen on the test results, or measuring a
+method's spread on the subset that the same method ranked highest. The coder had filed two
+of them under family 5; in neither case did both blind reviewers agree, and on one of them
+both reviewers, unprompted, marked family 4 instead. The mechanism is the same as the original: what gets counted is
+correlated with what is being counted. Not yet validated on a fresh sample.)*
 
 | domain | instance |
 |---|---|
@@ -342,6 +369,16 @@ work.
 reported. The judge and game rows below have no ceiling at all, and the sub-form
 "subtractable only on the surface" can be subtracted; each was let through by the
 original wording.)*
+
+*(Clarified 2026-10-26, no change to the sentence.)* The family is not limited to absolute
+levels. A result read as a **gap from a reference** — a ratio to a gold answer, a
+difference from a baseline — falls here too when the reference was produced for another
+purpose: selected, carved out or filtered for a reason other than the one the claim uses
+it for. Blind reviewers in the random-sample study read the family as "no ceiling for an
+absolute number", and on that reading rejected a case where agent patches were measured
+against gold patches that one benchmark had filtered to contain no new functions. The
+third clause and the sub-form "subtractable only on the surface" already cover such cases;
+the reviewers were given the main sentence only.
 
 The founding instance is not from these four domains. It is from a well-resourced
 team's published work, which is the point: this failure survives careful review
@@ -454,6 +491,15 @@ family has fired.
 different questions. Here it is one quantity, stated over two denominators, and the
 two *can* be reconciled. From family 7: there, the result and the reference cannot be
 subtracted. Here they can be converted; they were not.
+
+**How it differs from family 4 (added 2026-10-26).** Both arise when a quality score is
+averaged only over the cases that produced output. If the excluded cases can be put back
+on a common denominator — failures scored as zero, say — and doing so changes the
+conclusion, it is this family. If the excluded cases have no value that could be put back
+(no output, so no error to compute), it is family 4. In the random-sample study a CAD
+benchmark's composite, whose leader changes when failed tasks are scored as zero, belongs
+here; a chart benchmark whose error is computed only on charts that parsed belongs in
+family 4.
 
 **How it was found, and admitted.** The four rows from financial writing were first
 filed under family 2, in working notes, for up to two weeks. In a blind review, models given only the one-line definitions declined to
