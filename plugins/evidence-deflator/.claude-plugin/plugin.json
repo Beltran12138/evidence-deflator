@@ -1,7 +1,7 @@
 {
   "name": "evidence-deflator",
-  "version": "0.3.0",
-  "description": "Is that trading record skill, or luck? Adds the hosted hyperliquid_wallet MCP tool, a skill that checks wallets, backtests and track records, and a hook that counts every backtest the agent runs so the one it reports has to clear the best-of-N bar.",
+  "version": "0.4.0",
+  "description": "Is that trading record skill, or luck? Adds the hosted hyperliquid_wallet MCP tool, a skill that checks wallets, backtests and track records, and a hook that counts every backtest the agent runs so the one it reports has to clear the best-of-N bar. Optional: a hook that sends orders through the agent gate instead of straight to a broker's MCP tools.",
   "author": {
     "name": "Evidence Deflator",
     "url": "https://evidencedeflator.com"
@@ -22,6 +22,18 @@
       "title": "Backtest command pattern",
       "description": "Regular expression (case-insensitive) for shell commands that count as one backtest run. Leave empty for the built-in list (backtest, backtrader, vectorbt, zipline, freqtrade backtesting, lean backtest, qlib, optuna...).",
       "default": ""
+    },
+    "direct_order_pattern": {
+      "type": "string",
+      "title": "Order tools that must go through the gate",
+      "description": "Regular expression (case-insensitive) for MCP tool names that place orders, e.g. (place|submit|create|replace)_?\\w*order. Matching calls from any server whose name does not contain the gate server name are refused, and the agent is told to use the gate's place_order. Empty (the default) turns this off.",
+      "default": ""
+    },
+    "gate_server": {
+      "type": "string",
+      "title": "Gate server name",
+      "description": "Calls from MCP servers whose name contains this are never refused. Default: gate.",
+      "default": "gate"
     }
   },
   "mcpServers": {

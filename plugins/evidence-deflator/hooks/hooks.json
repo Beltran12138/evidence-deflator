@@ -10,6 +10,17 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/gate_only_orders.py\" 2>/dev/null || python \"${CLAUDE_PLUGIN_ROOT}/scripts/gate_only_orders.py\""
+          }
+        ]
+      }
     ]
   }
 }

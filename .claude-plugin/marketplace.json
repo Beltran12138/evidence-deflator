@@ -9,7 +9,7 @@
     {
       "name": "evidence-deflator",
       "source": "./plugins/evidence-deflator",
-      "description": "Skill + hook: check whether a trading record is skill or luck, and charge every backtest the agent runs against the one it reports."
+      "description": "Skill + hooks: check whether a trading record is skill or luck, charge every backtest the agent runs against the one it reports, and (optional) route orders through the agent gate."
     }
   ]
 }
