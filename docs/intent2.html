@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>你到底想用这笔钱干什么 · 伯纳德 · 2026-10-24</title>
+<style>
+/* 方案 4 · 档案灰 + 墨黑 + 单一强调墨绿（design_ib_deck_system §四）。1600×900，页头四段式，场景框并置。 */
+:root{--navy:#141414;--gold:#1E6B4F;--red:#8C2A20;--green:#1E6B4F;--ink:#2E2E2B;--grey:#6F6F6C;
+  --line:#DEDEDA;--soft:#EFEFEC;--bg:#F7F7F5;--dark:#1A1A18;--dacc:#7FB89A}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#232320;font-family:"仿宋","FangSong",Times,"Times New Roman",serif;overflow:hidden}
+.slide{width:1600px;height:900px;background:var(--bg);color:var(--ink);position:relative;display:none;
+  padding:60px 92px 80px;flex-direction:column}
+.slide.on{display:flex}
+.tag{font-family:Times,"Times New Roman",serif;font-size:19px;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:46px;line-height:1.22;color:var(--navy);font-weight:700;letter-spacing:.01em}
+.tk{font-size:27px;line-height:1.5;color:var(--ink);margin-top:14px;border-left:5px solid var(--gold);padding-left:20px}
+.hdr{border-bottom:1.5px solid var(--navy);padding-bottom:20px;margin-bottom:30px}
+.body{flex:1;display:flex;gap:44px;align-items:stretch}
+.main{flex:1.55;display:flex;flex-direction:column;justify-content:center}
+.side{flex:1;display:flex;flex-direction:column;justify-content:center}
+.num{position:absolute;right:52px;bottom:30px;font-family:Times,serif;font-size:19px;color:var(--grey)}
+.src{position:absolute;left:92px;bottom:28px;font-size:15px;color:var(--grey);max-width:1260px;line-height:1.45;font-family:Times,"仿宋",serif}
+b{color:var(--navy)}
+.hl{color:var(--red);font-weight:700}.ok{color:var(--green);font-weight:700}
+.mn{font-family:"JetBrains Mono",Consolas,monospace;font-variant-numeric:tabular-nums}
+table{border-collapse:collapse;width:100%;font-size:23px}
+th{font-family:Times,serif;font-size:17px;color:var(--grey);letter-spacing:.1em;font-weight:400;text-align:left;padding:0 14px 10px;border-bottom:1.5px solid var(--navy);text-transform:uppercase}
+td{padding:13px 14px;border-bottom:.5px solid var(--line);vertical-align:top;line-height:1.45}
+td.n{font-family:"JetBrains Mono",Consolas,monospace;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;font-weight:700;color:var(--navy)}
+td.k{color:var(--grey);font-size:20px;white-space:nowrap}
+tr.em td{background:var(--soft)}
+tr.em td.n,tr.em td .hl{font-size:25px}
+.kpi{display:flex;border-top:1.5px solid var(--navy);border-bottom:.5px solid var(--line)}
+.kpi>div{flex:1;padding:22px 26px;border-right:.5px solid var(--line)}
+.kpi>div:last-child{border-right:0}
+.kpi .l{font-family:Times,serif;font-size:17px;color:var(--grey);letter-spacing:.08em;text-transform:uppercase}
+.kpi .v{font-family:"JetBrains Mono",Consolas,monospace;font-size:56px;font-weight:700;color:var(--navy);line-height:1.15;margin-top:6px}
+.kpi .v small{font-size:26px;color:var(--grey);font-weight:500}
+.kpi .s{font-size:20px;color:var(--ink);margin-top:6px;line-height:1.45}
+.callout{background:var(--soft);border-left:5px solid var(--navy);padding:18px 24px;margin-top:22px}
+.callout p{font-size:24px;line-height:1.5}
+.callout.g{border-left-color:var(--green);background:#EBF1EE}
+.scene{background:#EFEFEC;border-left:5px solid var(--navy);padding:22px 26px}
+.scene .h{font-family:Times,"仿宋",serif;font-size:17px;color:var(--gold);letter-spacing:.14em;margin-bottom:12px}
+.scene p{font-size:22px;line-height:1.55;margin-bottom:10px}
+.scene p:last-child{margin-bottom:0}
+.scene .say{font-size:25px;color:var(--navy);font-weight:700}
+.term{font-family:"JetBrains Mono",Consolas,monospace;font-size:19px;line-height:1.75;background:#fff;border:.5px solid var(--line);border-top:1.5px solid var(--navy);padding:18px 22px;color:var(--ink)}
+.term .x{color:var(--red);font-weight:700}.term .c{color:var(--grey)}.term b{color:var(--navy)}
+.steps td.s{font-family:"JetBrains Mono",monospace;font-size:26px;font-weight:700;color:var(--gold);width:56px;text-align:center;padding-top:15px}
+.steps td.t{font-size:26px;color:var(--navy);font-weight:700;white-space:nowrap;padding-top:14px;width:300px}
+.steps td.d{font-size:21px;line-height:1.5}
+.steps td.p{font-family:Times,"仿宋",serif;font-size:18px;color:var(--grey);width:220px;padding-top:17px}
+.quote{font-size:23px;line-height:1.55;color:var(--navy);padding-left:20px;border-left:3px solid var(--gold);margin-top:20px}
+.flow{display:flex;align-items:stretch;margin-top:10px}
+.flow .n2{flex:1;border:.5px solid #3F3F3B;border-top:1.5px solid var(--dacc);padding:16px 18px}
+.flow .ar{flex:0 0 34px;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--dacc)}
+.flow .t{font-size:22px;color:#fff;font-weight:700;margin-bottom:6px}
+.flow .d{font-size:17px;color:#C9C7C2;line-height:1.45}
+.cover{background:var(--dark);color:#fff;justify-content:center;padding:96px 92px}
+.cover h1{color:#fff;font-size:68px;line-height:1.2}
+.cover .tk{color:#C9C7C2;border-left-color:var(--dacc);font-size:27px}
+.cover .tag{color:var(--dacc)}
+.cover .num{color:#77756F}
+.cover b{color:#fff}
+svg text{font-family:"仿宋","FangSong",Times,serif}
+svg .mn{font-family:"JetBrains Mono",Consolas,monospace}
+.qrs{display:flex;gap:48px;align-items:flex-end;margin-top:44px}
+.qrs figure{text-align:center}
+.qrs svg,.qrs img{display:block;width:190px;height:190px;background:#fff;padding:10px}
+.qrs figcaption{font-size:18px;color:#C9C7C2;margin-top:10px;font-family:Times,"仿宋",serif;letter-spacing:.04em}
+</style>
+</head>
+<body>
+
+<!-- 1 封面 -->
+<section class="slide on cover">
+  <div class="tag">《AI 智能投资手册》新书分享会 · 深圳前海</div>
+  <h1>你到底想用这笔钱干什么</h1>
+  <div class="tk">AI 替你投资之前，先完成一次与自己的对齐</div>
+  <p style="color:#9C9A94;font-size:22px;margin-top:52px;font-family:Times,serif;letter-spacing:.06em">伯纳德　·　第九章《AI 辅助决策复盘》作者　·　2026-10-24</p>
+  <div class="num">1 / 12</div>
+</section>
+
+<!-- 2 问题 -->
+<section class="slide">
+  <div class="hdr"><div class="tag">01 — 问题</div><h1>一句模糊的委托</h1>
+    <div class="tk">「稳一点，帮我赚钱」不含任何<b>可执行的约束</b>：没有标的、金额、底线</div></div>
+  <div class="body">
+    <div class="main">
+      <div class="term"><span class="c">输入 ›</span> <b>我想稳一点，帮我赚钱</b><br><br>
+        <span class="x">未识别</span>　「我想稳一点」<br>
+        <span class="x">未识别</span>　「帮我赚钱」<br>
+        <span class="c">缺失 ›</span> 标的名单　单笔上限　每日亏损上限　单标的仓位上限</div>
+      <div class="callout"><p>同一句话交给人类顾问，顾问会追问；交给 AI，它会<b>自行补全</b>——补全的是它的理解，不是你的意图。</p></div>
+    </div>
+    <div class="side"><div class="scene"><div class="h">投资场景 · 第一次委托</div>
+      <p>「帮我稳一点地赚钱」</p>
+      <p>稳一点：年化 5% 还是不亏本金？</p>
+      <p>赚钱：跑赢存款，还是跑赢指数？</p>
+      <p>多久：三个月，还是十年？</p>
+      <p class="say">四个问题，委托人自己往往也答不上来。</p></div></div>
+  </div>
+  <div class="src">输入输出为本项目规则解析器（src/mandate_text.py，确定性、不调用模型）2026-10-24 实际运行结果。</div>
+  <div class="num">2 / 12</div>
+</section>
+
+<!-- 3 对齐 -->
+<section class="slide">
+  <div class="hdr"><div class="tag">02 — 概念</div><h1>从模型对齐到个人对齐</h1>
+    <div class="tk">难点不在 AI 理解人，而在<b>人先说清自己</b></div></div>
+  <div class="body"><div class="main" style="flex:1">
+    <table>
+      <tr><th style="width:22%"></th><th>模型对齐（大模型公司）</th><th>个人对齐（每一位投资者）</th></tr>
+      <tr><td class="k">对象</td><td>一个模型 × 全体用户</td><td>一个 AI × <b>你</b></td></tr>
+      <tr><td class="k">「想要什么」由谁定义</td><td>价值准则、行为规范</td><td>你的用途、期限、底线</td></tr>
+      <tr><td class="k">典型失效</td><td>模型做了人不想要的事</td><td>AI 忠实执行了<span class="hl">你没想清楚的委托</span></td></tr>
+      <tr class="em"><td class="k">瓶颈</td><td>模型的理解与服从</td><td><b>委托人自己的表达与承诺</b></td></tr>
+      <tr><td class="k">检验方式</td><td>评测集、红队</td><td>事前写下，事后对账（第九章：复盘）</td></tr>
+    </table>
+  </div></div>
+  <div class="src">「个人对齐」为本次分享的提法；学术上相近的方向为 personalized alignment 与 loyal agents（Consumer Reports × Stanford）。</div>
+  <div class="num">3 / 12</div>
+</section>
+
+<!-- 4 风险问卷 -->
+<section class="slide">
+  <div class="hdr"><div class="tag">03 — 证据一</div><h1>风险测评的解释力</h1>
+    <div class="tk">问卷能解释的投资者间实际持仓差异，通常<b>不足 15%</b></div></div>
+  <div class="body">
+    <div class="main">
+      <svg viewBox="0 0 860 300" width="860" height="300">
+        <text x="0" y="28" font-size="20" fill="#6F6F6C">投资者之间风险资产配置的差异（=100%）</text>
+        <rect x="0" y="50" width="860" height="78" fill="#EFEFEC" stroke="#DEDEDA" stroke-width=".5"/>
+        <rect x="0" y="50" width="129" height="78" fill="#1E6B4F"/>
+        <text x="64" y="100" font-size="26" fill="#fff" text-anchor="middle" class="mn" font-weight="700">&lt;15%</text>
+        <text x="495" y="100" font-size="24" fill="#2E2E2B" text-anchor="middle">&gt;85%：问卷之外的因素</text>
+        <line x1="129" y1="140" x2="129" y2="170" stroke="#141414" stroke-width="1"/>
+        <text x="0" y="198" font-size="21" fill="#141414" font-weight="700">问卷能解释的部分</text>
+        <text x="0" y="250" font-size="20" fill="#2E2E2B">原因：问卷主要询问收入、年龄等社会经济变量与假设情境，</text>
+        <text x="0" y="282" font-size="20" fill="#2E2E2B">而非真实亏损发生时的行为。</text>
+      </svg>
+    </div>
+    <div class="side"><div class="scene"><div class="h">投资场景 · 开户风险测评</div>
+      <p>「您的年龄区间是？」</p>
+      <p>「若投资下跌 20%，您会：A 加仓 B 持有 C 卖出」</p>
+      <p>纸面上多数人选 B。</p>
+      <p class="say">真正下跌 20% 的那个晚上，答案未必相同。</p></div></div>
+  </div>
+  <div class="src">Klement, J. Investor Risk Profiling: An Overview. CFA Institute Research Foundation, 2015：risk profiling through questionnaires is highly unreliable and typically explains less than 15% of the variation in risky assets between investors.</div>
+  <div class="num">4 / 12</div>
+</section>
+
+<!-- 5 说与做 -->
+<section class="slide">
+  <div class="hdr"><div class="tag">04 — 证据二</div><h1>事前规则与事中行为</h1>
+    <div class="tk">事先写下的规则，多数被事中的「这次算了」推翻——<b>偏好与承诺之间存在落差</b></div></div>
+  <div class="body"><div class="main" style="flex:1">
+    <div class="kpi">
+      <div><div class="l">规则选择「到时再问我」</div><div class="v">114<small> / 140</small></div><div class="s">81% 的规则把决定推回了事中</div></div>
+      <div><div class="l">越权操作由用户当场放行</div><div class="v">133<small> / 148</small></div><div class="s">90% 的越权，是委托人亲手批准的</div></div>
+      <div><div class="l">拦截效果 vs 逐条审批</div><div class="v" style="color:#8C2A20">−20.1<small> pp</small></div><div class="s">自写规则组拦下的越权反而更少</div></div>
+    </div>
+    <div class="callout"><p>预注册实验，113 名非技术用户，三组对照：逐条审批 / 模型自动审批 / 用户事先写规则。<br>
+      结论不是用户不懂规则，而是<b>事中的自己会推翻事前的自己</b>。</p></div>
+  </div></div>
+  <div class="src">arXiv 2608.27443（2026-08）：POLICY blocked less overreach than HITL (−20.1 percentage points, 95% CI [−32.1, −8.1]) … participants chose "ask" for 114 of 140 POLICY rules … Of the 148 overreach actions executed in POLICY, 133 followed … user approval … a gap between preference and commitment.</div>
+  <div class="num">5 / 12</div>
+</section>
+
+<!-- 6 挑代替说 -->
+<section class="slide">
+  <div class="hdr"><div class="tag">05 — 方法一</div><h1>以选择代替描述</h1>
+    <div class="tk">不问「能承受多大风险」，而问「这一单放行还是拦下」——<b>四次选择即可定出一条上限</b></div></div>
+  <div class="body">
+    <div class="main">
+      <svg viewBox="0 0 880 330" width="880" height="330">
+        <text x="0" y="24" font-size="19" fill="#6F6F6C">示例：单笔金额上限的二分询问（10 档）</text>
+        <line x1="20" y1="150" x2="860" y2="150" stroke="#141414" stroke-width="1.5"/>
+        <g font-size="16" class="mn" fill="#6F6F6C" text-anchor="middle">
+          <line x1="20" y1="143" x2="20" y2="157" stroke="#141414"/><text x="20" y="182" class="mn">100</text>
+          <line x1="113" y1="143" x2="113" y2="157" stroke="#141414"/><text x="113" y="182" class="mn">200</text>
+          <line x1="207" y1="143" x2="207" y2="157" stroke="#141414"/><text x="207" y="182" class="mn">300</text>
+          <line x1="300" y1="143" x2="300" y2="157" stroke="#141414"/><text x="300" y="182" class="mn">500</text>
+          <line x1="393" y1="143" x2="393" y2="157" stroke="#141414"/><text x="393" y="182" class="mn">750</text>
+          <line x1="487" y1="143" x2="487" y2="157" stroke="#141414"/><text x="487" y="182" class="mn">1,000</text>
+          <line x1="580" y1="143" x2="580" y2="157" stroke="#141414"/><text x="580" y="182" class="mn">1,500</text>
+          <line x1="673" y1="143" x2="673" y2="157" stroke="#141414"/><text x="673" y="182" class="mn">2,000</text>
+          <line x1="767" y1="143" x2="767" y2="157" stroke="#141414"/><text x="767" y="182" class="mn">3,000</text>
+          <line x1="860" y1="143" x2="860" y2="157" stroke="#141414"/><text x="860" y="182" class="mn">5,000</text>
+        </g>
+        <g font-size="18">
+          <circle cx="393" cy="110" r="15" fill="#8C2A20"/><text x="393" y="116" fill="#fff" text-anchor="middle" font-size="17">①</text>
+          <text x="393" y="80" text-anchor="middle" fill="#8C2A20" font-weight="700">拦下</text>
+          <circle cx="113" cy="110" r="15" fill="#1E6B4F"/><text x="113" y="116" fill="#fff" text-anchor="middle" font-size="17">②</text>
+          <text x="113" y="80" text-anchor="middle" fill="#1E6B4F" font-weight="700">放行</text>
+          <circle cx="207" cy="110" r="15" fill="#1E6B4F"/><text x="207" y="116" fill="#fff" text-anchor="middle" font-size="17">③</text>
+          <text x="207" y="80" text-anchor="middle" fill="#1E6B4F" font-weight="700">放行</text>
+          <circle cx="300" cy="110" r="15" fill="#1E6B4F"/><text x="300" y="116" fill="#fff" text-anchor="middle" font-size="17">④</text>
+          <text x="300" y="80" text-anchor="middle" fill="#1E6B4F" font-weight="700">放行</text>
+        </g>
+        <rect x="20" y="212" width="280" height="10" fill="#1E6B4F"/>
+        <text x="20" y="256" font-size="22" fill="#141414" font-weight="700">得出：单笔上限 $500</text>
+        <text x="20" y="290" font-size="19" fill="#2E2E2B">来源：$500 放行、$750 拦下。真实底线落在这两档之间。</text>
+        <text x="20" y="320" font-size="19" fill="#2E2E2B">每日亏损上限、单标的仓位上限按同法各问约四次。</text>
+      </svg>
+    </div>
+    <div class="side"><div class="scene"><div class="h">投资场景 · 三张单子</div>
+      <p>AI 想一次买 <b class="mn">$750</b> 的 AAPL。</p>
+      <p>今天已亏 <b class="mn">$300</b>，AI 还想再买 <b class="mn">$100</b>。</p>
+      <p>已持有 <b class="mn">$3,000</b> 的 AAPL，AI 想再买 <b class="mn">$100</b>。</p>
+      <p class="say">放行，还是拦下？</p></div></div>
+  </div>
+  <div class="src">arXiv 2603.29317（2026-03）：individuals communicate their preferences more effectively through choices, with as few as two sufficing to match prompts' predictive value。该研究对象为 AI 偏好学习，用于投资委托属类比。左图询问序列为本项目签名页实测。</div>
+  <div class="num">6 / 12</div>
+</section>
+
+<!-- 7 三个问题 -->
+<section class="slide">
+  <div class="hdr"><div class="tag">06 — 方法二</div><h1>委托前的三个问题</h1>
+    <div class="tk">用途、底线、失效条件，缺一项即为<b>不完整的委托</b>；机构以「投资政策说明书」固定下来</div></div>
+  <div class="body"><div class="main" style="flex:1">
+    <table class="steps">
+      <tr><th></th><th>问题</th><th>回答的标准</th><th>对应 IPS 要素</th></tr>
+      <tr><td class="s">01</td><td class="t">这笔钱用来做什么</td><td class="d">何时要用，到期用不上会怎样</td><td class="p">目标 · 期限 · 流动性</td></tr>
+      <tr><td class="s">02</td><td class="t">亏到多少会卖出</td><td class="d">不是「能承受」，而是<b>真正会卖出</b>的那个数</td><td class="p">风险承受度</td></tr>
+      <tr><td class="s">03</td><td class="t">什么情况说明看错</td><td class="d">第九章：写不出失效条件的判断，不记为判断</td><td class="p">约束 · 复核条件</td></tr>
+    </table>
+    <div class="quote">「IPS 最重要的作用，是在市场动荡、情绪与本能可能驱使人做出不审慎行为时，提供一条客观的行动路线。」</div>
+  </div></div>
+  <div class="src">CFA Institute. Elements of an Investment Policy Statement for Individual Investors (2010)：Perhaps most importantly, the IPS serves as a policy guide that can offer an objective course of action to be followed during periods of market disruption when emotional or instinctive responses might otherwise motivate less prudent actions.（中文为本文翻译）</div>
+  <div class="num">7 / 12</div>
+</section>
+
+<!-- 8 心理账户 -->
+<section class="slide">
+  <div class="hdr"><div class="tag">07 — 方法三</div><h1>按用途分账的风险</h1>
+    <div class="tk">风险不是一个总数，而是「<b>这笔钱达不成用途</b>」的概率；不同用途应有不同底线</div></div>
+  <div class="body"><div class="main" style="flex:1">
+    <table>
+      <tr><th>账户（示例）</th><th>期限</th><th>达不成用途的后果</th><th style="text-align:right">可接受回撤</th><th>交给 AI 的边界</th></tr>
+      <tr class="em"><td><b>三年后的购房首付</b></td><td>3 年</td><td>推迟购房</td><td class="n">5%</td><td>只做宽基指数，单标的上限低</td></tr>
+      <tr><td><b>二十年后的养老金</b></td><td>20 年</td><td>晚年现金流不足</td><td class="n">25%</td><td>定投为主，禁止杠杆</td></tr>
+      <tr><td><b>可以全亏的试错资金</b></td><td>不限</td><td>无实质影响</td><td class="n">100%</td><td>名单宽、额度小、每日亏损上限</td></tr>
+    </table>
+    <div class="callout g"><p>同一个人可以同时是保守与激进的投资者——<b>委托 AI 时，应按账户分别签署边界</b>，而不是给出一个笼统的「风险偏好」。</p></div>
+  </div></div>
+  <div class="src">Das, Markowitz, Scheid, Statman. Portfolio Optimization with Mental Accounts. JFQA 45(2), 2010：a definition of risk as the probability of failing to reach the threshold level in each mental account, and attitudes toward risk that vary by account。表中数字为说明用示例，非建议。</div>
+  <div class="num">8 / 12</div>
+</section>
+
+<!-- 9 机器边界 -->
+<section class="slide">
+  <div class="hdr"><div class="tag">08 — 边界</div><h1>可执行与不可执行</h1>
+    <div class="tk">规则能读懂「怎么买」，读不懂「为什么」——<b>用途只能由人想清楚</b></div></div>
+  <div class="body">
+    <div class="main">
+      <div class="term" style="padding-bottom:10px"><span class="c">输入 ›</span> <b>这笔钱三年后买房用，只做苹果和标普，单笔不超过 500，一天最多亏 200，每只最多拿 2000</b></div>
+      <table style="margin-top:16px;font-size:21px">
+        <tr><th>规则字段</th><th style="text-align:right">取值</th><th>来自原话</th></tr>
+        <tr><td>单笔上限</td><td class="n">$500</td><td>「单笔不超过 500」</td></tr>
+        <tr><td>每日亏损上限</td><td class="n">$200</td><td>「一天最多亏 200」</td></tr>
+        <tr><td>单标的仓位上限</td><td class="n">$2,000</td><td>「每只最多拿 2000」</td></tr>
+        <tr><td>标的名单</td><td class="n">AAPL, SPY</td><td>「苹果、标普」</td></tr>
+        <tr class="em"><td><span class="hl">未识别</span></td><td class="n">—</td><td><span class="hl">「这笔钱三年后买房用」</span></td></tr>
+      </table>
+    </div>
+    <div class="side"><div class="scene"><div class="h">投资场景 · 用途推出限额</div>
+      <p>「三年后买房」意味着什么？</p>
+      <p>首付不能少于某个数 → 可接受回撤很小 → 单标的上限应低、名单应窄。</p>
+      <p class="say">这条推理链，只能由你自己走完。</p>
+      <p>机器能做的，是把走完的部分<b>管住、记下来</b>。</p></div></div>
+  </div>
+  <div class="src">规则解析器（src/mandate_text.py）2026-10-24 实际运行结果；每条规则均标出来自原话的哪几个字，未识别部分直接报告，不作猜测。</div>
+  <div class="num">9 / 12</div>
+</section>
+
+<!-- 10 反馈环 -->
+<section class="slide">
+  <div class="hdr"><div class="tag">09 — 第九章 · 复盘</div><h1>对齐是一个反馈环</h1>
+    <div class="tk">不可能一次说清；每完成一轮「写下 → 执行 → 核对 → 修改」，<b>对自己的意图就更清楚一分</b></div></div>
+  <div class="body">
+    <div class="main" style="align-items:center">
+      <svg viewBox="0 0 640 470" width="640" height="470">
+        <defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1E6B4F"/></marker></defs>
+        <circle cx="320" cy="235" r="170" fill="none" stroke="#DEDEDA" stroke-width="1.5"/>
+        <path d="M383 77 A170 170 0 0 1 477 172" fill="none" stroke="#1E6B4F" stroke-width="2" marker-end="url(#ah)"/>
+        <path d="M477 298 A170 170 0 0 1 383 393" fill="none" stroke="#1E6B4F" stroke-width="2" marker-end="url(#ah)"/>
+        <path d="M257 393 A170 170 0 0 1 163 298" fill="none" stroke="#1E6B4F" stroke-width="2" marker-end="url(#ah)"/>
+        <path d="M163 172 A170 170 0 0 1 257 77" fill="none" stroke="#1E6B4F" stroke-width="2" marker-end="url(#ah)"/>
+        <g text-anchor="middle">
+          <rect x="230" y="38" width="180" height="58" fill="#F7F7F5" stroke="#141414" stroke-width="1.5"/>
+          <text x="320" y="64" font-size="22" font-weight="700" fill="#141414">① 写下来</text><text x="320" y="87" font-size="16" fill="#6F6F6C">判断快照 · 失效条件</text>
+          <rect x="440" y="206" width="180" height="58" fill="#F7F7F5" stroke="#141414" stroke-width="1.5"/>
+          <text x="530" y="232" font-size="22" font-weight="700" fill="#141414">② 照着做</text><text x="530" y="255" font-size="16" fill="#6F6F6C">边界事先划定</text>
+          <rect x="230" y="374" width="180" height="58" fill="#F7F7F5" stroke="#141414" stroke-width="1.5"/>
+          <text x="320" y="400" font-size="22" font-weight="700" fill="#141414">③ 对一对</text><text x="320" y="423" font-size="16" fill="#6F6F6C">核对代替回忆</text>
+          <rect x="20" y="206" width="180" height="58" fill="#F7F7F5" stroke="#141414" stroke-width="1.5"/>
+          <text x="110" y="232" font-size="22" font-weight="700" fill="#141414">④ 改规则</text><text x="110" y="255" font-size="16" fill="#6F6F6C">改方法，不改记录</text>
+          <text x="320" y="228" font-size="24" fill="#1E6B4F" font-weight="700">个人对齐</text>
+          <text x="320" y="258" font-size="17" fill="#6F6F6C">每转一圈，更清楚一分</text>
+        </g>
+      </svg>
+    </div>
+    <div class="side"><div class="scene"><div class="h">投资场景 · 一次对账</div>
+      <p>快照写的是：「亏 10% 就止损。」</p>
+      <p>账本显示：亏到 14% 才卖。</p>
+      <p>修改的是<b>规则</b>（下次改为 8% 由系统执行），不是<b>记录</b>。</p>
+      <p class="say">说的和做的哪里不同，意图就藏在哪里。</p></div></div>
+  </div>
+  <div class="src">《AI 智能投资手册》第九章「AI 辅助决策复盘：建立投资判断的反馈机制」：快照只追加、不改写；用核对代替回忆；改进方法而非修改记录，每次修改留下变更记录。右侧为说明用示例。</div>
+  <div class="num">10 / 12</div>
+</section>
+
+<!-- 11 边界外置 -->
+<section class="slide">
+  <div class="hdr"><div class="tag">10 — 为什么底线要放在 AI 之外</div><h1>模型的自我克制</h1>
+    <div class="tk">判断「这件事该不该停下」，最好的前沿模型仅 59.5%，且<b>与模型强弱基本无关</b></div></div>
+  <div class="body">
+    <div class="main">
+      <svg viewBox="0 0 860 250" width="860" height="250">
+        <text x="0" y="24" font-size="19" fill="#6F6F6C">17 个前沿模型「是否应当停下」配对判断准确率</text>
+        <rect x="0" y="50" width="860" height="56" fill="#EFEFEC"/>
+        <rect x="0" y="50" width="512" height="56" fill="#141414"/>
+        <text x="496" y="87" font-size="26" fill="#fff" text-anchor="end" class="mn" font-weight="700">59.5%</text>
+        <text x="860" y="142" font-size="18" fill="#6F6F6C" text-anchor="end">100%</text>
+        <text x="0" y="142" font-size="18" fill="#6F6F6C">0</text>
+        <text x="0" y="196" font-size="21" fill="#141414" font-weight="700">即使最好的模型，仍有约四成配对判断出错。</text>
+        <text x="0" y="230" font-size="20" fill="#2E2E2B">模型更强，不会自动更懂得停下。</text>
+      </svg>
+      <div class="quote">OpenAI 模型规范（2026-08-18）建议：把授权范围写成结构化记录——可用工具、截止时间、最高花费、约束条件，并且每份授权都要有结束条件。</div>
+    </div>
+    <div class="side"><div class="scene"><div class="h">投资场景 · 底线放在哪里</div>
+      <p>写在提示词里：AI 可能忘记、误读，或被说服。</p>
+      <p>写成签名文件：由 AI 之外的程序执行，AI 改不了。</p>
+      <p class="say">你的底线，不应依赖 AI 的自觉。</p></div></div>
+  </div>
+  <div class="src">arXiv 2607.10059 AgentAbstain（2026-07）：59.5% paired accuracy … abstention capability is largely independent of general task-solving capability。OpenAI Model Spec 2026-08-18：a ScopeOfAutonomy record with fields allowed_tools, latest_time, max_cost, tool_constraints；Every scope must include an ending condition。</div>
+  <div class="num">11 / 12</div>
+</section>
+
+<!-- 12 产品 -->
+<section class="slide cover" style="justify-content:flex-start;padding-top:80px">
+  <div class="tag">我们在做的</div>
+  <h1 style="font-size:56px">Evidence Deflator</h1>
+  <div class="tk">把想清楚的部分签下来，交给 AI 之外的闸门执行，每一笔都可复盘</div>
+  <div class="flow">
+    <div class="n2"><div class="t">一句话 / 挑单子</div><div class="d">写下底线，或回答几张单子</div></div><div class="ar">→</div>
+    <div class="n2"><div class="t">例子确认</div><div class="d">代码算出边界单，逐条确认</div></div><div class="ar">→</div>
+    <div class="n2"><div class="t">签名</div><div class="d">用你自己的钱包签授权</div></div><div class="ar">→</div>
+    <div class="n2"><div class="t">闸门执行</div><div class="d">越界即拦，AI 改不了</div></div><div class="ar">→</div>
+    <div class="n2"><div class="t">签名入账</div><div class="d">复盘时拿来对账</div></div>
+  </div>
+  <div class="qrs">
+    <figure><svg width="148" height="148" viewBox="0 0 148 148" class="segno"><g transform="scale(4)"><path fill="#fff" d="M0 0h37v37h-37z"/><path class="qrline" stroke="#17171b" d="M4 4.5h7m2 0h3m1 0h3m2 0h1m3 0h7m-29 1h1m5 0h1m1 0h5m2 0h1m1 0h1m4 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m3 0h1m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h4m4 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m4 0h5m3 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m2 0h3m1 0h2m2 0h2m1 0h1m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-21 1h1m1 0h4m4 0h1m-19 1h1m5 0h1m1 0h5m1 0h2m1 0h2m2 0h2m2 0h3m-28 1h1m4 0h1m1 0h1m3 0h1m2 0h1m1 0h4m3 0h2m1 0h2m-25 1h2m1 0h1m3 0h2m3 0h3m6 0h1m-25 1h1m1 0h1m1 0h2m2 0h2m1 0h2m1 0h3m1 0h1m1 0h2m1 0h3m-26 1h1m2 0h1m1 0h3m5 0h2m1 0h1m3 0h1m1 0h2m4 0h1m-29 1h2m2 0h2m1 0h1m1 0h2m1 0h4m2 0h3m1 0h3m2 0h2m-28 1h6m1 0h1m2 0h8m3 0h5m-26 1h2m1 0h1m2 0h1m1 0h1m3 0h2m4 0h1m6 0h1m1 0h1m-28 1h2m2 0h2m2 0h1m4 0h2m1 0h1m7 0h2m-27 1h2m1 0h3m2 0h1m1 0h1m1 0h1m2 0h6m1 0h3m1 0h3m-29 1h3m3 0h1m1 0h1m1 0h1m1 0h5m2 0h1m1 0h3m1 0h1m2 0h1m-29 1h1m1 0h4m2 0h4m2 0h1m1 0h1m3 0h5m-25 1h1m1 0h1m2 0h3m1 0h1m2 0h1m2 0h3m2 0h5m1 0h3m-21 1h1m3 0h2m1 0h1m1 0h2m1 0h1m3 0h2m-26 1h7m2 0h1m2 0h5m2 0h2m1 0h1m1 0h3m-27 1h1m5 0h1m2 0h2m1 0h2m5 0h2m3 0h1m3 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m3 0h1m1 0h2m1 0h8m1 0h2m-29 1h1m1 0h3m1 0h1m2 0h2m4 0h4m2 0h1m1 0h1m1 0h2m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h2m1 0h1m1 0h4m1 0h1m1 0h7m-28 1h1m5 0h1m2 0h1m1 0h2m2 0h1m5 0h6m1 0h1m-29 1h7m1 0h2m1 0h1m1 0h3m1 0h1m1 0h1m3 0h2m1 0h1"/></g></svg><figcaption>体验 · evidencedeflator.com/gate</figcaption></figure>
+    <figure><img src="assets/wechat-qr.png" alt="微信" onerror="this.parentNode.remove()"><figcaption>欢迎交流 · 微信 伯纳德</figcaption></figure>
+  </div>
+  <div class="num">12 / 12</div>
+</section>
+
+<script>
+let i=0;const s=document.querySelectorAll('.slide');
+const q=new URLSearchParams(location.search).get('s');if(q){s[0].classList.remove('on');i=+q;s[i].classList.add('on')}
+function go(n){s[i].classList.remove('on');i=(n+s.length)%s.length;s[i].classList.add('on')}
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}
+  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(i-1)}
+  if(e.key==='Home')go(0);
+  if(e.key==='f'||e.key==='F'){document.documentElement.requestFullscreen?.()}
+});
+function fit(){const z=Math.min(innerWidth/1600,innerHeight/900);
+  s.forEach(x=>{x.style.transform=`scale(${z})`;x.style.transformOrigin='top left';
+  x.style.position='absolute';x.style.left=`${(innerWidth-1600*z)/2}px`;x.style.top=`${(innerHeight-900*z)/2}px`})}
+addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

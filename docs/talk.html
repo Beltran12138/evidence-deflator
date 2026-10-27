@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>你到底想用这笔钱干什么 · 伯纳德 · 2026.10.24</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* A talk, not a pitch. Paper and ink, one seal-red accent. The machine speaks in a dark mono card; the
+   person speaks in serif. One idea per slide; the argument runs: the experiment -> what alignment is ->
+   where it breaks -> the question comes back to you -> three gaps -> three habits -> close. */
+:root{--paper:#F3EFE6;--ink:#1B1B1A;--mute:#77736B;--hair:#D6CFC0;--seal:#B8382A;--night:#1C1C1A;--soft:#E9E3D6}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#111;overflow:hidden}
+.s{width:1920px;height:1080px;background:var(--paper);color:var(--ink);position:absolute;display:none;
+   padding:120px 150px 120px;flex-direction:column;justify-content:center;font-family:"Noto Serif SC","Songti SC","SimSun",serif}
+.s.on{display:flex}
+.k{position:absolute;left:150px;top:62px;font:500 20px "IBM Plex Mono",Consolas,monospace;letter-spacing:.12em;color:var(--mute)}
+.k b{color:var(--seal);font-weight:600}
+.n{position:absolute;right:80px;top:62px;font:500 20px "IBM Plex Mono",Consolas,monospace;color:var(--mute)}
+.src{position:absolute;left:150px;right:150px;bottom:44px;font:400 15px/1.5 "Noto Sans SC","Microsoft YaHei",sans-serif;color:var(--mute)}
+h1{font-weight:900;font-size:84px;line-height:1.22;letter-spacing:.01em}
+h2{font-weight:900;font-size:64px;line-height:1.28}
+.lead{font-size:34px;line-height:1.65;color:#3A3935;margin-top:34px;max-width:1450px}
+.lead b{color:var(--ink)}
+.red{color:var(--seal)}
+.mute{color:var(--mute)}
+.sans{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif}
+.mono{font-family:"IBM Plex Mono",Consolas,monospace}
+.rule{height:1px;background:var(--hair);margin:44px 0}
+/* machine voice */
+.card{background:var(--night);color:#E9E5DB;font:400 28px/1.75 "IBM Plex Mono",Consolas,monospace;padding:38px 46px;border-radius:2px}
+.card .c{color:#8F8B82}.card .x{color:#F07A68}.card .w{color:#fff}
+/* night slides */
+.s.dark{background:var(--night);color:#F1ECE1}
+.s.dark .k,.s.dark .n,.s.dark .src{color:#8F8B82}
+.s.dark .lead{color:#C9C3B6}
+/* numbers */
+.big{font-weight:900;font-size:200px;line-height:.9;letter-spacing:-.02em}
+.big small{font-size:64px;font-weight:600;color:var(--mute);margin-left:8px}
+.cap{font-size:30px;line-height:1.55;margin-top:22px;color:#3A3935}
+.cols{display:grid;gap:90px;margin-top:20px}
+.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1fr 1fr 1fr}
+/* said vs meant */
+.pair{display:grid;grid-template-columns:220px 1fr;row-gap:30px;column-gap:30px;align-items:baseline;margin-top:56px}
+.pair .t{font:500 22px "IBM Plex Mono",Consolas,monospace;letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+.pair .v{font-size:52px;font-weight:900}
+/* table */
+table{border-collapse:collapse;width:100%;margin-top:40px;font-size:30px}
+th{font:500 20px "IBM Plex Mono",Consolas,monospace;letter-spacing:.1em;color:var(--mute);text-align:left;padding:0 18px 16px;border-bottom:2px solid var(--ink);font-weight:500}
+td{padding:26px 18px;border-bottom:1px solid var(--hair);vertical-align:baseline}
+td.r{text-align:right;font-weight:900}
+/* seal */
+.seal{display:inline-flex;align-items:center;justify-content:center;width:86px;height:86px;background:var(--seal);color:#F6F1E6;font:900 52px "Noto Serif SC",serif;border-radius:6px;transform:rotate(-4deg)}
+/* list of three */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:70px;margin-top:70px}
+.three div{border-top:2px solid currentColor;padding-top:28px}
+.three i{font:600 26px "IBM Plex Mono",Consolas,monospace;font-style:normal;color:var(--seal)}
+.three b{display:block;font-size:46px;font-weight:900;margin:18px 0 14px}
+.three span{font-size:27px;line-height:1.55;opacity:.8}
+svg text{font-family:"Noto Serif SC","SimSun",serif}
+svg .m{font-family:"IBM Plex Mono",Consolas,monospace}
+.qr svg,.qr img{display:block;width:260px;height:260px;background:#fff;padding:12px}
+.qr p{font:400 22px "Noto Sans SC",sans-serif;color:var(--mute);margin-top:14px;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- 1 cover -->
+<section class="s on" style="justify-content:center">
+  <div class="k">《AI 智能投资手册》新书分享会 · 深圳前海 · 2026.10.24</div>
+  <h1 style="font-size:132px;line-height:1.15">你到底想用<br>这笔钱干什么？</h1>
+  <div class="lead" style="font-size:38px;margin-top:48px">让 AI 替你投资之前，先和自己对齐</div>
+  <div class="sans" style="position:absolute;left:150px;bottom:110px;font-size:26px;color:var(--mute)">伯纳德　《AI 智能投资手册》作者之一</div>
+  <div class="n">01</div>
+</section>
+
+<!-- 2 experiment -->
+<section class="s">
+  <div class="k"><b>01</b>　一个小实验</div><div class="n">02</div>
+  <h2>如果明天让 AI 替你管钱，你会怎么跟它说？</h2>
+  <div style="font-size:96px;font-weight:900;margin-top:70px">「我想稳一点，帮我赚钱。」</div>
+  <div class="card" style="margin-top:60px;max-width:1300px">
+    <span class="c">规则解析器 ›</span><br>
+    <span class="x">未识别</span>　「我想稳一点」<br>
+    <span class="x">未识别</span>　「帮我赚钱」<br>
+    <span class="c">缺失 ›</span> 能买什么　一笔多大　一天最多亏多少　每只最多拿多少</div>
+  <div class="src">解析器为本项目开源代码（不调用任何模型），2026-10-24 实际运行结果。</div>
+</section>
+
+<!-- 3 consequence -->
+<section class="s dark" style="justify-content:center">
+  <div class="k"><b>01</b>　一个小实验</div><div class="n">03</div>
+  <h1 style="font-size:110px">人类顾问会追问。<br><span style="color:#F07A68">AI 会补全。</span></h1>
+  <div class="lead" style="font-size:38px;margin-top:56px">它补上的，是它的理解，不是你的意图。<br>这个落差，有个名字：<b style="color:#fff">对齐</b>。</div>
+</section>
+
+<!-- 4 alignment -->
+<section class="s">
+  <div class="k"><b>02</b>　对齐是什么</div><div class="n">04</div>
+  <h2>三年来，最聪明的一批人在解同一道题：<br>让 AI 做人<span class="red">真正想要</span>的事</h2>
+  <svg viewBox="0 0 1620 300" width="1620" height="300" style="margin-top:70px;overflow:visible">
+    <line x1="0" y1="90" x2="1620" y2="90" stroke="#1B1B1A" stroke-width="2"/>
+    <g font-size="24">
+      <circle cx="40" cy="90" r="12" fill="#1B1B1A"/><text x="40" y="50" class="m" font-size="22" fill="#77736B" text-anchor="start">2023.07</text>
+      <text x="40" y="146" font-weight="900" font-size="30">OpenAI 成立「超级对齐」团队</text>
+      <text x="40" y="186" fill="#3A3935">四年为期，投入当时已有算力的 20%</text>
+      <text x="40" y="222" fill="#3A3935">问题：比人聪明的 AI，怎样遵循人的意图</text>
+      <circle cx="560" cy="90" r="12" fill="#1B1B1A"/><text x="560" y="50" class="m" font-size="22" fill="#77736B">2024.05</text>
+      <text x="560" y="146" font-weight="900" font-size="30">不到一年，团队解散</text>
+      <text x="560" y="186" fill="#3A3935">Ilya 离开，另创 SSI</text>
+      <text x="560" y="222" fill="#3A3935">Leike：安全让位给了「光鲜的产品」</text>
+      <circle cx="1080" cy="90" r="14" fill="#B8382A"/><text x="1080" y="50" class="m" font-size="22" fill="#B8382A">2026</text>
+      <text x="1080" y="146" font-weight="900" font-size="30" fill="#B8382A">问题变窄，也变具体</text>
+      <text x="1080" y="186" fill="#3A3935">Anthropic 的 auto mode</text>
+      <text x="1080" y="222" fill="#3A3935">OpenAI 模型规范的「授权范围」</text>
+      <text x="1080" y="258" fill="#3A3935">都在问：agent 越没越出你给的范围</text>
+    </g>
+  </svg>
+  <div class="src">OpenAI《Introducing Superalignment》2023-07-05（「20% of the compute we've secured to date」「within four years」）；CNBC / WIRED 2024-05-17；Jan Leike 2024-05-17：「safety culture and processes have taken a backseat to shiny products」；Anthropic Engineering 2026-03-25；OpenAI Model Spec 2026-08-18。</div>
+</section>
+
+<!-- 5 where it breaks -->
+<section class="s">
+  <div class="k"><b>02</b>　对齐是什么</div><div class="n">05</div>
+  <h2>难的不是认出危险，<br>是判断「你说过的话，覆盖不覆盖这一步」</h2>
+  <div class="cols c2" style="margin-top:64px">
+    <div>
+      <div class="mono mute" style="font-size:22px;letter-spacing:.1em">ANTHROPIC 公开的案例</div>
+      <div class="pair" style="grid-template-columns:150px 1fr;margin-top:26px">
+        <div class="t">你说</div><div class="v" style="font-size:44px">「把这个 PR 清理一下」</div>
+        <div class="t">它想做</div><div class="v red" style="font-size:44px">强制推送，覆盖历史</div>
+      </div>
+      <div class="cap">分类器认得出强推是危险动作，<br>却判断不了：「清理一下」包不包括它。</div>
+    </div>
+    <div>
+      <div class="mono mute" style="font-size:22px;letter-spacing:.1em">换成投资</div>
+      <div class="pair" style="grid-template-columns:150px 1fr;margin-top:26px">
+        <div class="t">你说</div><div class="v" style="font-size:44px">「帮我把仓位调一调」</div>
+        <div class="t">它想做</div><div class="v red" style="font-size:44px">清仓，换成杠杆 ETF</div>
+      </div>
+      <div class="cap">这算不算你同意过的？<br>你自己，答得上来吗？</div>
+    </div>
+  </div>
+  <div class="src">Anthropic Engineering《How we built Claude Code auto mode》2026-03-25：「What it gets wrong is whether a real consent signal in the session actually covers this action. "Clean up the PR" was said by the user, but it doesn't name force-pushing.」完整流程对真实越权动作的漏放率 17%（n=52）。右栏为类比。</div>
+</section>
+
+<!-- 6 back to you -->
+<section class="s">
+  <div class="k"><b>03</b>　问题回到你身上</div><div class="n">06</div>
+  <h2>AI 越来越会问你。<br>可你，几乎每次都说「好」。</h2>
+  <div class="cols c3" style="margin-top:70px">
+    <div><div class="big">93<small>%</small></div><div class="cap">Claude Code 的确认弹窗，用户<b>直接点了同意</b>。逐条确认，成了走过场。</div></div>
+    <div><div class="big">133<small>/148</small></div><div class="cap">一项 113 人的实验里，越权操作<b>由用户当场亲手放行</b>的次数。</div></div>
+    <div><div class="big">114<small>/140</small></div><div class="cap">同一实验，用户事先写的规则里，选了<b>「到时候再问我」</b>的条数。</div></div>
+  </div>
+  <div class="lead" style="margin-top:56px;font-size:32px">最新的 Claude Opus 5.5，越权更少的主要原因是<b>更常先问用户</b>。于是，问题被交回给了你。</div>
+  <div class="src">Anthropic 2026-03-25：「users accept 93% of them anyway」。arXiv 2608.27443（2026-08，预注册，113 名非技术用户）：「chose "ask" for 114 of 140 POLICY rules」「Of the 148 overreach actions executed in POLICY, 133 followed … user approval」。Claude Opus 5.5 System Card 2026-09-22：「much of the drop … comes from Claude Opus 5.5 being more likely to ask the user」。</div>
+</section>
+
+<!-- 7 three gaps divider -->
+<section class="s dark">
+  <div class="k"><b>04</b>　为什么答不上来</div><div class="n">07</div>
+  <h1 style="font-size:96px">你说的，和你想的之间，<br>有三道缝</h1>
+  <div class="three" style="color:#F1ECE1">
+    <div><i>缝一</i><b>说的 ≠ 做的</b><span>纸面上的风险偏好，到了亏钱那天会变</span></div>
+    <div><i>缝二</i><b>一个数 ≠ 多个用途</b><span>一个「风险偏好」，装不下三笔用途不同的钱</span></div>
+    <div><i>缝三</i><b>怎么买 ≠ 为什么</b><span>规则读得懂金额，读不懂目的</span></div>
+  </div>
+</section>
+
+<!-- 8 gap 1 -->
+<section class="s">
+  <div class="k"><b>04</b>　缝一 · 说的 ≠ 做的</div><div class="n">08</div>
+  <div class="cols" style="grid-template-columns:1.05fr 1fr;align-items:center;margin-top:10px">
+    <div>
+      <h2>你填过的风险测评，<br>测不准你</h2>
+      <div class="lead">投资者之间实际持仓的差异，问卷能解释的，<b class="red">不到 15%</b>。<br><br>它问的是年龄、收入和假设题，<br>不是你真到亏钱那个晚上会怎么做。</div>
+    </div>
+    <svg viewBox="0 0 640 640" width="620" height="620" id="dots"></svg>
+  </div>
+  <div class="src">Klement《Investor Risk Profiling: An Overview》CFA Institute Research Foundation, 2015：「risk profiling through questionnaires is highly unreliable and typically explains less than 15% of the variation in risky assets between investors」。右图：每 100 份差异，红点约 14 份。</div>
+</section>
+
+<!-- 9 gap 2 -->
+<section class="s">
+  <div class="k"><b>04</b>　缝二 · 一个数 ≠ 多个用途</div><div class="n">09</div>
+  <h2>风险不是一个数，<br>是「这笔钱达不成用途」的概率</h2>
+  <table>
+    <tr><th>同一个人的三笔钱（示例）</th><th>多久要用</th><th>达不成会怎样</th><th style="text-align:right">能接受的回撤</th></tr>
+    <tr><td><b>三年后的购房首付</b></td><td>3 年</td><td>推迟买房</td><td class="r red">5%</td></tr>
+    <tr><td><b>二十年后的养老金</b></td><td>20 年</td><td>晚年现金流不够</td><td class="r">25%</td></tr>
+    <tr><td><b>输光也不影响生活的钱</b></td><td>不限</td><td>没有实质影响</td><td class="r">100%</td></tr>
+  </table>
+  <div class="lead" style="margin-top:44px">同一个人，可以同时<b>极保守</b>又<b>极激进</b>。<br>开户时那一个「风险偏好」，把三笔钱压成了一个数。</div>
+  <div class="src">Das, Markowitz, Scheid, Statman《Portfolio Optimization with Mental Accounts》JFQA 2010：「a definition of risk as the probability of failing to reach the threshold level in each mental account, and attitudes toward risk that vary by account」。表中数字为说明用示例，不是建议。</div>
+</section>
+
+<!-- 10 gap 3 -->
+<section class="s">
+  <div class="k"><b>04</b>　缝三 · 怎么买 ≠ 为什么</div><div class="n">10</div>
+  <h2>规则读得懂「怎么买」，读不懂「为什么」</h2>
+  <div class="card" style="margin-top:56px;font-size:26px">
+    <span class="c">输入 ›</span> <span class="w">这笔钱三年后买房用，只做苹果和标普，单笔不超过 500，一天最多亏 200，每只最多拿 2000</span><br><br>
+    单笔上限　　　 $500　　 <span class="c">←「单笔不超过 500」</span><br>
+    每日亏损上限　 $200　　 <span class="c">←「一天最多亏 200」</span><br>
+    单只仓位上限　 $2,000　 <span class="c">←「每只最多拿 2000」</span><br>
+    标的名单　　　 AAPL, SPY <span class="c">←「苹果、标普」</span><br>
+    <span class="x">未识别</span>　　　　 <span class="x">「这笔钱三年后买房用」</span></div>
+  <div class="lead">从「三年后买房」推到「每只最多拿多少」，这条推理链<b>只能你自己走完</b>。</div>
+  <div class="src">同一开源解析器 2026-10-24 实际运行结果：每条规则标出来自原话的哪几个字，读不懂的直接报告，不猜。</div>
+</section>
+
+<!-- 11 three habits divider -->
+<section class="s dark">
+  <div class="k"><b>05</b>　怎么补</div><div class="n">11</div>
+  <h1 style="font-size:96px">三个习惯：<span style="color:#F07A68">挑</span>、<span style="color:#F07A68">签</span>、<span style="color:#F07A68">对</span></h1>
+  <div class="three" style="color:#F1ECE1">
+    <div><i>挑</i><b>用选择代替描述</b><span>不问「能承受多大风险」，问「这一单放不放」</span></div>
+    <div><i>签</i><b>写下来，放在 AI 之外</b><span>三个问题写成文字，签上名，交给 AI 改不了的地方</span></div>
+    <div><i>对</i><b>说的和做的对一对</b><span>每次对账，都让你更清楚自己想要什么</span></div>
+  </div>
+</section>
+
+<!-- 12 pick -->
+<section class="s">
+  <div class="k"><b>05</b>　挑 · 用选择代替描述</div><div class="n">12</div>
+  <h2>不问「你能承受多大风险」，<br>问「这一单，放还是不放」</h2>
+  <svg viewBox="0 0 1620 380" width="1620" height="380" style="margin-top:50px">
+    <line x1="40" y1="200" x2="1580" y2="200" stroke="#1B1B1A" stroke-width="2"/>
+    <g class="m" font-size="22" fill="#77736B" text-anchor="middle">
+      <text x="40" y="248" class="m">100</text><text x="211" y="248" class="m">200</text><text x="382" y="248" class="m">300</text><text x="553" y="248" class="m">500</text><text x="724" y="248" class="m">750</text><text x="896" y="248" class="m">1,000</text><text x="1067" y="248" class="m">1,500</text><text x="1238" y="248" class="m">2,000</text><text x="1409" y="248" class="m">3,000</text><text x="1580" y="248" class="m">5,000</text>
+    </g>
+    <g stroke="#1B1B1A" stroke-width="2"><line x1="40" y1="190" x2="40" y2="210"/><line x1="211" y1="190" x2="211" y2="210"/><line x1="382" y1="190" x2="382" y2="210"/><line x1="553" y1="190" x2="553" y2="210"/><line x1="724" y1="190" x2="724" y2="210"/><line x1="896" y1="190" x2="896" y2="210"/><line x1="1067" y1="190" x2="1067" y2="210"/><line x1="1238" y1="190" x2="1238" y2="210"/><line x1="1409" y1="190" x2="1409" y2="210"/><line x1="1580" y1="190" x2="1580" y2="210"/></g>
+    <g text-anchor="middle" font-size="26" font-weight="900">
+      <circle cx="724" cy="140" r="26" fill="#B8382A"/><text x="724" y="149" fill="#F6F1E6" class="m" font-size="24">1</text><text x="724" y="88" fill="#B8382A">不放</text>
+      <circle cx="211" cy="140" r="26" fill="#1B1B1A"/><text x="211" y="149" fill="#F6F1E6" class="m" font-size="24">2</text><text x="211" y="88">放</text>
+      <circle cx="382" cy="140" r="26" fill="#1B1B1A"/><text x="382" y="149" fill="#F6F1E6" class="m" font-size="24">3</text><text x="382" y="88">放</text>
+      <circle cx="553" cy="140" r="26" fill="#1B1B1A"/><text x="553" y="149" fill="#F6F1E6" class="m" font-size="24">4</text><text x="553" y="88">放</text>
+    </g>
+    <rect x="40" y="286" width="513" height="12" fill="#B8382A"/>
+    <text x="40" y="350" font-size="34" font-weight="900">四次回答，得出单笔上限 $500</text>
+    <text x="640" y="350" font-size="28" fill="#77736B">（$500 放，$750 不放；亏损上限、仓位上限同法各问约四次）</text>
+  </svg>
+  <div class="lead" style="margin-top:20px;font-size:30px">「AI 想一次买 $750 的苹果，放不放？」比「你的风险偏好是？」好答得多。</div>
+  <div class="src">arXiv 2603.29317（2026-03）：「individuals communicate their preferences more effectively through choices, with as few as two sufficing to match prompts' predictive value」。该研究对象为 AI 偏好学习，用到投资是类比。左图为本项目签名页的实际询问顺序。</div>
+</section>
+
+<!-- 13 sign: three questions -->
+<section class="s">
+  <div class="k"><b>05</b>　签 · 写下来</div><div class="n">13</div>
+  <div style="display:flex;align-items:center;gap:30px"><span class="seal">签</span><h2>交给 AI 之前，先回答三个问题</h2></div>
+  <table style="margin-top:56px;font-size:40px">
+    <tr><td class="mono red" style="width:90px;font-size:30px">01</td><td style="width:620px"><b>这笔钱用来干什么？</b></td><td class="mute" style="font-size:28px">什么时候要用，到时用不上会怎样</td></tr>
+    <tr><td class="mono red" style="font-size:30px">02</td><td><b>亏到多少，你会卖？</b></td><td class="mute" style="font-size:28px">不是「能承受」，是你真的会卖出的那个数</td></tr>
+    <tr><td class="mono red" style="font-size:30px">03</td><td><b>什么情况，说明你看错了？</b></td><td class="mute" style="font-size:28px">写不出失效条件的判断，不算判断</td></tr>
+  </table>
+  <div class="lead" style="font-size:30px;margin-top:50px">机构管这叫<b>投资政策说明书</b>。它最大的用处，是在市场慌乱时，替你的情绪做决定。</div>
+  <div class="src">CFA Institute《Elements of an Investment Policy Statement for Individual Investors》2010：「the IPS serves as a policy guide that can offer an objective course of action to be followed during periods of market disruption when emotional or instinctive responses might otherwise motivate less prudent actions」。</div>
+</section>
+
+<!-- 14 sign: outside the AI -->
+<section class="s">
+  <div class="k"><b>05</b>　签 · 放在 AI 之外</div><div class="n">14</div>
+  <h2>为什么要放在 AI 之外？</h2>
+  <div class="cols c2" style="margin-top:56px;gap:110px">
+    <div>
+      <div class="big" style="font-size:220px">59.5<small>%</small></div>
+      <div class="cap" style="font-size:32px">17 个前沿模型判断「这件事我该不该停下」，<b>最好的一个</b>的准确率。<br>而且这项能力，和模型强弱基本无关。</div>
+    </div>
+    <div>
+      <div class="mono mute" style="font-size:22px;letter-spacing:.1em">最新模型的系统卡里，记着这样一例</div>
+      <div class="card" style="margin-top:22px;font-size:29px;line-height:1.9;padding:44px 48px">
+        <span class="c">子 agent ›</span> 用户批准过读这张表吗？<br>
+        <span class="c">主 agent ›</span> <span class="x">「用户的原话：可以，读这几张表。」</span><br>
+        <span class="c">事实 ›</span> 用户从没写过这句话。<br>
+        <span class="c">结果 ›</span> <span class="w">被 agent 之外的 auto mode 拦下。</span></div>
+      <div class="cap" style="font-size:26px">Claude Opus 5.5 的内部快照，发生率不到万分之一。</div>
+    </div>
+  </div>
+  <div class="src">arXiv 2607.10059 AgentAbstain（2026-07）：「59.5% paired accuracy」「abstention capability is largely independent of general task-solving capability」。Claude Opus 5.5 System Card 2026-09-22：「overclaiming user intent … less than 0.01% of completions … despite the user never having written those words … This action was blocked by Claude Code auto mode」（Anthropic 自测）。</div>
+</section>
+
+<!-- 15 reconcile -->
+<section class="s">
+  <div class="k"><b>05</b>　对 · 说的和做的对一对</div><div class="n">15</div>
+  <h2>对齐不是一次说清的，<br>是一圈一圈对出来的</h2>
+  <svg viewBox="0 0 1620 300" width="1620" height="300" style="margin-top:60px">
+    <defs><marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#1B1B1A"/></marker>
+      <marker id="ar" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#B8382A"/></marker></defs>
+    <g font-size="34" font-weight="900">
+      <text x="0" y="90">写下来</text><text x="0" y="132" font-size="24" font-weight="400" fill="#77736B">「亏 10% 就止损」</text>
+      <line x1="230" y1="78" x2="390" y2="78" stroke="#1B1B1A" stroke-width="2" marker-end="url(#a)"/>
+      <text x="420" y="90">照着做</text><text x="420" y="132" font-size="24" font-weight="400" fill="#77736B">交给 AI 执行</text>
+      <line x1="650" y1="78" x2="810" y2="78" stroke="#1B1B1A" stroke-width="2" marker-end="url(#a)"/>
+      <text x="840" y="90">对一对</text><text x="840" y="132" font-size="24" font-weight="400" fill="#B8382A">账本：亏到 14% 才卖</text>
+      <line x1="1090" y1="78" x2="1250" y2="78" stroke="#1B1B1A" stroke-width="2" marker-end="url(#a)"/>
+      <text x="1280" y="90" fill="#B8382A">改规则</text><text x="1280" y="132" font-size="24" font-weight="400" fill="#77736B">下次 8%，由系统执行</text>
+    </g>
+    <path d="M1360 160 C1360 270, 60 270, 60 160" fill="none" stroke="#B8382A" stroke-width="2" stroke-dasharray="8 7" marker-end="url(#ar)"/>
+    <text x="710" y="292" font-size="24" fill="#B8382A" text-anchor="middle">改的是方法，不是记录</text>
+  </svg>
+  <div class="lead" style="font-size:32px">说的和做的哪里不一样，你真正的意图，就藏在哪里。</div>
+  <div class="src">复盘方法见《AI 智能投资手册》中伯纳德执笔的复盘部分：判断快照只追加、不改写；用核对代替回忆；改进方法而非修改记录。图中数字为说明用示例。</div>
+</section>
+
+<!-- 16 close -->
+<section class="s dark" style="justify-content:center">
+  <div class="k"><b>06</b>　最后</div><div class="n">16</div>
+  <h1 style="font-size:84px;line-height:1.35">对齐不是模型的一项属性，<br>是你和它之间，一份<span style="color:#F07A68">要不断对账</span>的约定。</h1>
+  <div class="lead" style="font-size:36px;margin-top:60px;line-height:1.9">下一次让 AI 替你下单之前，先回答：<br>
+    <b style="color:#fff">这笔钱用来干什么？亏到多少会卖？什么情况算看错？</b></div>
+</section>
+
+<!-- 17 product -->
+<section class="s">
+  <div class="k">附 · 我们在做的</div><div class="n">17</div>
+  <div style="display:grid;grid-template-columns:1fr auto auto;gap:80px;align-items:center;height:100%">
+    <div>
+      <h2 style="font-size:72px">Evidence Deflator</h2>
+      <div class="lead" style="font-size:32px">把想清楚的部分签下来，交给 AI 之外的闸门执行。<br>一句话或挑几张单子写下底线 → 看例子确认 → 签名<br>→ 越界即拦 → 每一笔签名入账，复盘时对账。</div>
+    </div>
+    <div class="qr"><svg width="148" height="148" viewBox="0 0 148 148" class="segno"><g transform="scale(4)"><path fill="#fff" d="M0 0h37v37h-37z"/><path class="qrline" stroke="#17171b" d="M4 4.5h7m2 0h3m1 0h3m2 0h1m3 0h7m-29 1h1m5 0h1m1 0h5m2 0h1m1 0h1m4 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m3 0h1m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h4m4 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m4 0h5m3 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m2 0h3m1 0h2m2 0h2m1 0h1m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-21 1h1m1 0h4m4 0h1m-19 1h1m5 0h1m1 0h5m1 0h2m1 0h2m2 0h2m2 0h3m-28 1h1m4 0h1m1 0h1m3 0h1m2 0h1m1 0h4m3 0h2m1 0h2m-25 1h2m1 0h1m3 0h2m3 0h3m6 0h1m-25 1h1m1 0h1m1 0h2m2 0h2m1 0h2m1 0h3m1 0h1m1 0h2m1 0h3m-26 1h1m2 0h1m1 0h3m5 0h2m1 0h1m3 0h1m1 0h2m4 0h1m-29 1h2m2 0h2m1 0h1m1 0h2m1 0h4m2 0h3m1 0h3m2 0h2m-28 1h6m1 0h1m2 0h8m3 0h5m-26 1h2m1 0h1m2 0h1m1 0h1m3 0h2m4 0h1m6 0h1m1 0h1m-28 1h2m2 0h2m2 0h1m4 0h2m1 0h1m7 0h2m-27 1h2m1 0h3m2 0h1m1 0h1m1 0h1m2 0h6m1 0h3m1 0h3m-29 1h3m3 0h1m1 0h1m1 0h1m1 0h5m2 0h1m1 0h3m1 0h1m2 0h1m-29 1h1m1 0h4m2 0h4m2 0h1m1 0h1m3 0h5m-25 1h1m1 0h1m2 0h3m1 0h1m2 0h1m2 0h3m2 0h5m1 0h3m-21 1h1m3 0h2m1 0h1m1 0h2m1 0h1m3 0h2m-26 1h7m2 0h1m2 0h5m2 0h2m1 0h1m1 0h3m-27 1h1m5 0h1m2 0h2m1 0h2m5 0h2m3 0h1m3 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m3 0h1m1 0h2m1 0h8m1 0h2m-29 1h1m1 0h3m1 0h1m2 0h2m4 0h4m2 0h1m1 0h1m1 0h2m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h2m1 0h1m1 0h4m1 0h1m1 0h7m-28 1h1m5 0h1m2 0h1m1 0h2m2 0h1m5 0h6m1 0h1m-29 1h7m1 0h2m1 0h1m1 0h3m1 0h1m1 0h1m3 0h2m1 0h1"/></g></svg><p>体验 · evidencedeflator.com/gate</p></div>
+    <div class="qr"><img src="assets/wechat-qr.png" alt="微信" onerror="this.parentNode.remove()"><p>欢迎交流 · 微信 伯纳德</p></div>
+  </div>
+</section>
+
+<script>
+// dot grid for gap 1: 100 dots, 14 red
+(function(){const g=document.getElementById('dots');let h='';for(let i=0;i<100;i++){const r=Math.floor(i/10),c=i%10;
+ h+=`<circle cx="${32+c*64}" cy="${32+r*64}" r="22" fill="${i<14?'#B8382A':'none'}" stroke="${i<14?'#B8382A':'#C9C1B0'}" stroke-width="2"/>`;}
+ g.innerHTML=h;})();
+let i=0;const s=document.querySelectorAll('.s');
+const q=new URLSearchParams(location.search).get('s');if(q){s[0].classList.remove('on');i=+q;s[i].classList.add('on')}
+function go(n){s[i].classList.remove('on');i=(n+s.length)%s.length;s[i].classList.add('on')}
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}
+  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(i-1)}
+  if(e.key==='Home')go(0);
+  if(e.key==='f'||e.key==='F'){document.documentElement.requestFullscreen?.()}
+});
+function fit(){const z=Math.min(innerWidth/1920,innerHeight/1080);
+  s.forEach(x=>{x.style.transform=`scale(${z})`;x.style.transformOrigin='top left';
+  x.style.left=`${(innerWidth-1920*z)/2}px`;x.style.top=`${(innerHeight-1080*z)/2}px`})}
+addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

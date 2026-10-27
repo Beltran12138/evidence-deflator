@@ -23,7 +23,8 @@ EXT_URL = "https://chromewebstore.google.com/detail/evidence-deflator/fbhanjliol
 ELSEWHERE_EN = (f'<p class="muted small elsewhere">Also on <a href="{TG_BOT}" rel="noopener">Telegram, @SkillOrLuckBot</a> (send an address, get the verdict), '
                 f'and as a <a href="{EXT_URL}" rel="noopener">Chrome extension</a> that shows it on Hyperliquid, Binance and OKX copy-trading pages.</p>')
 ISSUE_AUDIT = REPO + "/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A"
-VERSION = "0.2.0"
+with open(os.path.join(ROOT, "pyproject.toml"), encoding="utf-8") as _f:  # the published package's version
+    VERSION = re.search(r'^version = "([^"]+)"', _f.read(), re.M).group(1)
 # Cloudflare Web Analytics site token (public, cookie-less page counts). Empty = no beacon.
 CF_BEACON = "e38b718917cf4c2891f9038a6a597a88"
 # Baidu Search Resource Platform site verification (public token; keep it, or the site unverifies).
