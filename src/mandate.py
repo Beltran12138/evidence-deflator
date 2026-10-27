@@ -24,6 +24,8 @@ TYPE = "trading-mandate"
 VERSION = "0"
 HEADER = "Trading mandate v0 (evidencedeflator.com/gate/mandate)\n"
 SCOPE_KEYS = ("allow", "sides", "max_order_usd", "max_position_usd", "max_daily_loss_usd", "max_orders_per_day")
+INTENT_KEYS = ("purpose", "horizon")
+GATE_TOOLS = ["place_order", "account", "recent_log", "scorecard", "propose_mandate"]  # src/gate_server.py
 
 
 def _eth():
@@ -92,15 +94,22 @@ def same_addr(a: Optional[str], b: Optional[str]) -> bool:
 # ---------------------------------------------------------------- mandate
 
 def draft(issuer: str, agent: str, venue: str, account: str, scope: Dict[str, Any],
-          days: float = 30.0, now: Optional[float] = None) -> Dict[str, Any]:
+          days: float = 30.0, now: Optional[float] = None, intent: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
+    """``intent``: the owner's own words for what the agent is for (``purpose``) and over what horizon
+    (``horizon``). Signed with the rest of the document, never read by the gate: it is a record of what
+    the owner meant, for whoever reviews the ledger later, not a rule."""
     now = time.time() if now is None else now
     sc = {k: scope[k] for k in SCOPE_KEYS if scope.get(k) is not None}
     if "allow" in sc:
         sc["allow"] = sorted({s.upper() for s in sc["allow"]})
     sc.setdefault("sides", ["buy", "sell"])
-    return {"type": TYPE, "version": VERSION, "id": secrets.token_hex(8), "issuer": issuer, "agent": agent,
-            "venue": venue, "account": account, "scope": sc,
-            "not_before": iso(now), "expires": iso(now + days * 86400)}
+    m = {"type": TYPE, "version": VERSION, "id": secrets.token_hex(8), "issuer": issuer, "agent": agent,
+         "venue": venue, "account": account, "scope": sc,
+         "not_before": iso(now), "expires": iso(now + days * 86400)}
+    it = {k: str(v).strip() for k, v in (intent or {}).items() if k in INTENT_KEYS and str(v or "").strip()}
+    if it:
+        m["intent"] = it
+    return m
 
 
 def message(m: Dict[str, Any]) -> str:
@@ -150,6 +159,43 @@ def rules(signed: Dict[str, Any]) -> Dict[str, Any]:
     return {"allow": sc.get("allow") or [], "max_order_usd": sc.get("max_order_usd"),
             "max_position_usd": sc.get("max_position_usd"), "max_daily_loss_usd": sc.get("max_daily_loss_usd"),
             "max_orders_per_day": sc.get("max_orders_per_day"), "sides": sc.get("sides") or ["buy", "sell"]}
+
+
+def scope_of_autonomy(signed: Dict[str, Any]) -> Dict[str, Any]:
+    """The mandate as the record OpenAI's Model Spec (2026-08-18) suggests for agent scopes.
+
+    The Spec names the fields "for instance": allowed_tools, latest_time, max_cost, tool_constraints and
+    free-text additional_details, and requires an ending condition. It publishes no schema, so this is a
+    mapping, not conformance. The signed mandate stays the authority; this record is for platforms and
+    reviewers that read the Spec's vocabulary.
+    """
+    m = signed["mandate"]
+    sc = m["scope"]
+    h = mandate_hash(signed)
+    loss = sc.get("max_daily_loss_usd")
+    intent = m.get("intent") or {}
+    details = [f"Trading mandate {m['id']} (sha256 {h}) signed by {m['issuer']} for agent key {m['agent']} "
+               f"on {m['venue']}, account {m['account']}; valid from {m['not_before']}."]
+    for k in INTENT_KEYS:
+        if intent.get(k):
+            text = intent[k].rstrip()
+            details.append(f"Owner's {k}: {text}" + ("" if text[-1:] in ".!?。" else "."))
+    details.append("Orders that only shrink a position pass the side, daily-loss and order-count rules. "
+                   "Every request, allowed or refused, goes to a hash-chained ledger signed by the agent key.")
+    return {
+        "record": "ScopeOfAutonomy",
+        "spec": "OpenAI Model Spec 2026-08-18 (fields listed 'for instance'; no published schema)",
+        "allowed_tools": list(GATE_TOOLS),
+        "latest_time": m["expires"],
+        "max_cost": None if loss is None else {
+            "usd": loss, "per": "UTC day",
+            "meaning": "once equity is this far below the day's first ledger line, only reducing orders pass; "
+                       "positions already held keep moving, so it is not a cap on the day's loss"},
+        "tool_constraints": {"place_order": {k: sc[k] for k in SCOPE_KEYS if k in sc}},
+        "ending_condition": {"latest_time": m["expires"], "or": "a revocation signed by the issuer"},
+        "additional_details": " ".join(details),
+        "mandate_hash": h,
+    }
 
 
 def revocation_message(mandate_id: str, ts: str) -> str:

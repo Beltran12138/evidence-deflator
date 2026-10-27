@@ -30,7 +30,7 @@ The rules are the owner's; the gate only enforces them and keeps the record.
     python src/agent_gate.py order BTC buy --usd 100 --config gate.json
     python src/agent_gate.py log | verify | audit | scorecard --config gate.json
     python src/agent_gate.py keygen .gate/gate.key        # the gate's own key
-    python src/agent_gate.py mandate draft|sign|attach|show|examples|revoke --config gate.json
+    python src/agent_gate.py mandate draft|sign|attach|show|examples|templates|scope|revoke --config gate.json
     python src/agent_gate.py attest --config gate.json        # a signed summary of the ledger for a third party
     python src/agent_gate.py verify-attestation att.json --config gate.json
     python src/agent_gate.py panel a/gate.json b/gate.json --html panel.html   # every gate on one page
@@ -785,8 +785,12 @@ def demo(prices: Optional[Callable[[], Dict[str, float]]] = None) -> str:
 
 
 def mandate_cli(a: argparse.Namespace, cfg: Dict[str, Any]) -> None:
-    """draft | sign | attach | show | examples | revoke, against the mandate path in the config."""
+    """draft | sign | attach | show | examples | templates | scope | revoke, against the mandate path in the config."""
     sub = a.args[0] if a.args else "show"
+    if sub == "templates":  # needs no mandate path
+        import mandate_templates
+        print(mandate_templates.render(a.account_usd))
+        return
     path = cfg.get("mandate")
     if not path:
         raise SystemExit('set "mandate": "mandate.json" in the config first')
@@ -796,6 +800,15 @@ def mandate_cli(a: argparse.Namespace, cfg: Dict[str, Any]) -> None:
             raise SystemExit("draft needs --issuer 0x… (the owner's address) and gate_key in the config")
         venue = cfg["broker"] + ("-" + cfg.get("network", "testnet") if cfg["broker"] == "hyperliquid" else "")
         scope, days = cfg, a.days
+        if a.template:
+            import mandate_templates
+            if not a.account_usd:
+                raise SystemExit("--template needs --account-usd (the account's value; limits scale with it)")
+            scope = mandate_templates.scope(a.template, a.account_usd, cfg.get("allow"))
+            days = a.days if a.days_given else mandate_templates.TEMPLATES[a.template]["days"]
+            print(f"template {a.template}: {json.dumps(scope)} for {days:g} days "
+                  "(candidate numbers; run mandate examples before signing)")
+            print()
         if a.text:  # the owner's own sentence, read without a model
             import mandate_text
             r = mandate_text.parse(a.text, default_days=a.days)
@@ -805,7 +818,8 @@ def mandate_cli(a: argparse.Namespace, cfg: Dict[str, Any]) -> None:
                 raise SystemExit("not drafted: add what is missing to the sentence")
             scope, days = r["scope"], r["days"]
         m = mandate_mod.draft(a.issuer, mandate_mod.address_of(cfg["gate_key"]), venue,
-                              cfg.get("account") or cfg["broker"], scope, days=days)
+                              cfg.get("account") or cfg["broker"], scope, days=days,
+                              intent={"purpose": a.purpose, "horizon": a.horizon})
         mandate_mod.save(m, unsigned)
         print(f"wrote {unsigned}\n\nSign this exact text with the issuer's wallet (Sign message / personal_sign),"
               f" then run: mandate attach --sig 0x…\n\n{mandate_mod.message(m)}")
@@ -830,6 +844,8 @@ def mandate_cli(a: argparse.Namespace, cfg: Dict[str, Any]) -> None:
         print(json.dumps({"mandate": signed["mandate"], "hash": mandate_mod.mandate_hash(signed),
                           "problems_now": mandate_mod.verify(signed, now=time.time(), agent=agent)},
                          indent=1, ensure_ascii=False))
+    elif sub == "scope":
+        print(json.dumps(mandate_mod.scope_of_autonomy(mandate_mod.load(path)), indent=1, ensure_ascii=False))
     elif sub == "examples":
         import mandate_examples
         src = path if os.path.exists(path) else unsigned
@@ -856,13 +872,20 @@ def main(argv: Optional[List[str]] = None) -> None:
     ap.add_argument("--qty", type=float)
     ap.add_argument("--picked-from", type=int)
     ap.add_argument("--issuer", help="mandate draft: the owner's address")
-    ap.add_argument("--days", type=float, default=30.0, help="mandate draft: how long it lasts")
+    ap.add_argument("--days", type=float, default=None, help="mandate draft: how long it lasts (default 30)")
+    ap.add_argument("--purpose", help="mandate draft: what the agent is for, in your words (signed, not enforced)")
+    ap.add_argument("--horizon", help="mandate draft: over what horizon, in your words (signed, not enforced)")
+    ap.add_argument("--template", help="mandate draft: start from a template (mandate templates lists them)")
+    ap.add_argument("--account-usd", type=float, help="mandate draft/templates: account value the template scales to")
     ap.add_argument("--key", help="mandate sign/revoke, hl-approve: a key file you hold")
     ap.add_argument("--sig", help="mandate attach: the wallet's signature")
     ap.add_argument("--text", help="mandate draft: the limits in one sentence, read without a model")
     ap.add_argument("--venue", action="store_true", help="audit: also compare with the venue's fills (hyperliquid)")
     ap.add_argument("--html", help="panel: also write the panel as a web page here")
     a = ap.parse_args(argv)
+    a.days_given = a.days is not None
+    if a.days is None:
+        a.days = 30.0
     if a.cmd == "demo":
         print(demo())
         return

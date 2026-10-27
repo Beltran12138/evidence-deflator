@@ -72,5 +72,5 @@ agent-gate-stress = "gate_stress:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
-py-modules = ["normalize", "decision_confidence", "evidence_deflator", "effective_window", "counterfactual", "messages", "trial_count", "track_record", "trace_audit", "hl_wallet", "mcp_server", "agent_gate", "gate_server", "mandate", "gate_adapters", "gate_stress", "mandate_examples", "mandate_text"]
+py-modules = ["normalize", "decision_confidence", "evidence_deflator", "effective_window", "counterfactual", "messages", "trial_count", "track_record", "trace_audit", "hl_wallet", "mcp_server", "agent_gate", "gate_server", "mandate", "gate_adapters", "gate_stress", "mandate_examples", "mandate_text", "mandate_templates"]
 packages = ["adapters"]

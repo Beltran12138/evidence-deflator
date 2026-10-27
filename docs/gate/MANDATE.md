@@ -48,8 +48,13 @@ The gate's earlier rules lived in a JSON file on the machine running the gate. T
 | `scope.max_orders_per_day` | Allowed orders per UTC day. Reducing orders are not counted against it once the limit is reached. |
 | `not_before`, `expires` | UTC, `YYYY-MM-DDTHH:MM:SSZ`. Valid from `not_before` up to, but not including, `expires`. |
 | `id` | Random. Revocation refers to it. |
+| `intent` | Optional, added 2026-10-27: `purpose` and `horizon`, in the owner's own words. Signed with the rest, so it cannot be edited afterwards, and **never read by the gate**: it is a record of what the owner meant, for whoever reviews the ledger, not a rule. `mandate draft --purpose … --horizon …`. |
 
 The scope fields are the same ones as `agent_gate.check`, the rule function the gate has used since v0. With a mandate in force, the config file's own rule fields are ignored.
+
+Starting points: `mandate templates --account-usd N` lists three shapes (trial, long-only, wind-down) with limits as fractions of the account; `mandate draft --template NAME --account-usd N` uses one. The fractions are this project's candidates, not recommendations; check them with `mandate examples` and the stress test below before signing. `wind-down` sets `max_orders_per_day` to 0, which leaves only orders that shrink a position.
+
+For platforms that read OpenAI's Model Spec, `mandate scope` prints the mandate as a ScopeOfAutonomy record (`allowed_tools`, `latest_time`, `max_cost`, `tool_constraints`, `additional_details`, plus the ending condition the Spec requires). The Spec lists those fields "for instance" and publishes no schema, so this is a mapping, not conformance; the signed mandate stays the authority.
 
 ## Signing
 
