@@ -56,6 +56,10 @@ gate_adapters.execute_rating(gate, "NVDA", rating, buy_usd={"Buy": 200}, sell_fr
 - **Sells only reduce a long position,** so a bearish rating never opens a short through this function.
 - **The gate checks the sized order like any other.** For example, a $5,000 Buy against a $1,000 limit is refused and logged.
 
+## Alpaca, step by step
+
+[ALPACA.md](ALPACA.md): an agent in Claude Code trading an Alpaca paper account through the gate, with a signed mandate, keys kept from the agent, and the audit at the end.
+
 ## Still to do
 
 - The lumibot run above used synthetic bars and one broker path (backtesting). It has not been run against a live or paper lumibot broker.

@@ -18,7 +18,8 @@ request goes into a ledger where each line carries the hash of the one before, s
 an edit anywhere is caught by `verify`. A weekly scorecard reads the ledger's equity
 the same way the wallet check does. Paper account at Hyperliquid's live prices out
 of the box; with your own Alpaca paper keys it trades US stocks on your Alpaca paper
-account (run live on 2026-10-21: [docs/gate/demo-2026-10-21-alpaca](docs/gate/demo-2026-10-21-alpaca/)).
+account (run live on 2026-10-21: [docs/gate/demo-2026-10-21-alpaca](docs/gate/demo-2026-10-21-alpaca/);
+step-by-step recipe with a signed mandate: [docs/gate/ALPACA.md](docs/gate/ALPACA.md)).
 
 ```bash
 python src/agent_gate.py demo                  # scripted agent: allowed, blocked, tamper caught
