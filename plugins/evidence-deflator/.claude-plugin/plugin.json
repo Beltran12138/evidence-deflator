@@ -1,6 +1,6 @@
 {
   "name": "evidence-deflator",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Is that trading record skill, or luck? Adds the hosted hyperliquid_wallet MCP tool, a skill that checks wallets, backtests and track records, and a hook that counts every backtest the agent runs so the one it reports has to clear the best-of-N bar. Optional: a hook that sends orders through the agent gate instead of straight to a broker's MCP tools.",
   "author": {
     "name": "Evidence Deflator",

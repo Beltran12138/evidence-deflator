@@ -9,7 +9,7 @@ The gate's Alpaca broker talks only to `paper-api.alpaca.markets`. There is no l
 ## 1. Install
 
 ```bash
-pip install "evidence-deflator[mcp,gate] @ git+https://github.com/Beltran12138/evidence-deflator"
+pip install "evidence-deflator[mcp,gate]>=0.3.0"
 ```
 
 ## 2. Keys: the gate gets them, the agent does not

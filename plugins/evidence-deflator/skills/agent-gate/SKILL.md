@@ -11,9 +11,9 @@ The gate does not judge whether an order is a good idea and gives no advice. The
 
 ## Set it up (the owner does the signing; you never hold a key)
 
-1. Install from the repository (the PyPI release does not include the gate yet):
+1. Install (the gate is in the package from 0.3.0):
    ```bash
-   pip install "evidence-deflator[mcp,gate] @ git+https://github.com/Beltran12138/evidence-deflator"
+   pip install "evidence-deflator[mcp,gate]>=0.3.0"
    ```
 2. `agent-gate init gate.json`, then edit `broker` (`sim`, `alpaca`, `hyperliquid`) and `allow`.
 3. `agent-gate keygen .gate/gate.key`. This file stays with the gate process. Do not read it, print it or copy it.
