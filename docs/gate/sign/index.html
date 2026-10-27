@@ -101,6 +101,14 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
 <div class="out" id="res"></div>
 </div>
 
+<h2>3 · 撤销授权</h2>
+<div class="step">
+<p class="note">先在运行闸门的机器上执行 <code>agent-gate mandate revoke-text --config gate.json</code>，把它打印的两行原文粘到下面，用签授权时的同一个钱包签名，再把签名交给 <code>agent-gate mandate revoke-attach --sig …</code>。从那以后闸门拒绝这份授权下的所有订单，撤销本身也记进账本。</p>
+<textarea id="revmsg" spellcheck="false" style="min-height:60px" placeholder="Trading mandate v0 (evidencedeflator.com/gate/mandate)&#10;revoke 8c16bd25a456bd52 at 2026-10-27T08:00:00Z"></textarea>
+<button id="revsign" disabled>用钱包签名撤销（personal_sign）</button>
+<div class="out" id="revsig"></div>
+</div>
+
 <p class="note">没有检测到钱包？需要 MetaMask、Rabby 之类的浏览器钱包。测试网要先领测试 USDC：<a href="https://app.hyperliquid-testnet.xyz/drip">app.hyperliquid-testnet.xyz/drip</a>（Hyperliquid 要求这个地址在主网入过金）。</p>
 </main>
 <!-- site-footer -->
@@ -280,6 +288,7 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
       refresh();
       if ($('nl').value.trim()) fromSentence();
       $('agent').dispatchEvent(new Event('input'));
+      $('revmsg').dispatchEvent(new Event('input'));
     } catch (e) { $('who').textContent = '连接被拒绝：' + (e.message || e); }
   };
 
@@ -290,6 +299,20 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
       var sig = await window.ethereum.request({ method: 'personal_sign', params: [hexUtf8(p.text), acct] });
       $('sig').textContent = sig;
     } catch (e) { $('sig').textContent = '未签名：' + (e.message || e); }
+  };
+
+  var REV = /^Trading mandate v0 \(evidencedeflator\.com\/gate\/mandate\)\nrevoke [0-9a-f]{16} at \d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/;
+  function revText() { return $('revmsg').value.replace(/\r\n/g, '\n').trim(); }
+  $('revmsg').addEventListener('input', function () {
+    var ok = REV.test(revText());
+    $('revsign').disabled = !(acct && ok);
+    $('revsig').textContent = revText() && !ok ? '不是 revoke-text 打印的格式：两行，第二行是 revoke <16 位 id> at <UTC 时间>' : '';
+  });
+  $('revsign').onclick = async function () {
+    if (!REV.test(revText())) return;
+    try {
+      $('revsig').textContent = await window.ethereum.request({ method: 'personal_sign', params: [hexUtf8(revText()), acct] });
+    } catch (e) { $('revsig').textContent = '未签名：' + (e.message || e); }
   };
 
   $('approve').onclick = async function () {

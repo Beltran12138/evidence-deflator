@@ -208,6 +208,15 @@ def revoke(signed: Dict[str, Any], issuer_key, now: Optional[float] = None) -> D
     return {"revoke": mid, "ts": ts, "signature": sign_text(issuer_key, revocation_message(mid, ts))}
 
 
+def revocation_draft(signed: Dict[str, Any], now: Optional[float] = None) -> Dict[str, Any]:
+    """An unsigned revocation, for an issuer who signs with a wallet: sign ``revocation_message`` of it."""
+    return {"revoke": signed["mandate"]["id"], "ts": iso(time.time() if now is None else now)}
+
+
+def attach_revocation(draft: Dict[str, Any], signature: str) -> Dict[str, Any]:
+    return dict(draft, signature=signature)
+
+
 def revocation_valid(rev: Dict[str, Any], signed: Dict[str, Any]) -> bool:
     m = signed["mandate"]
     if rev.get("revoke") != m["id"]:

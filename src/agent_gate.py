@@ -1,8 +1,9 @@
 """Agent gate: a rule check between an AI agent and the account it trades, and a ledger it cannot quietly rewrite.
 
 An agent that can place orders asks the gate instead of the broker. The gate checks the order
-against rules the account owner wrote (largest single order, largest loss in a day, which symbols,
-how many orders a day), passes the ones that fit to the broker and refuses the rest. Every request,
+against rules the account owner wrote (largest single order, largest position, largest loss in a day,
+which symbols, which sides, how many orders a day), passes the ones that fit to the broker and refuses
+the rest. Every request,
 allowed or not, is appended to a ledger in which each line carries the hash of the line before it,
 so an edit or a deleted line anywhere breaks every hash after it (``verify``). Each line also records
 the account's equity, and ``scorecard`` reads those snapshots the way evidencedeflator.com reads a
@@ -30,7 +31,7 @@ The rules are the owner's; the gate only enforces them and keeps the record.
     python src/agent_gate.py order BTC buy --usd 100 --config gate.json
     python src/agent_gate.py log | verify | audit | scorecard --config gate.json
     python src/agent_gate.py keygen .gate/gate.key        # the gate's own key
-    python src/agent_gate.py mandate draft|sign|attach|show|examples|templates|scope|revoke --config gate.json
+    python src/agent_gate.py mandate draft|sign|attach|show|examples|templates|scope|revoke|revoke-text|revoke-attach --config gate.json
     python src/agent_gate.py attest --config gate.json        # a signed summary of the ledger for a third party
     python src/agent_gate.py verify-attestation att.json --config gate.json
     python src/agent_gate.py panel a/gate.json b/gate.json --html panel.html   # every gate on one page
@@ -346,15 +347,16 @@ def check(order: Dict[str, Any], ctx: Dict[str, Any], cfg: Dict[str, Any]) -> Li
 
     ``ctx``: price, position (signed qty held now), loss_today (equity at the start of the UTC day
     minus equity now, positive when down), orders_today (allowed orders so far today).
-    An order that only shrinks an existing position is never blocked by the daily-loss or count
-    rules: stopping a loss must stay possible after the loss limit is hit.
+    An order that only shrinks an existing position is never blocked by the allow-list, side,
+    daily-loss or count rules: stopping a loss must stay possible after the loss limit is hit, and a
+    position left over from earlier rules must stay closable after its symbol leaves the list.
     """
     reasons = []
     sym, side, qty, price = order["symbol"], order["side"], order["qty"], ctx["price"]
     notional = qty * price
     pos = ctx["position"]
     reducing = (side == "sell" and 0 < qty <= pos) or (side == "buy" and 0 < qty <= -pos)
-    if cfg.get("allow") and sym not in cfg["allow"]:
+    if cfg.get("allow") and sym not in cfg["allow"] and not reducing:
         reasons.append(f"{sym} is not on the allow list {cfg['allow']}")
     if cfg.get("sides") and side not in cfg["sides"] and not reducing:
         reasons.append(f"{side} orders are not allowed (sides {cfg['sides']})")
@@ -489,7 +491,7 @@ class Gate:
         if self.mandate:
             return mandate_mod.rules(self.mandate)
         return {k: self.cfg.get(k) for k in ("max_order_usd", "max_position_usd", "max_daily_loss_usd", "allow",
-                                             "max_orders_per_day")}
+                                             "max_orders_per_day", "sides")}
 
     def scorecard(self, picked_from: Optional[int] = None) -> Dict[str, Any]:
         return scorecard(self.ledger.read(), picked_from)
@@ -785,7 +787,8 @@ def demo(prices: Optional[Callable[[], Dict[str, float]]] = None) -> str:
 
 
 def mandate_cli(a: argparse.Namespace, cfg: Dict[str, Any]) -> None:
-    """draft | sign | attach | show | examples | templates | scope | revoke, against the mandate path in the config."""
+    """draft | sign | attach | show | examples | templates | scope | revoke | revoke-text | revoke-attach,
+    against the mandate path in the config."""
     sub = a.args[0] if a.args else "show"
     if sub == "templates":  # needs no mandate path
         import mandate_templates
@@ -851,6 +854,21 @@ def mandate_cli(a: argparse.Namespace, cfg: Dict[str, Any]) -> None:
         src = path if os.path.exists(path) else unsigned
         doc = mandate_mod.load(src)
         print(mandate_examples.render(mandate_examples.examples((doc.get("mandate") or doc)["scope"])))
+    elif sub == "revoke-text":  # wallet issuers: print the text to sign, then revoke-attach
+        d = mandate_mod.revocation_draft(mandate_mod.load(path))
+        mandate_mod.save(d, path + ".revoke.unsigned.json")
+        print(f"wrote {path}.revoke.unsigned.json\n\nSign this exact text with the issuer's wallet (Sign message / "
+              f"personal_sign, or section 3 of evidencedeflator.com/gate/sign/), then run: "
+              f"mandate revoke-attach --sig 0x…\n\n{mandate_mod.revocation_message(d['revoke'], d['ts'])}")
+    elif sub == "revoke-attach":
+        if not a.sig:
+            raise SystemExit("revoke-attach needs --sig 0x…")
+        signed = mandate_mod.load(path)
+        rev = mandate_mod.attach_revocation(mandate_mod.load(path + ".revoke.unsigned.json"), a.sig)
+        if not mandate_mod.revocation_valid(rev, signed):
+            raise SystemExit("not saved: the signature does not recover to the mandate's issuer for this text")
+        mandate_mod.save(rev, path + ".revoked")
+        print(f"wrote {path}.revoked; the gate refuses every order under this mandate from now on")
     elif sub == "revoke":
         if not a.key:
             raise SystemExit("revoke needs --key FILE (the issuer's key)")
@@ -878,7 +896,7 @@ def main(argv: Optional[List[str]] = None) -> None:
     ap.add_argument("--template", help="mandate draft: start from a template (mandate templates lists them)")
     ap.add_argument("--account-usd", type=float, help="mandate draft/templates: account value the template scales to")
     ap.add_argument("--key", help="mandate sign/revoke, hl-approve: a key file you hold")
-    ap.add_argument("--sig", help="mandate attach: the wallet's signature")
+    ap.add_argument("--sig", help="mandate attach / revoke-attach: the wallet's signature")
     ap.add_argument("--text", help="mandate draft: the limits in one sentence, read without a model")
     ap.add_argument("--venue", action="store_true", help="audit: also compare with the venue's fills (hyperliquid)")
     ap.add_argument("--html", help="panel: also write the panel as a web page here")

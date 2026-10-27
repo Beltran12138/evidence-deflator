@@ -84,5 +84,5 @@ Compare the ledger with Alpaca's order history in the dashboard. The ledger can 
 ## Stop
 
 - If you signed with a local key file: `agent-gate mandate revoke --key <your key file> --config gate.json`. From then on every order is refused and the revocation is in the ledger.
-- If you signed with a wallet: the sign page has no revocation button yet. A revocation is the text `Trading mandate v0 (evidencedeflator.com/gate/mandate)` on one line and `revoke <mandate id> at <UTC time>` on the next, signed by the same address and saved as `mandate.json.revoked` in the form `{"revoke": "<mandate id>", "ts": "<UTC time>", "signature": "0x…"}`; there is no command that attaches a wallet signature to it yet.
+- If you signed with a wallet: `agent-gate mandate revoke-text --config gate.json` prints two lines; sign them with the same wallet (section 3 of https://evidencedeflator.com/gate/sign/), then `agent-gate mandate revoke-attach --sig 0x… --config gate.json`. It refuses a signature that is not the issuer's.
 - Either way, removing the gate's MCP server or rotating the Alpaca keys stops the agent at once.

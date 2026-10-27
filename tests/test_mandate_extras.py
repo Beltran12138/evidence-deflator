@@ -116,3 +116,38 @@ def test_scope_of_autonomy_lists_exactly_the_gate_servers_tools():
     import gate_server
     names = sorted(t.name for t in asyncio.run(gate_server.mcp.list_tools()))
     assert names == sorted(md.GATE_TOOLS)
+
+
+# ---------------------------------------------------------------- wallet revocation
+
+def test_wallet_revocation_round_trip_through_the_cli(tmp_path, keys, capsys):
+    s = signed(keys)
+    md.save(s, str(tmp_path / "mandate.json"))
+    cfg = tmp_path / "gate.json"
+    cfg.write_text(json.dumps({"state_dir": str(tmp_path / "state"), "mandate": str(tmp_path / "mandate.json"),
+                               "gate_key": keys["gate"]}), encoding="utf-8")
+    ag.main(["mandate", "revoke-text", "--config", str(cfg)])
+    text = capsys.readouterr().out.split("\n\n")[-1].rstrip("\n")
+    d = md.load(str(tmp_path / "mandate.json.revoke.unsigned.json"))
+    assert text == md.revocation_message(d["revoke"], d["ts"])
+    with pytest.raises(SystemExit):                                   # someone else's signature
+        ag.main(["mandate", "revoke-attach", "--sig", md.sign_text(keys["other"], text), "--config", str(cfg)])
+    assert not os.path.exists(str(tmp_path / "mandate.json.revoked"))
+    ag.main(["mandate", "revoke-attach", "--sig", md.sign_text(keys["owner"], text), "--config", str(cfg)])
+    rev = md.load(str(tmp_path / "mandate.json.revoked"))
+    assert md.revocation_valid(rev, s)
+    clock = iter(T0 + 60 * i for i in range(1, 100))
+    g = ag.Gate(ag.load_config(str(cfg)), ag.SimBroker(str(tmp_path / "state"), 10_000, lambda: PRICES),
+                clock=lambda: next(clock))
+    e = g.place("AAPL", "buy", usd=100)
+    assert e["decision"] == "block" and any("revoked" in r for r in e["reasons"])
+
+
+def test_sign_page_accepts_exactly_the_revocation_text(keys):
+    import re
+    html = open(os.path.join(os.path.dirname(__file__), "..", "docs", "gate", "sign", "index.html"),
+                encoding="utf-8").read()
+    pattern = re.search(r"var REV = /(.*)/;", html).group(1).replace("\\/", "/")
+    d = md.revocation_draft(signed(keys), now=T0)
+    assert re.fullmatch(pattern, md.revocation_message(d["revoke"], d["ts"]))
+    assert not re.fullmatch(pattern, md.message(signed(keys)["mandate"]))

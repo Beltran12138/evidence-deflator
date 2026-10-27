@@ -269,12 +269,14 @@ def test_long_only_never_reaches_a_short(tmp_path, monkeypatch):
     assert r["stuck"] == [], r["stuck"][:3]
 
 
-def test_sides_in_the_config_file_is_not_read():
-    """Known gap, recorded rather than fixed: ``sides`` is a mandate rule only. In gate.json it is dropped
-    without a word (Gate._rules copies five keys), so a config-only gate with sides ["buy"] goes short."""
-    w = World(dict(RULES, sides=["buy"]), PRICES)
-    assert "sides" not in w.gate()._rules()
-    assert apply(w, ("order", "BTC", "sell", 250)) == ["sides: BTC went short to -2.500000"]
+def test_sides_in_the_config_file_is_read_too():
+    """Fixed 2026-10-27: ``sides`` in gate.json used to be dropped without a word (Gate._rules copied five
+    keys), so a config-only gate with sides ["buy"] went short. Now the config path reads it as well."""
+    rules = dict(RULES, sides=["buy"])
+    assert World(rules, PRICES).gate()._rules()["sides"] == ["buy"]
+    r = search(rules, PRICES, actions(["BTC"], [250, 500, 600]), depth=4)
+    assert r["violations"] == [], r["violations"][:3]
+    assert r["stuck"] == [], r["stuck"][:3]
 
 
 def test_negative_control_the_search_finds_a_planted_hole(monkeypatch):
@@ -301,16 +303,40 @@ def test_negative_control_flatten_notices_a_gate_that_refuses_to_reduce(monkeypa
     assert r["stuck"], "flatten check passed a gate that blocks every sell"
 
 
-def test_a_position_left_off_a_narrowed_allow_list_cannot_be_closed():
-    """Known gap, recorded rather than fixed: the allow list is checked before the reducing exemption.
-
-    A position opened under an earlier mandate in a symbol the new mandate drops can be neither grown
-    (intended) nor closed through the gate (probably not intended: check()'s own docstring says stopping a
-    loss must stay possible). Which way to go is the owner's call; this test pins today's behaviour so a
-    change is a deliberate one.
-    """
+def test_a_position_left_off_a_narrowed_allow_list_can_still_be_closed():
+    """Fixed 2026-10-27: the allow list used to be checked before the reducing exemption, so a position
+    opened under an earlier mandate in a symbol the new one drops could not be closed through the gate.
+    Now it can be shrunk and closed, and still never grown or reopened (the search tries both)."""
     rules = dict(RULES, allow=["BTC"])
-    r = search(rules, PRICES, actions(["BTC"], [250], moves=(), days=False), depth=1,
+    r = search(rules, PRICES, actions(["BTC", "ETH"], [100, 250], moves=(), days=False), depth=3,
                positions={"ETH": 5.0})
-    assert r["violations"] == []
-    assert r["stuck"] and all(why[0] == "ETH" and "allow list" in why[2][0] for _, why in r["stuck"])
+    assert r["violations"] == [], r["violations"][:3]
+    assert r["stuck"] == [], r["stuck"][:3]
+    w = World(rules, PRICES, positions={"ETH": 5.0})
+    assert w.gate().place("ETH", "buy", usd=40)["decision"] == "block"
+    assert w.gate().place("ETH", "sell", qty=5.0)["decision"] == "allow"
+    assert w.gate().place("ETH", "sell", qty=1.0)["decision"] == "block"     # flat now: a sell would open a short
+
+
+def test_the_browser_check_agrees_with_python_on_off_list_and_side_cases():
+    import itertools
+    import json as _json
+    import shutil
+    import subprocess
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("node not installed")
+    js = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "docs", "assets", "mandate_examples.js"))
+    cfgs = [dict(RULES, allow=["BTC"]), dict(RULES, sides=["buy"]), dict(RULES, allow=["BTC"], sides=["sell"])]
+    cases = []
+    for cfg, sym, side, qty, pos in itertools.product(cfgs, ["BTC", "ETH"], ["buy", "sell"], [1.0, 5.0, 6.0],
+                                                      [-5.0, 0.0, 5.0]):
+        ctx = {"price": 40.0, "position": pos, "loss_today": 0.0, "orders_today": 0}
+        cases.append({"order": {"symbol": sym, "side": side, "qty": qty}, "ctx": ctx, "cfg": cfg})
+    script = ("const m=require(process.argv[1]);const s=JSON.parse(require('fs').readFileSync(0,'utf8'));"
+              "process.stdout.write(JSON.stringify(s.map(c=>m.check(c.order,c.ctx,c.cfg).length===0)))")
+    got = _json.loads(subprocess.run([node, "-e", script, js], input=_json.dumps(cases), capture_output=True,
+                                     text=True, check=True).stdout)
+    want = [not ag.check(c["order"], c["ctx"], c["cfg"]) for c in cases]
+    assert got == want
+    assert sum(want) and not all(want)

@@ -40,7 +40,7 @@ The gate's earlier rules lived in a JSON file on the machine running the gate. T
 | `issuer` | Address of the owner's Ethereum key. The signature must recover to it. |
 | `agent` | Address of the one key allowed to act under the mandate: the gate's key. On Hyperliquid it is also the account's approved API wallet. |
 | `venue`, `account` | Where the limits apply: `hyperliquid-testnet`, `hyperliquid-mainnet`, `alpaca`, or `sim`. For Hyperliquid, `account` is the owner's main address. |
-| `scope.allow` | Symbols that may be traded. Upper case. |
+| `scope.allow` | Symbols that may be traded. Upper case. An order that only shrinks an existing position passes even off the list, so a position left from earlier rules can still be closed (since 2026-10-27; before that it was stuck). |
 | `scope.sides` | `buy`, `sell`, or both. An order that only shrinks an existing position is never blocked by this rule. |
 | `scope.max_order_usd` | Largest notional of a single order, at the price the gate used. |
 | `scope.max_position_usd` | Largest position in any one symbol after the order, at the gate's price. An order that makes a position bigger, or flips it to the other side, past this is refused; one that only shrinks it passes. Optional, but see "Stress test" below for why a mandate without it is much looser than it looks. Added 2026-10-21. |
@@ -69,7 +69,7 @@ The signed file is `{"mandate": <document>, "sig": {"scheme": "eip191", "signatu
 
 v0 uses `personal_sign` and not EIP-712 typed data because every wallet supports it and the text the wallet shows is the document itself. The cost is that wallets show raw JSON rather than labelled fields. The sign page (`/gate/sign/`) puts a labelled preview next to it.
 
-Revocation is a second signed text, `<header>revoke <id> at <UTC time>`, saved next to the mandate as `mandate.json.revoked`. From then on the gate refuses every order under that mandate and records the revocation in the ledger. A revocation signed by anyone other than the issuer is ignored.
+Revocation is a second signed text, `<header>revoke <id> at <UTC time>`, saved next to the mandate as `mandate.json.revoked`. From then on the gate refuses every order under that mandate and records the revocation in the ledger. A revocation signed by anyone other than the issuer is ignored. Issuers with a local key run `mandate revoke --key …`; wallet issuers run `mandate revoke-text`, sign the two lines it prints (section 3 of `/gate/sign/`), and `mandate revoke-attach --sig …`, which checks the signature recovers to the issuer before saving.
 
 ## What the gate adds to the ledger
 

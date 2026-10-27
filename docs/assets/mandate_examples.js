@@ -10,7 +10,7 @@
     var reasons = [], sym = order.symbol, side = order.side, qty = order.qty, price = ctx.price;
     var notional = qty * price, pos = ctx.position;
     var reducing = (side === 'sell' && qty > 0 && qty <= pos) || (side === 'buy' && qty > 0 && qty <= -pos);
-    if (cfg.allow && cfg.allow.length && cfg.allow.indexOf(sym) < 0) reasons.push(sym + ' 不在名单上');
+    if (cfg.allow && cfg.allow.length && cfg.allow.indexOf(sym) < 0 && !reducing) reasons.push(sym + ' 不在名单上');
     if (cfg.sides && cfg.sides.length && cfg.sides.indexOf(side) < 0 && !reducing) reasons.push('不允许' + (side === 'buy' ? '买入' : '卖出') + '开仓');
     if (cfg.max_position_usd != null && !reducing) {
       var after = pos + (side === 'buy' ? qty : -qty);
