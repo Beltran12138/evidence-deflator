@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "evidence-deflator"
-version = "0.3.0"
+version = "0.3.1"
 description = "Evidence Deflator: how much of the evidence behind an AI trading result actually counts. Given a model's knowledge cutoff, a test window and the number of attempts, returns clean months, months needed and a verdict. Also separates factual from definitional disagreement between risk sources."
 readme = "README.md"
 license = "MIT"
