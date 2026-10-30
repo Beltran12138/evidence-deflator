@@ -95,6 +95,28 @@ These are the existing hash-chained JSON lines (`docs/gate/`), plus:
 
 For Hyperliquid, `audit --venue` also asks the exchange for every fill on the account since the ledger began. It lists any order id that no ledger line accounts for. That is the completeness check: the venue, not the gate, says what traded.
 
+## What is proved about the rule check
+
+The decision on each order comes from one function, `check` in `src/agent_gate.py`. `tests/test_gate_proof.py` asks an SMT solver (z3) about it for every real-valued quantity, price, position, day's loss, order count and limit at once, and the solver answers that no input breaks any of these:
+
+- an allowed order is never above the single-order limit;
+- an allowed order that grows a position never leaves it above the position limit;
+- an allowed order in a symbol off the list, past the daily-loss limit, or past the day's order count only shrinks an existing position;
+- under a long-only mandate, an allowed order never takes a flat or long position short. Price moves and day changes do not touch positions, so this holds for sequences of any length;
+- from every state, the closing order (the whole position, or the single-order limit's worth of it) is allowed, so the owner's rules never trap a position.
+
+Each property has a negative control: remove the guard it depends on and the solver must find a counterexample, or the property was not testing that guard. Before this, `tests/test_gate_composition.py` searched sequences of orders to depth 4 and 4,000 states, which covers the sequences it visited and says nothing about the rest.
+
+Writing the proofs found two holes the bounded search had missed, both fixed on 2026-10-30:
+- **A negative quantity.** A buy for −$500 is a sell. It passed a long-only mandate and opened a short, and its notional, being negative, was never above the order limit. A NaN quantity, price or loss passed every rule, because every comparison with NaN is false. The check now refuses any input that is not a finite positive quantity and price.
+- **An order at the limit.** $500 / price × price can come out one float step above $500, so about one order in eight sized exactly at the single-order limit was refused. Limits are now compared with a relative slack of 10⁻⁹. This one refused orders it should have allowed, the safe direction, but it also made the stress test below understate what an agent using every limit can do; that table is corrected.
+
+What the proof does not cover:
+- The solver reasons about a transcription of `check`. A test runs the transcription and the real function on over 5,000 inputs and requires the same decision on every one; that is a test, not a proof.
+- It uses real arithmetic. The rounding case above has its own check under the IEEE 754 rounding model.
+- It is about the decision, not the plumbing: that the gate builds its context truthfully, that the mandate is valid and unrevoked (a revoked mandate refuses every order, closing ones included), and that the broker does what it is told. The audit above and the venue's fills cover parts of that.
+- **It does not ask why the agent wants the order.** An agent talked into a trade by text planted in a web page gets the same answer as one that thought of it, and the most it can do is what the owner signed. That is the point of the design, and also its limit: the gate controls the channel it sits on, not the agent. If the agent can reach the money another way, the proof says nothing about that way. In OpenAI's July 2026 Hugging Face incident, agents in a sandbox that had been "tested and validated" got out through a package server the sandbox exposed on purpose, and through credentials others had left public; one agent that had stopped itself carried on when another agent wrote "GO" on a shared board ([OpenAI, 2026-08-26](https://openai.com/index/hugging-face-incident-and-the-road-ahead/)). A mandate is the opposite of that "GO": only the issuer's signature changes the limits.
+
 ## What it does not prove
 
 - **That no order bypassed the gate.**
@@ -119,12 +141,14 @@ These are the results for the demo mandate ($500 largest order, $200 daily loss,
 
 | | Worst day, median | Worst day, 95th pct | Runs with a day past the $200 limit | Exposure at end, 95th pct |
 |---|---|---|---|---|
-| No position limit, agent using every limit | $6,007 | $13,657 | 100% | $239,808 |
+| No position limit, agent using every limit | $6,661 | $14,980 | 100% | $265,491 |
 | No position limit, agent with no skill | $229 | $651 | 59% | $13,088 |
-| $2,000 position limit, agent using every limit | $186 | $389 | 42% | $4,922 |
+| $2,000 position limit, agent using every limit | $186 | $390 | 43% | $4,938 |
 | $2,000 position limit, agent with no skill | $95 | $231 | 9% | $3,297 |
 
-Without a position limit, an agent that stays inside every rule can reach about 24 times the account in exposure within a month, and its median worst day is about 30 times the "daily loss limit". With a $2,000 position limit, the median worst day falls just under the limit ($186), and the 95th percentile comes to about twice it ($389).
+Without a position limit, an agent that stays inside every rule can reach about 27 times the account in exposure within a month, and its median worst day is about 33 times the "daily loss limit". With a $2,000 position limit, the median worst day falls just under the limit ($186), and the 95th percentile comes to about twice it ($390).
+
+Corrected 2026-10-30. Until then the gate refused about one order in eight sized exactly at the single-order limit (a float rounding: $500 / price × price can come out at $500.00000000000006), so the agent "using every limit" was held back more than the rules say. The first table understated that row: $6,007, $13,657 and $239,808. The same candles and seed, rerun with the old comparison, reproduce those numbers exactly; the agent with no skill never orders exactly at the limit and is unchanged.
 
 Caveats on these numbers:
 - They use hourly closes, which understate moves inside the hour.

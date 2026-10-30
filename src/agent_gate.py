@@ -43,6 +43,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import sys
 import tempfile
@@ -342,6 +343,16 @@ def make_broker(cfg: Dict[str, Any], prices: Optional[Callable[[], Dict[str, flo
 
 # ---------------------------------------------------------------- rules
 
+# A dollar amount sized at the limit (usd / price, then qty * price) can come back one float step above it:
+# a $500 order under a $500 limit was refused about one time in eight. Limits are compared with this
+# relative slack, a billionth of the limit, so an order at the limit passes and nothing materially above it does.
+LIMIT_SLACK = 1e-9
+
+
+def _over(amount: float, limit: float) -> bool:
+    return amount > limit * (1 + LIMIT_SLACK)
+
+
 def check(order: Dict[str, Any], ctx: Dict[str, Any], cfg: Dict[str, Any]) -> List[str]:
     """Reasons to refuse the order; empty means allowed. Pure function of order, context and rules.
 
@@ -353,6 +364,17 @@ def check(order: Dict[str, Any], ctx: Dict[str, Any], cfg: Dict[str, Any]) -> Li
     """
     reasons = []
     sym, side, qty, price = order["symbol"], order["side"], order["qty"], ctx["price"]
+    # Every rule below is a comparison, and a comparison with NaN is false: a NaN quantity used to pass all
+    # of them. A negative quantity turned a buy into a sell, past a long-only mandate and the order limit.
+    bad = [k for k, v in (("quantity", qty), ("price", price), ("position", ctx["position"]),
+                          ("loss_today", ctx["loss_today"]), ("orders_today", ctx["orders_today"]))
+           if not isinstance(v, (int, float)) or isinstance(v, bool) or not math.isfinite(v)]
+    if bad:
+        return [f"not a finite number: {', '.join(bad)}"]
+    if qty <= 0:
+        return [f"quantity must be positive, got {qty}"]
+    if price <= 0:
+        return [f"price must be positive, got {price}"]
     notional = qty * price
     pos = ctx["position"]
     reducing = (side == "sell" and 0 < qty <= pos) or (side == "buy" and 0 < qty <= -pos)
@@ -363,10 +385,10 @@ def check(order: Dict[str, Any], ctx: Dict[str, Any], cfg: Dict[str, Any]) -> Li
     if cfg.get("max_position_usd") is not None and not reducing:
         after = pos + (qty if side == "buy" else -qty)
         grows = abs(after) > abs(pos) or after * pos < 0  # bigger, or flipped to the other side
-        if abs(after) * price > cfg["max_position_usd"] and grows:
+        if _over(abs(after) * price, cfg["max_position_usd"]) and grows:
             reasons.append(f"position would be ${abs(after) * price:,.2f}, above the "
                            f"${cfg['max_position_usd']:,.0f} per-symbol position limit")
-    if cfg.get("max_order_usd") is not None and notional > cfg["max_order_usd"]:
+    if cfg.get("max_order_usd") is not None and _over(notional, cfg["max_order_usd"]):
         reasons.append(f"order is ${notional:,.2f}, above the ${cfg['max_order_usd']:,.0f} single-order limit")
     if not reducing:
         if cfg.get("max_daily_loss_usd") is not None and ctx["loss_today"] >= cfg["max_daily_loss_usd"]:

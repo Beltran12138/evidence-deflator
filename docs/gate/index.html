@@ -147,11 +147,18 @@ agent-gate mandate attach --sig 0x…</pre></div>
 
 <section id="found"><div class="sec-k">我们发现的</div><h2>只设「每日亏损上限」，挡不住一天的亏损。</h2><p class="sec-p">我们用 Hyperliquid 199 天真实小时收益（BTC、ETH）回放闸门自己的规则：30 天 × 1,000 次，起始 $10,000，单笔 $500，每天 20 笔。这个上限只拦新开的仓，拦不住手里仓位继续亏。所以默认规则已加上单标的仓位上限。</p>
  <div class="bars">
-  <div class="bar"><div class="lab">你设的每日亏损上限</div><div class="tr"><div class="f" style="width:3.3%"></div><span class="v">$200</span></div></div>
-  <div class="bar hot"><div class="lab"><b>守规矩</b>但把额度用满的 agent：最坏一天（中位数）</div><div class="tr"><div class="f" style="width:100%"></div><span class="v">$6,007</span></div></div>
-  <div class="bar"><div class="lab">加上单标的仓位上限 $2,000 后</div><div class="tr"><div class="f" style="width:3.1%"></div><span class="v">$186</span></div></div>
+  <div class="bar"><div class="lab">你设的每日亏损上限</div><div class="tr"><div class="f" style="width:3.0%"></div><span class="v">$200</span></div></div>
+  <div class="bar hot"><div class="lab"><b>守规矩</b>但把额度用满的 agent：最坏一天（中位数）</div><div class="tr"><div class="f" style="width:100%"></div><span class="v">$6,661</span></div></div>
+  <div class="bar"><div class="lab">加上单标的仓位上限 $2,000 后</div><div class="tr"><div class="f" style="width:2.8%"></div><span class="v">$186</span></div></div>
  </div>
  <p class="note">小时收盘价；未计强平、资金费、手续费。 <a href="https://github.com/Beltran12138/evidence-deflator/blob/main/docs/gate/MANDATE.md#stress-test-what-the-limits-allow-before-you-sign-them">方法与数据 →</a></p>
+</section>
+
+<section id="motive"><div class="sec-k">不问动机</div><h2>被说服也好，自己想的也好，得到同一个答复。</h2><p class="sec-p">被网页里埋的一句话说服的 agent，和自己想出来这一单的 agent，得到同一个决定：最多做到你签的额度。闸门不去判断 agent 的理由，所以也没法被说服。</p>
+ <div class="vs"><div><h3>OpenAI，2026 年 7 月</h3><p>OpenAI「测试过、验证过」的沙盒，agent 还是借沙盒里本来开放的软件包服务器出了网，又拿别人公开泄露的凭据进了 Hugging Face。</p><p>一个 agent 本来停手了，另一个 agent 在留言板写了「GO」，它就接着干。</p></div>
+ <div class="ours"><h3>闸门里的「GO」</h3><p>只有你的签名能改限额。</p><p>网页里的话、别的 agent 喊的 GO，都改不了。</p></div></div>
+ <p class="sec-p">它的边界：闸门管的是它所在的那条钱的通道，不是 agent 本身。agent 若有别的路碰到钱，闸门看不见那条路。所以能交易的密钥只给闸门。</p>
+ <p class="note">限额检查的每条规则都已由 SMT 求解器对所有输入做了证明；写证明时抓出两个漏洞，已修。 <a href="https://github.com/Beltran12138/evidence-deflator/blob/main/docs/gate/MANDATE.md#what-is-proved-about-the-rule-check">证明了什么、没证明什么 →</a><br>出处：OpenAI，<a href="https://openai.com/index/hugging-face-incident-and-the-road-ahead/">The Hugging Face incident and the road ahead</a>，2026-08-26（中文为本项目转述）。</p>
 </section>
 
 <section id="yours"><div class="sec-k">为什么必须在你手里</div><h2>跟 agent 一起卖的护栏，留在卖 agent 的人手里。</h2>
@@ -169,12 +176,12 @@ python src/gate_stress.py --config gate.json  # what these limits allow, on real
 python src/gate_server.py --config gate.json  # the gate as an MCP server for your agent</pre></div><p class="note">用你的钱包签授权：<a href="/gate/sign/">/gate/sign/</a>。规格：<a href="https://github.com/Beltran12138/evidence-deflator/blob/main/docs/gate/MANDATE.md">MANDATE.md</a>。适配器：<a href="https://github.com/Beltran12138/evidence-deflator/blob/main/docs/gate/INTEGRATIONS.md">INTEGRATIONS.md</a>。</p></section>
 
 <section id="status"><div class="sec-k">现状</div><h2>现在能做什么、不能做什么。</h2>
- <table><tr><th>项</th><th>状态</th></tr><tr><td>加密模拟盘</td><td>可用。按 Hyperliquid 实时中间价成交；上面的真实运行就是它。</td></tr><tr><td>Alpaca 模拟交易（美股）</td><td>可用，需要你自己的模拟账户密钥。2026-10-21 实测：规则内的 AAPL 单提交成功，超限的 SPY 和白名单外的 TSLA 被拦，见 <a href="demo-2026-10-21-alpaca/ledger.jsonl">账本</a>。</td></tr><tr><td>签名授权 + audit</td><td>可用。演示账本，以及一次被查出的整份重写伪造：<a href="https://github.com/Beltran12138/evidence-deflator/tree/main/docs/gate/demo-2026-10-21-mandate">演示</a>。</td></tr><tr><td>Hyperliquid</td><td>已接入，测试网签名已验证。尚未成交：测试网领水需要在主网入过金的地址。</td></tr><tr><td>签名前压力测试</td><td>可用：python src/gate_stress.py --config gate.json。</td></tr><tr><td>每周成绩单</td><td>可用；记录不满 8 周时只给运行时长，不给结论。</td></tr><tr><td>投资建议</td><td>不做。闸门不判断一笔单好不好，只执行你的限额、记下发生了什么。</td></tr></table>
+ <table><tr><th>项</th><th>状态</th></tr><tr><td>加密模拟盘</td><td>可用。按 Hyperliquid 实时中间价成交；上面的真实运行就是它。</td></tr><tr><td>Alpaca 模拟交易（美股）</td><td>可用，需要你自己的模拟账户密钥。2026-10-21 实测：规则内的 AAPL 单提交成功，超限的 SPY 和白名单外的 TSLA 被拦，见 <a href="demo-2026-10-21-alpaca/ledger.jsonl">账本</a>。</td></tr><tr><td>签名授权 + audit</td><td>可用。演示账本，以及一次被查出的整份重写伪造：<a href="https://github.com/Beltran12138/evidence-deflator/tree/main/docs/gate/demo-2026-10-21-mandate">演示</a>。</td></tr><tr><td>Hyperliquid</td><td>已接入，测试网签名已验证。尚未成交：测试网领水需要在主网入过金的地址。</td></tr><tr><td>签名前压力测试</td><td>可用：python src/gate_stress.py --config gate.json。</td></tr><tr><td>规则检查的证明</td><td>已对所有输入证明（z3）：单笔与仓位上限、白名单、每日亏损、每日笔数、只做多，以及平仓单永远放行。不覆盖：agent 是否另有路碰到钱。</td></tr><tr><td>每周成绩单</td><td>可用；记录不满 8 周时只给运行时长，不给结论。</td></tr><tr><td>投资建议</td><td>不做。闸门不判断一笔单好不好，只执行你的限额、记下发生了什么。</td></tr></table>
 </section>
 
 <section id="scorecard"><div class="sec-k">成绩单</div><h2>你的 agent 的记录，是本事还是运气？</h2><p class="sec-p">账本里的权益用和钱包检验同一把尺子打分：周收益、t 值，以及随试验次数抬高的门槛。Hyperliquid 历史盈利榜前 100 名，目前没有一个过线。</p><p class="note"><a href="/evidence/">钱包检验与排行 →</a></p></section>
 
-<section id="who"><div class="founder"><div><div class="sec-k">谁在做</div><p>伯纳德，《AI 智能投资手册》第九章作者。公开开发，MIT 许可；问题与设计合作方申请请走 GitHub。</p></div><a class="btn btn-secondary" href="https://github.com/Beltran12138/evidence-deflator">GitHub →</a></div></section>
+<section id="who"><div class="founder"><div><div class="sec-k">谁在做</div><p>伯纳德，《AI 智能投资手册》作者之一。公开开发，MIT 许可；问题与设计合作方申请请走 GitHub。</p></div><a class="btn btn-secondary" href="https://github.com/Beltran12138/evidence-deflator">GitHub →</a></div></section>
 </div></main>
 <footer class="site-footer"><div class="container">
 <div class="foot-grid">

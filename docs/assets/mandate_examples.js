@@ -5,9 +5,16 @@
   var OFF_LIST = ['TSLA', 'NVDA', 'DOGE', 'BTC', 'AAPL', 'QQQ', 'ZZZZ'];
   function r2(x) { return Math.round(x * 100) / 100; }
   function money(x) { return '$' + Math.round(x).toLocaleString('en-US'); }
+  // Same slack as LIMIT_SLACK in src/agent_gate.py: an order sized at the limit can land one float step above it.
+  function over(amount, limit) { return amount > limit * (1 + 1e-9); }
 
   function check(order, ctx, cfg) {
     var reasons = [], sym = order.symbol, side = order.side, qty = order.qty, price = ctx.price;
+    // Same guards as check() in src/agent_gate.py: NaN fails every comparison, a negative qty flips the side.
+    var nums = [qty, price, ctx.position, ctx.loss_today, ctx.orders_today];
+    for (var i = 0; i < nums.length; i++) if (typeof nums[i] !== 'number' || !isFinite(nums[i])) return ['不是有限数值'];
+    if (qty <= 0) return ['数量必须为正'];
+    if (price <= 0) return ['价格必须为正'];
     var notional = qty * price, pos = ctx.position;
     var reducing = (side === 'sell' && qty > 0 && qty <= pos) || (side === 'buy' && qty > 0 && qty <= -pos);
     if (cfg.allow && cfg.allow.length && cfg.allow.indexOf(sym) < 0 && !reducing) reasons.push(sym + ' 不在名单上');
@@ -15,9 +22,9 @@
     if (cfg.max_position_usd != null && !reducing) {
       var after = pos + (side === 'buy' ? qty : -qty);
       var grows = Math.abs(after) > Math.abs(pos) || after * pos < 0;
-      if (Math.abs(after) * price > cfg.max_position_usd && grows) reasons.push('仓位会到 ' + money(Math.abs(after) * price) + '，超过单标的上限 ' + money(cfg.max_position_usd));
+      if (over(Math.abs(after) * price, cfg.max_position_usd) && grows) reasons.push('仓位会到 ' + money(Math.abs(after) * price) + '，超过单标的上限 ' + money(cfg.max_position_usd));
     }
-    if (cfg.max_order_usd != null && notional > cfg.max_order_usd) reasons.push('单笔 ' + money(notional) + '，超过上限 ' + money(cfg.max_order_usd));
+    if (cfg.max_order_usd != null && over(notional, cfg.max_order_usd)) reasons.push('单笔 ' + money(notional) + '，超过上限 ' + money(cfg.max_order_usd));
     if (!reducing) {
       if (cfg.max_daily_loss_usd != null && ctx.loss_today >= cfg.max_daily_loss_usd) reasons.push('今天已亏到上限，只放行减仓');
       if (cfg.max_orders_per_day != null && ctx.orders_today >= cfg.max_orders_per_day) reasons.push('今天笔数已满');

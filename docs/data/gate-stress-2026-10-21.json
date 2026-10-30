@@ -29,14 +29,14 @@
  },
  "as_given": {
   "max_out": {
-   "worst_day_loss_p50": 6006.79,
-   "worst_day_loss_p95": 13656.68,
-   "worst_day_loss_p99": 19251.87,
+   "worst_day_loss_p50": 6660.92,
+   "worst_day_loss_p95": 14979.69,
+   "worst_day_loss_p99": 21079.75,
    "share_of_runs_with_a_day_over_limit": 1.0,
-   "max_drawdown_p50": 13885.94,
-   "max_drawdown_p95": 26417.53,
-   "end_exposure_p50": 194253.79,
-   "end_exposure_p95": 239808.25
+   "max_drawdown_p50": 15353.97,
+   "max_drawdown_p95": 28883.48,
+   "end_exposure_p50": 216225.22,
+   "end_exposure_p95": 265490.9
   },
   "random": {
    "worst_day_loss_p50": 229.22,
@@ -51,14 +51,14 @@
  },
  "with_position_cap": {
   "max_out": {
-   "worst_day_loss_p50": 185.97,
-   "worst_day_loss_p95": 389.26,
-   "worst_day_loss_p99": 458.66,
-   "share_of_runs_with_a_day_over_limit": 0.424,
-   "max_drawdown_p50": 474.21,
-   "max_drawdown_p95": 869.24,
-   "end_exposure_p50": 4072.34,
-   "end_exposure_p95": 4921.76
+   "worst_day_loss_p50": 186.04,
+   "worst_day_loss_p95": 389.51,
+   "worst_day_loss_p99": 458.24,
+   "share_of_runs_with_a_day_over_limit": 0.426,
+   "max_drawdown_p50": 473.92,
+   "max_drawdown_p95": 873.89,
+   "end_exposure_p50": 4080.88,
+   "end_exposure_p95": 4937.63
   },
   "random": {
    "worst_day_loss_p50": 94.56,

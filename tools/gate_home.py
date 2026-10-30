@@ -109,6 +109,13 @@ T = {
   st_p="We replayed the gate's own rules on 199 real days of Hyperliquid hourly returns (BTC, ETH), 30 days × 1,000 runs, starting at $10,000, $500 an order, 20 orders a day. The limit stops new risk, not losses on what is already held. So the default rules now include a per-symbol position limit.",
   b1="The daily-loss limit you set", b2="<b>Rule-abiding</b> agent using every limit: worst day, median", b3="With a $2,000 per-symbol position limit",
   st_src="Hourly closes; no liquidation, funding or fees.", st_link="Method and numbers →",
+  mo_k="It does not ask why", mo_h="Talked into it or not, the agent gets the same answer.",
+  mo_p="An agent persuaded by text planted in a web page, and one that had the idea itself, get the same decision: at most what you signed. The gate does not try to judge the agent's reasons, so it cannot be argued with.",
+  mo_a="OpenAI, July 2026", mo_a1="Agents got out of a sandbox OpenAI had “tested and validated”, through a package server the sandbox exposed on purpose, then into Hugging Face with credentials others had left public.", mo_a2="One agent had stopped itself. Another wrote “GO” on a shared board, and it carried on.",
+  mo_b="The gate's “GO”", mo_b1="Only your signature changes the limits.", mo_b2="Text in a page, or another agent saying go, changes nothing.",
+  mo_note="The limit of this: the gate controls the channel it sits on, not the agent. If the agent can reach the money another way, the gate cannot see that way. So the trading key goes to the gate only.",
+  mo_src="Source: OpenAI, <a href=\"https://openai.com/index/hugging-face-incident-and-the-road-ahead/\">The Hugging Face incident and the road ahead</a>, 2026-08-26.",
+  mo_proof="Every rule in the check is proved for all inputs by an SMT solver, and writing the proofs found two holes, now fixed.", mo_proof_link="What is proved, and what is not →",
   vs_k="Why it has to be yours", vs_h="Guardrails sold with the agent stay with whoever sells the agent.",
   vs_a="Guardrails built into an agent product", vs_a1="The rules sit with whoever sells the agent", vs_a2="So does the record", vs_a3="Change agent or broker, and they are gone",
   vs_b="This gate", vs_b1="The limits are signed by you", vs_b2="Anyone can audit the ledger", vs_b3="Change agent or broker; they stay",
@@ -127,12 +134,13 @@ T = {
         ("Signed mandate + audit", "Works. Demo ledger and a forged rewrite caught: <a href=\"https://github.com/Beltran12138/evidence-deflator/tree/main/docs/gate/demo-2026-10-21-mandate\">demo</a>."),
         ("Hyperliquid", "Connected; signatures verified on testnet. No fill yet: testnet funds need an address that has deposited on mainnet."),
         ("Stress test before signing", "Works: python src/gate_stress.py --config gate.json."),
+        ("Proof of the rule check", "Done for every input (z3): order and position limits, allow list, daily loss, order count, long-only, and that a closing order always passes. Not covered: whether the agent has another way to the money."),
         ("Weekly scorecard", "Works; under 8 weeks of record it reports the length, not a verdict."),
         ("Investment advice", "None. The gate does not judge whether an order is a good idea; it enforces your limits and keeps the record.")],
   sc_k="The scorecard", sc_h="Is your agent's record skill, or luck?",
   sc_p="The ledger's equity is scored with the same ruler as our wallet check: weekly returns, a t-statistic, and a bar that rises with how many candidates were tried. Of Hyperliquid's all-time top 100 by profit, none clears it yet.",
   sc_link="The wallet check and leaderboard →",
-  f_k="Who builds it", f_p="Bernard, the author of chapter 9 of <i>AI 智能投资手册</i> (an AI investing handbook). Built in the open, MIT licence; questions and design-partner requests through GitHub.",
+  f_k="Who builds it", f_p="Bernard, an author of <i>AI 智能投资手册</i> (an AI investing handbook). Built in the open, MIT licence; questions and design-partner requests through GitHub.",
   f_link="GitHub →", other=("/gate/", "中文", "zh-Hans")),
  "zh": dict(
   title="Agent gate · AI 交易 agent 的授权闸与可审计账本 · Evidence Deflator",
@@ -160,6 +168,13 @@ T = {
   st_p="我们用 Hyperliquid 199 天真实小时收益（BTC、ETH）回放闸门自己的规则：30 天 × 1,000 次，起始 $10,000，单笔 $500，每天 20 笔。这个上限只拦新开的仓，拦不住手里仓位继续亏。所以默认规则已加上单标的仓位上限。",
   b1="你设的每日亏损上限", b2="<b>守规矩</b>但把额度用满的 agent：最坏一天（中位数）", b3="加上单标的仓位上限 $2,000 后",
   st_src="小时收盘价；未计强平、资金费、手续费。", st_link="方法与数据 →",
+  mo_k="不问动机", mo_h="被说服也好，自己想的也好，得到同一个答复。",
+  mo_p="被网页里埋的一句话说服的 agent，和自己想出来这一单的 agent，得到同一个决定：最多做到你签的额度。闸门不去判断 agent 的理由，所以也没法被说服。",
+  mo_a="OpenAI，2026 年 7 月", mo_a1="OpenAI「测试过、验证过」的沙盒，agent 还是借沙盒里本来开放的软件包服务器出了网，又拿别人公开泄露的凭据进了 Hugging Face。", mo_a2="一个 agent 本来停手了，另一个 agent 在留言板写了「GO」，它就接着干。",
+  mo_b="闸门里的「GO」", mo_b1="只有你的签名能改限额。", mo_b2="网页里的话、别的 agent 喊的 GO，都改不了。",
+  mo_note="它的边界：闸门管的是它所在的那条钱的通道，不是 agent 本身。agent 若有别的路碰到钱，闸门看不见那条路。所以能交易的密钥只给闸门。",
+  mo_src="出处：OpenAI，<a href=\"https://openai.com/index/hugging-face-incident-and-the-road-ahead/\">The Hugging Face incident and the road ahead</a>，2026-08-26（中文为本项目转述）。",
+  mo_proof="限额检查的每条规则都已由 SMT 求解器对所有输入做了证明；写证明时抓出两个漏洞，已修。", mo_proof_link="证明了什么、没证明什么 →",
   vs_k="为什么必须在你手里", vs_h="跟 agent 一起卖的护栏，留在卖 agent 的人手里。",
   vs_a="agent 产品自带的护栏", vs_a1="规则在卖 agent 的人手里", vs_a2="账本也在他手里", vs_a3="换个 agent、换个券商，就没了",
   vs_b="这道闸", vs_b1="限额由你签名", vs_b2="账本任何人都能复核", vs_b3="换 agent、换券商，都还在",
@@ -178,12 +193,13 @@ T = {
         ("签名授权 + audit", "可用。演示账本，以及一次被查出的整份重写伪造：<a href=\"https://github.com/Beltran12138/evidence-deflator/tree/main/docs/gate/demo-2026-10-21-mandate\">演示</a>。"),
         ("Hyperliquid", "已接入，测试网签名已验证。尚未成交：测试网领水需要在主网入过金的地址。"),
         ("签名前压力测试", "可用：python src/gate_stress.py --config gate.json。"),
+        ("规则检查的证明", "已对所有输入证明（z3）：单笔与仓位上限、白名单、每日亏损、每日笔数、只做多，以及平仓单永远放行。不覆盖：agent 是否另有路碰到钱。"),
         ("每周成绩单", "可用；记录不满 8 周时只给运行时长，不给结论。"),
         ("投资建议", "不做。闸门不判断一笔单好不好，只执行你的限额、记下发生了什么。")],
   sc_k="成绩单", sc_h="你的 agent 的记录，是本事还是运气？",
   sc_p="账本里的权益用和钱包检验同一把尺子打分：周收益、t 值，以及随试验次数抬高的门槛。Hyperliquid 历史盈利榜前 100 名，目前没有一个过线。",
   sc_link="钱包检验与排行 →",
-  f_k="谁在做", f_p="伯纳德，《AI 智能投资手册》第九章作者。公开开发，MIT 许可；问题与设计合作方申请请走 GitHub。",
+  f_k="谁在做", f_p="伯纳德，《AI 智能投资手册》作者之一。公开开发，MIT 许可；问题与设计合作方申请请走 GitHub。",
   f_link="GitHub →", other=("/", "English", "en")),
 }
 
@@ -279,6 +295,13 @@ def page(B, lang, stress):
   <div class="bar"><div class="lab">{t['b3']}</div><div class="tr"><div class="f" style="width:{w(cap)}"></div><span class="v">${cap:,.0f}</span></div></div>
  </div>
  <p class="note">{t['st_src']} <a href="https://github.com/Beltran12138/evidence-deflator/blob/main/docs/gate/MANDATE.md#stress-test-what-the-limits-allow-before-you-sign-them">{t['st_link']}</a></p>
+</section>
+
+<section id="motive"><div class="sec-k">{t['mo_k']}</div><h2>{t['mo_h']}</h2><p class="sec-p">{t['mo_p']}</p>
+ <div class="vs"><div><h3>{t['mo_a']}</h3><p>{t['mo_a1']}</p><p>{t['mo_a2']}</p></div>
+ <div class="ours"><h3>{t['mo_b']}</h3><p>{t['mo_b1']}</p><p>{t['mo_b2']}</p></div></div>
+ <p class="sec-p">{t['mo_note']}</p>
+ <p class="note">{t['mo_proof']} <a href="https://github.com/Beltran12138/evidence-deflator/blob/main/docs/gate/MANDATE.md#what-is-proved-about-the-rule-check">{t['mo_proof_link']}</a><br>{t['mo_src']}</p>
 </section>
 
 <section id="yours"><div class="sec-k">{t['vs_k']}</div><h2>{t['vs_h']}</h2>

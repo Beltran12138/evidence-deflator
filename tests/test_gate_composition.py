@@ -22,7 +22,8 @@ and one property in the other direction (iFixAi's "the legitimate path must stay
 
 The search is bounded (a depth and a cap on distinct states, as Policy Lab's is). A clean run says no
 visited sequence breaks a rule; it does not say no sequence can. The two negative controls plant a hole
-and check that the search finds it.
+and check that the search finds it. tests/test_gate_proof.py proves the step properties of ``check`` for
+every input; this search stays because it runs the real Gate, ledger and broker, which the proof does not.
 """
 import copy
 import os
