@@ -83,7 +83,7 @@ label{display:block;font:500 12px var(--mono);letter-spacing:.08em;color:var(--m
 <label for="msg">要签的文字</label>
 <textarea id="msg" spellcheck="false" placeholder="Trading mandate v0 (evidencedeflator.com/gate/mandate)&#10;{&quot;agent&quot;:&quot;0x…&quot;, …}"></textarea>
 <div class="out" id="preview"></div>
-<div id="ex" hidden><label>签名前，逐条确认闸门会怎么处理这些单</label><p class="note" style="margin-top:0">由代码根据上面的授权算出，不是 AI 猜的。哪一条和你想的不一样，就说明授权写错了：先改，再签。</p><ol id="exlist"></ol></div>
+<div id="ex" hidden><label>签名前，逐条确认闸门会怎么处理这些单</label><p class="note" style="margin-top:0">由代码根据上面的授权算出，不是 AI 猜的。哪一条和你想的不一样，就说明授权写错了：先改，再签。Anthropic 的 agent 交易实验发现，损失主要来自 agent 没理解它代表的人，而不是议价，并建议先给人看几个样例决定再放手（<a href="https://www.anthropic.com/research/project-swap">Project Swap</a>）。</p><ol id="exlist"></ol></div>
 <button id="signm" disabled>用钱包签名（personal_sign）</button>
 <label>签名，复制后运行 <code>agent-gate mandate attach --sig …</code></label>
 <div class="out" id="sig"></div>

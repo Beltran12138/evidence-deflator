@@ -69,6 +69,8 @@ The signed file is `{"mandate": <document>, "sig": {"scheme": "eip191", "signatu
 
 v0 uses `personal_sign` and not EIP-712 typed data because every wallet supports it and the text the wallet shows is the document itself. The cost is that wallets show raw JSON rather than labelled fields. The sign page (`/gate/sign/`) puts a labelled preview next to it.
 
+Before the owner signs, the sign page (and `mandate examples` on the command line) lists concrete orders and what the gate would do with each, computed by code from the draft, not by a model. If one of them is not what the owner meant, the mandate says something other than what they meant, and they fix it before signing. Anthropic's Project Swap found the same weak point from the other side: in its agent-run book market, most of the lost value came from the agent misreading what its person wanted (−0.29 from a best possible 0.89), not from agents bargaining with each other (−0.05). It proposes the same remedy, an agent that can "show a person a few sample decisions it would make before being trusted to act on its own" ([Anthropic, 2026-09-24](https://www.anthropic.com/research/project-swap)).
+
 Revocation is a second signed text, `<header>revoke <id> at <UTC time>`, saved next to the mandate as `mandate.json.revoked`. From then on the gate refuses every order under that mandate and records the revocation in the ledger. A revocation signed by anyone other than the issuer is ignored. Issuers with a local key run `mandate revoke --key …`; wallet issuers run `mandate revoke-text`, sign the two lines it prints (section 3 of `/gate/sign/`), and `mandate revoke-attach --sig …`, which checks the signature recovers to the issuer before saving.
 
 ## What the gate adds to the ledger
