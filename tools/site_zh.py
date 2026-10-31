@@ -80,7 +80,7 @@ def footer(B, P, scripts=""):
 <div class="foot-grid">
  <div><a class="brand" href="{P}">{B.MARK}Evidence Deflator</a>
   <p style="margin-top:14px;max-width:340px">交易战绩是实力还是运气？开源的证据检验工具，看一份记录里有多少算数。</p></div>
- <div><h4>产品</h4><ul><li><a href="{P}">查 Hyperliquid 钱包</a></li><li><a href="/polymarket/">查 Polymarket 钱包（英文）</a></li><li><a href="{B.TG_BOT}">Telegram 机器人</a></li><li><a href="{B.EXT_URL}">Chrome 插件</a></li><li><a href="/audits/">审计（英文）</a></li><li><a href="{P}api/">API 与 MCP</a></li><li><a href="{P}memo/sample/">评估报告样例</a></li><li><a href="{P}method/">方法</a></li><li><a href="/">英文版首页</a></li></ul></div>
+ <div><h4>产品</h4><ul><li><a href="{P}">查 Hyperliquid 钱包</a></li><li><a href="/polymarket/">查 Polymarket 钱包（英文）</a></li><li><a href="{B.CHATGPT_URL}">ChatGPT 插件</a></li><li><a href="{B.TG_BOT}">Telegram 机器人</a></li><li><a href="{B.EXT_URL}">Chrome 插件</a></li><li><a href="/audits/">审计（英文）</a></li><li><a href="{P}api/">API 与 MCP</a></li><li><a href="{P}memo/sample/">评估报告样例</a></li><li><a href="{P}method/">方法</a></li><li><a href="/">英文版首页</a></li></ul></div>
  <div><h4>问题</h4><ul>{qs}</ul></div>
  <div><h4>项目</h4><ul><li><a href="{P}record/">我们的记分</a></li><li><a href="{B.REPO}">GitHub</a></li><li><a href="/privacy/">隐私（英文）</a></li><li><a href="/terms/">条款（英文）</a></li></ul></div>
 </div>
@@ -226,7 +226,7 @@ def wallet_page(B, hl, lang):
   <button class="btn btn-primary" type="submit">检验 <span class="arr">→</span></button>
  </form>
  <div class="wex muted small">试试：{ex}</div>
- <p class="muted small elsewhere">也可以在 <a href="{B.TG_BOT}" rel="noopener">Telegram 上用 @SkillOrLuckBot</a>（发地址，回结论），或装 <a href="{B.EXT_URL}" rel="noopener">Chrome 插件</a>，在 Hyperliquid、Binance 和 OKX 跟单页面上直接显示结论。</p>
+ <p class="muted small elsewhere">也可以在 <a href="{B.CHATGPT_URL}" rel="noopener">ChatGPT 里装插件</a>（在对话里问钱包），在 <a href="{B.TG_BOT}" rel="noopener">Telegram 上用 @SkillOrLuckBot</a>（发地址，回结论），或装 <a href="{B.EXT_URL}" rel="noopener">Chrome 插件</a>，在 Hyperliquid、Binance 和 OKX 跟单页面上直接显示结论。</p>
  <p class="small" style="margin-top:6px">手上是一段业绩宣称，不是地址？<a href="{P}claim/">贴宣称原文 →</a></p>
  <p class="small" style="margin-top:6px">在做或在评估 AI 交易 agent？它跑了 N 次回测，<a href="{P}agent/">最好的那个还值多少 →</a></p>
  <p class="muted small" style="margin-top:6px">准备把钱交给某个交易员或金库？看看<a href="{P}memo/sample/">一页评估报告样例</a>（以 HLP 金库为例）。</p>

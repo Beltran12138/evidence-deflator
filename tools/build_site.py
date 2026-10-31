@@ -20,7 +20,8 @@ SITE = "https://evidencedeflator.com"
 REPO = "https://github.com/Beltran12138/evidence-deflator"
 TG_BOT = "https://t.me/SkillOrLuckBot"
 EXT_URL = "https://chromewebstore.google.com/detail/evidence-deflator/fbhanjlioldbpgmncefioidcpkdhjbhn"
-ELSEWHERE_EN = (f'<p class="muted small elsewhere">Also on <a href="{TG_BOT}" rel="noopener">Telegram, @SkillOrLuckBot</a> (send an address, get the verdict), '
+CHATGPT_URL = "https://chatgpt.com/plugins/plugin_asdk_app_6acfbf9acf4c8191b0ad33925e2eb189"  # published 2026-10-31
+ELSEWHERE_EN = (f'<p class="muted small elsewhere">Also <a href="{CHATGPT_URL}" rel="noopener">in ChatGPT as a plugin</a> (ask about a wallet in a chat), on <a href="{TG_BOT}" rel="noopener">Telegram, @SkillOrLuckBot</a> (send an address, get the verdict), '
                 f'and as a <a href="{EXT_URL}" rel="noopener">Chrome extension</a> that shows it on Hyperliquid, Binance and OKX copy-trading pages.</p>')
 ISSUE_AUDIT = REPO + "/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A"
 with open(os.path.join(ROOT, "pyproject.toml"), encoding="utf-8") as _f:  # the published package's version
@@ -121,7 +122,7 @@ def footer(scripts=""):
 <div class="foot-grid">
  <div><a class="brand" href="/">{MARK}Evidence Deflator</a>
   <p style="margin-top:14px;max-width:340px">Whether a trading record can be told apart from luck, once you allow for how it was picked. Open source.</p></div>
- <div><h4>Product</h4><ul><li><a href="/wallet/">Hyperliquid check</a></li><li><a href="/polymarket/">Polymarket check</a></li><li><a href="{TG_BOT}">Telegram bot</a></li><li><a href="{EXT_URL}">Chrome extension</a></li><li><a href="/audits/">Audits</a></li><li><a href="/leaderboard/">AI trading leaderboard</a></li><li><a href="/check/">Check a backtest</a></li><li><a href="/api/">API and MCP</a></li></ul></div>
+ <div><h4>Product</h4><ul><li><a href="/wallet/">Hyperliquid check</a></li><li><a href="/polymarket/">Polymarket check</a></li><li><a href="{CHATGPT_URL}">ChatGPT plugin</a></li><li><a href="{TG_BOT}">Telegram bot</a></li><li><a href="{EXT_URL}">Chrome extension</a></li><li><a href="/audits/">Audits</a></li><li><a href="/leaderboard/">AI trading leaderboard</a></li><li><a href="/check/">Check a backtest</a></li><li><a href="/api/">API and MCP</a></li></ul></div>
  <div><h4>Method</h4><ul><li><a href="/method/">How it works</a></li><li><a href="/method/#principles">Principles</a></li><li><a href="/q/hyperliquid-trader-skill-or-luck/">Skill or luck?</a></li><li><a href="/q/how-many-months-of-backtest/">How many months?</a></li><li><a href="/q/why-leaderboard-winner-is-not-evidence/">Why #1 is not evidence</a></li><li><a href="/leaderboard/2026-10.json">Data (JSON)</a></li></ul></div>
  <div><h4>Project</h4><ul><li><a href="{REPO}">GitHub</a></li><li><a href="https://pypi.org/project/evidence-deflator/">PyPI</a></li><li><a href="/record/">Our record</a></li><li><a href="/memo/sample/">Sample memo</a></li><li><a href="{ISSUE_AUDIT}">Request an audit</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
 </div>
@@ -1051,7 +1052,8 @@ def build_api():
 <h2 id="remote">Hosted: wallet check over HTTP and MCP</h2>
 <p>For a Hyperliquid wallet there is nothing to install. The hosted endpoint fetches the public history and scores it with the same code the <a href="/wallet/">wallet page</a> runs in your browser.</p>
 <pre class="code solo">curl <span class="s">"https://api.evidencedeflator.com/api/wallet?a=0xADDRESS&amp;picked_from=47153"</span></pre>
-<p>Remote MCP (Streamable HTTP, no key): add <code>https://api.evidencedeflator.com/mcp</code> as a connector in Claude, ChatGPT, Cursor or any MCP client. It exposes one tool, <code>hyperliquid_wallet(address, picked_from)</code>. In Claude Code:</p>
+<p>In ChatGPT: install the <a href="{CHATGPT_URL}">Evidence Deflator plugin</a> from the plugin directory, then ask about a Hyperliquid wallet in any chat.</p>
+<p>Remote MCP (Streamable HTTP, no key): add <code>https://api.evidencedeflator.com/mcp</code> as a connector in Claude, Cursor or any MCP client. It exposes one tool, <code>hyperliquid_wallet(address, picked_from)</code>. In Claude Code:</p>
 <pre class="code solo">claude mcp add --transport http evidence-deflator https://api.evidencedeflator.com/mcp</pre>
 <p>Or install the Claude Code plugin, which adds the same tool, a skill that tells the agent how to report the verdict, and a hook that counts every backtest it runs:</p>
 <pre class="code solo">/plugin marketplace add Beltran12138/evidence-deflator
