@@ -1665,17 +1665,18 @@ def build_questions():
 # ---------------------------------------------------------------- privacy, terms
 
 LEGAL_UPDATED = "2026-10-17"
+PRIVACY_UPDATED = "2026-10-31"  # MCP tallies gained the calling software's name
 
 
 def build_legal():
     issues = REPO + "/issues"
     pages = {
         "privacy": ("Privacy", "What Evidence Deflator collects: no accounts, no cookies, no stored wallet addresses.", f"""
-<p class="lede" style="margin-top:14px">No accounts, no cookies, no stored wallet addresses. Last updated {LEGAL_UPDATED}.</p>
+<p class="lede" style="margin-top:14px">No accounts, no cookies, no stored wallet addresses. Last updated {PRIVACY_UPDATED}.</p>
 <h2>The website (evidencedeflator.com)</h2>
 <p>Static pages hosted on GitHub Pages behind Cloudflare. We count page views with Cloudflare Web Analytics, which sets no cookies and does not identify you. When you check a wallet on the site, your browser asks Hyperliquid’s public API for that wallet’s history directly; the address is not sent to us. After a verdict is shown, the page sends our API one tally that says only “a check was done” and the page language, so we can count daily checks. A click from a result to the sample memo, or to request one, adds the same kind of tally. If you visit a page with <code>?team=1</code>, your browser keeps a flag (in local storage, not a cookie) that marks its tallies as our own testing; it is meant for us, and <code>?team=0</code> removes it.</p>
 <h2>The API and MCP server (api.evidencedeflator.com)</h2>
-<p>When you or your AI assistant call the API or the MCP tool, the request carries a wallet address and, optionally, a number. Our server, a Cloudflare Worker, forwards the address to Hyperliquid’s public info API to fetch that wallet’s history, scores it, and returns the result. We do not store the address or the result, and we have not turned on request logging for the Worker. Each completed check adds one tally to a daily count (whether it came from the API or the MCP tool), without the address or anything about the caller. Cloudflare, which runs the Worker, processes requests (including your IP address) under its own privacy policy. Hyperliquid receives the address under its own terms.</p>
+<p>When you or your AI assistant call the API or the MCP tool, the request carries a wallet address and, optionally, a number. Our server, a Cloudflare Worker, forwards the address to Hyperliquid’s public info API to fetch that wallet’s history, scores it, and returns the result. We do not store the address or the result, and we have not turned on request logging for the Worker. Each completed check adds one tally to a daily count (whether it came from the API or the MCP tool), without the address or anything about the person calling. For MCP calls the tally also records the name of the calling software, the first word of its User-Agent header (for example <code>openai-mcp</code>), so we can tell which assistants use the tool; no version, platform details or IP address are kept. Cloudflare, which runs the Worker, processes requests (including your IP address) under its own privacy policy. Hyperliquid receives the address under its own terms.</p>
 <p>A wallet address on a public blockchain is public data. Do not send anything else; the tool does not need it.</p>
 <h2>The Telegram bot and the Chrome extension</h2>
 <p>The Telegram bot receives the messages you send it through Telegram, which processes them under its own privacy policy. The Worker above reads the address in your message, checks it the same way, replies, and keeps nothing: not the message, not your chat or user ID. Each check adds one tally to the daily count.</p>

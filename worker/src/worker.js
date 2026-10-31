@@ -102,14 +102,23 @@ const json = (body, status = 200) =>
 // One data point per completed check, for a daily count: which surface ran it and, for the web
 // page, its language. 'memo' / 'ask' are clicks from a result to the sample memo / to request one. src is 'team'
 // when the browser was marked as ours (visit any page with ?team=1), so our own testing can be
-// subtracted. No address, no IP, nothing about the caller (see /privacy/).
+// subtracted. MCP checks also carry the calling software's name (clientName below). No address, no IP,
+// nothing about the person calling (see /privacy/).
 const KINDS = new Set(['web', 'pm', 'memo', 'ask', 'api', 'mcp', 'tg']), LANGS = new Set(['en', 'zh-hans', 'zh-hant', '']), SRCS = new Set(['', 'team']);
-function count(env, kind, lang = '', src = '') {
+function count(env, kind, lang = '', src = '', client = '') {
   if (!env.COUNTS || !KINDS.has(kind) || !LANGS.has(lang) || !SRCS.has(src)) return;
-  try { env.COUNTS.writeDataPoint({blobs: [kind, lang, src], doubles: [1], indexes: [kind]}); } catch {}
+  try { env.COUNTS.writeDataPoint({blobs: [kind, lang, src, client], doubles: [1], indexes: [kind]}); } catch {}
 }
 
-async function rpc(msg, env = {}) {
+// For MCP checks only: the calling software's name, the first word of its User-Agent ("openai-mcp/1.0
+// (...)" -> "openai-mcp"), so ChatGPT and Claude calls can be told apart. A product name, not a person:
+// no version, no platform details, no IP.
+function clientName(request) {
+  const first = (request.headers.get('user-agent') || '').trim().split(/[\s/;(]/)[0] || '';
+  return first.toLowerCase().replace(/[^a-z0-9._-]/g, '').slice(0, 32) || 'none';
+}
+
+async function rpc(msg, env = {}, client = '') {
   const {id, method, params} = msg;
   const ok = result => ({jsonrpc: '2.0', id, result});
   const err = (code, message) => ({jsonrpc: '2.0', id, error: {code, message}});
@@ -124,7 +133,7 @@ async function rpc(msg, env = {}) {
     const a = params.arguments || {};
     try {
       const r = await walletFromApi(a.address, a.picked_from);
-      count(env, 'mcp');
+      count(env, 'mcp', '', '', client);
       return ok({content: [{type: 'text', text: JSON.stringify(r, null, 2)}], structuredContent: r, isError: false});
     } catch (e) {
       return ok({content: [{type: 'text', text: String(e.message || e)}], isError: true});
@@ -225,7 +234,8 @@ async function handle(request, env = {}) {
     try { body = await request.json(); } catch { return json({jsonrpc: '2.0', id: null, error: {code: -32700, message: 'parse error'}}, 400); }
     const batch = Array.isArray(body) ? body : [body];
     const replies = [];
-    for (const m of batch) if (m && m.id !== undefined && m.method) replies.push(await rpc(m, env));
+    const client = clientName(request);
+    for (const m of batch) if (m && m.id !== undefined && m.method) replies.push(await rpc(m, env, client));
     if (!replies.length) return new Response(null, {status: 202, headers: CORS});  // notifications only
     return json(Array.isArray(body) ? replies : replies[0]);
   }
