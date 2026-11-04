@@ -43,6 +43,33 @@ Per month with at least 30 eligible vaults: Spearman correlations, and the parti
 - Leader deposits: the history cannot separate the leader's own money from followers', so a leader topping up after a good month counts as a flow.
 - Incentive programmes, points and referral campaigns move deposits for reasons unrelated to the record; they add noise, not a known bias.
 
+## Amendment 1 (2026-11-03, before any outcome was computed)
+
+**What changed.** The rough-interval rule in "Data" (leave a vault out at t if more than 10% of its intervals up to t carry money movement larger than a quarter of capital) no longer applies to the primary test. The primary test uses every vault that meets the other eligibility rules. The original rule is kept as a sensitivity run, reported next to the primary one with the same statistics; the decision is taken on the primary run only. Nothing else changes: θ = 0.10, the 300-observation minimum, the 30-per-month minimum, both controls, the seed and the deadline.
+
+**What was seen before the change.** Only eligibility counts, no correlation of any kind. A smoke test of `tools/vault_flow_test.py` on the first 127 fetched vaults gave 3 eligible month-vaults out of 2,667 (2,380 below $50k, 263 outside the vault's history, 14 rough, 7 under 8 weeks). On the 52 normal vaults among the 60 largest (details already saved under `vault-gap/2026-11-03/details/`), the rule left out 365 of the 557 month-vaults that met the size and 8-week rules, leaving 192, with at most 24 in any month: below both minimums. Without the rule the same vaults give 557, 40 to 51 a month; with the threshold at 0.25 instead of 0.10, 472.
+
+**Why.** The rule was carried over from the depositor-gap tool, where it protects a curve reconstruction. Here the outcome is the flow itself, and the rule removes exactly the vaults whose money moved most: it selects on something close to the outcome, which would bias the test toward finding no effect, and it would leave the test underpowered by construction. F is computed from account value and PnL at two interpolated points and does not depend on the curve; R and S are noisier for rough vaults but not biased in a known direction.
+
+**Also recorded.** The fetch skips vaults created after 2026-08-05: they cannot have 8 weeks of record by the last month-end (2026-09-30), so they could never be eligible. This removes no observation.
+
 ## Results
 
-(Empty until the run.)
+Run 2026-11-04 with `tools/vault_flow_test.py` on `vault-flow/2026-11-03/histories.jsonl` (9,459 vaults: every normal vault created by 2026-08-05; fetched 2026-11-03 to 11-04, no failures left, no duplicates). Full output in `vault-flow/2026-11-03/results.json`.
+
+**Decision: no conclusion. The positive control failed.** Mean ρ(F, R) = 0.045, 95% interval −0.002 to 0.091: the interval touches 0, so the pre-registered pipeline check is not passed and test 2 is not read for a decision.
+
+| Primary run (Amendment 1) | Value |
+|---|---|
+| Eligible month-vaults | 1,561 (all 21 months used, 33 to 97 a month) |
+| Left out | 175,157 below $50k, 21,396 outside the vault's history, 525 under 8 weeks |
+| ρ(F, R), positive control | 0.045 [−0.002, 0.091] |
+| Partial ρ(F, S \| R), primary | 0.030 [−0.020, 0.085] |
+| Shuffle control for the primary | median −0.001, 95% range −0.055 to 0.053; 13% of shuffles at or above 0.030 |
+| Partial ρ(F, L \| R), secondary | 0.027 [−0.010, 0.070] |
+
+Reported as fixed, not as a decision: had the control passed, the primary would have read "not rewarded" (0.030 < θ = 0.10, interval includes 0), and the upper end of its interval (0.085) is below θ.
+
+Sensitivity run (original rough rule): 375 month-vaults in the 9 months that reach 30 vaults, all from 2026-01 on. ρ(F, R) = −0.015 [−0.143, 0.093], control also failed; partial ρ(F, S | R) = −0.133 [−0.209, −0.060], outside its shuffle range (99.3% of shuffles at or above it). It points the other way from the primary run and rests on a quarter of the sample and the vaults with the least money movement.
+
+**Exploratory, after the result (does not change the decision).** To see why the control failed: flows do not track past return at longer horizons either (mean ρ with 90-day return −0.013, with 180-day return −0.014; 30-day 0.045, positive in 15 of 21 months). Samples in the 90 days before t are a median 7 days apart (90th percentile 14), so the 30-day return rests on about four intervals. Two readings remain open and this data cannot separate them: deposits into Hyperliquid vaults do not follow past performance, or the flow reconstruction (account value minus PnL, interpolated, leader's own money included) is too noisy to show it. The test that separates them is to compare the reconstructed F with exact deposits and withdrawals from each vault's ledger.
