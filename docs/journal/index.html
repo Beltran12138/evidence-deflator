@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Is your trading journal's edge real? · Evidence Deflator</title>
+<meta name="description" content="Load the CSV your trading journal exports and see how much of your record, and of your best setup, could be luck. The file stays in your browser.">
+<!-- site-head -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='4' fill='%2315171C'/%3E%3Crect x='3' y='4' width='18' height='2' fill='%23E66A4B'/%3E%3Crect x='4.5' y='13' width='3' height='7' fill='%23FAF9F6'/%3E%3Crect x='9.5' y='9.5' width='3' height='10.5' fill='%23FAF9F6'/%3E%3Crect x='14.5' y='15' width='3' height='5' fill='%23FAF9F6'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://evidencedeflator.com/journal/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+<link rel="stylesheet" href="/assets/chrome.css">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e38b718917cf4c2891f9038a6a597a88", "spa": true}'></script>
+<!-- /site-head -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans),sans-serif;-webkit-font-smoothing:antialiased;padding:0 0 80px;line-height:1.6}
+.wrap{max-width:var(--w);margin:0 auto;padding-inline:var(--pad)}
+h1{font-family:var(--serif),serif;font-size:32px;font-weight:600;line-height:1.25}
+h2{font-family:var(--serif),serif;font-size:20px;font-weight:600;margin-bottom:12px}
+.hero{padding:44px 0 26px;border-bottom:1px solid var(--rule)}
+.kicker{font-size:12px;letter-spacing:.16em;color:var(--warn);text-transform:uppercase;margin-bottom:12px}
+.lede{color:var(--muted);margin-top:14px;max-width:68ch;font-size:15.5px}
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:22px;margin-top:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px}
+input,select{width:100%;background:var(--sunk);border:1px solid var(--rule);border-radius:5px;color:var(--ink);padding:9px 10px;font-size:14px;font-family:var(--mono)}
+input[type=file]{font-family:var(--sans);padding:12px}
+.hint{font-size:12px;color:var(--faint);margin-top:5px;line-height:1.5}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin-top:18px}
+.cell{background:var(--surface);padding:16px}
+.cell .k{font-size:11.5px;color:var(--muted);margin-bottom:6px}
+.cell .v{font-size:26px;font-weight:600;font-family:var(--mono);line-height:1.1}
+.verdict{margin-top:18px;border-radius:8px;padding:16px 18px;border:1px solid var(--rule);background:var(--sunk)}
+.verdict b{display:block;font-size:16px;margin-bottom:4px}
+.verdict.bad{background:var(--accent-soft);border-color:var(--accent)}
+.verdict.ok{background:var(--pos-soft);border-color:var(--pos)}
+.tw{overflow-x:auto;margin-top:14px}
+table{width:100%;min-width:460px;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule-2)}
+th{color:var(--muted);font-weight:500;font-size:12px}
+td.n{text-align:right;font-family:var(--mono)}
+.err{color:var(--accent);margin-top:10px;font-size:14px}
+.small{font-size:13px;color:var(--muted)}
+.btn{display:inline-block;margin-top:14px;padding:9px 14px;border:1px solid var(--rule);border-radius:6px;color:var(--ink);text-decoration:none;font-size:14px}
+.btn:hover{border-color:var(--warn)}
+ul.limits{margin-top:8px}ul.limits li{margin:0 0 8px 18px;font-size:13.5px;color:var(--muted)}
+@media(max-width:560px){h1{font-size:25px}.cell .v{font-size:22px}}
+</style>
+</head>
+<body>
+<!-- site-header -->
+<header class="site-header"><div class="container">
+<a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+<nav class="nav" aria-label="Main"><a href="/">Agent gate</a><a href="/wallet/">Check</a><a href="/ranking/">Ranking</a><a href="/audits/">Audits</a><a href="/method/">Method</a><a href="/agent/">AI agents</a><a href="/api/">API</a></nav>
+<div class="header-cta"><button class="theme-toggle" type="button" aria-label="Switch light or dark" title="Light or dark" onclick="edTheme()"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button><a class="gh" href="/zh-hans/" hreflang="zh-Hans" lang="zh-Hans">中文</a><a class="gh" href="https://github.com/Beltran12138/evidence-deflator"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a></div>
+</div></header>
+
+<!-- /site-header -->
+<main class="wrap">
+<section class="hero">
+  <div class="kicker">Trading journal check</div>
+  <h1>Is your journal's edge real?</h1>
+  <p class="lede">Your journal says your best setup is the opening-range breakout, or that Tuesdays are your best day. It found that by comparing every setup, every weekday, every tag. Compare enough slices and one of them will look great by chance. Load the CSV your journal exports and see how much of your record, and of your best slice, luck alone would explain.</p>
+  <p class="hint" style="margin-top:12px">The file is read in your browser and never sent to us. Works with exports from Tradervue, TraderSync, TradeZella, Edgewonk, TradesViz or any CSV with a date column and a profit-and-loss column.</p>
+</section>
+
+<div class="panel">
+  <label for="file"><b>1.</b> Your trades (CSV)</label>
+  <input type="file" id="file" accept=".csv,.txt,text/csv">
+  <div id="err" class="err" hidden></div>
+  <div id="setup" hidden>
+    <div class="grid" style="margin-top:18px">
+      <div><label for="dateCol">Date column (close date if there is one)</label><select id="dateCol"></select></div>
+      <div><label for="pnlCol">Profit and loss column (net of fees if there is one)</label><select id="pnlCol"></select></div>
+      <div><label for="capital">Account size</label><input id="capital" type="number" min="1" step="any" placeholder="e.g. 25000">
+        <div class="hint">Weekly returns are profit over this amount.</div></div>
+      <div><label for="tried">Strategies or accounts you tried before this one</label><input id="tried" type="number" min="1" step="1" value="1">
+        <div class="hint">1 if this is the only one. Be honest; it moves the bar.</div></div>
+      <div><label for="sliceCol">Also check every value of (optional)</label><select id="sliceCol"></select>
+        <div class="hint">A setup, tag, strategy or symbol column: each value is scored on its own.</div></div>
+    </div>
+  </div>
+</div>
+
+<section id="result" hidden>
+  <div class="panel">
+    <h2>Your whole record</h2>
+    <div class="out">
+      <div class="cell"><div class="k">Trades read</div><div class="v" id="oTrades"></div></div>
+      <div class="cell"><div class="k">Weeks (quiet weeks count as 0)</div><div class="v" id="oWeeks"></div></div>
+      <div class="cell"><div class="k">t (bar <span id="oBar"></span>)</div><div class="v" id="oT"></div></div>
+      <div class="cell"><div class="k">Chance a no-edge record looks this good</div><div class="v" id="oLuck"></div></div>
+    </div>
+    <div class="verdict" id="oVerdict"></div>
+    <p class="small" id="oSkipped" style="margin-top:10px"></p>
+  </div>
+
+  <div class="panel" id="sliceBox" hidden>
+    <h2>Your best slice, judged as the best of <span id="sPool"></span></h2>
+    <div class="verdict" id="sVerdict"></div>
+    <div class="tw"><table><thead><tr><th>Value</th><th class="n" style="text-align:right">Trades</th><th class="n" style="text-align:right">P&amp;L</th><th class="n" style="text-align:right">t</th></tr></thead><tbody id="sRows"></tbody></table></div>
+  </div>
+
+  <div class="panel">
+    <h2>Want this inside your journal?</h2>
+    <p class="small">Tell us which journal you use and what you would want checked. One line is enough.</p>
+    <a class="btn" id="ask" href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Journal%20check%3A%20&amp;body=Journal%20I%20use%3A%0AWhat%20I%20would%20want%20checked%3A%0A" target="_blank" rel="noopener">Tell us (GitHub issue)</a>
+  </div>
+
+  <div class="panel">
+    <h2>How it is computed, and what it cannot see</h2>
+    <ul class="limits">
+      <li>Trades are summed by week (Monday to Sunday, UTC, by the date column) from your first trade's week to your last; weeks with no trades count as 0. Weekly return = that week's P&amp;L over the account size you entered.</li>
+      <li>t is the same statistic as the <a href="/wallet/">Hyperliquid wallet check</a>: the weekly mean over its standard error, on the normal scale, with fewer degrees of freedom when the record is short. With no edge, t ≥ 2 turns up about 1 time in 44.</li>
+      <li>The bar rises with how many records you chose from: strategies tried before (your number) times slices compared. <a href="/method/">Method</a>.</li>
+      <li>It cannot see trades missing from the file, deposits or withdrawals that changed your real account size, or whether fees are in the P&amp;L column.</li>
+    </ul>
+  </div>
+</section>
+</main>
+<!-- site-footer -->
+<footer class="site-footer"><div class="container">
+<div class="foot-grid">
+ <div><a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+  <p style="margin-top:14px;max-width:340px">Whether a trading record can be told apart from luck, once you allow for how it was picked. Open source.</p></div>
+ <div><h4>Product</h4><ul><li><a href="/wallet/">Hyperliquid check</a></li><li><a href="/polymarket/">Polymarket check</a></li><li><a href="https://chatgpt.com/plugins/plugin_asdk_app_6acfbf9acf4c8191b0ad33925e2eb189">ChatGPT plugin</a></li><li><a href="https://t.me/SkillOrLuckBot">Telegram bot</a></li><li><a href="https://chromewebstore.google.com/detail/evidence-deflator/fbhanjlioldbpgmncefioidcpkdhjbhn">Chrome extension</a></li><li><a href="/audits/">Audits</a></li><li><a href="/leaderboard/">AI trading leaderboard</a></li><li><a href="/check/">Check a backtest</a></li><li><a href="/api/">API and MCP</a></li></ul></div>
+ <div><h4>Method</h4><ul><li><a href="/method/">How it works</a></li><li><a href="/method/#principles">Principles</a></li><li><a href="/q/hyperliquid-trader-skill-or-luck/">Skill or luck?</a></li><li><a href="/q/how-many-months-of-backtest/">How many months?</a></li><li><a href="/q/why-leaderboard-winner-is-not-evidence/">Why #1 is not evidence</a></li><li><a href="/leaderboard/2026-10.json">Data (JSON)</a></li></ul></div>
+ <div><h4>Project</h4><ul><li><a href="https://github.com/Beltran12138/evidence-deflator">GitHub</a></li><li><a href="https://pypi.org/project/evidence-deflator/">PyPI</a></li><li><a href="/record/">Our record</a></li><li><a href="/memo/sample/">Sample memo</a></li><li><a href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">Request an audit</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="foot-note"><span>Open source · MIT · v0.3.1</span><span>“Cannot be ruled out as seen” is the strongest claim we make about a model’s training data.</span></div>
+</div></footer>
+<script src="/assets/site.js"></script>
+
+<!-- /site-footer -->
+<script src="/assets/hl.js"></script>
+<script src="/assets/journal.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  // ?team=1 marks this browser as ours (same flag as the wallet page), so our own tests can be left out of the counts.
+  const team = (() => { try { const q = new URLSearchParams(location.search).get('team'); if (q === '1') localStorage.setItem('ed_team', '1'); if (q === '0') localStorage.removeItem('ed_team'); return localStorage.getItem('ed_team') === '1'; } catch (e) { return false; } })();
+  // A random id kept in this browser, so a second visit can be told from a first. Not derived from anything about you.
+  const anon = (() => { try { let a = localStorage.getItem('ed_anon'); if (!a) { a = Array.from(crypto.getRandomValues(new Uint8Array(6)), b => b.toString(16).padStart(2, '0')).join(''); localStorage.setItem('ed_anon', a); } return a; } catch (e) { return ''; } })();
+  const tally = k => { try { fetch('https://api.evidencedeflator.com/api/count?k=' + k + '&l=en&a=' + anon + (team ? '&s=team' : ''), {method: 'POST', mode: 'no-cors', keepalive: true}); } catch (e) {} };
+
+  let parsed = null, counted = false;
+  const fmt = (x, d = 2) => x == null ? '—' : x.toLocaleString('en-US', {maximumFractionDigits: d, minimumFractionDigits: d});
+  const pct = p => p == null ? '—' : (p < 0.001 ? '<0.1%' : (p * 100).toFixed(p < 0.1 ? 1 : 0) + '%');
+  const VERDICT = {
+    too_short: ['Too short to tell', 'Fewer than 8 weeks between your first and last trade.', ''],
+    loses: ['Losing, beyond chance', 'This record loses more than luck alone would explain.', 'bad'],
+    luck: ['Indistinguishable from luck', 'A record with no edge would look this good often enough that this one proves nothing yet.', 'bad'],
+    clears_single: ['Promising, not proven', 'Strong enough if this were the only thing you ever tried; not strong enough for what you chose it from.', ''],
+    clears_board: ['Strong evidence', 'Clears the bar for what you chose it from. Luck rarely produces this.', 'ok'],
+  };
+  const show = (el, key, extra) => { const [h, p, cls] = VERDICT[key]; el.className = 'verdict ' + cls; el.innerHTML = '<b>' + h + '</b>' + p + (extra || ''); };
+
+  function fillSelect(sel, header, pick, optional) {
+    sel.innerHTML = (optional ? '<option value="-1">(none)</option>' : '') + header.map((h, i) => '<option value="' + i + '">' + (h || 'column ' + (i + 1)).replace(/</g, '&lt;') + '</option>').join('');
+    sel.value = String(pick >= 0 ? pick : (optional ? -1 : 0));
+  }
+
+  function run() {
+    if (!parsed) return;
+    const dateCol = +$('dateCol').value, pnlCol = +$('pnlCol').value, capital = +$('capital').value, tried = Math.max(1, Math.floor(+$('tried').value || 1));
+    const sliceCol = +$('sliceCol').value;
+    if (!(capital > 0)) { $('result').hidden = true; return; }
+    const {list, skipped} = JOURNAL.trades(parsed.rows, dateCol, pnlCol);
+    if (!list.length) { $('err').textContent = 'No row had both a readable date and a readable number in the columns chosen.'; $('err').hidden = false; $('result').hidden = true; return; }
+    $('err').hidden = true;
+    const c = JOURNAL.check(list, capital, tried);
+    $('oTrades').textContent = c.trades.toLocaleString('en-US');
+    $('oWeeks').textContent = c.weeks;
+    $('oT').textContent = c.score.t == null ? '—' : fmt(c.score.t);
+    $('oBar').textContent = fmt(c.verdict.bar);
+    $('oLuck').textContent = pct(c.luckPicked);
+    show($('oVerdict'), c.verdict.key, tried > 1 ? ' <span class="small">(Bar for the best of ' + tried + '.)</span>' : '');
+    $('oSkipped').textContent = skipped ? skipped + ' row(s) skipped: no readable date or number.' : '';
+    if (sliceCol >= 0) {
+      const s = JOURNAL.slices(list, capital, sliceCol, tried);
+      $('sPool').textContent = s.pool.toLocaleString('en-US');
+      const b = s.best;
+      const line = b && b.t != null ? ' <span class="small">Best: <b style="display:inline;font-size:inherit">' + b.value.replace(/</g, '&lt;') + '</b>, t = ' + fmt(b.t) + ' against a bar of ' + fmt(s.bar) + '. Alone, a no-edge slice looks this good ' + pct(s.luckBestBlind) + ' of the time; as the best of ' + s.pool + ', ' + pct(s.luckBestPicked) + '.</span>' : '';
+      show($('sVerdict'), s.verdictBest.key, line);
+      $('sRows').innerHTML = s.slices.slice(0, 50).map(x => '<tr><td>' + x.value.replace(/</g, '&lt;') + '</td><td class="n">' + x.trades + '</td><td class="n">' + fmt(x.total, 0) + '</td><td class="n">' + (x.t == null ? '—' : fmt(x.t)) + '</td></tr>').join('');
+      $('sliceBox').hidden = false;
+    } else $('sliceBox').hidden = true;
+    $('result').hidden = false;
+    if (!counted) { counted = true; tally('own'); }
+  }
+
+  $('file').addEventListener('change', e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => {
+      try {
+        parsed = JOURNAL.parseCSV(String(rd.result));
+        if (!parsed.header.length || !parsed.rows.length) throw new Error('empty');
+      } catch (x) { parsed = null; $('err').textContent = 'Could not read this file as CSV.'; $('err').hidden = false; return; }
+      counted = false;
+      const g = JOURNAL.guessColumns(parsed.header, parsed.rows);
+      fillSelect($('dateCol'), parsed.header, g.date, false);
+      fillSelect($('pnlCol'), parsed.header, g.pnl, false);
+      fillSelect($('sliceCol'), parsed.header, -1, true);
+      $('setup').hidden = false;
+      $('err').hidden = true;
+      run();
+    };
+    rd.readAsText(f);
+  });
+  ['dateCol', 'pnlCol', 'capital', 'tried', 'sliceCol'].forEach(id => $(id).addEventListener('change', run));
+  $('capital').addEventListener('input', run);
+  $('ask').addEventListener('click', () => tally('own_ask'));
+})();
+</script>
+</body>
+</html>

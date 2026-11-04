@@ -103,11 +103,15 @@ const json = (body, status = 200) =>
 // page, its language. 'memo' / 'ask' are clicks from a result to the sample memo / to request one. src is 'team'
 // when the browser was marked as ours (visit any page with ?team=1), so our own testing can be
 // subtracted. MCP checks also carry the calling software's name (clientName below). No address, no IP,
-// nothing about the person calling (see /privacy/).
-const KINDS = new Set(['web', 'pm', 'memo', 'ask', 'api', 'mcp', 'tg']), LANGS = new Set(['en', 'zh-hans', 'zh-hant', '']), SRCS = new Set(['', 'team']);
-function count(env, kind, lang = '', src = '', client = '') {
+// nothing about the person calling (see /privacy/). 'own' is a verdict on the trading-journal page
+// (/journal/), 'own_ask' a click from it to tell us which journal they use; those two also carry a
+// random id the browser made for itself (anon), so a second check from the same browser can be told
+// from a first. It is not derived from anything about the person.
+const KINDS = new Set(['web', 'pm', 'memo', 'ask', 'api', 'mcp', 'tg', 'own', 'own_ask']), LANGS = new Set(['en', 'zh-hans', 'zh-hant', '']), SRCS = new Set(['', 'team']);
+function count(env, kind, lang = '', src = '', client = '', anon = '') {
   if (!env.COUNTS || !KINDS.has(kind) || !LANGS.has(lang) || !SRCS.has(src)) return;
-  try { env.COUNTS.writeDataPoint({blobs: [kind, lang, src, client], doubles: [1], indexes: [kind]}); } catch {}
+  anon = /^[0-9a-f]{12}$/.test(anon) ? anon : '';
+  try { env.COUNTS.writeDataPoint({blobs: [kind, lang, src, client, anon], doubles: [1], indexes: [kind]}); } catch {}
 }
 
 // For MCP checks only: the calling software's name, the first word of its User-Agent ("openai-mcp/1.0
@@ -225,6 +229,7 @@ async function handle(request, env = {}) {
   if (url.pathname === '/api/count' && request.method === 'POST') {
     const k = url.searchParams.get('k');  // 'web' / 'pm' = a verdict on the Hyperliquid / Polymarket page, 'memo' = a click to the sample memo
     if (k === 'web' || k === 'pm' || k === 'memo' || k === 'ask') count(env, k, url.searchParams.get('l') || '', url.searchParams.get('s') || '');
+    if (k === 'own' || k === 'own_ask') count(env, k, url.searchParams.get('l') || '', url.searchParams.get('s') || '', '', url.searchParams.get('a') || '');
     return new Response(null, {status: 204, headers: CORS});
   }
 
