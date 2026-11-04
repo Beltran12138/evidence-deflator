@@ -45,4 +45,20 @@ Version 1's tests with F\* in place of F: per month with at least 30 vaults, ρ(
 
 ## Results
 
-(Empty until the run.)
+Run 2026-11-04 with `tools/vault_flow_v2.py` (fetch, then run). Ledgers of all 521 addresses (vaults and their leaders) fetched 2026-11-04, none missing; all 1,561 month-vaults have a complete ledger. Full output in `vault-flow-v2/results.json`.
+
+**Step 1: the version 1 reconstruction did measure flows.** Pooled Spearman of version 1's F against the exact F_all: 0.872 (bar 0.7).
+
+**Step 2, decision: not rewarded.**
+
+| | Value |
+|---|---|
+| Month-vaults (all 21 months used, 33 to 97 a month) | 1,561 |
+| ρ(F\*, R), positive control | 0.060 [0.004, 0.117]: passes, barely |
+| Partial ρ(F\*, S \| R), primary | −0.000 [−0.067, 0.061] |
+| Shuffle control for the primary | median −0.001, 95% range −0.051 to 0.051; 50% of shuffles at or above the real value |
+| Partial ρ(F\*, L \| R), secondary | −0.013 [−0.055, 0.029] |
+
+On exact follower flows, deposits follow last month's return weakly (0.060) and, beyond that, show no relation to how strong the vault's record is (−0.000, indistinguishable from shuffled data). The pre-registered consequence: a certified record would not earn more deposits from these allocators as they behave today; the certification line finds a buyer that is not an allocator within two weeks or stops.
+
+Read with version 1: the reconstruction agreed with exact flows (0.872), and the positive control moved from 0.045 [−0.002, 0.091] to 0.060 [0.004, 0.117] once the leader's money was taken out, so version 1's failure was mostly the leader's own deposits and an interval that grazed zero, not a broken measurement.
