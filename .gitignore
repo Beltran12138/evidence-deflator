@@ -58,3 +58,6 @@ out/
 # personal contact image used by the local deck export only
 docs/assets/wechat-qr.png
 stress-cache/
+
+# shrinkage test portfolio cache (public data, refetchable)
+.hlcache-shrink/
