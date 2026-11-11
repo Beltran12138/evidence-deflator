@@ -51,4 +51,11 @@ No change of model, grid, sample, seed, estimator, minimum length or subset afte
 
 ## Results
 
-(none yet)
+### Freeze run, 2026-11-10 (before any forward score)
+
+`tools/shrink_test.py freeze`, committed with `shrink/prior.json` and `shrink/estimates.json`. These two files are the predictions.
+
+- Leaderboard: 48,073 accounts; 1,500 sampled, 0 failed to fetch, 1,138 with a score up to the freeze (median record 0.72 years).
+- Raw scores in the sample lean positive: 60.3% have z > 0, median raw annual Sharpe 0.49, 5.1% at z ≥ 2 and 4.7% at z ≤ −2. The fitted spread has mean 0.31, sd 0.90, and puts 81% of its mass above 0, most of it between 0.5 and 0.8, with a smaller lump near −1.2 (NPMLE fits are lumpy by construction). EM stopped at its 500-iteration cap.
+- ⚠ Read: the shrinkage target sits above zero. The likely cause is who is in the sample, not a coding error: the leaderboard lists accounts that still exist, and weeks starting below $1,000 of account value are not scored, so accounts that were wiped out contribute less of their losing record. This is stated here, after seeing the fit and before any forward score; under the rules above, nothing is changed. If shrinkage loses on 2026-12-09, this is the first candidate cause, and a fix would need a new pre-registration.
+- Cohort: 180 of 200 have an estimate (20 without 8 intervals before the freeze). Recomputed `z_before` against the stored `t_before`: Spearman 0.979, median absolute difference 0.034, 36 differ by more than 0.1. Median share shrunk: 59% for wallets with stored `t_before` ≥ 2 (18 wallets), 45% for the rest.

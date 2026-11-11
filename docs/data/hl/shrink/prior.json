@@ -1,0 +1,5960 @@
+{
+"frozen_at": "2026-10-14T09:48Z",
+"made": "2026-11-11T04:50Z",
+"board_accounts": 48073,
+"sample_seed": 20261110,
+"sampled": 1500,
+"fetch_failed": 0,
+"usable": 1138,
+"summary": {
+"mean": 0.3081,
+"sd": 0.895,
+"p_positive": 0.8106,
+"q05": -1.4,
+"q25": 0.5,
+"q50": 0.7,
+"q75": 0.7,
+"q95": 0.8,
+"q99": 0.9,
+"n": 1138,
+"iters": 500
+},
+"grid": [
+-6.0,
+-5.9,
+-5.8,
+-5.7,
+-5.6,
+-5.5,
+-5.4,
+-5.3,
+-5.2,
+-5.1,
+-5.0,
+-4.9,
+-4.8,
+-4.7,
+-4.6,
+-4.5,
+-4.4,
+-4.3,
+-4.2,
+-4.1,
+-4.0,
+-3.9,
+-3.8,
+-3.6999999999999997,
+-3.5999999999999996,
+-3.5,
+-3.4,
+-3.3,
+-3.1999999999999997,
+-3.0999999999999996,
+-3.0,
+-2.9,
+-2.8,
+-2.6999999999999997,
+-2.5999999999999996,
+-2.5,
+-2.4,
+-2.3,
+-2.1999999999999997,
+-2.0999999999999996,
+-2.0,
+-1.8999999999999995,
+-1.7999999999999998,
+-1.7000000000000002,
+-1.5999999999999996,
+-1.5,
+-1.3999999999999995,
+-1.2999999999999998,
+-1.1999999999999993,
+-1.0999999999999996,
+-1.0,
+-0.8999999999999995,
+-0.7999999999999998,
+-0.6999999999999993,
+-0.5999999999999996,
+-0.5,
+-0.39999999999999947,
+-0.2999999999999998,
+-0.1999999999999993,
+-0.09999999999999964,
+0.0,
+0.10000000000000053,
+0.20000000000000018,
+0.3000000000000007,
+0.40000000000000036,
+0.5,
+0.6000000000000005,
+0.7000000000000002,
+0.8000000000000007,
+0.9000000000000004,
+1.0,
+1.1000000000000005,
+1.2000000000000002,
+1.3000000000000007,
+1.4000000000000004,
+1.5,
+1.6000000000000005,
+1.7000000000000002,
+1.8000000000000007,
+1.9000000000000004,
+2.0,
+2.0999999999999996,
+2.200000000000001,
+2.3000000000000007,
+2.4000000000000004,
+2.5,
+2.5999999999999996,
+2.700000000000001,
+2.8000000000000007,
+2.9000000000000004,
+3.0,
+3.0999999999999996,
+3.200000000000001,
+3.3000000000000007,
+3.4000000000000004,
+3.5,
+3.6000000000000014,
+3.700000000000001,
+3.8000000000000007,
+3.9000000000000004,
+4.0,
+4.100000000000001,
+4.200000000000001,
+4.300000000000001,
+4.4,
+4.5,
+4.600000000000001,
+4.700000000000001,
+4.800000000000001,
+4.9,
+5.0,
+5.100000000000001,
+5.200000000000001,
+5.300000000000001,
+5.4,
+5.5,
+5.600000000000001,
+5.700000000000001,
+5.800000000000001,
+5.9,
+6.0
+],
+"weights": [
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+5e-10,
+3.74e-08,
+1.2071e-06,
+1.86103e-05,
+0.0001472735,
+0.0006444372,
+0.0016821324,
+0.0028278998,
+0.0033064435,
+0.002901755,
+0.0020598312,
+0.0012713244,
+0.0007306621,
+0.0004166899,
+0.0002496525,
+0.0001650484,
+0.0001252718,
+0.0001123479,
+0.0001210651,
+0.0001573505,
+0.0002442968,
+0.0004427011,
+0.0009031775,
+0.0019777777,
+0.0043901421,
+0.0092698788,
+0.0174344708,
+0.0274283609,
+0.0341972342,
+0.032498544,
+0.0231233613,
+0.0124199347,
+0.0052282107,
+0.0018448519,
+0.0005995221,
+0.0002011267,
+7.88367e-05,
+4.07098e-05,
+3.06395e-05,
+3.59503e-05,
+6.71556e-05,
+0.0001931499,
+0.0007815256,
+0.0038553121,
+0.0192457347,
+0.0784004401,
+0.2076966294,
+0.2869416254,
+0.1697779447,
+0.0367720245,
+0.0026306078,
+5.99292e-05,
+4.523e-07,
+1.3e-09,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+3.8e-09,
+6.763e-07,
+3.64282e-05,
+0.0004665736,
+0.0011526288,
+0.0004512601,
+2.32649e-05,
+1.335e-07,
+1e-10,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.0,
+0.00211773
+],
+"sample": [
+{
+"address": "0xe0077478d0c7ba4913c1ba371d52f0e7078340e6",
+"z": 0.805,
+"years": 1.9231
+},
+{
+"address": "0x3c446431dd0fa13af97f904c00dc34fb7a198dba",
+"z": 1.178,
+"years": 0.4019
+},
+{
+"address": "0xfcea932ce672b998d3d06eaf140a3ef29336c30e",
+"z": 1.331,
+"years": 1.0192
+},
+{
+"address": "0xfdf4055ae9752be77b25a2c52944fc243e2c94ed",
+"z": -1.894,
+"years": 1.6154
+},
+{
+"address": "0xe63d6f9d856cb10b44e892291612d2385f273f53",
+"z": 1.964,
+"years": 1.0519
+},
+{
+"address": "0x8146e16c915f6f620e31d9d2ae10a2bb3736d9d3",
+"z": -1.009,
+"years": 0.7115
+},
+{
+"address": "0x6f01474cbd0643e99244bec27c69674809c9d1f9",
+"z": -0.038,
+"years": 0.9731
+},
+{
+"address": "0x3e6527de2cfec82ce5240d5559a8b09d256d5d6d",
+"z": 1.237,
+"years": 1.1923
+},
+{
+"address": "0x717c4624365beb1aea1b1486d87372d488794a21",
+"z": -1.288,
+"years": 0.25
+},
+{
+"address": "0x4f46981c7b1fab3851984fa82a9fee0540d76b81",
+"z": 1.584,
+"years": 0.6327
+},
+{
+"address": "0x71b71fe222a3afd08332cc48660ee1c24aff2284",
+"z": -0.26,
+"years": 0.4808
+},
+{
+"address": "0xb85c2b4d7f3fdc605e7c26d06b1a640371992602",
+"z": 1.45,
+"years": 2.3654
+},
+{
+"address": "0xbd08f7079ffb9e34d3994aae74efe66023c20075",
+"z": 0.491,
+"years": 1.2865
+},
+{
+"address": "0x30a422c8942301f2d60f5690c44dc39d2c272024",
+"z": 1.4,
+"years": 1.6538
+},
+{
+"address": "0x79dd4ca2e65774230c8f2ef888e7ec5d9c314997",
+"z": -0.987,
+"years": 1.0769
+},
+{
+"address": "0xcdf756ee431898a2e1dd15ee62e73e56f4f4c0ba",
+"z": 1.487,
+"years": 0.5942
+},
+{
+"address": "0x9b0beef2c704079356ba5993c14c88a318d43136",
+"z": 2.209,
+"years": 0.2635
+},
+{
+"address": "0xfec8ca623573c867d4ac2314d7e21e28911416d0",
+"z": -0.698,
+"years": 0.825
+},
+{
+"address": "0x8adb3762de793164d1d725c449e73a7764ae0f6e",
+"z": 0.543,
+"years": 0.2615
+},
+{
+"address": "0xee969bd68b71548dd523dbb111a7f8bc19f6b3e5",
+"z": 2.19,
+"years": 2.6923
+},
+{
+"address": "0xac220bd32e933b3e9d0aeb00136f3f5c3d45d325",
+"z": 0.226,
+"years": 0.8462
+},
+{
+"address": "0xbbccd85a830845225a00da331ec23b9e3825fd85",
+"z": 1.219,
+"years": 0.3808
+},
+{
+"address": "0x46f71831f063e293b14f32cdc42fb3a7021c4b4a",
+"z": -0.164,
+"years": 0.4038
+},
+{
+"address": "0x382f9d3ad1ae591ee64c668bb89e9b77c2e7dcef",
+"z": 0.488,
+"years": 0.3404
+},
+{
+"address": "0x5bcf044f1e9640c306d0163d162b0cf6e7b76fa9",
+"z": -1.52,
+"years": 0.6154
+},
+{
+"address": "0x164e9765e50495b0a19770682cb30d442bda9c64",
+"z": 1.287,
+"years": 2.5769
+},
+{
+"address": "0x184ea990b184e3374d668572038a8e5b4873c9ca",
+"z": -0.929,
+"years": 0.2115
+},
+{
+"address": "0xa6fadfadabafa4d55dd9d022edeb0e75861f58ea",
+"z": -1.976,
+"years": 0.7692
+},
+{
+"address": "0x1bc8c6c06a43e3fbb2ebc613e0ebc0ecb95b5937",
+"z": -0.659,
+"years": 1.6346
+},
+{
+"address": "0x3ff4885919aa025de3a75cc128cc87a212c13371",
+"z": 0.829,
+"years": 0.1923
+},
+{
+"address": "0xf9be01cfa7494402302fee58c2493b8cad31bec3",
+"z": -0.173,
+"years": 0.7423
+},
+{
+"address": "0x862f17818a57565fd819a7ec560fa3cbc263cca1",
+"z": -0.662,
+"years": 0.2442
+},
+{
+"address": "0xe2f3f372c45faab0945592c6a92471fae84161a3",
+"z": 0.333,
+"years": 0.7442
+},
+{
+"address": "0x532b9e0a364c9553e4e64c0bf7f0ffc0b6af324f",
+"z": -0.054,
+"years": 1.0135
+},
+{
+"address": "0xa4e33be0b96c1ec4031f2db53dcd5660621ce3ec",
+"z": -0.168,
+"years": 1.4365
+},
+{
+"address": "0x3eabc71d6158a4ba3ed4ef0ab0cba9849d823d87",
+"z": 2.643,
+"years": 1.0577
+},
+{
+"address": "0x1e1115254fd9f010e20083e61ab74792f6a7cd05",
+"z": 0.221,
+"years": 0.6346
+},
+{
+"address": "0x4ab1ae1f49cf2dd43aeeecdc44720da68462cbf4",
+"z": 0.177,
+"years": 1.75
+},
+{
+"address": "0xbd43a833241a5dafab7c5c9fa8acb92f551fad49",
+"z": 2.372,
+"years": 0.3058
+},
+{
+"address": "0xa21fffe076168c7324a3d03e9c6b2ce3bcf1e4df",
+"z": 0.167,
+"years": 0.3212
+},
+{
+"address": "0x1c82b614c74b35c007065b8ea9bcecbb7f579a5d",
+"z": -0.416,
+"years": 0.7692
+},
+{
+"address": "0xd6d7d3473e874d21fa6078663e000dc7a89a84a1",
+"z": 0.426,
+"years": 2.1096
+},
+{
+"address": "0x1be7778115da291fefc943da71f1172387c13b3f",
+"z": 1.416,
+"years": 0.4962
+},
+{
+"address": "0x3258e4e06929b746854c989de764efd015db3943",
+"z": 1.241,
+"years": 0.9154
+},
+{
+"address": "0x2f453cbfbee3e3eaeb2caaa8b6a6560c8fc17e97",
+"z": -1.587,
+"years": 0.9231
+},
+{
+"address": "0x180ac2ca86f7dfa192819a43844fe1d6ee56e4fc",
+"z": 0.604,
+"years": 0.7442
+},
+{
+"address": "0x1078fbb236b138be39839d2d8bf6f53b38e39f81",
+"z": 1.39,
+"years": 0.6654
+},
+{
+"address": "0xcb902d76930e20f5d1b855160f3f125d02e1a574",
+"z": 1.427,
+"years": 0.8385
+},
+{
+"address": "0x62de4d39e24d99bc3fe33097fac88d6f22968df7",
+"z": 1.22,
+"years": 1.75
+},
+{
+"address": "0xcdf0c733561c848fa99c6a3d25f6f07724e22bd1",
+"z": 1.154,
+"years": 1.5769
+},
+{
+"address": "0x06925de5ab91efb61407f8acd308e4077454b970",
+"z": 0.132,
+"years": 0.2865
+},
+{
+"address": "0xd852e3a7a2abca6aecd0fa39147851ae96eba5d7",
+"z": 2.414,
+"years": 1.7615
+},
+{
+"address": "0x6d12dcca052515c234a7221057d9909cf5241030",
+"z": 0.253,
+"years": 0.6327
+},
+{
+"address": "0x0912d6c8cc359836847d4c5ba23ada6ef8d1e1d3",
+"z": 0.231,
+"years": 0.8404
+},
+{
+"address": "0x9bdf1b88cf1e5620a12d78307e4b3613d87db717",
+"z": 1.308,
+"years": 0.8462
+},
+{
+"address": "0x43c2d5cbfd611870e12c12638698839a3ad65b4d",
+"z": 1.005,
+"years": 0.3404
+},
+{
+"address": "0x5643fdc9a46cd78e3b048fbdb25ac454b66262c4",
+"z": 0.775,
+"years": 0.6712
+},
+{
+"address": "0xdc995178bb7dfe5c2c4e926fb4da863ec01f0ddd",
+"z": 0.97,
+"years": 0.1923
+},
+{
+"address": "0x9f8814c32be91b78efc394f1cb08323c8fbdc2f7",
+"z": -2.004,
+"years": 0.5577
+},
+{
+"address": "0x8563bcd65119f560fc53628cf7708dabb3a0ed48",
+"z": -1.477,
+"years": 1.0904
+},
+{
+"address": "0x3b1e3d1ed70d2a17c8eaf7da1a6be9f805a130e2",
+"z": 0.408,
+"years": 2.6269
+},
+{
+"address": "0xa12123727e21e6a35c5567ed74e2d39f55d58bda",
+"z": 2.218,
+"years": 1.3462
+},
+{
+"address": "0x42438c84dd520641980ae459f700e930e50e0dad",
+"z": -0.108,
+"years": 0.9038
+},
+{
+"address": "0x98ba1fb11b67178b7cfb95d73ef13f3b56998f60",
+"z": -0.872,
+"years": 1.8462
+},
+{
+"address": "0x04fd1ea1799c971251cd6829f4c5248ca49b0bca",
+"z": -1.025,
+"years": 0.4038
+},
+{
+"address": "0xf05fcf33b1066e3f429772bb837d7e3bb6af0355",
+"z": -1.21,
+"years": 0.2308
+},
+{
+"address": "0x5fed8c6e5ea70eb2441b5a77c015462dcabfd090",
+"z": -0.647,
+"years": 1.4038
+},
+{
+"address": "0x00f052469de52f022154c7e304688ee9c330d4ab",
+"z": 1.282,
+"years": 0.2096
+},
+{
+"address": "0x6fc8be8902d6d01ca2a2eb8091f565726127ae1c",
+"z": 0.11,
+"years": 0.1923
+},
+{
+"address": "0x400d21f078bb51482fa315606529e22274352d34",
+"z": 1.808,
+"years": 1.8077
+},
+{
+"address": "0xb71ae0e322046e912d2eb3cd0c668428916ce1d0",
+"z": -2.327,
+"years": 0.6346
+},
+{
+"address": "0x799d07c174233ebe5fe817b763fdc7f6446364c1",
+"z": -0.069,
+"years": 1.2308
+},
+{
+"address": "0x13920d8901e0250d08dcff6d54f0ca815b4c7e6f",
+"z": -0.182,
+"years": 0.4808
+},
+{
+"address": "0x0335a1387afc039bf30ba7bf620630121c33b797",
+"z": 0.011,
+"years": 0.3846
+},
+{
+"address": "0x9fe05cf4463f70181dedf912a39496f081419bc3",
+"z": -2.496,
+"years": 0.1731
+},
+{
+"address": "0xeb0398175f4e8cedea7261df17fed4ff07014b2b",
+"z": 2.141,
+"years": 0.2481
+},
+{
+"address": "0x12839342bbb2c0df2916297c3472f1cd36151693",
+"z": 1.075,
+"years": 0.3788
+},
+{
+"address": "0x30713b032661b1c1a57b0d162b86c0967578494a",
+"z": -0.968,
+"years": 0.3827
+},
+{
+"address": "0x1cfcc4bd474dad401082be276560bf3a9c67b78a",
+"z": -0.541,
+"years": 0.1538
+},
+{
+"address": "0x8f37391ed79d2662d89930e6d7649f84ebc6651b",
+"z": -0.198,
+"years": 0.2442
+},
+{
+"address": "0x153c8444380512cabdc34f6cea09c322e14e319a",
+"z": 1.258,
+"years": 1.0577
+},
+{
+"address": "0x060e347b2c9439a8295a980f05ca442f6d16a00c",
+"z": 0.712,
+"years": 0.5308
+},
+{
+"address": "0x5198879e8ebcac28cbe720c4dc690d463d32e9f5",
+"z": -0.458,
+"years": 0.3269
+},
+{
+"address": "0xb50a27e07518b025525acd4665679f14558954b0",
+"z": -1.606,
+"years": 1.4096
+},
+{
+"address": "0x35c2ab0c937e32e6e0a675d903f1c1e5191e9195",
+"z": -0.498,
+"years": 0.2115
+},
+{
+"address": "0xc497f1f8840dd65affbab1a610b6e558844743d4",
+"z": -0.006,
+"years": 0.9808
+},
+{
+"address": "0x8c96e5a2d770f9f2c9d2464ce4e741df0b2bca57",
+"z": -0.106,
+"years": 0.6904
+},
+{
+"address": "0xf3ee94871a2b21307d076db89b4cc35d820b603b",
+"z": -2.199,
+"years": 0.3596
+},
+{
+"address": "0x0b41078fe96ad555b13eed39f30d2c7d264fdaf5",
+"z": -1.256,
+"years": 0.25
+},
+{
+"address": "0xe76fd4b0280512cce263595ef0d7fcbd101941d5",
+"z": 0.734,
+"years": 0.9731
+},
+{
+"address": "0xc1c1624308d61694accb83b4225b2d3e4c9bc2ac",
+"z": -0.523,
+"years": 0.5327
+},
+{
+"address": "0xf0ed9e520e4a1800a39205549d9ec80236f46655",
+"z": -0.599,
+"years": 0.6923
+},
+{
+"address": "0x509dcc51971b5b77b91585553f3e7c2527c92460",
+"z": 1.406,
+"years": 1.3462
+},
+{
+"address": "0x3eb52cbf0cd6546ed1afe361dfbe902710a80145",
+"z": 0.69,
+"years": 1.2692
+},
+{
+"address": "0x72687c7de3d79601421b0a1e2e9cf6b1c809c75b",
+"z": 0.501,
+"years": 0.4885
+},
+{
+"address": "0xfa9812f92a66eab059b2d085ec524d119ca9a090",
+"z": 1.115,
+"years": 2.6538
+},
+{
+"address": "0x8aed145c9206808766ad816112f9ae6d9ba31849",
+"z": -1.65,
+"years": 1.8404
+},
+{
+"address": "0x18187f89be180ce5d21e6995b56bef82abe34ab6",
+"z": -2.85,
+"years": 0.2692
+},
+{
+"address": "0x9a566d8128a6b67154208697e9a77cb721ef3ee9",
+"z": 1.615,
+"years": 0.7385
+},
+{
+"address": "0x1b478d47cc1bce09b93d783c7d48dbd74078dd2f",
+"z": -2.767,
+"years": 0.3462
+},
+{
+"address": "0x0ad14d58c097b0e60170600371e59171c7b1d9df",
+"z": -0.925,
+"years": 0.8462
+},
+{
+"address": "0x224e9b915c1cdfab50a92dbf5db7b6c77e10d346",
+"z": 0.937,
+"years": 2.25
+},
+{
+"address": "0xc07be0f543ad5c51b8b7f2de68e9ac244b32e0a1",
+"z": 1.074,
+"years": 2.3077
+},
+{
+"address": "0x8b0a14a04b6e0410bd720b8800f780b172ee50ac",
+"z": 1.142,
+"years": 0.6712
+},
+{
+"address": "0xed10d4201cf59ac7a1fec0b041e59277661c0fc7",
+"z": 1.09,
+"years": 0.325
+},
+{
+"address": "0xe98c1b647a1c9ea3ca029c3170d49b6854634245",
+"z": -0.031,
+"years": 1.1096
+},
+{
+"address": "0xf367b8a1d5c01fd7bb67ffe01ba7564c6aa7e950",
+"z": 1.928,
+"years": 1.8712
+},
+{
+"address": "0x54156237b0f96785ac225dd77e095c6a2bc65665",
+"z": 0.438,
+"years": 0.3596
+},
+{
+"address": "0xda39ac1d47264623ea6bbdeba48a09219ba76516",
+"z": 2.225,
+"years": 0.3827
+},
+{
+"address": "0x6fbe81055140287005ffb5659a9312eba019f350",
+"z": 2.057,
+"years": 1.5
+},
+{
+"address": "0x22615e0272e68aa1b8eec7fedc2949fecc94f616",
+"z": 0.129,
+"years": 1.3058
+},
+{
+"address": "0x1aa26efd1829c9eb60bd84dfa503b7a5c6bf4d89",
+"z": 0.428,
+"years": 0.2308
+},
+{
+"address": "0x83baf7c1b4ba0a4fcdb7c20120c60b858fda55f3",
+"z": 0.997,
+"years": 2.2519
+},
+{
+"address": "0xcf461e25dd3f92ff959e675314278e6f3b06a28f",
+"z": 1.606,
+"years": 1.5962
+},
+{
+"address": "0xeea7c725ded949b222565aa458647ebc73ef6282",
+"z": 0.641,
+"years": 1.3846
+},
+{
+"address": "0x41f6a0e75a82f6d4dcdd6b85b9fe067cde1c26cb",
+"z": -1.184,
+"years": 1.7885
+},
+{
+"address": "0x92b34031d0064969d581f5d175a1caf8a1b18fae",
+"z": 1.234,
+"years": 0.25
+},
+{
+"address": "0xca47145a14d4ffae569cdedd5923dde5feb73cd6",
+"z": -0.31,
+"years": 0.1923
+},
+{
+"address": "0x299eb4081997ace30fb2dc63f57baef5a99783be",
+"z": 1.1,
+"years": 0.7115
+},
+{
+"address": "0xed9f405d1cd35913169809456022411b88077baf",
+"z": 0.859,
+"years": 1.0904
+},
+{
+"address": "0xf08208e088f89970068dc0b2deaa440f6a7d0250",
+"z": 1.121,
+"years": 0.5942
+},
+{
+"address": "0xd34788e2f96758972c27678725808e50ef843f01",
+"z": -0.429,
+"years": 1.4423
+},
+{
+"address": "0x187dcaaab2e5e7af1e313e4f83bde8196b423ca9",
+"z": -2.138,
+"years": 0.3462
+},
+{
+"address": "0xb8b3d108968b89be79d4660f93f88adf6df090dd",
+"z": -3.427,
+"years": 0.6154
+},
+{
+"address": "0xad3d9b56b1d2a41c1b7e627ed6f18321fa4b83b3",
+"z": -0.183,
+"years": 0.3077
+},
+{
+"address": "0xc5f8642a0ec6eee7f8d7e9dafc43cce6b3ab94f5",
+"z": 1.08,
+"years": 1.3077
+},
+{
+"address": "0x50605883a6847105fbe2349c76bc7d81fe7b66f3",
+"z": 0.776,
+"years": 1.8269
+},
+{
+"address": "0x95ccaf0846757c74b33b146db85e757249b99c8a",
+"z": 0.25,
+"years": 0.475
+},
+{
+"address": "0x13d2db460a97b30a71e6bd05183feb77147b39d6",
+"z": 0.825,
+"years": 1.3846
+},
+{
+"address": "0x83b1385d8126ecf64bfb3b4254d67eb9db753bcc",
+"z": 1.998,
+"years": 1.6923
+},
+{
+"address": "0xad5d0f44255d67ab9941b5380bcaa2ee54b42d02",
+"z": -2.243,
+"years": 0.3269
+},
+{
+"address": "0x06b5659f16110319137220d1efd680053f5e72a2",
+"z": 0.96,
+"years": 0.9538
+},
+{
+"address": "0x50d6f6dfbb4b24f80b9eae582151c51e16cfe1f6",
+"z": 1.553,
+"years": 0.7481
+},
+{
+"address": "0x0bac6128a76f4a62c6fa9cdd738f5d0af45a0550",
+"z": -1.319,
+"years": 0.1923
+},
+{
+"address": "0xb9b917325442cdb48fc7ceefe8888ff138807e4e",
+"z": 1.286,
+"years": 0.4212
+},
+{
+"address": "0x7ec385cb10424d80521cc79e51a0bcc4d4278c6c",
+"z": -2.113,
+"years": 0.3269
+},
+{
+"address": "0x194f5e48030f16eb4d2265c7315703aa769ea065",
+"z": -0.403,
+"years": 0.4423
+},
+{
+"address": "0x7a8fd929ffc4a11457cc854a12a03bc9d493fe7b",
+"z": 0.789,
+"years": 0.3596
+},
+{
+"address": "0x6dc7a3049d91701010a59acdd0baaff575d21650",
+"z": -0.114,
+"years": 0.3731
+},
+{
+"address": "0xa83cc8e488a9887bf5d5ab14b31487b88a579a59",
+"z": 1.669,
+"years": 0.1712
+},
+{
+"address": "0xcb6597ba7f0ebf7079453d11f197e2cd65179bf8",
+"z": -2.193,
+"years": 0.4231
+},
+{
+"address": "0xe3c717c052b1f92f78e72dfdb1fd8f2dd4cca7a6",
+"z": -1.068,
+"years": 0.4788
+},
+{
+"address": "0xb5caa1141547d2072f7ec117e5817dbac945a29f",
+"z": -0.989,
+"years": 0.5558
+},
+{
+"address": "0x1fa5886992ca1e4966f04807db5b9dba52b552a6",
+"z": -2.328,
+"years": 0.4038
+},
+{
+"address": "0x5099419921e516f0a9113326ec6021438269d566",
+"z": -1.446,
+"years": 0.3077
+},
+{
+"address": "0xf374271f1cbf8ce7200b10bc02aae15b9146f2a7",
+"z": -0.433,
+"years": 0.6346
+},
+{
+"address": "0xbee0000c04ee2efe66234bec57f7eaf38818fbca",
+"z": -1.81,
+"years": 0.7192
+},
+{
+"address": "0xf8d9139377f11cd2d05e32256340ac60dec6beb4",
+"z": 1.537,
+"years": 0.4923
+},
+{
+"address": "0xa39236004f0dea0d18d9398e9b1c180b27993492",
+"z": 2.193,
+"years": 1.5769
+},
+{
+"address": "0x4cb47296943cdefcc7d7874001fa1b7134ab0bba",
+"z": -3.487,
+"years": 0.9038
+},
+{
+"address": "0x56e448a58fe5f2b112e6ba2456ffaec03f72dc82",
+"z": 1.145,
+"years": 1.8462
+},
+{
+"address": "0x0a84e8b8e0d7a945c27f8cb37fbfaf9261c9f09e",
+"z": 0.233,
+"years": 0.25
+},
+{
+"address": "0x12d00b0501e1ee224602ed96b666e8f079213562",
+"z": -0.674,
+"years": 0.4231
+},
+{
+"address": "0x6c44d23450e3b853041b4865f67af2fed3f200d7",
+"z": 0.36,
+"years": 1.6288
+},
+{
+"address": "0xb62b84a74fd80c0c060e2d63c489ae549d8c84ea",
+"z": -0.418,
+"years": 0.4808
+},
+{
+"address": "0xe8c4ed3577e2b17eec33f7235f82419dd40fb13c",
+"z": 1.962,
+"years": 1.8462
+},
+{
+"address": "0x627b21c82c46b349e053048659eb52c52e4bc007",
+"z": 1.144,
+"years": 1.0135
+},
+{
+"address": "0x77f12d27fe3a7eda486bf899ee274562928844da",
+"z": 0.61,
+"years": 2.2885
+},
+{
+"address": "0x85dfe30ed831b469783824128f634da712ab77bb",
+"z": 0.292,
+"years": 0.4596
+},
+{
+"address": "0xb12e601f52222e9a37eb0fc56658af18efee7ab6",
+"z": -0.052,
+"years": 0.4615
+},
+{
+"address": "0x9e45c43471f53e5d1bb6f06c8207d27464ae4586",
+"z": 1.536,
+"years": 0.8442
+},
+{
+"address": "0x25821b2248d939b95563a1515ee97e45d32b51a8",
+"z": 2.722,
+"years": 2.0577
+},
+{
+"address": "0x8828157f73b1363693d7340e35257bd6a40cb59d",
+"z": 0.509,
+"years": 1.5
+},
+{
+"address": "0xd5c7757d91cbd59543c8ef64738d806e57d2212b",
+"z": 0.071,
+"years": 0.2115
+},
+{
+"address": "0x6c60878b4b214d01f8844751b0b732e1fde9055f",
+"z": 1.669,
+"years": 0.3596
+},
+{
+"address": "0xbf628799e503cf2d2e5806f1144f76fb36b6edad",
+"z": 1.331,
+"years": 0.8577
+},
+{
+"address": "0x17f33095ae446c4bea7a21ddf35d838792c60f31",
+"z": 1.482,
+"years": 0.6135
+},
+{
+"address": "0x0768a980decbcc0eeb916c8452a54c543d5d2a26",
+"z": -0.19,
+"years": 0.3077
+},
+{
+"address": "0xaa0b3cf68e7f5ed6a2214c14b0fc089df069cc54",
+"z": -0.515,
+"years": 0.8769
+},
+{
+"address": "0x8076fa4594313a85db488c665679c0d396a09c5d",
+"z": 0.578,
+"years": 1.0904
+},
+{
+"address": "0xffa1655ab711f4cdeded03def151270df4ba262b",
+"z": -0.548,
+"years": 1.2115
+},
+{
+"address": "0xed7252ec32d8e8603f0a552b4a6182d5c17fc28c",
+"z": 2.637,
+"years": 1.2481
+},
+{
+"address": "0x13533eef19262af120d5c0427229a3cb6a1509d7",
+"z": 0.179,
+"years": 0.9019
+},
+{
+"address": "0x8f83806110d70c1066dcab848f9c5a5cbea459f3",
+"z": -1.258,
+"years": 0.3019
+},
+{
+"address": "0x8951904ca840f36886ae2b4ff442388b15c660b6",
+"z": -1.275,
+"years": 0.3596
+},
+{
+"address": "0x2fcbb2a5101c8b19cdeeb0e23ee9872cff7f1202",
+"z": -1.667,
+"years": 0.2692
+},
+{
+"address": "0x054560e1f9d7f938b35c62f332751ba18b02f2bc",
+"z": 0.878,
+"years": 0.6731
+},
+{
+"address": "0xd4cf19f76addb489d079d0f60f41d6e91e7c79e1",
+"z": 0.788,
+"years": 1.7308
+},
+{
+"address": "0xc350bfc212dbe31c34854bbee207c91cb414b8e4",
+"z": 0.583,
+"years": 0.4596
+},
+{
+"address": "0x9803e982c4eb6d9b9e416966814e7f9fa4363bce",
+"z": 1.629,
+"years": 0.9346
+},
+{
+"address": "0x436f4d431f928864fce13cadd1e4576e4e8f4378",
+"z": -1.078,
+"years": 0.1538
+},
+{
+"address": "0x907fb740cdd67dd01ebf50565330c8c3da0feb06",
+"z": -1.228,
+"years": 2.2885
+},
+{
+"address": "0xbb1fc56129389e0169c79ce5b72732437ae41df3",
+"z": 1.275,
+"years": 0.4212
+},
+{
+"address": "0x58bb24808c27907fc34a2f24fe4af82956995717",
+"z": 1.085,
+"years": 1.3615
+},
+{
+"address": "0x2cd94ff6990438c6e2b6be914bbc26c9540b6e5c",
+"z": 0.281,
+"years": 0.7288
+},
+{
+"address": "0x95ee3c4f23d1806d5d6f455f985faa9e832d8af7",
+"z": 0.21,
+"years": 0.2115
+},
+{
+"address": "0xe97b3608b2c527b92400099b144b8868e8e02b14",
+"z": -1.179,
+"years": 0.7308
+},
+{
+"address": "0x372ad9e3bcc78df41dd7f85577e2d87682d34235",
+"z": 1.278,
+"years": 0.9923
+},
+{
+"address": "0x2ab5dd2d3c9451d67710579661c14092cacd4030",
+"z": 0.405,
+"years": 0.1731
+},
+{
+"address": "0xcaa713508ed800c75808ad51f035881fb422a9e1",
+"z": -0.84,
+"years": 0.8269
+},
+{
+"address": "0xb33d0e6f2e2013094ea75df3037babf111e3978d",
+"z": 0.946,
+"years": 1.725
+},
+{
+"address": "0xd2607af20df54f8caa390795f1c2eb2e0eb4260d",
+"z": 0.092,
+"years": 0.6212
+},
+{
+"address": "0x42b93b8d07eee075b851f5b488ef6b7db148f470",
+"z": 1.276,
+"years": 0.3442
+},
+{
+"address": "0x85de26c628b452b30989f5250f0954443780df63",
+"z": -1.152,
+"years": 0.1538
+},
+{
+"address": "0xcf5b613e5df71952c0bc971dc7316923f8d03546",
+"z": 0.766,
+"years": 1.8077
+},
+{
+"address": "0x87f36777f22548787af3a2ad3605e3d48288b928",
+"z": -0.45,
+"years": 1.1096
+},
+{
+"address": "0xdfdcb58dc5247f0485baa8722e4f72d7c26b0dde",
+"z": 0.272,
+"years": 0.2308
+},
+{
+"address": "0x8ab13dbc3d2ab5ea4c4b37f40696254a730015ef",
+"z": -0.929,
+"years": 0.4385
+},
+{
+"address": "0x2987f53372c02d1a4c67241aa1840c1e83c480ff",
+"z": 1.01,
+"years": 0.6154
+},
+{
+"address": "0xb7824b39e7d725f5396606b80730a68307c15464",
+"z": 0.688,
+"years": 1.5192
+},
+{
+"address": "0x64febd3e8e3883c3e14a894deb874db4b7c26962",
+"z": -0.24,
+"years": 0.2115
+},
+{
+"address": "0x27f96bd4157a1a1d1dc56927fb6454b4c01ad839",
+"z": 0.664,
+"years": 1.6346
+},
+{
+"address": "0x1391e15f710b582d6871da066357c78b6a541aee",
+"z": -0.093,
+"years": 0.5192
+},
+{
+"address": "0xa8b5d8d924f6b464adb648d69aac2b179225caa5",
+"z": -2.286,
+"years": 1.0192
+},
+{
+"address": "0x8fc0d6e89681d14e9016ed4e3c7239f0725ba9c6",
+"z": 0.677,
+"years": 0.6712
+},
+{
+"address": "0xfd02d3e60703de13b560ed51043fd4ad86d6fd3d",
+"z": -1.261,
+"years": 0.8788
+},
+{
+"address": "0x615299184f3bc7bdf0cf38e6a791ca253ab4b27f",
+"z": 1.208,
+"years": 1.9115
+},
+{
+"address": "0x4da5de9decae2f971ad806201db276e186fed544",
+"z": 0.705,
+"years": 0.6154
+},
+{
+"address": "0x440d36ec152b9ba9621ddbbfb2fc51bb561ea234",
+"z": -0.481,
+"years": 1.6154
+},
+{
+"address": "0xe1b8c30ad6dea3eb2ee3fe13d065aedc6a211632",
+"z": -1.662,
+"years": 0.2885
+},
+{
+"address": "0x3757866511ad545901f05622866a90012e149493",
+"z": 1.015,
+"years": 2.4808
+},
+{
+"address": "0x0c6a171b90b4f5df7b4064df369dd638ff205a6b",
+"z": -2.889,
+"years": 0.9808
+},
+{
+"address": "0xb688959b68e13057586cdcda879cf9b766a2adca",
+"z": -1.759,
+"years": 0.7692
+},
+{
+"address": "0x06a3481efd4c3e14611fb4679ba101e337db05f9",
+"z": 0.959,
+"years": 1.6154
+},
+{
+"address": "0xfd4c2d32854cf7c09e997d9fe775dd287e1458d2",
+"z": -0.566,
+"years": 0.2885
+},
+{
+"address": "0xdbc0513ae340a4b12df945c9d5b5a3fe8b9e9642",
+"z": -0.17,
+"years": 1.2308
+},
+{
+"address": "0x4f0fdf8f107d7748b6e1faa84c8a201edf05be34",
+"z": -0.299,
+"years": 0.3077
+},
+{
+"address": "0x09e38e36e9beb9d0bcf49dff8b40c249e8a7a4bf",
+"z": 0.006,
+"years": 0.4423
+},
+{
+"address": "0x9393af1eab67bb5b8800569bfa34caea8e856f67",
+"z": 1.321,
+"years": 1.4019
+},
+{
+"address": "0xb9c13d8164b9b298f04e446b9156224d637e9102",
+"z": 1.297,
+"years": 1.6731
+},
+{
+"address": "0x9c522e518bed1a71b5d465614bc64dd512d8f2fc",
+"z": 1.649,
+"years": 1.8923
+},
+{
+"address": "0x8dd9a23d28c7997f3b44c51f14d32891e8677aac",
+"z": -1.15,
+"years": 0.3788
+},
+{
+"address": "0x6f79e98fda434891033fa477bb0a640a3076a7d5",
+"z": 1.182,
+"years": 0.6327
+},
+{
+"address": "0xb3caecaca14d397d083a19a555363e635efd2134",
+"z": -0.406,
+"years": 0.9423
+},
+{
+"address": "0xae8f7b6f93b2e5e3845b42852865f195c51919fa",
+"z": -0.43,
+"years": 1.1731
+},
+{
+"address": "0x41537f49a238b4772ef0047fd817c955e00f3244",
+"z": -2.237,
+"years": 0.1615
+},
+{
+"address": "0x70c66a8569852a32386df4e23b74fadc69acef27",
+"z": 1.083,
+"years": 1.8077
+},
+{
+"address": "0xa9f86fd324f036548266fdb850ef1c7f071bc419",
+"z": -0.099,
+"years": 1.0
+},
+{
+"address": "0x2a6334c30f36d1eefd64689c590dd199d3475972",
+"z": 1.758,
+"years": 2.7423
+},
+{
+"address": "0xddb54c1ec6c0b78e7d27382304dfa3b27ee9dbb6",
+"z": 0.797,
+"years": 1.0192
+},
+{
+"address": "0xd0d0c983ddd2fc008bdfd9a88e99d067d671a3e6",
+"z": -1.933,
+"years": 2.0269
+},
+{
+"address": "0xc6bc1bf68eeb149470c370c06ca9fbcdaa569789",
+"z": 0.481,
+"years": 1.3269
+},
+{
+"address": "0xdb6184860d54c948ac0e2decde137ce4e8e27d53",
+"z": -1.303,
+"years": 0.9923
+},
+{
+"address": "0xfb2298f27d20d8e1e6d460b985b1000918181408",
+"z": -1.864,
+"years": 0.1923
+},
+{
+"address": "0x93b52e6730a38f4f6b75e94e645f6c110cb30e29",
+"z": 1.861,
+"years": 0.225
+},
+{
+"address": "0x3e821e97cfd1e1deccd57ac0063f21ff7f5ed272",
+"z": 4.435,
+"years": 2.5077
+},
+{
+"address": "0xb8f0d3255ae6f936a100d674b1d22265d812075f",
+"z": 0.262,
+"years": 0.7865
+},
+{
+"address": "0xed6d80e75dcd6ecf044fb9707bf85fc683bf3389",
+"z": -0.756,
+"years": 1.4423
+},
+{
+"address": "0x3074aa6e98a0740b6e1d5fab04e640c317723d22",
+"z": 1.751,
+"years": 1.8346
+},
+{
+"address": "0xc3c65c31276a8e019d4f892d916d809733dba421",
+"z": -0.248,
+"years": 0.8269
+},
+{
+"address": "0x3bf128a27c8379d6dcc70e95318e762bde8efe32",
+"z": 0.669,
+"years": 0.7827
+},
+{
+"address": "0x35b06268b1579b4edb96e7689df35dbb859910bc",
+"z": -0.39,
+"years": 0.3846
+},
+{
+"address": "0x7750fcbb04f7b025b3ef1f016ca3d2639ab487af",
+"z": -2.279,
+"years": 1.0
+},
+{
+"address": "0xce355a1bb38240450c09333ee60902bca1521f2d",
+"z": -2.937,
+"years": 0.25
+},
+{
+"address": "0x3bf053ca188be60e801fd9912118fa99979e7304",
+"z": 0.515,
+"years": 1.7192
+},
+{
+"address": "0x7512e9674024b7d9fe5839b12d3cdae5b52c70e3",
+"z": -0.348,
+"years": 0.3019
+},
+{
+"address": "0x12e0f706a3805829dc912d6448a46432f9c11c98",
+"z": 1.347,
+"years": 0.5115
+},
+{
+"address": "0x49bf7738a6052068ddfd38bc604416f67db2109b",
+"z": 2.359,
+"years": 0.2827
+},
+{
+"address": "0xb4ff5bb5a635a49799ef3fb588cb8cc9f191ae4b",
+"z": -1.65,
+"years": 0.3038
+},
+{
+"address": "0x9577b23228dcaf74b54d5a8fd2361060d902eecf",
+"z": 0.326,
+"years": 0.7692
+},
+{
+"address": "0x814a89ccff053e62842f1effbe30875d9c122d20",
+"z": -1.113,
+"years": 0.5577
+},
+{
+"address": "0xf605cd3adabbc3110bc3efb85ebe7be57590a527",
+"z": -0.711,
+"years": 0.6519
+},
+{
+"address": "0x2512e855286c1f37b8f30bf49d197c7ba6c750dc",
+"z": 1.551,
+"years": 0.575
+},
+{
+"address": "0x38f453d4f19f1a94c8e3847b896e94a278e2ffb9",
+"z": -0.362,
+"years": 0.7423
+},
+{
+"address": "0xc30b98af41c61b9aaafb304b49f04c0f9bdc2185",
+"z": 1.355,
+"years": 0.2115
+},
+{
+"address": "0x559e9d6132b4fbe136ff555e2ddacac8c668b3b0",
+"z": 1.709,
+"years": 0.6519
+},
+{
+"address": "0x7199060ad19e1c99c20a5508f387875480f31a3e",
+"z": 1.789,
+"years": 0.2308
+},
+{
+"address": "0x61608b4997bf834f8086bcc0eeb1ddb24a634648",
+"z": 1.732,
+"years": 0.6519
+},
+{
+"address": "0x02e0b6613bf1bdd3ffe5896b79ee530e78d0378d",
+"z": -0.155,
+"years": 0.4615
+},
+{
+"address": "0x2d722cf625844ab4cc24f9f3807c3e41192116b5",
+"z": -0.305,
+"years": 0.3846
+},
+{
+"address": "0x2fefcab56f82ed3a94c7d420c0ee4bd402adf240",
+"z": 1.032,
+"years": 0.3654
+},
+{
+"address": "0xc5f75e34840e33da7a4f73591d003b9403ba0383",
+"z": -1.268,
+"years": 1.7692
+},
+{
+"address": "0x88b8fb259e0f72bf2df6511ebeea78f5e156d87c",
+"z": -0.611,
+"years": 0.2308
+},
+{
+"address": "0xdebd491a259a242fc9bd8fd780a507e8e062b67a",
+"z": 1.108,
+"years": 1.5173
+},
+{
+"address": "0x677fa53cd2acb8e87f65ed1d0353683b82618d02",
+"z": -0.895,
+"years": 0.7096
+},
+{
+"address": "0xa92e83216d626bef983cfadd02e35878e061e64f",
+"z": 1.098,
+"years": 0.2077
+},
+{
+"address": "0x3b696a569fcae42b6abd7f575398dd7febc61980",
+"z": 0.709,
+"years": 0.6865
+},
+{
+"address": "0x3069acf87e60427feea6909adf024927037a2459",
+"z": 1.099,
+"years": 0.3654
+},
+{
+"address": "0x5df4660295bed7abc783480c7d28d8c015cfb37a",
+"z": 2.442,
+"years": 2.5577
+},
+{
+"address": "0x7576b4a396400797cca2790356fff07da1b75dbf",
+"z": -2.956,
+"years": 0.5192
+},
+{
+"address": "0x8f804dec80028cb5bbc5537762b27629a4ab6c94",
+"z": 0.9,
+"years": 0.4808
+},
+{
+"address": "0x9b21e64773970abd821de80a6a3ae5b51863d022",
+"z": 1.116,
+"years": 0.2115
+},
+{
+"address": "0xfe97f3ba5da378cd83f94b02de8358045491d48f",
+"z": 1.19,
+"years": 1.0769
+},
+{
+"address": "0x5d90203edf5754c3b0b652f15b9642d0ffc0404b",
+"z": 1.487,
+"years": 1.6731
+},
+{
+"address": "0x53b1ab5918614bae6788fa757ac3d93163b3f8e3",
+"z": 1.238,
+"years": 1.8077
+},
+{
+"address": "0xf28e1b06e00e8774c612e31ab3ac35d5a720085f",
+"z": 0.704,
+"years": 2.0385
+},
+{
+"address": "0x85cccc75a99cd4b080ab5d2054303813076abfa0",
+"z": 2.329,
+"years": 1.8077
+},
+{
+"address": "0x943c96e126e06e7c17a5cd28145125b999498dc8",
+"z": -0.669,
+"years": 1.4212
+},
+{
+"address": "0xa91f79a5c95a8ea20bbad49ebdfffec8c51d0cf2",
+"z": 1.378,
+"years": 0.3269
+},
+{
+"address": "0x043e5e9f15d2d2b454ff66f2eb593b56c9bfb386",
+"z": -0.868,
+"years": 1.5173
+},
+{
+"address": "0x44659ef83a9a94c178886996ca054a852a59484c",
+"z": 1.896,
+"years": 0.2058
+},
+{
+"address": "0xca1879381227ee5d7fa01f3eea29d2a69973d6b1",
+"z": -0.853,
+"years": 0.4423
+},
+{
+"address": "0x00532b2e10626ed952d6664b9c6848646b227b57",
+"z": 2.263,
+"years": 1.6923
+},
+{
+"address": "0xcaad908e447d9da10c3c78851c95f5ee819fdba2",
+"z": 1.643,
+"years": 1.8577
+},
+{
+"address": "0x1ea5e2527bdb39068c03cace032c953fd854addc",
+"z": 0.507,
+"years": 0.3077
+},
+{
+"address": "0xa9ee565e1c412f04419edd20ea64aa8324a290b2",
+"z": 0.872,
+"years": 0.3212
+},
+{
+"address": "0x3db5a674b22cf6479367ae31be33204ae8701f33",
+"z": 0.434,
+"years": 0.4365
+},
+{
+"address": "0x35bc5ad3098cf26787273589427d2432046a646f",
+"z": -2.357,
+"years": 1.0327
+},
+{
+"address": "0x1818238e84f9560c28732c44acca456a977db31b",
+"z": 2.285,
+"years": 1.4346
+},
+{
+"address": "0x3657259119a1f9dac825e844d13fae875cbd97fe",
+"z": 1.128,
+"years": 0.7673
+},
+{
+"address": "0x22eeb166310ee35695dd856df8b4f7ae489df933",
+"z": 1.08,
+"years": 1.3846
+},
+{
+"address": "0xa7f05673a40a7ba074da23c7dd216ee30bb7f3a3",
+"z": 1.469,
+"years": 0.6135
+},
+{
+"address": "0xd0e9420932a05a28790174e5b0097d3a822c9d84",
+"z": -0.35,
+"years": 0.7115
+},
+{
+"address": "0x2d3aff7a4db2ab0fa16d0a3aca7e3993636d943f",
+"z": 0.623,
+"years": 0.4981
+},
+{
+"address": "0x7b3976f6363d1de71be68e9e44231302de98346d",
+"z": 0.693,
+"years": 1.0135
+},
+{
+"address": "0xe7795fce474d1eafd645a29e799a64f85dc26ba7",
+"z": -0.069,
+"years": 0.1904
+},
+{
+"address": "0x761f183859a09bccccc86344387342c5fd189eed",
+"z": 1.126,
+"years": 0.7308
+},
+{
+"address": "0xd0bf47dc3a7a0d931ee40174b9fa032cb113ede2",
+"z": -1.063,
+"years": 0.4231
+},
+{
+"address": "0x7282b8e6690d5ca20462e53c26fb78f2954fad88",
+"z": 0.019,
+"years": 1.0904
+},
+{
+"address": "0x96c290610260dc8bad4ab1b159b3f7a581202d8e",
+"z": 1.572,
+"years": 1.5
+},
+{
+"address": "0x376f5d3a4bc0462d7abb92d57756c52b3d90fca7",
+"z": -2.023,
+"years": 0.2308
+},
+{
+"address": "0x2068d14ee50772dd6e89c6f64f32adad0cc936ef",
+"z": 1.067,
+"years": 2.2885
+},
+{
+"address": "0x06bac685e220f3f152179b34bd180adc0a67b667",
+"z": -0.072,
+"years": 0.1731
+},
+{
+"address": "0xdb5e84bf8265cb3e93c7df77c4f1842ec4147ccc",
+"z": -0.795,
+"years": 1.5385
+},
+{
+"address": "0x0f7e127a8f5f54d056ac7056b576687f6e2fc4bb",
+"z": -1.27,
+"years": 0.1904
+},
+{
+"address": "0xff0eb24a7f8b94201a7c58c5c23e57bde97e899f",
+"z": 1.057,
+"years": 0.8846
+},
+{
+"address": "0x7f00dd791feeb1ce749baec334873f5a78a9c6c8",
+"z": 0.487,
+"years": 1.5115
+},
+{
+"address": "0x4a207d289fd49e60502451099771127bcf35b961",
+"z": 0.729,
+"years": 0.9231
+},
+{
+"address": "0x6ecba7527448bb56caba8ca7768d271deaea72a9",
+"z": 1.99,
+"years": 2.3923
+},
+{
+"address": "0x97853a9876c539740601578de767413019a1bfd7",
+"z": 0.285,
+"years": 0.3654
+},
+{
+"address": "0xac36a50ac5b02dbee857ad12f2d3a747a1187cea",
+"z": 0.992,
+"years": 0.5365
+},
+{
+"address": "0xc9fd8e119a9a03dcd04476ac151e10651e0acaf9",
+"z": -1.495,
+"years": 0.2692
+},
+{
+"address": "0xcc33c8ca446d76ecb692fef479fcdb3f7998d3c1",
+"z": -1.456,
+"years": 0.2115
+},
+{
+"address": "0x87da15878abb7f0adbe56bb393e3d00ed0cc03bc",
+"z": 1.191,
+"years": 0.4423
+},
+{
+"address": "0x8116545eb655b3c015b6d4455439762d07c91ca3",
+"z": -0.812,
+"years": 0.4231
+},
+{
+"address": "0x96d2452047fcf17a881db3ce13c828891c55a1bd",
+"z": 0.062,
+"years": 1.225
+},
+{
+"address": "0x314bfe4d00b02ac518789d99737a4018acec1686",
+"z": -0.55,
+"years": 0.25
+},
+{
+"address": "0x3d94884db2b5beb4c38c8d931282dc0820d0e425",
+"z": -1.305,
+"years": 1.0769
+},
+{
+"address": "0xce947d083a290f5bcb3ad0e7e76c95eee0c29756",
+"z": -1.412,
+"years": 0.1731
+},
+{
+"address": "0x15e5b76a758af6b14ce6f134374e32dcb5450cd6",
+"z": 0.787,
+"years": 1.8077
+},
+{
+"address": "0x78ccf5d8d3b24e2a0a591d1da2d604011c7d6fbb",
+"z": -1.59,
+"years": 0.2885
+},
+{
+"address": "0x6dbf800083e6b3f9bb282da1fae355bc41e9cfad",
+"z": 1.134,
+"years": 2.4808
+},
+{
+"address": "0xa827aae7418e1ed0ebc55f4071ff24b1bbb9748b",
+"z": -0.069,
+"years": 0.475
+},
+{
+"address": "0xac8028ccf0c6714994a2f1a8598f90ee45d18b0d",
+"z": -1.564,
+"years": 0.6269
+},
+{
+"address": "0x9ea2e52c3e4764e7a3ec384585d520dbbe040c0b",
+"z": -2.437,
+"years": 0.4231
+},
+{
+"address": "0x460907c7a6db9595fdf7f1440c84cfcec3564f8e",
+"z": -0.511,
+"years": 1.3654
+},
+{
+"address": "0xdea2d28379887e95ad9e1d3827304b21254b8d61",
+"z": -2.933,
+"years": 0.6154
+},
+{
+"address": "0x1822bc895fd57318188f9c4d4272a0a810c574e9",
+"z": 0.702,
+"years": 1.3827
+},
+{
+"address": "0x6c3fee9df69067085c680c03b910cc0e994c8611",
+"z": 0.901,
+"years": 0.1731
+},
+{
+"address": "0x21c4dbc1ba2c5973bc7036764e37b6cc396dbd57",
+"z": 2.615,
+"years": 0.4173
+},
+{
+"address": "0xb7a322b62994033f3c6cf816d31ec66b4d4aabc9",
+"z": -0.246,
+"years": 1.6731
+},
+{
+"address": "0x2140dcda5991f43959ad764a8a454d7a15d29be8",
+"z": -1.339,
+"years": 0.6923
+},
+{
+"address": "0x1a514512744409090222375dd1cd6c35c978d36f",
+"z": 0.082,
+"years": 0.5769
+},
+{
+"address": "0x1549920373edb37ae3a9cffe1be02844df3127d0",
+"z": 1.105,
+"years": 2.0135
+},
+{
+"address": "0xd142479997958a4fefd1f8d5373b31ce36987d73",
+"z": 0.565,
+"years": 0.2096
+},
+{
+"address": "0x3093189bd4d429cb2f47d03c14b9e9200b6b9425",
+"z": 2.268,
+"years": 1.8462
+},
+{
+"address": "0x6e97da38a05b56efeda2e860a54f3c386232a90e",
+"z": 0.292,
+"years": 1.3077
+},
+{
+"address": "0xba2023734b2f2ca9750c8ee59b881e178718a118",
+"z": 1.623,
+"years": 1.75
+},
+{
+"address": "0x916c4a962c9aaaf2b2237746ceacc17769342373",
+"z": 1.545,
+"years": 0.5558
+},
+{
+"address": "0xa8988876410786d456baa021551eb030a5ad1a63",
+"z": 1.755,
+"years": 2.5462
+},
+{
+"address": "0x781f4f234a244ea7b01a6d3a71e3b4539738b5a0",
+"z": -2.53,
+"years": 0.4231
+},
+{
+"address": "0x535e34b5ada64997afc88444271ae9b3f82b3867",
+"z": -2.684,
+"years": 0.5192
+},
+{
+"address": "0x37cdea0c9af695a5629a75e28a20724a98147918",
+"z": 1.729,
+"years": 1.1673
+},
+{
+"address": "0xce75bb6f341975d377e7b68c7638a6f9d52f6885",
+"z": 0.791,
+"years": 2.5192
+},
+{
+"address": "0x580e0b94a79e2cadebb30d06adfb710c08194458",
+"z": 1.199,
+"years": 2.7192
+},
+{
+"address": "0x4fbebbf6ddba6dfbec6a37ffc965d944668db33b",
+"z": -2.116,
+"years": 1.2038
+},
+{
+"address": "0xa0a777693bd001a30e0ee683698dbea66a3ca536",
+"z": -0.592,
+"years": 0.4615
+},
+{
+"address": "0x26ff915cd4cee8e5ba03145f85f693d2c55a3eaf",
+"z": 1.194,
+"years": 0.1904
+},
+{
+"address": "0x13d0a9def6357d08241bc10163807d6e037bc3ca",
+"z": -1.595,
+"years": 0.4231
+},
+{
+"address": "0x0044caa12028e1158da2a1555b3e4a2702fddc04",
+"z": 1.44,
+"years": 0.4019
+},
+{
+"address": "0x8040a47a3cf62a139b13d87005b88e75bf50f629",
+"z": 0.441,
+"years": 1.6731
+},
+{
+"address": "0x7e2642849ec03b1d23150266c36e6417196ef32d",
+"z": 0.24,
+"years": 2.0385
+},
+{
+"address": "0x349b7fd911b886742e93dbb0cde8fd9a3423c9f7",
+"z": 2.564,
+"years": 0.2288
+},
+{
+"address": "0x5b53358eca5790fa4c268ad6813386b3a86549c7",
+"z": -0.889,
+"years": 1.0269
+},
+{
+"address": "0xe7fefc0f713a5d7f02cc41977a5e0d69dbe7ba22",
+"z": -1.605,
+"years": 1.3654
+},
+{
+"address": "0x49caf2309cbafdfa4ab28d11ae18c3ec9b1cdde0",
+"z": -0.456,
+"years": 0.4038
+},
+{
+"address": "0x806c9d99aeaf106d143e44c30af6734a969d08b2",
+"z": -0.823,
+"years": 0.4615
+},
+{
+"address": "0xc39fd7889fe051da1120ceb3119f053ecbd0f315",
+"z": 0.494,
+"years": 1.0135
+},
+{
+"address": "0xdad18e6af9886ad4a9b9ed3ab9a50d33b3f58e7d",
+"z": 0.448,
+"years": 0.2885
+},
+{
+"address": "0x1af0e5da6ec84420b4ab6c0122d64e5b78cb24c1",
+"z": -1.77,
+"years": 0.1846
+},
+{
+"address": "0x8874fc656a41a68d7a0b7d750881c8d8afa76dfc",
+"z": 0.17,
+"years": 0.2635
+},
+{
+"address": "0x68b36200a9066ba777504b64e2b07e5ec2c0d70f",
+"z": -1.127,
+"years": 0.6731
+},
+{
+"address": "0xa55cd138ef64a2386700125a8fe72ea50df493aa",
+"z": -0.5,
+"years": 0.4231
+},
+{
+"address": "0xcf43ae681d46798862e0ae800278d5ae62fd1b2e",
+"z": 1.337,
+"years": 0.9212
+},
+{
+"address": "0x4b6bf51b026ea4774844e61414b01468eb553b9f",
+"z": 0.599,
+"years": 1.6231
+},
+{
+"address": "0x97ddd29d3b9a1a049179867901a6440b896e46a4",
+"z": -0.752,
+"years": 0.6481
+},
+{
+"address": "0x2eaeccc4bf791b5581f1ad4693ad3290cd4c7d95",
+"z": -0.142,
+"years": 0.4231
+},
+{
+"address": "0x7cc0a0a11c595019ce34b8695a27b26db8f1b156",
+"z": -0.08,
+"years": 0.4423
+},
+{
+"address": "0x44f4f40d7c82447b2d23c2e537703016874ffab0",
+"z": 0.593,
+"years": 1.2481
+},
+{
+"address": "0xf9de4e7c610b325781388dcbc39107b09c05dcbd",
+"z": 1.392,
+"years": 1.9423
+},
+{
+"address": "0x80bb41f7e74cf6d38107871a5f72d218f66b8ae5",
+"z": 1.339,
+"years": 0.6904
+},
+{
+"address": "0x0d96377b9ae770da2a8a6ac55ba11e1e8434cf71",
+"z": 0.815,
+"years": 0.6538
+},
+{
+"address": "0xa449689dc5e523bc83b0d9cfca724bc976f1da5d",
+"z": 0.555,
+"years": 1.0904
+},
+{
+"address": "0x13f2ca08112fd5b5df3c78c5e583d95d69900235",
+"z": 1.131,
+"years": 0.3827
+},
+{
+"address": "0x6f9cbfd4728a8247a544c93a9f4b1887001c9d23",
+"z": 1.854,
+"years": 1.8462
+},
+{
+"address": "0xacf09af6853ba4cbbb838e6032953bd7037b4539",
+"z": -0.673,
+"years": 2.3654
+},
+{
+"address": "0x16ab7a7d8ec355b1a47341ac5106da4bae8af4d0",
+"z": -0.738,
+"years": 0.4231
+},
+{
+"address": "0x977911e586a6328d605039e232ef91b34777e7e3",
+"z": -0.383,
+"years": 0.1712
+},
+{
+"address": "0x72ad694f32a664d03d089a26c232d8d1fb7e033a",
+"z": 0.627,
+"years": 1.7115
+},
+{
+"address": "0xdcb0b5e41d6ed4dd834316d4177d73452014f983",
+"z": -0.981,
+"years": 1.3962
+},
+{
+"address": "0x1df88681d96acd55511114ab4a5627a41e960868",
+"z": 0.988,
+"years": 1.5192
+},
+{
+"address": "0x4633211d426dc025ffa259e2310394c4b2acce2e",
+"z": -2.296,
+"years": 1.1135
+},
+{
+"address": "0x379bdc0b85aad0eef141f241f2d6278a8ac4d140",
+"z": 2.747,
+"years": 1.8538
+},
+{
+"address": "0xf5f4c3aa62a0f903a8529905031b1536d1cf16f8",
+"z": 0.436,
+"years": 1.3442
+},
+{
+"address": "0x399d7adeecc4f5e83891d3ca03d588155765459d",
+"z": 0.209,
+"years": 2.1538
+},
+{
+"address": "0x1ab3bb99dc20f9a29f6f82770910868dcc33527a",
+"z": -1.276,
+"years": 1.6154
+},
+{
+"address": "0xa168fc683425699a570e1a352d190f67a21dfe9c",
+"z": 1.542,
+"years": 0.3596
+},
+{
+"address": "0x982a264251c98b78eb3a2310b31f5ddedc156a71",
+"z": -1.083,
+"years": 0.8769
+},
+{
+"address": "0xf630d85a72628d73d7c7ffdf8fb4974c2b68a997",
+"z": 0.627,
+"years": 0.8192
+},
+{
+"address": "0x15f5c356656abba5a4b51f342b65a2b0ed36ab71",
+"z": -0.57,
+"years": 1.5712
+},
+{
+"address": "0xa2d645a27870f7d4480b44261264b6c4e133a844",
+"z": -0.788,
+"years": 0.75
+},
+{
+"address": "0x0d1945c3b50ba90f05514db1e2618eec9ea041c1",
+"z": 0.675,
+"years": 0.3269
+},
+{
+"address": "0x17dea680e7a41f2eb55437dd0055c0acd410ca0f",
+"z": 0.819,
+"years": 1.2827
+},
+{
+"address": "0xbd8ae4e5e2010a0cd9d185d174acc0af0602c9a4",
+"z": -1.958,
+"years": 0.2692
+},
+{
+"address": "0xa8bd04b706573487f1855e1952a094f592dbf1da",
+"z": 1.809,
+"years": 0.5173
+},
+{
+"address": "0x2b27649c52b2a864bd0cce69de86246fbaf3e9ea",
+"z": 1.077,
+"years": 1.8077
+},
+{
+"address": "0xaa13e38a0cc90d5df431b04cca96aa3bdcdd2833",
+"z": 0.727,
+"years": 0.2442
+},
+{
+"address": "0x478c53a76a1b90aa87be16480c883bd939e536a5",
+"z": 0.81,
+"years": 0.5577
+},
+{
+"address": "0xaf7fd67ae6b3e25f83291d5600fbe3b776eea4d3",
+"z": 0.753,
+"years": 0.5192
+},
+{
+"address": "0x355cf0d910bde4e4a9c4ebdd27ec31f69f94b917",
+"z": 1.071,
+"years": 1.3442
+},
+{
+"address": "0x9c41fac9db4ba2b1e6a0c39e0170c1cb1123c9e6",
+"z": -1.592,
+"years": 0.1923
+},
+{
+"address": "0xa867f01382bddb3bc9525d1151c96c42f4d6d4bc",
+"z": -1.174,
+"years": 2.3731
+},
+{
+"address": "0x845d1140023d36ffdfedf6e535d747739ded00e2",
+"z": -1.005,
+"years": 0.7885
+},
+{
+"address": "0xac19703271d8ac125620bda0c77ec680692f3dda",
+"z": 1.017,
+"years": 1.7692
+},
+{
+"address": "0xafc9bf7d8cb22e5f5f56e35cf26a2dad458aa79a",
+"z": -0.317,
+"years": 1.6346
+},
+{
+"address": "0xff3f81bf116731567f2d8f7f38c057fc9f4d316d",
+"z": 0.447,
+"years": 1.0115
+},
+{
+"address": "0xcfb0b1207e50ea4f0fec7ac430a584d2eeab9a76",
+"z": 1.342,
+"years": 0.4577
+},
+{
+"address": "0x40fa3e3a2f6d025a99d9f7706a0aa1769cf04de2",
+"z": 0.222,
+"years": 0.1923
+},
+{
+"address": "0x61b1cf5c2d7c4bf6d5db14f36651b2242e7cba0a",
+"z": 0.057,
+"years": 0.6731
+},
+{
+"address": "0xf7f8baf2197adf0c7e1725721f14ce1d53fd770c",
+"z": 1.098,
+"years": 0.2096
+},
+{
+"address": "0x376a3899dbf9f201d9161b3234c315068ab9a9ff",
+"z": 1.836,
+"years": 0.2827
+},
+{
+"address": "0x6d91e49b8dc6eb2ba01f85f80626ef0878d3a39b",
+"z": -4.123,
+"years": 0.7865
+},
+{
+"address": "0xb7e7bbcb76054187b744f4bcadfa342b59de38ee",
+"z": 0.285,
+"years": 0.5
+},
+{
+"address": "0x43d936856485c6ff09e05ffdf0a97989a433ab9d",
+"z": -0.847,
+"years": 0.5769
+},
+{
+"address": "0x99b8e5bd012ad107a51e4fa04300b89544cfdb50",
+"z": -0.323,
+"years": 2.1423
+},
+{
+"address": "0x32c8c8bedee1beedc368f1c9aa8c705a52a05d67",
+"z": -0.959,
+"years": 0.25
+},
+{
+"address": "0x3a6ab0bd69796c7796bd2917884980883429ae02",
+"z": 0.637,
+"years": 1.8462
+},
+{
+"address": "0xbddf97f6c00cd874f59ad8d158bef8ba1782136a",
+"z": 1.705,
+"years": 0.1538
+},
+{
+"address": "0xb791d1b51af954ee43a5ae1f1bcda360acfc075d",
+"z": -0.341,
+"years": 0.2115
+},
+{
+"address": "0xa7d91c5d15bc24b33e149e69031889ca1e361f69",
+"z": 0.41,
+"years": 0.2115
+},
+{
+"address": "0xafa5e3800c669e13cae1b9f86bd14d646c6a2f70",
+"z": -1.236,
+"years": 0.9231
+},
+{
+"address": "0xf646ba6fdd0051e839af2855bd58aaba7329065c",
+"z": 0.446,
+"years": 0.3615
+},
+{
+"address": "0x1b97b49b7256da61870ce898468c43eb55d5b9c9",
+"z": 0.884,
+"years": 0.4615
+},
+{
+"address": "0xaf88a6a260f58488b09db697a88883145356d7b1",
+"z": 0.37,
+"years": 1.1673
+},
+{
+"address": "0x811e1c836112c531f9a0135a7301f8012769901e",
+"z": -0.097,
+"years": 0.3827
+},
+{
+"address": "0x1d52e7f48d8129254b580bfbda0d6aba12e4676e",
+"z": -0.848,
+"years": 1.0192
+},
+{
+"address": "0x0a17d25790974eb001235703517ab9a97d4afd81",
+"z": 1.347,
+"years": 1.8462
+},
+{
+"address": "0xd04a99edbc3dc25a3dd797945116ca0e006c4aa2",
+"z": -1.626,
+"years": 0.2308
+},
+{
+"address": "0x7f728cd53d01539f3ed229da888862a4be0f2fbe",
+"z": -0.407,
+"years": 0.3846
+},
+{
+"address": "0x12842151d19c14a845ca685511c8d93ad2fdc021",
+"z": -2.031,
+"years": 1.1288
+},
+{
+"address": "0x19767bd4f19eb286ccad3ff40480c977cb6d4eee",
+"z": -0.412,
+"years": 0.4423
+},
+{
+"address": "0x72d585521ec1a7603ab5156b6e44ccd459d8ec0d",
+"z": -1.423,
+"years": 0.8077
+},
+{
+"address": "0xe479b6329ff7f81f619b4642eeb6b989648ed9cf",
+"z": 0.367,
+"years": 1.4231
+},
+{
+"address": "0xe690e8fc2cfeb2934aa97d907ea4b003adf06987",
+"z": -2.29,
+"years": 1.1731
+},
+{
+"address": "0x16aca47af57fee5c436d601d91741b238f4dc56e",
+"z": -0.093,
+"years": 1.2308
+},
+{
+"address": "0xe03de90a407c60a8d87413f8c1e3ec8da8b75adf",
+"z": 1.614,
+"years": 1.6538
+},
+{
+"address": "0x441a7e2c90fa4a3d9115c6513c8a494daa9c9562",
+"z": -1.027,
+"years": 1.7885
+},
+{
+"address": "0x742d4144a4f6fc454136bbcf8e3760d186d084d4",
+"z": 1.095,
+"years": 1.6538
+},
+{
+"address": "0x675437e075f70c170f49ced83547cf3b6ff9aeb4",
+"z": 0.83,
+"years": 0.8846
+},
+{
+"address": "0xcb4784beb1c4b0141a10e6f7f8c8b23165d4415f",
+"z": 0.114,
+"years": 0.2115
+},
+{
+"address": "0x62c6dade446498d56bf8365d0385ba012edf9782",
+"z": -0.793,
+"years": 0.2692
+},
+{
+"address": "0x419e1d45ec8eec86173c039c3696091cca0a8ea3",
+"z": 1.561,
+"years": 1.9808
+},
+{
+"address": "0x67af3214f6dd9502fb7ef4c0165c5deaf06f0401",
+"z": -0.612,
+"years": 0.2885
+},
+{
+"address": "0x5cb8c425131f6bd2ce97ab272c9a8e1c49d2ffc4",
+"z": -1.926,
+"years": 0.7115
+},
+{
+"address": "0x3b60e6a4c40615194e6bf2b1f3220fcb910e0516",
+"z": -0.725,
+"years": 1.8596
+},
+{
+"address": "0xd25648956188b36d9bee2383ed31799aa31f8864",
+"z": 1.486,
+"years": 1.7885
+},
+{
+"address": "0x4337a241dd81f774017db547c789f067f68f8501",
+"z": 1.025,
+"years": 1.5192
+},
+{
+"address": "0x2c50ea4be0d3dabdc31ddac1d296daed50b13353",
+"z": 1.533,
+"years": 1.7115
+},
+{
+"address": "0x17f6ef86d43b0cedca8a214fa36a961c3c7f5c3e",
+"z": 1.022,
+"years": 1.0962
+},
+{
+"address": "0xe466e8018fd78f10794eb53891e494987b009a0a",
+"z": 1.279,
+"years": 1.8077
+},
+{
+"address": "0x62016b340492521827fc3837571553227d54481d",
+"z": 1.008,
+"years": 2.4788
+},
+{
+"address": "0xbee037290af86d7055b5a8253a2a96bbb85efa72",
+"z": -1.966,
+"years": 0.4038
+},
+{
+"address": "0xaa2a72e3384d31da19d3aa41a8ef0355687fe273",
+"z": -0.316,
+"years": 0.4423
+},
+{
+"address": "0xf58dc0ef505139964bbedd7782f4520ce239fc24",
+"z": 1.148,
+"years": 0.4404
+},
+{
+"address": "0x97ce0ecd12d855f7f21de4124968a65132709fac",
+"z": 1.204,
+"years": 0.3788
+},
+{
+"address": "0x30c817e6a639d4bf5f12ab4be610ae15a5eaa4cf",
+"z": 1.175,
+"years": 1.7692
+},
+{
+"address": "0xa73edd3ed93968c33704379d5a9db024d7e89413",
+"z": 1.423,
+"years": 0.6712
+},
+{
+"address": "0x13513ae6c909d5b4ffcaa783650e59da897d3232",
+"z": -0.843,
+"years": 0.975
+},
+{
+"address": "0xa41e3384aaca20fcdabec09ff8a2ed6fa61d03cb",
+"z": -0.262,
+"years": 0.3654
+},
+{
+"address": "0xc9690323e15cc4668c776224f90340a85ee14a10",
+"z": 0.345,
+"years": 1.4231
+},
+{
+"address": "0x0594f2742a76784157c387a4c8fd377e150be1db",
+"z": -1.751,
+"years": 0.4173
+},
+{
+"address": "0xd47cf50973cd5a6d03efb2345caf4e04df7a4282",
+"z": 1.526,
+"years": 0.5942
+},
+{
+"address": "0xd3485078399432974b5c016b8757c867b5d4b680",
+"z": 0.759,
+"years": 0.3058
+},
+{
+"address": "0xbaa9b933e5f977a85ab73542a8550e3998928d2c",
+"z": -0.002,
+"years": 0.5192
+},
+{
+"address": "0x85ebb793f09008b1eb1a296aa33d8e7b0e95b1da",
+"z": -0.07,
+"years": 1.1904
+},
+{
+"address": "0xce629009309c3ca05df55b9d54005aeaa0a4c18a",
+"z": 0.299,
+"years": 0.4423
+},
+{
+"address": "0xf8cc6a47c285a80fd5779d79f800a651ad6d496f",
+"z": 0.585,
+"years": 1.3269
+},
+{
+"address": "0x93fcdbb510c345a7e14e9ea84daad14eb2869181",
+"z": 0.556,
+"years": 1.2308
+},
+{
+"address": "0x67ddc20dcc09e8d477fd763f9c33e7dec014d0a9",
+"z": -1.037,
+"years": 0.9231
+},
+{
+"address": "0x22a4d8e4be11ed049b31e42b8bad00e639d843f4",
+"z": 0.905,
+"years": 0.3981
+},
+{
+"address": "0x62bc1fe6009388219dd84f9dca37930f6fb6fa22",
+"z": 1.77,
+"years": 1.4981
+},
+{
+"address": "0xe83054865a23ca7b74e4a13a5e7bbc2010291820",
+"z": 0.977,
+"years": 0.7308
+},
+{
+"address": "0xfb704a9d5f1bd6b11f6b9d62142c17e6a9f8ff96",
+"z": -1.726,
+"years": 1.6154
+},
+{
+"address": "0xaa7da2705ddd87032951b024dff685176c2d2ac8",
+"z": 0.534,
+"years": 2.0
+},
+{
+"address": "0xb3abe0777aa9685941e54744e704378b4b33eeaa",
+"z": 2.862,
+"years": 2.4808
+},
+{
+"address": "0xcb1dac106d80ba31c71f4fd32b274108f493cd2b",
+"z": -0.595,
+"years": 1.1288
+},
+{
+"address": "0x9c6c85323ae3e695ba36d17c86f3ec2242cf712a",
+"z": 0.859,
+"years": 1.4038
+},
+{
+"address": "0x2b00c50f37e59d47221f955402194ed93602f867",
+"z": -0.802,
+"years": 0.2308
+},
+{
+"address": "0xeac2b20babd9a043e05355e5deec04bf66c56a33",
+"z": 1.554,
+"years": 1.8077
+},
+{
+"address": "0x0550849a458ae01b8c768f6e2ef8392fe49f3fa7",
+"z": 1.156,
+"years": 0.4038
+},
+{
+"address": "0x742b312d5238a2ad80b27f073295b2e9545acb0c",
+"z": 1.387,
+"years": 0.975
+},
+{
+"address": "0x53631762f2d62325a9d09c12d42bdd752aa39546",
+"z": 1.597,
+"years": 1.75
+},
+{
+"address": "0xcfd7ac34e9745346fd1ebf77e90030a28239d7ad",
+"z": -0.563,
+"years": 0.4808
+},
+{
+"address": "0x9f9ff6416dd565111a766a120569ccc6789ab109",
+"z": 1.846,
+"years": 1.5769
+},
+{
+"address": "0xbfef36a2015646dd9681e37864cddc833d6f676f",
+"z": 1.24,
+"years": 0.6346
+},
+{
+"address": "0x9a1b29c5baf13ac09fb8293de7f9ef9b84cba126",
+"z": 0.111,
+"years": 0.5731
+},
+{
+"address": "0x5bd30e489db6b8ee58a8e65ed88027e275e158c3",
+"z": 3.082,
+"years": 0.4038
+},
+{
+"address": "0x200ab08cf5e1e691fb034c244bc78fb1f993ae9f",
+"z": 1.729,
+"years": 1.8269
+},
+{
+"address": "0x9a77a8741560b750ddb82c72e4c071688013b12e",
+"z": 0.466,
+"years": 1.3808
+},
+{
+"address": "0x582377011be3422e248d8d533be361e73ee0717f",
+"z": -1.218,
+"years": 0.1538
+},
+{
+"address": "0x658519696e816f206802f599aa1915792ae43d70",
+"z": -1.833,
+"years": 0.2865
+},
+{
+"address": "0x8ca5f0042d96728d6cff56def8d609bb12e28d6f",
+"z": 1.226,
+"years": 1.1154
+},
+{
+"address": "0xfafc12f08181155383d6c0f2318f99e4a9956c76",
+"z": 0.675,
+"years": 0.4154
+},
+{
+"address": "0xe30e746a2cdbc978c3a398bac8bae68d01b3ae88",
+"z": 1.188,
+"years": 0.6538
+},
+{
+"address": "0xccb075074c3c411feb0dbb73f8c075a018dd3999",
+"z": 0.664,
+"years": 0.7808
+},
+{
+"address": "0x28243bdfb730519bd140fa98e3d041468f4b5143",
+"z": 1.705,
+"years": 0.8654
+},
+{
+"address": "0x6b0a43a6370598102c7fd5fad057caf06f351c6a",
+"z": 1.844,
+"years": 1.4981
+},
+{
+"address": "0x215c0a4c9208f93dac49d3cec08fdc745d098828",
+"z": -0.637,
+"years": 1.25
+},
+{
+"address": "0x8abb5189bfafed10d572e88f1f58b87439ecda42",
+"z": 1.46,
+"years": 1.7115
+},
+{
+"address": "0x3fc9a0c093e72507ed95edea5361e4b1af32604c",
+"z": 0.139,
+"years": 0.2308
+},
+{
+"address": "0x39526dee330258a8d4df05724cc25422aedf7f48",
+"z": 0.246,
+"years": 0.8077
+},
+{
+"address": "0x45533c92f693b7c90b5ef32bfa5a2f98a8fca4af",
+"z": 1.108,
+"years": 0.3212
+},
+{
+"address": "0x2a91af61145656fc7f909912ed4db131d82d70be",
+"z": -0.53,
+"years": 0.4231
+},
+{
+"address": "0x8df1bb1c597044819ce9b5c8551d3dca3d8da73c",
+"z": -0.417,
+"years": 0.2962
+},
+{
+"address": "0xc3926101a9784d8332f158282cf66eefa2d436c4",
+"z": 1.158,
+"years": 1.25
+},
+{
+"address": "0xe799f6e2414c60340ebd1e1613f7a9b1857d2af3",
+"z": 2.552,
+"years": 2.2962
+},
+{
+"address": "0xf0982e841b2ffeb3ec88821977aef326db72e00f",
+"z": 1.261,
+"years": 0.5173
+},
+{
+"address": "0x1c165c32d359d4aa7471823f570b8eb3aeed29dc",
+"z": -1.345,
+"years": 1.2308
+},
+{
+"address": "0x36b15b28d574b9365e345736bb96d67b3442dbf4",
+"z": -0.622,
+"years": 0.2885
+},
+{
+"address": "0x303d861cb8fed38c99d22cf3020e84c889d87c0f",
+"z": -0.336,
+"years": 0.2308
+},
+{
+"address": "0xd94982c701039434eaba32807dbb32cabe39dc15",
+"z": -1.053,
+"years": 0.6519
+},
+{
+"address": "0x880bf0135c6090fe7b4685586ecf3337b92d8f66",
+"z": -0.083,
+"years": 1.0904
+},
+{
+"address": "0x13a4d58ccb2c55060a5f3812676558f20955e22b",
+"z": -0.548,
+"years": 1.0712
+},
+{
+"address": "0x3286df1e858a1eea23117d9f0e38bd752f9caae9",
+"z": 0.431,
+"years": 0.2288
+},
+{
+"address": "0xd88a0dbae385db14f5510b3eb631b78c5dfa9575",
+"z": 1.748,
+"years": 0.3635
+},
+{
+"address": "0x2635951c043a407041f66bb57bdfdf760a0f14f3",
+"z": 2.108,
+"years": 0.7827
+},
+{
+"address": "0x4a0aee02132a411cfcf79a486f0e2d7c5152e94a",
+"z": 1.239,
+"years": 1.6423
+},
+{
+"address": "0x7cf9f8d8015f76b21c0b7be1b7c2293ceeda09bc",
+"z": -0.223,
+"years": 0.4962
+},
+{
+"address": "0xd44898c33a44a7827164dc56d8d55ce01cf27d17",
+"z": -1.755,
+"years": 0.3654
+},
+{
+"address": "0x3129902f692e3ff95bb12e998500aa1626afeb66",
+"z": 0.595,
+"years": 0.5
+},
+{
+"address": "0x6e9b3404310f50c4cc7be9faddaeca99e51d4348",
+"z": -1.802,
+"years": 0.4038
+},
+{
+"address": "0x1020e86585c30535aea3cf8b278712575a5b2326",
+"z": 0.866,
+"years": 1.4212
+},
+{
+"address": "0x34d3e9b531d2bbdd4593777d2b6fdcea8a6b821f",
+"z": 1.235,
+"years": 1.2308
+},
+{
+"address": "0xdf1a80841b16747ea4a48f449a255a79f8e238de",
+"z": -0.043,
+"years": 0.9615
+},
+{
+"address": "0xfbeca450a40241a21abfe5d03776b57a9c92be52",
+"z": 1.721,
+"years": 1.5558
+},
+{
+"address": "0xa7f9b74c37204dec40af6ff3b5b45c10b9ab322c",
+"z": 0.933,
+"years": 0.3981
+},
+{
+"address": "0xb627452d37a17cd45c3fd6404886c2a5f5638d5e",
+"z": -1.286,
+"years": 0.6019
+},
+{
+"address": "0x42e691b72d8f17a1e4508c357b835037bf0b742c",
+"z": -1.586,
+"years": 0.1923
+},
+{
+"address": "0x710bc0b6316f3dfe5710a21c23d6ff84b5ba074d",
+"z": 0.646,
+"years": 1.25
+},
+{
+"address": "0xb743e03c9b8e0b4a22815ce359b7ecd6407e6abc",
+"z": 1.489,
+"years": 2.3904
+},
+{
+"address": "0x8c0b07b90237f98b69b2529a2be0c735a015a770",
+"z": 0.992,
+"years": 1.5
+},
+{
+"address": "0x4737162907955dbd259536274c38e3257695f513",
+"z": 1.55,
+"years": 0.4981
+},
+{
+"address": "0x44092cc102dbfcf538b768ab1f028ca3b1e12c50",
+"z": 0.884,
+"years": 2.0962
+},
+{
+"address": "0xae2997b1f4d3ed33cc58f1f2cdd3319f1457507e",
+"z": -0.446,
+"years": 0.5
+},
+{
+"address": "0xcff0af3d7de4436a49adac745a2e992d49125c62",
+"z": 1.255,
+"years": 1.5904
+},
+{
+"address": "0xd600002f20a700c10073a1bc263f00220042707f",
+"z": 0.206,
+"years": 0.6346
+},
+{
+"address": "0x1d3d17c65742978338263c06a19ef6c0becd8928",
+"z": 1.388,
+"years": 0.1673
+},
+{
+"address": "0xa1582a9d38775a3a5cff79168d68a72c369daddd",
+"z": -0.052,
+"years": 0.3269
+},
+{
+"address": "0x2b329ff4d9d5a1a3fb6ad5a1ec03efeb65f7f189",
+"z": 1.965,
+"years": 2.3154
+},
+{
+"address": "0x66f463866512fc337c89bad2032acbe38ee38836",
+"z": 0.556,
+"years": 0.1923
+},
+{
+"address": "0x0369dc82fd66127bc23062c99b76b6cf910f3058",
+"z": 0.821,
+"years": 1.4019
+},
+{
+"address": "0x766417b0be4e5e8a70aa80f386b4eb1870071939",
+"z": -0.816,
+"years": 0.4558
+},
+{
+"address": "0xe9161cad22a0be10d7e470b40ccf21322b9de550",
+"z": 0.093,
+"years": 0.6135
+},
+{
+"address": "0x27a2f36bd901097fba08ceb91d7c7ca9c57bd19a",
+"z": 0.955,
+"years": 1.5769
+},
+{
+"address": "0xd072b9f0259bda9f98aef0986d6a0f7937b3a49e",
+"z": -0.603,
+"years": 1.3846
+},
+{
+"address": "0xfd9539e03bc28648e053d2f61e262b28f65b4212",
+"z": 1.848,
+"years": 1.5558
+},
+{
+"address": "0x166b0e967bf17571fc2df38064a36ed6871d6118",
+"z": 0.896,
+"years": 2.2115
+},
+{
+"address": "0x5d5ae3cd174e093d4a4cdfa783387916c1b499ab",
+"z": -1.816,
+"years": 0.2885
+},
+{
+"address": "0x601d1073342d8b50e5754b22a46b0246832381f8",
+"z": 0.416,
+"years": 2.0904
+},
+{
+"address": "0x4507bb68c6784d513b17ee38f92337bfde0b474b",
+"z": -3.032,
+"years": 0.4788
+},
+{
+"address": "0x1e3b71ff6ba3d50e5223cab57a28746ec80a252b",
+"z": -1.734,
+"years": 1.1731
+},
+{
+"address": "0x535a3a06d83425045d95f5c90fd8b6510c1092ac",
+"z": -0.281,
+"years": 0.4788
+},
+{
+"address": "0xe1b02144c101e4f6c41bc746f854214404efa23d",
+"z": -1.566,
+"years": 0.2115
+},
+{
+"address": "0x96bb30b12d5e5017b38f00799c869564077601a5",
+"z": -0.196,
+"years": 0.6288
+},
+{
+"address": "0x647d3a57ff93a5f46057e232e983b45f9e4ea435",
+"z": 0.963,
+"years": 1.2058
+},
+{
+"address": "0xc6c585377d6eff23b53fa7ba2a5807bb6b3593b2",
+"z": 1.131,
+"years": 1.2635
+},
+{
+"address": "0xd348f1bfb7db51f6d10008722f07999acbbf5d9f",
+"z": 0.567,
+"years": 0.8269
+},
+{
+"address": "0x4592a5a6bd5424058d74804a8d9ffde36a84e925",
+"z": 2.225,
+"years": 0.5769
+},
+{
+"address": "0x02bc5987b04be68b9c5d37c41cedd97e1622ca85",
+"z": 1.508,
+"years": 0.8577
+},
+{
+"address": "0x9d123b3ab8aec31b97ad32eef2dc3baa98f90ea4",
+"z": 1.637,
+"years": 0.3596
+},
+{
+"address": "0x4ce6aef66ba363b082d5a80d6150aacf20061ddb",
+"z": -0.339,
+"years": 0.1923
+},
+{
+"address": "0x27c5fdef9a082abd0711c611dbde9d7db9611aae",
+"z": -0.185,
+"years": 1.9423
+},
+{
+"address": "0xaede390f5b5b7cf77428030ccfc73d99a44e1602",
+"z": 1.174,
+"years": 1.5
+},
+{
+"address": "0x0142816b2db83326a160be4caaf9e13d7d6be260",
+"z": 1.943,
+"years": 1.8577
+},
+{
+"address": "0x7e60b2ffabe338e43e915146beab5decc1596ed0",
+"z": 0.884,
+"years": 1.3058
+},
+{
+"address": "0x5e73a540b46fa568fbc896db48a451bae713faab",
+"z": -0.574,
+"years": 0.9038
+},
+{
+"address": "0x40660111858dd62a3651a5e2c8cbc439159bbbbb",
+"z": 1.773,
+"years": 1.7058
+},
+{
+"address": "0xa7df9007432213161e1a48027f882b97ebd771ee",
+"z": -0.573,
+"years": 0.2115
+},
+{
+"address": "0x905e669accb485090db052d88144bc88e497ef21",
+"z": -0.389,
+"years": 0.3404
+},
+{
+"address": "0xb03f4d9374d3b31f607d1e07154cb82d93315d78",
+"z": 0.919,
+"years": 0.4019
+},
+{
+"address": "0xf08062d105b4729f4baa78572578a0231e5a6588",
+"z": -1.959,
+"years": 0.5
+},
+{
+"address": "0x44d0e21e5646195ee9c37f9b756010d9acb2cb6b",
+"z": -0.683,
+"years": 1.8077
+},
+{
+"address": "0x4f9b508612bd888ac2bae539ac19b109d8dbcb10",
+"z": -0.165,
+"years": 0.3827
+},
+{
+"address": "0xd9b7b09eb1e2ccbfe293e96a2172a80a47a9582e",
+"z": 1.143,
+"years": 0.2058
+},
+{
+"address": "0xf224d1b2152213e4377a5729eb129da58ca906b5",
+"z": 0.352,
+"years": 0.3827
+},
+{
+"address": "0x366410fb1be1d5c620072872d5eadbbf8765c5e5",
+"z": 0.446,
+"years": 2.0885
+},
+{
+"address": "0x874028ec344d922a4e5e634ca279b54bfdecf936",
+"z": 1.343,
+"years": 0.2827
+},
+{
+"address": "0x292dd361e5d6b3b0e1618eee7b1ddea68cb488b8",
+"z": 2.137,
+"years": 2.0385
+},
+{
+"address": "0x449c736640a876685819c021896fe2e905906997",
+"z": 2.987,
+"years": 2.5962
+},
+{
+"address": "0xc4643e390f49d1616b5108bf0eac309f7c0eb868",
+"z": 1.036,
+"years": 1.7115
+},
+{
+"address": "0xd79296bc1803dac8d4fa998719d8f5ac8fe1ab8d",
+"z": -0.635,
+"years": 0.3635
+},
+{
+"address": "0x2b0cd5a0f1e045a5854e303ddf21a65da63dd7f7",
+"z": 1.043,
+"years": 0.9923
+},
+{
+"address": "0xe81ef91f4dc9ae8c5c9100e7f3823bd23521a483",
+"z": -0.227,
+"years": 0.4038
+},
+{
+"address": "0x23474ba3bcaa23c916afa880c6871d5cd60801b2",
+"z": -1.293,
+"years": 0.4423
+},
+{
+"address": "0xd00708cafbb97f01162b26946d7cca7555ca863c",
+"z": 1.61,
+"years": 0.4981
+},
+{
+"address": "0xc53cc25df91ca5ba7d21211bd65b558f67341e42",
+"z": 1.228,
+"years": 2.5115
+},
+{
+"address": "0x98f72253951340ccae81fb2a3945d951e4411009",
+"z": -1.122,
+"years": 0.3596
+},
+{
+"address": "0x9aa70c212c01a01900b04319aed3b0d85bd0e06a",
+"z": 0.556,
+"years": 0.3462
+},
+{
+"address": "0x9b7d77b99079574c50eade644c790ff59f039f2d",
+"z": 0.216,
+"years": 0.6154
+},
+{
+"address": "0x241bee0058339c47ce62fa0127604446f51fcb52",
+"z": 1.463,
+"years": 0.5942
+},
+{
+"address": "0x16e1073bf4d46425ef597cd49588457068ea4c9a",
+"z": 0.204,
+"years": 1.3846
+},
+{
+"address": "0x8fffa63334042de1c0bed6ed0afb405c7749bfd4",
+"z": 1.572,
+"years": 2.1731
+},
+{
+"address": "0xedf3d0775803d74b2a91322cad37be05f4f9cc1e",
+"z": -2.114,
+"years": 0.7308
+},
+{
+"address": "0x83817655bb000329b076602939471c137b85f3a6",
+"z": -1.295,
+"years": 1.1673
+},
+{
+"address": "0xc7e92a105b734987f32f8af9856a5ba8c5183089",
+"z": -1.593,
+"years": 1.4423
+},
+{
+"address": "0x5e1001167b8f76cecce3fad9ff82057d330dbcdb",
+"z": -0.513,
+"years": 0.3981
+},
+{
+"address": "0x60d12ab487fa117f472abaff4b2b0d676c3a4c9a",
+"z": -0.316,
+"years": 1.25
+},
+{
+"address": "0xe84dd04e67e6d01a1ab80d5876f8af212292689f",
+"z": -0.325,
+"years": 1.6923
+},
+{
+"address": "0x5e7bd3aa291ef6e2ec27a6c3a0759b3d22a6720b",
+"z": -1.282,
+"years": 0.2115
+},
+{
+"address": "0x68866f4c2f1505219a9517dcead0fad754c1e33e",
+"z": 1.824,
+"years": 0.1904
+},
+{
+"address": "0x2cd5ce2c71dfed99455a0dcfe2281de9032f7394",
+"z": -0.59,
+"years": 0.8577
+},
+{
+"address": "0xcf7cbfc8208940e7d29ca5363b901d8a0defe055",
+"z": -0.879,
+"years": 0.5962
+},
+{
+"address": "0x885327357a8d005c9dfb670583899df6e21f8249",
+"z": 1.834,
+"years": 0.3981
+},
+{
+"address": "0x6d098a645e2cad8c962d777b91f656a62da99b36",
+"z": -1.596,
+"years": 0.3077
+},
+{
+"address": "0xe6fe2362f915d627ecbf401b0ceef3dd2b2b79bd",
+"z": 3.914,
+"years": 1.0519
+},
+{
+"address": "0xf2782d3b7e82b4f03bab42dc8bad838b6da1c804",
+"z": -0.054,
+"years": 0.6538
+},
+{
+"address": "0x112e64fae34fd670a1ff01df3c1e61f11fd50891",
+"z": -0.526,
+"years": 0.6077
+},
+{
+"address": "0x64648abcec519e536336e67e909f0dc4320dd138",
+"z": 0.637,
+"years": 0.25
+},
+{
+"address": "0x9661d54aa552e721bc20c57761f6e9565a43a291",
+"z": 1.918,
+"years": 0.3212
+},
+{
+"address": "0x7cbf30ab1160fb6bf19646cb285e040829433fdc",
+"z": -1.931,
+"years": 0.1731
+},
+{
+"address": "0xa09885b5d84a37b95e22badb4cdae22761c57acf",
+"z": 0.565,
+"years": 1.225
+},
+{
+"address": "0x28ecfcd03b62fcdeab94cf8526856c0a4f6ab74d",
+"z": -1.1,
+"years": 0.3462
+},
+{
+"address": "0x2c7320be7040a0a05d4d203385da7e907a517737",
+"z": 1.862,
+"years": 1.4981
+},
+{
+"address": "0xf48d169abbcaecea883d4116913ac67563e4cd54",
+"z": 1.993,
+"years": 0.2673
+},
+{
+"address": "0x4f7a61154ad7421c8458e23218f19ea3faf59af0",
+"z": 0.552,
+"years": 0.9731
+},
+{
+"address": "0x8efc820711bf579eba9a5d762263ab8ea275416a",
+"z": -0.825,
+"years": 0.3269
+},
+{
+"address": "0x9a3b7ddae540c130be8ba6a07075c23747e5bb15",
+"z": 1.628,
+"years": 0.3596
+},
+{
+"address": "0x4b572d3c753ba428c1dd13a1507f2bf71666a16e",
+"z": -1.769,
+"years": 1.2308
+},
+{
+"address": "0x842333eba5cbfc9be5c3a4ad8353d03760109a79",
+"z": 1.962,
+"years": 2.5135
+},
+{
+"address": "0x0a8494f70031623c9c0043aff4d40f334b458b11",
+"z": 1.539,
+"years": 1.0192
+},
+{
+"address": "0xb166a2c3e0e026c6ae494734041f12f10a5970d3",
+"z": 0.317,
+"years": 0.8596
+},
+{
+"address": "0x6ee90c8d7ff8ecec51d26e4c472f0398d064dacc",
+"z": 1.949,
+"years": 0.225
+},
+{
+"address": "0x037bd0705f4f3519645483ee9264c52898df828a",
+"z": -0.635,
+"years": 0.5135
+},
+{
+"address": "0x4e2f3a73be8ebbe5a52d595081b7853d60d80999",
+"z": -1.758,
+"years": 0.2308
+},
+{
+"address": "0x33f1edc68ba24a42623aaaf1b37afe0a5f191fa2",
+"z": -0.342,
+"years": 1.6731
+},
+{
+"address": "0x00a4fdd6cc9210047aaefdd702267b63b286f605",
+"z": -1.03,
+"years": 1.2308
+},
+{
+"address": "0xe40f4ef14ab12eb267f58d04049d7d051fcbe8f4",
+"z": -1.146,
+"years": 0.2692
+},
+{
+"address": "0xd8c5d4d36ddb2634491076c3d3bc541ed4646d3f",
+"z": 1.709,
+"years": 1.6346
+},
+{
+"address": "0x53a5a1b642f93d7674be6e4b9cac0834bfe13e9e",
+"z": 2.041,
+"years": 0.6865
+},
+{
+"address": "0x6db7204f8783dfddf80b957ba5e40e24251e304d",
+"z": 1.325,
+"years": 0.3058
+},
+{
+"address": "0x7cff499b88f7237c1254c0711ca6875cf5820434",
+"z": 0.759,
+"years": 0.5173
+},
+{
+"address": "0x51ebf5723c2cf262f3d1b40b1d90eb416f9b4867",
+"z": 1.052,
+"years": 2.8077
+},
+{
+"address": "0x0e84f75e69729b93a5d4a8554aac82823ca8750c",
+"z": 0.272,
+"years": 0.3462
+},
+{
+"address": "0x572c3a462fa05495656220cd91d555188a3e6a90",
+"z": 2.245,
+"years": 1.9808
+},
+{
+"address": "0xb8039eb23b965c81f21967e7d032108e9870b7e0",
+"z": 1.592,
+"years": 1.8269
+},
+{
+"address": "0x4cd27946a668e3c810bd2795bc7697eb14712da1",
+"z": 0.267,
+"years": 0.3404
+},
+{
+"address": "0x4fd868e2294c4177fcc4ba06b1a0f0f1b6b4a155",
+"z": 0.921,
+"years": 0.7481
+},
+{
+"address": "0x689cb5342b378d6353bd4f4ff2519d207b7f4942",
+"z": 0.276,
+"years": 1.7885
+},
+{
+"address": "0x51a48d2246250260543c0482da876f2f94bb51d3",
+"z": -1.301,
+"years": 0.1538
+},
+{
+"address": "0x657d93c1b402a743b52874d75e381c65ca539222",
+"z": -1.873,
+"years": 0.6135
+},
+{
+"address": "0xbb07ff95593e6fa550cd669a44938fc1a5704dfb",
+"z": 1.489,
+"years": 0.2673
+},
+{
+"address": "0x27871bf39f61000ffa0c7f83c150fd0da57bc58d",
+"z": 1.401,
+"years": 0.6712
+},
+{
+"address": "0x991001638332a4b5bebd694c73ce79c282ce3606",
+"z": -0.918,
+"years": 0.2308
+},
+{
+"address": "0x89c00070b6673c4a0c7e78f5cee346336ad6ab50",
+"z": 1.169,
+"years": 0.9346
+},
+{
+"address": "0x44b01d226ee71be10c37e6c88b6161ec944c3170",
+"z": 1.935,
+"years": 1.1288
+},
+{
+"address": "0x87e91a58dc712d3766a9a24302ee90675c9dc10b",
+"z": -0.708,
+"years": 0.4038
+},
+{
+"address": "0x950bb43f93a110196ca0fe6dfb9dfbe0ce5ed0b2",
+"z": 0.015,
+"years": 0.5962
+},
+{
+"address": "0x426055bd58c2a4b6950e095609f248fa149cc8cc",
+"z": 1.756,
+"years": 1.9923
+},
+{
+"address": "0x678703a249dba9acd5436c15e2eb891cedaae0d4",
+"z": -1.082,
+"years": 0.8212
+},
+{
+"address": "0x14a2d41e14ef41cd71484837b94982f98eac21da",
+"z": -0.704,
+"years": 0.4423
+},
+{
+"address": "0xe415c2d0fcfa3417ad876456e9c529eac2f91de6",
+"z": 0.482,
+"years": 1.0769
+},
+{
+"address": "0xff419855a87d0a8f875a4daa7fb38b75846a0644",
+"z": 0.267,
+"years": 0.7231
+},
+{
+"address": "0xe0665019fcf5ffa4a5aea5cf65f84016fcbe78da",
+"z": 1.808,
+"years": 2.6788
+},
+{
+"address": "0xf100bfc63618d479f65020407be78532c71f0a36",
+"z": 0.232,
+"years": 0.25
+},
+{
+"address": "0x5f72f33fb4e80d3c01c8ca91d4e56e09e49eda67",
+"z": 1.427,
+"years": 0.3654
+},
+{
+"address": "0xe310d4675f2875d7e752841d7642db4fd4d4516c",
+"z": -1.262,
+"years": 0.7077
+},
+{
+"address": "0x5f363952aff350fc994b6535370f94fb47db3d09",
+"z": -0.918,
+"years": 1.8346
+},
+{
+"address": "0x36b3717714ac4f771115d21d482afe690aa259d6",
+"z": 1.315,
+"years": 2.1654
+},
+{
+"address": "0x73d4f8243b0df8f97bfdf07930bc1246e650b5d2",
+"z": 2.275,
+"years": 1.4423
+},
+{
+"address": "0xee5ac9c6db07c26e71207a41e64df42e1a2b05cf",
+"z": 0.632,
+"years": 1.3462
+},
+{
+"address": "0xac36009756620a80ae9f7eb0deea6d2406203eb1",
+"z": -1.011,
+"years": 1.3635
+},
+{
+"address": "0xb10407eb34710da31b50a7ca4e2498c1f3d2d010",
+"z": -0.746,
+"years": 0.1538
+},
+{
+"address": "0xf949a431aac4986abd1434b837178a9fcb802ab2",
+"z": 0.969,
+"years": 0.4808
+},
+{
+"address": "0xb0d7387a676b05a19b3841e5bfecaa8b1cf74c0c",
+"z": 1.292,
+"years": 1.0712
+},
+{
+"address": "0xf3d25c05b6fbeea7dc3794964791b0985288964c",
+"z": 1.717,
+"years": 0.5
+},
+{
+"address": "0xda295375ba43e69881ed5f283a3c73e8e6189fb8",
+"z": 0.199,
+"years": 0.9423
+},
+{
+"address": "0x5aeedbc6b655c13950f32e5e8a0760d15bbe0afb",
+"z": 1.48,
+"years": 2.2115
+},
+{
+"address": "0x7df1f899d542374c4b5471b0144d8487534bea72",
+"z": 1.046,
+"years": 2.3538
+},
+{
+"address": "0x433626d43fd648fd809d6ac28463cd14838cd970",
+"z": 0.737,
+"years": 0.3019
+},
+{
+"address": "0x47aca29a4cbcf8f9d830d53789d844767dae0139",
+"z": 0.103,
+"years": 0.4423
+},
+{
+"address": "0x3a14c98996f28337722fb8828512b0ded146b1f5",
+"z": 1.561,
+"years": 1.2058
+},
+{
+"address": "0x165a82188274456b500507e2522ce5f82220eccf",
+"z": -1.386,
+"years": 0.4038
+},
+{
+"address": "0x7cda47248882f97232eb07d6f2abc3b9dda1ff7e",
+"z": -1.087,
+"years": 0.2885
+},
+{
+"address": "0xa60e55db7f5bcc932c6239bf3fc7dc02c9cdea6d",
+"z": 1.926,
+"years": 0.2885
+},
+{
+"address": "0x0f1c44fed78d980e6058a6a20e390bfdf95bf37b",
+"z": -0.506,
+"years": 0.1731
+},
+{
+"address": "0x0f2af1aa8a20ab196fac5f8d031558e0f20d3d76",
+"z": -0.378,
+"years": 0.6538
+},
+{
+"address": "0x29e657074d09fa94df306926977af3175ad2fa7e",
+"z": -1.677,
+"years": 0.2115
+},
+{
+"address": "0x734a5cb5d10748c1cf9f5258bd7c3e3b78f50445",
+"z": 1.557,
+"years": 1.6731
+},
+{
+"address": "0x9da5ba42b9ad0ae699ec60db07481c8a9b9209fe",
+"z": -0.685,
+"years": 0.2692
+},
+{
+"address": "0xb4220fb0104dab7b818200094fd6e5e8eee91f8b",
+"z": 0.982,
+"years": 1.0769
+},
+{
+"address": "0x8f136efb380fc52fbd7f01b4a765fe7e644d5a80",
+"z": 1.516,
+"years": 2.4115
+},
+{
+"address": "0xcbd95a2d178ebd62440297d3306049a51a61b3ee",
+"z": -2.311,
+"years": 0.2481
+},
+{
+"address": "0xb0bb2255f83518ab2a09a0aef8391a562bb0422d",
+"z": -0.451,
+"years": 1.4788
+},
+{
+"address": "0x4b2ea94afe5574ff994dbcd691e99961c567e163",
+"z": -1.864,
+"years": 0.2885
+},
+{
+"address": "0x37e6c9758c0f3a1983d03ace7598d31e2f8964dc",
+"z": 0.994,
+"years": 0.1865
+},
+{
+"address": "0x92523d8716653b204627643e8e8a42a7bec01a7e",
+"z": 2.528,
+"years": 0.4231
+},
+{
+"address": "0xd9d9cb8037d8a11a511398c3a790ded9bdf21b08",
+"z": 2.04,
+"years": 1.5385
+},
+{
+"address": "0x4c57012bcdaf15921f72a637c7dc1af8a456d9b4",
+"z": -0.724,
+"years": 1.0769
+},
+{
+"address": "0x0f77fd2aea5d0a4605cfaf550567fa47d74fb481",
+"z": -0.877,
+"years": 0.8462
+},
+{
+"address": "0x59805a6669d04d623f8dd7003e9e2402a9bffbeb",
+"z": 1.293,
+"years": 0.5385
+},
+{
+"address": "0x894d774a293f8aa3d23d67815d4cadb5319c1094",
+"z": 0.877,
+"years": 2.15
+},
+{
+"address": "0x1353fac766f2ecc27677a8a102ab9a3adcec0c3a",
+"z": 1.534,
+"years": 0.6731
+},
+{
+"address": "0x7d1b001b69d64d782dd3a795f8a276c46a733995",
+"z": -0.728,
+"years": 0.25
+},
+{
+"address": "0xe76474c748948d663b3e7c75500d415cb49f7af6",
+"z": -1.257,
+"years": 0.9423
+},
+{
+"address": "0xdeae0fb8cb194ab3bf896bc26666f5c4e9beacee",
+"z": 1.552,
+"years": 1.8077
+},
+{
+"address": "0x77ce4e0e5d178661c14915220da75ae219f1cd2e",
+"z": 0.941,
+"years": 1.0577
+},
+{
+"address": "0x89ba77ce004d6444fe8f73ca9ef1e21e9170e65f",
+"z": -0.636,
+"years": 0.2885
+},
+{
+"address": "0xdc5cfb7555d491651d6458495657808275ac1ccc",
+"z": -1.116,
+"years": 0.8077
+},
+{
+"address": "0x64dd467d1e5c2cf2be87fea20713159dbc12ca76",
+"z": 1.132,
+"years": 2.6731
+},
+{
+"address": "0x46c9a4d12683041a1e279367e124ccc09f96a453",
+"z": 0.742,
+"years": 0.5385
+},
+{
+"address": "0xcb1ada11b21fe066dcb91a12cb8195fafa50420b",
+"z": -1.557,
+"years": 0.2885
+},
+{
+"address": "0x757c88690107f3b4a4c891bd929674eee99de308",
+"z": 0.281,
+"years": 0.2865
+},
+{
+"address": "0x7fdbbfd13b3bd45b4d14a3b226f35a049e094176",
+"z": 0.539,
+"years": 1.6731
+},
+{
+"address": "0xad227f63d34e7251c1d0ab65e64eeea07aee4e44",
+"z": -0.293,
+"years": 1.0712
+},
+{
+"address": "0xec244a9f020d924b851eae51374f99eefa2322e5",
+"z": -1.366,
+"years": 0.1923
+},
+{
+"address": "0xa4a245e350418a5ee4af03be301dcfbd10a9959c",
+"z": 1.97,
+"years": 1.8462
+},
+{
+"address": "0x09d6103936437115df9a8ba1659c8928c4f75bc5",
+"z": 1.565,
+"years": 1.8077
+},
+{
+"address": "0xd83989ae5084a9b68ef52393f780249e0e597255",
+"z": 0.547,
+"years": 0.7615
+},
+{
+"address": "0x65369ac8b6e933e870c90d02da8f05de91024da7",
+"z": -1.329,
+"years": 1.0558
+},
+{
+"address": "0xd1132afca6535eaeaf1fae1ed46eb348ee7869f9",
+"z": -0.771,
+"years": 1.1481
+},
+{
+"address": "0x3321edf9f39fb1ce12aea2acfd19eb64fa9073c4",
+"z": 6.316,
+"years": 0.5173
+},
+{
+"address": "0x7571f9ad03b58574fa409c226f24180c66d58d43",
+"z": 1.445,
+"years": 1.7692
+},
+{
+"address": "0x7aa34310882fa5d8e2ae3585106726510c2583b9",
+"z": 1.605,
+"years": 0.6327
+},
+{
+"address": "0xd0e2842e830f2107f151ec0bd307c5871a3b4018",
+"z": 1.236,
+"years": 0.9154
+},
+{
+"address": "0x8fed783b0fe1f1b3302410863ebd224d999f4a6a",
+"z": -1.058,
+"years": 0.2692
+},
+{
+"address": "0xa8594a7a933b61ffc828ab9327b22c6102577119",
+"z": 1.863,
+"years": 1.9231
+},
+{
+"address": "0x6e83f71519183deb0a1679cb134815e4fa841a97",
+"z": -1.84,
+"years": 0.4231
+},
+{
+"address": "0xdb38f2f04b364a5e983f114abbfc97873e965262",
+"z": 0.652,
+"years": 0.3577
+},
+{
+"address": "0xf296195c1a97649131443b4d47d6327b7caaece5",
+"z": 1.336,
+"years": 0.3827
+},
+{
+"address": "0xbca1435cfb952254922e4a8dcbd767ed62eb01f0",
+"z": 2.321,
+"years": 0.3038
+},
+{
+"address": "0xdd8916e976ae5b1e4010286e22982941757b8882",
+"z": -0.856,
+"years": 1.9808
+},
+{
+"address": "0x85f5944120b0165696257a6aa3c93543f21f5e26",
+"z": -0.615,
+"years": 1.1865
+},
+{
+"address": "0xc5643d526045124c8a241f91c92f2fb36842f1f2",
+"z": 1.131,
+"years": 0.8769
+},
+{
+"address": "0x2b7f9e7a4a1a0dbd9e141744266de34726ce9e75",
+"z": 0.843,
+"years": 1.0577
+},
+{
+"address": "0x9e00ed4da9af5bfd0c254a4978a9bb9c547a86b0",
+"z": -0.971,
+"years": 0.3654
+},
+{
+"address": "0x7ea426064bd21095d35c7c87c8a8c8fdc81cffda",
+"z": 0.952,
+"years": 1.0115
+},
+{
+"address": "0x68e539042357f46bb57e7ef6e8c85cef9ee1bc36",
+"z": -0.727,
+"years": 1.2115
+},
+{
+"address": "0x3c31c6a034d2a6ac1866cb68191b16ad90918ad7",
+"z": -1.619,
+"years": 0.4365
+},
+{
+"address": "0xabdbca561f51626a217cbacdd95fcbd95b6484ac",
+"z": 1.969,
+"years": 1.2308
+},
+{
+"address": "0xff5a0fb705aa186cb776c023d516f75ad4225ed2",
+"z": 1.091,
+"years": 2.5577
+},
+{
+"address": "0xabd2b4d1e0def4a52939bcf06f4b98719f6af1a4",
+"z": -0.927,
+"years": 1.0904
+},
+{
+"address": "0x7606960b1ca9ac1ba05e315124b3514f67bbfab2",
+"z": 0.682,
+"years": 1.0519
+},
+{
+"address": "0xa6cc544ecfc30830f20d04bdbfaf1d47de382017",
+"z": 1.412,
+"years": 2.8077
+},
+{
+"address": "0x8039385046aab488dac0bb272e2ce233a804a12f",
+"z": 2.555,
+"years": 0.4808
+},
+{
+"address": "0x587ff51f8aa3aebc99d56793d1b0e67d43f66323",
+"z": 1.022,
+"years": 0.3404
+},
+{
+"address": "0xba26f2b302a20ffb0bb81c820acb67e305fc4d04",
+"z": 1.582,
+"years": 1.6154
+},
+{
+"address": "0xa2295e555cef3fd5b640e67fa7df532a59a856c0",
+"z": 0.876,
+"years": 0.2885
+},
+{
+"address": "0xec730d9334596d99e3e330daecd6d404c00c686a",
+"z": 0.363,
+"years": 2.5577
+},
+{
+"address": "0x4b1d33556b6b21f11242c905d187f951e76241f4",
+"z": -1.545,
+"years": 0.4231
+},
+{
+"address": "0x6825acfd48bf035c20bb231aaa184d1815fce31f",
+"z": 0.663,
+"years": 0.3596
+},
+{
+"address": "0xb8920e475e32b807ce51e0ef823fe070d7d96e8c",
+"z": -0.929,
+"years": 0.6481
+},
+{
+"address": "0x404d898d54403624e61d56ab44f019bdb78a30c3",
+"z": -0.702,
+"years": 0.5577
+},
+{
+"address": "0x7c56a5c9399d12bd5a84e82c29ec0122261cd3a1",
+"z": 0.789,
+"years": 0.3788
+},
+{
+"address": "0xb553d38e6ccd5985b1cf6f038d0397b0c223e903",
+"z": 1.065,
+"years": 1.1481
+},
+{
+"address": "0xea0f7492ac4c6949cb22b5d65250e701084a4e73",
+"z": 1.471,
+"years": 0.5942
+},
+{
+"address": "0x009942712494450e49656652095c370a147b1689",
+"z": -0.797,
+"years": 0.1731
+},
+{
+"address": "0xe9cef9fd872a03cedf9d3e6e90309782b3724ea6",
+"z": 1.653,
+"years": 1.8904
+},
+{
+"address": "0xb01ccdc577ebbe95f2e8e5da38d310d4c855cf22",
+"z": 0.392,
+"years": 1.3788
+},
+{
+"address": "0x82e17cce617292e3146abd723f60d9eea4656b78",
+"z": 0.595,
+"years": 0.7615
+},
+{
+"address": "0xe76f1a5ee4caab2ffbdca47ff455063906b325cb",
+"z": 0.2,
+"years": 1.4615
+},
+{
+"address": "0x6b484f37daf27d3da372a38c77642acc527429b8",
+"z": -0.283,
+"years": 0.2692
+},
+{
+"address": "0x5461808abcf71724dc1114b9ded5f89d53cc0568",
+"z": 0.619,
+"years": 0.6904
+},
+{
+"address": "0xf9ada4affc05f34810a369f98341d8225d0ca530",
+"z": 0.031,
+"years": 0.6923
+},
+{
+"address": "0x7d3b74774025e0023114c4977f16921da6bd3f2b",
+"z": -0.18,
+"years": 0.5962
+},
+{
+"address": "0xaeea3186963cebf9453594ca40aa5653237f5919",
+"z": 0.403,
+"years": 0.1731
+},
+{
+"address": "0x5f05ed08e67cbd71e5f4819146c5409f405baee7",
+"z": 0.927,
+"years": 1.5577
+},
+{
+"address": "0x8e68ce7a926869ab673d2a34c641c2d93ff92766",
+"z": 1.501,
+"years": 0.2115
+},
+{
+"address": "0x4b7a64b326d896bf359d399a722dbb22481aa6aa",
+"z": 1.786,
+"years": 1.8269
+},
+{
+"address": "0xd6f1b0f7e82c0df338822d71a86f6e8961ae59b5",
+"z": -3.19,
+"years": 0.5192
+},
+{
+"address": "0x765aaf8e6caf899a492cf6adec0adb131563a3c3",
+"z": 0.538,
+"years": 0.3212
+},
+{
+"address": "0x66970ee143664283becb9158c4439282cbebe45d",
+"z": 1.329,
+"years": 0.8577
+},
+{
+"address": "0x3fa756e0b4afcc0f0bfd755281fedf82d92927bd",
+"z": -0.224,
+"years": 1.7308
+},
+{
+"address": "0x86048b7863b1c5c6e3a9fd9d7de1e9394903264c",
+"z": -0.568,
+"years": 2.2308
+},
+{
+"address": "0xad9f82d6102072e5c56ae8f50122352a76df6b1a",
+"z": -0.118,
+"years": 0.5942
+},
+{
+"address": "0xc9de34e9a3cc09354d23d9e829129eeb54cada7b",
+"z": -0.631,
+"years": 0.4019
+},
+{
+"address": "0x8dcc9c5d9bc3532d1633dd9958c8e0d4287b15e2",
+"z": 1.24,
+"years": 0.2442
+},
+{
+"address": "0xbb5cc243afd7cfb708e6bc7b2b0b70b902616ebb",
+"z": 0.435,
+"years": 1.8077
+},
+{
+"address": "0x5e8e7a1e4b919c4548085bc8e6a3e8ac254f14a9",
+"z": 0.76,
+"years": 1.2308
+},
+{
+"address": "0x41eff4e547090fbd310099fe13d18069c65dfe61",
+"z": -0.715,
+"years": 0.8462
+},
+{
+"address": "0x2124121881299f60d6893066bc7d824e7cc1431f",
+"z": 0.225,
+"years": 0.8769
+},
+{
+"address": "0x44bdea079f71f981d4d0c6681a8b6bedd8e135fe",
+"z": 0.983,
+"years": 0.2885
+},
+{
+"address": "0x88ea46f882fb85ed8415fb7a9ef50479228a7f59",
+"z": 0.251,
+"years": 0.2115
+},
+{
+"address": "0x1fb3ada61f71750d15d8d3b5aa18efea9c80afba",
+"z": 0.909,
+"years": 0.4423
+},
+{
+"address": "0x6f5a35d66a71612cbceba574cfbbc10bed1378f0",
+"z": 0.825,
+"years": 0.7269
+},
+{
+"address": "0x9bbded406dfdb349cae473fcb1c27f640ba55268",
+"z": -0.512,
+"years": 0.3462
+},
+{
+"address": "0xf76c81c23181fec5d3765d8a6d4a9c03c1a153ba",
+"z": 0.505,
+"years": 0.325
+},
+{
+"address": "0xa0d1d716aa96c1cdc065ab6233ac7d3a530f45ee",
+"z": 0.338,
+"years": 0.6288
+},
+{
+"address": "0xda9e817a9d8a41b18252ebd0d77b38739ef8df23",
+"z": -1.387,
+"years": 1.1731
+},
+{
+"address": "0xb6560cede845b85fa517a2908545262ea3d3aaad",
+"z": -1.339,
+"years": 0.3462
+},
+{
+"address": "0x505f0ce70718e4aa880cef1ecc3c4da958c8300a",
+"z": 1.0,
+"years": 1.2442
+},
+{
+"address": "0xbb0f753321e2b5fd29bd1d14b532f5b54959ae63",
+"z": -1.006,
+"years": 1.25
+},
+{
+"address": "0xd8dc4a8a456aeb6a3feee7407c89ff9d8d96dc02",
+"z": -1.391,
+"years": 0.975
+},
+{
+"address": "0x29bc1e1b456235925cf70b3d86f811b8bf8eb7d9",
+"z": -1.839,
+"years": 0.1538
+},
+{
+"address": "0xa2c6263fd7d2b81859d35710533a24060f23bdf0",
+"z": 0.754,
+"years": 0.8058
+},
+{
+"address": "0x421d8eb0d2a9705cddf343e8933ed4106418075f",
+"z": 0.739,
+"years": 0.25
+},
+{
+"address": "0x09ec1c52be51d6d63ef7981f6cdc82fceb0c2fae",
+"z": -2.324,
+"years": 0.4538
+},
+{
+"address": "0xce6f879b946e97e7d78b8479dc29d26b3892c194",
+"z": 1.499,
+"years": 0.6712
+},
+{
+"address": "0xba082109242fbf52b8540f8e793c14f2d4013237",
+"z": -1.335,
+"years": 0.4038
+},
+{
+"address": "0x0ad5fba18166759bc6f9c2d9171fdd8a3d501240",
+"z": 0.274,
+"years": 0.8077
+},
+{
+"address": "0xa36a5e95d0471aa6ada2098820c3041be82fe780",
+"z": 0.833,
+"years": 1.3442
+},
+{
+"address": "0x53f81d22b16ff1718ab8ee52bff0592685325f92",
+"z": 1.268,
+"years": 0.5712
+},
+{
+"address": "0x12948ecbe074abcceeb858a34701c22bacadac69",
+"z": -0.786,
+"years": 0.2885
+},
+{
+"address": "0x970ed103da353023dc6726c04f183b38ce35943c",
+"z": 0.379,
+"years": 0.7808
+},
+{
+"address": "0x7fbab3bf2286daa18e680b857bf1fdbf666279cb",
+"z": 0.945,
+"years": 2.0769
+},
+{
+"address": "0x0ef202d6175aaba8c0de8b2dbb6ee70a75dd6c45",
+"z": -0.609,
+"years": 1.0327
+},
+{
+"address": "0xfb549265af696c04386339a2020464228da55867",
+"z": 0.974,
+"years": 0.75
+},
+{
+"address": "0x8f40c8e55d88e86553f7868f0f49eca196fb1057",
+"z": 1.294,
+"years": 1.3538
+},
+{
+"address": "0x9f07dc88dc450978e5ddf973f6a0236a7cfbf99a",
+"z": 0.319,
+"years": 1.8538
+},
+{
+"address": "0x63b0f9bb5db1e9db8e7286fc58ab536d52343fc8",
+"z": 0.926,
+"years": 0.9538
+},
+{
+"address": "0x3af22be0e13429239a2bb6c60f70ecff6ebd5af3",
+"z": 0.332,
+"years": 1.3442
+},
+{
+"address": "0x0ba2275dd2a7748ab91e5edc1cd6f10d60ebc48f",
+"z": 1.101,
+"years": 0.9885
+},
+{
+"address": "0x6f4bb3b1af90ddf3b0cad88ba678cf90a810d69e",
+"z": -1.673,
+"years": 0.475
+},
+{
+"address": "0xe58badad09ebc96eeaa736a3392f6cdae3fb0ef1",
+"z": 1.14,
+"years": 2.5577
+},
+{
+"address": "0xa160f32c1eee6a0959a1fb1769aa4bac2a1b87ca",
+"z": 1.444,
+"years": 1.1865
+},
+{
+"address": "0x98f64b4f0ed44ddd0f2d314da1fd41846dceb1ba",
+"z": -0.138,
+"years": 0.4615
+},
+{
+"address": "0x32bd1890f593dc6a6c07102ebe5028dd32f6747f",
+"z": 1.044,
+"years": 2.2115
+},
+{
+"address": "0x8aaae7c0b764db0e582cf86e4a409da613d6f0d4",
+"z": 0.486,
+"years": 0.3596
+},
+{
+"address": "0x22d4c9486bf84ec459c60522e8a5db0897a7588c",
+"z": -0.1,
+"years": 0.6327
+},
+{
+"address": "0xe92a21709efa97be207afff33835bc5ca1e9f12f",
+"z": 0.173,
+"years": 0.2673
+},
+{
+"address": "0xcda54e565b952882d22ae6c2223439ed98635f4d",
+"z": -0.626,
+"years": 0.4615
+},
+{
+"address": "0x0facde9a6d8b5be6980e6ea9bd166d5f714a59e7",
+"z": 0.748,
+"years": 0.3827
+},
+{
+"address": "0xdd8a0ba958de2909302fbf123e899a4c551fc35f",
+"z": 1.107,
+"years": 0.4981
+},
+{
+"address": "0xe125fdb0a94db1da1d2c033e42af127b4e0339d2",
+"z": 2.051,
+"years": 0.2269
+},
+{
+"address": "0xe93af00e02bf889d8e3281cd71b088a4a4b2c8c7",
+"z": 2.28,
+"years": 2.5192
+},
+{
+"address": "0x35655aab660d217e0d509c879fb0b106ed41371c",
+"z": -0.907,
+"years": 0.1923
+},
+{
+"address": "0x4016f161f022cbeb49b2932cb0bc9c92ded5acb6",
+"z": 1.856,
+"years": 0.6538
+},
+{
+"address": "0x46ee99511c948f69537baa5c3ba159018ea4eb4f",
+"z": 0.973,
+"years": 0.7692
+},
+{
+"address": "0x9bff305511268f723bab9f1900d0ceef6c6a5957",
+"z": 1.913,
+"years": 1.8462
+},
+{
+"address": "0x9fab762ff0b267e27910986901620be5a4fce7fd",
+"z": -1.348,
+"years": 0.6327
+},
+{
+"address": "0x62e1af3e818afc059d111c4f53cf0a2d9fd29110",
+"z": 0.079,
+"years": 1.2115
+},
+{
+"address": "0x745f8d79df57eca1c500efd117b2b060ced0dba9",
+"z": -1.017,
+"years": 0.2692
+},
+{
+"address": "0xd7a678fcf72c1b602850ef2f3e2d668ec41fa0ed",
+"z": 2.488,
+"years": 0.8269
+},
+{
+"address": "0xdb6c18087cb71164f9b47981d684e68c697b319e",
+"z": 0.807,
+"years": 0.7365
+},
+{
+"address": "0xe4ea99881672f0345d7d941955c6875680db34e7",
+"z": 1.154,
+"years": 0.4019
+},
+{
+"address": "0x3e7961675e79d4016c7a6469d7f7c8cfb1a069ae",
+"z": -1.868,
+"years": 0.8269
+},
+{
+"address": "0x04c1cef0dd799ce1dc541febf4d0cbe290402d28",
+"z": -0.468,
+"years": 0.75
+},
+{
+"address": "0x4bb3f963183bf696b691feb21efd5d703a8020b4",
+"z": -0.668,
+"years": 0.2115
+},
+{
+"address": "0x7152cd3891d5b80ca162bbb807e2d4310c084207",
+"z": -0.973,
+"years": 0.5192
+},
+{
+"address": "0x916f6cbd07c984a4b16e3481a415593d4bc8c80e",
+"z": 1.955,
+"years": 1.8269
+},
+{
+"address": "0xf293f548824e918e8eff42d09f8a9c64956a0a24",
+"z": 1.019,
+"years": 0.5135
+},
+{
+"address": "0x54a662957556207b62de39385e07c075878967cf",
+"z": 1.461,
+"years": 0.6712
+},
+{
+"address": "0xfa1f2977a0c5db2eb171c2881540a7ce068ec2cc",
+"z": -1.014,
+"years": 0.2885
+},
+{
+"address": "0x4c0f0ea5083bf9ec4ee2128498238ec8dcfb979e",
+"z": 1.001,
+"years": 1.8404
+},
+{
+"address": "0x5174d4869d7b35a01bd48710b71c45e8bd7cc54f",
+"z": 4.823,
+"years": 1.5846
+},
+{
+"address": "0x19c3dc3d0b90fbbd37fd369134c530f193c5007f",
+"z": 1.332,
+"years": 2.0846
+},
+{
+"address": "0xb4d7186e44019396fe8e8b7bd090c814bb8d2e98",
+"z": 1.059,
+"years": 2.0577
+},
+{
+"address": "0x73a1bb338613291ac6530870fe2c5d354bfec17e",
+"z": 0.159,
+"years": 0.6538
+},
+{
+"address": "0xab5208e335f8748e512065f88d5e60d676e22105",
+"z": 0.949,
+"years": 2.3212
+},
+{
+"address": "0xac89e080b7aff490a6756fa320ebd55417415de8",
+"z": -1.185,
+"years": 0.1712
+},
+{
+"address": "0x58e7fc48128472498bcbf65278342d49a36f256e",
+"z": 1.567,
+"years": 1.8077
+},
+{
+"address": "0x7068c8595dc1ac103e481159a641c8e3c6ad8543",
+"z": -2.549,
+"years": 0.9808
+},
+{
+"address": "0x6134d394ecb8c488bb092fc631ec85d56e4b9fb0",
+"z": -3.201,
+"years": 0.25
+},
+{
+"address": "0x4db5c56c9863d41f53d991fb2e5f638418c92e5b",
+"z": -0.847,
+"years": 1.0692
+},
+{
+"address": "0xe6561da5f299b09bc7ac3d94060fb74bbd7be7ba",
+"z": 2.577,
+"years": 1.9885
+},
+{
+"address": "0xac50bedae8f051d95876d7f5c629d37a990b0b8e",
+"z": 1.356,
+"years": 1.7308
+},
+{
+"address": "0xcaad4d591698eefe4c12ecce152f4cb75f930ef4",
+"z": -1.788,
+"years": 0.7038
+},
+{
+"address": "0xe8f71ed95b855d73d973010af37e8102b3fa5a2e",
+"z": -2.043,
+"years": 0.575
+},
+{
+"address": "0xfd2d6527478ef9028586a875fc637a38bcd981a6",
+"z": 1.547,
+"years": 1.8077
+},
+{
+"address": "0x8b5617912723dd0e04bf32db7cc41c0583c57136",
+"z": 0.708,
+"years": 0.2308
+},
+{
+"address": "0x27d33e77c8e6335089f56e399bf706ae9ad402b9",
+"z": 0.39,
+"years": 1.7308
+},
+{
+"address": "0xba4387ac1a36f648d1044b2f79023d1f42aa8ee3",
+"z": 0.738,
+"years": 0.7885
+},
+{
+"address": "0x1dcae862475705212c2ce61656339fd4a669de1e",
+"z": -0.56,
+"years": 0.1923
+},
+{
+"address": "0x397c0bfd274a7b90285b94c29a8fecce5239aa59",
+"z": 1.781,
+"years": 1.8462
+},
+{
+"address": "0xf503c4cac2b5a27f68eee197efb94e6fdeaa48d1",
+"z": -0.039,
+"years": 1.0385
+},
+{
+"address": "0x768ff66a64425235adecdc8c1759e36b347564bd",
+"z": 1.265,
+"years": 1.75
+},
+{
+"address": "0x199ad42b9b6ec0d4f0c40037873f2ec917b96795",
+"z": 1.287,
+"years": 0.6712
+},
+{
+"address": "0x9c061018cb0eddc0dcd2c7fba6938f27dd5fb1a7",
+"z": -1.399,
+"years": 1.7038
+},
+{
+"address": "0x1d38751a42fd969bca3054aeb065f4c3694a6840",
+"z": 1.594,
+"years": 0.5558
+},
+{
+"address": "0xc016471bcffdb5a7110b5c26b15ac465614eca3d",
+"z": 0.934,
+"years": 0.4019
+},
+{
+"address": "0xa9184bb57fd75c7c63e4c074d6319eceac6be53b",
+"z": 2.078,
+"years": 2.0
+},
+{
+"address": "0xcc9d23b76655e3a5bf535e32030ef78cd639805d",
+"z": 1.27,
+"years": 2.5769
+},
+{
+"address": "0x98b5cec25a8d6848892df8275460345395cb7ca2",
+"z": -0.244,
+"years": 0.1731
+},
+{
+"address": "0x3029229037544ec191883aa6721c5be6a5956cce",
+"z": 0.648,
+"years": 0.3981
+},
+{
+"address": "0x3e6f330f7deca3593c130162c4da630f369045ba",
+"z": 0.357,
+"years": 1.1519
+},
+{
+"address": "0xc7ad761dc5419135334d1033110000a62baa8d24",
+"z": 0.134,
+"years": 1.1462
+},
+{
+"address": "0xc9b3ef98f2b260c2c4c48323e8863f4dfed3d5a7",
+"z": 1.22,
+"years": 0.3442
+},
+{
+"address": "0x52e269de57e42dfb9b18514e290e0e54c27fbeed",
+"z": -0.026,
+"years": 0.7192
+},
+{
+"address": "0x1695a8ba3f3313f9a9ed075df09c9fcc60840ba1",
+"z": 0.704,
+"years": 1.7692
+},
+{
+"address": "0x215f033cd1389687fa6159a0a3c621c023c68f6c",
+"z": 0.46,
+"years": 0.3596
+},
+{
+"address": "0x8d68efbf06fb8cf932518bcb53705e674c4852dc",
+"z": 0.336,
+"years": 0.4981
+},
+{
+"address": "0x52860b219f340b72665081a4148fc01adf14a68c",
+"z": 1.062,
+"years": 1.8269
+},
+{
+"address": "0xadf8baecb2f26577f679af1255c45424e39473e0",
+"z": 0.222,
+"years": 0.4404
+},
+{
+"address": "0x5f3a4876d44c78c4acfff2dbee20eb38ef827c62",
+"z": -1.614,
+"years": 1.9942
+},
+{
+"address": "0x804d02a15d100b7b675dcd62f8cdbfe9a1a18793",
+"z": 1.001,
+"years": 1.8154
+},
+{
+"address": "0x1aec56da615bef594f07f0cacd13d2afd265a343",
+"z": 1.872,
+"years": 1.8538
+},
+{
+"address": "0x54869010938bfdbaf0a7c9bf80baa6e13b50ca6a",
+"z": -0.341,
+"years": 1.0519
+},
+{
+"address": "0x7f7a803f0b592f3506f0d82bfefc7e649941dcd6",
+"z": -0.897,
+"years": 0.3596
+},
+{
+"address": "0x70e4c3876ced800e79254386408683b3faaee533",
+"z": -2.27,
+"years": 0.4038
+},
+{
+"address": "0xf90063eab363d83c9a08221898736228466f7f56",
+"z": -1.526,
+"years": 0.2692
+},
+{
+"address": "0x9a773a0c1710a5afd9d25eb5b0d2dca2239663e6",
+"z": -0.74,
+"years": 0.9615
+},
+{
+"address": "0x140135643b5db60bd88ad977bd477941955de6c8",
+"z": 0.443,
+"years": 1.5769
+},
+{
+"address": "0xdb23b78c2e7db5a447a1190cdabd3e2a3fe8a7c8",
+"z": -0.203,
+"years": 0.4038
+},
+{
+"address": "0x723afd5a9cad58f7f9224a20dbf5c6b9921988ef",
+"z": -0.672,
+"years": 1.2308
+},
+{
+"address": "0x8328446602cb4c3b2b4a25beca6488e947b6f54a",
+"z": 0.245,
+"years": 0.4173
+},
+{
+"address": "0x82b83640d2d2968c8861fcce9b694f5f739e333d",
+"z": -1.035,
+"years": 0.3077
+},
+{
+"address": "0x02458e17a59386d7a9f71d4135aebc976f81ba3d",
+"z": -0.598,
+"years": 0.9731
+},
+{
+"address": "0xc73c3b77f4adcf47300347788b075cb3b2f761e8",
+"z": -1.482,
+"years": 0.3846
+},
+{
+"address": "0x74adb6e0a0e0eca21798a393da8f97d99ace4cbe",
+"z": -1.04,
+"years": 0.2308
+},
+{
+"address": "0x57e2238fbda3582c9dad713be1fd4a8539a3c557",
+"z": -0.314,
+"years": 0.575
+},
+{
+"address": "0x2db5cbda42b313f7cab166bc5ff317494d5be8cc",
+"z": -0.361,
+"years": 0.3404
+},
+{
+"address": "0x7fe0d27e41d1106332b0842531ccb035f651ba51",
+"z": 2.248,
+"years": 0.3019
+},
+{
+"address": "0xc5479fece226a3b62c0b8599252a58237359a652",
+"z": 0.285,
+"years": 1.7635
+},
+{
+"address": "0xbe2f2e42d31851110811dd2b49a5023ba1f3a3a5",
+"z": -3.068,
+"years": 1.0577
+},
+{
+"address": "0x655b377919aa49d5ad184dd31139b47fb96e714a",
+"z": -1.99,
+"years": 0.3846
+},
+{
+"address": "0x84df6c91b758bde59583f4d3786b9a817d96018b",
+"z": 0.953,
+"years": 0.3269
+},
+{
+"address": "0xbac0305c2ec09284203b180e701c63245cf0efcf",
+"z": -2.137,
+"years": 0.5577
+},
+{
+"address": "0xa663473951a57fe34c0a8f4e3d869a29593cf5bc",
+"z": 1.104,
+"years": 1.8269
+},
+{
+"address": "0xd2abc982c88fc1a23f79212735fa04795dbf1038",
+"z": 1.47,
+"years": 2.7423
+},
+{
+"address": "0xbba9bb2af10fa12c8d89ec7b9852a48b74eb1473",
+"z": 0.395,
+"years": 0.3635
+},
+{
+"address": "0x0cfc3f1c075fcc56f2642539a6e09c5fbd09d629",
+"z": 1.186,
+"years": 1.8077
+},
+{
+"address": "0x707a2f2bdceb1df13a4b41db735d508e5a0e1892",
+"z": -1.462,
+"years": 1.7308
+},
+{
+"address": "0xb9966663aea8e8192880c3a3b9a539042202501a",
+"z": 0.734,
+"years": 0.1923
+},
+{
+"address": "0x06251713de43c38c2e14f33a3939f778b3e867e1",
+"z": -1.556,
+"years": 0.75
+},
+{
+"address": "0x55a3ccb28d5d1e4e4d551f85c3272e6d6e01a6e2",
+"z": 0.823,
+"years": 1.8077
+},
+{
+"address": "0x2396bc99feedc162af809314257571bb7ff07a36",
+"z": 1.765,
+"years": 1.7692
+},
+{
+"address": "0x71acff6d9b5ffdd3e56d459cf4472f13c4edebf1",
+"z": -1.193,
+"years": 1.1923
+},
+{
+"address": "0xb851f8860e6a0fc4b7e0f6ba57b6b8b5f3010aaa",
+"z": -0.355,
+"years": 1.7192
+},
+{
+"address": "0xef863545d15a0db0a56540fa2addf30ab98b58c2",
+"z": 0.253,
+"years": 1.8846
+},
+{
+"address": "0x94c9fe206ea43185e3de2a42d7b6fb91bb5622bf",
+"z": 1.245,
+"years": 1.1538
+},
+{
+"address": "0xe500d9c76993e4f356b698711e53acd0ab98f905",
+"z": -1.825,
+"years": 0.1904
+},
+{
+"address": "0xe696b53798ba62d98451893dbe908dda0a78bd16",
+"z": -1.152,
+"years": 0.4808
+},
+{
+"address": "0xee8cc4dd63013485d8a207c081a1493da99d47b3",
+"z": 0.584,
+"years": 0.7808
+},
+{
+"address": "0x4d3980ac9d84fc34adcd025ee2337786846343c4",
+"z": 0.496,
+"years": 0.5942
+},
+{
+"address": "0xfd3136da66cba78eb2acffe032501c2f39d4a81f",
+"z": -0.166,
+"years": 0.25
+},
+{
+"address": "0x24bc4e4ba1adc9b758167086fc776401b099027f",
+"z": 1.53,
+"years": 1.4212
+},
+{
+"address": "0xb4177e838a5bcdc6097c2e328943b7d3081e1fe7",
+"z": -2.348,
+"years": 0.5577
+},
+{
+"address": "0x15228151f2cd801c0557ce3cd5b218db19f1bd74",
+"z": -1.958,
+"years": 1.6731
+},
+{
+"address": "0xe9b78c7909007245e30e074f34633544c410b8c6",
+"z": 0.425,
+"years": 0.2096
+},
+{
+"address": "0x08c1be00a834dcabe4267b58a849cb31ed93c787",
+"z": -0.243,
+"years": 0.2885
+},
+{
+"address": "0x36ee2bc3a3946ad24e88f1c8faf76520ce7382fb",
+"z": 0.432,
+"years": 0.4423
+},
+{
+"address": "0x24eeb5249ce20cfb667e26b463c0ef394588d65f",
+"z": 1.524,
+"years": 1.7308
+},
+{
+"address": "0xf62d4b41d5eacabdbd880beeb647563fcabb4034",
+"z": 1.002,
+"years": 0.25
+},
+{
+"address": "0x4e9be8dfc87f191226c7de1fc6e65e8a553b7d91",
+"z": 1.778,
+"years": 1.8077
+},
+{
+"address": "0xa559edb06548fb5d9b2066ec43320e5f9726ff95",
+"z": 1.431,
+"years": 0.7385
+},
+{
+"address": "0x7dcf3b1636d499b832051c7a5c0eb1911010556e",
+"z": 1.543,
+"years": 0.9423
+},
+{
+"address": "0x0e3f5bb797e3953fed2a319544d0e821b4a11e1c",
+"z": 0.954,
+"years": 2.2308
+},
+{
+"address": "0x77b8d80755406a7cc3b2787fd1272e5410214edb",
+"z": -1.462,
+"years": 0.6904
+},
+{
+"address": "0x9bf8701d6e25faef82322c40ada04fd162ee2ac9",
+"z": -0.338,
+"years": 0.3462
+},
+{
+"address": "0x4d5f00be06f2b553738dc6f01bfa5f90601de925",
+"z": 2.494,
+"years": 1.0519
+},
+{
+"address": "0x362e6c40e2210ef2a241c57012706ad36f7c3318",
+"z": -1.127,
+"years": 0.2692
+},
+{
+"address": "0xfc3b069b0ddbbd160438775367df99654d0e6b1e",
+"z": 0.452,
+"years": 0.4558
+},
+{
+"address": "0x68905445e7b9a4f1f01a537bed3f569764ad0de1",
+"z": 0.649,
+"years": 0.2442
+},
+{
+"address": "0x83819883168d9310fb701439fde1385c7500bbf1",
+"z": 0.699,
+"years": 1.1346
+},
+{
+"address": "0x9ae94dbc51fba7f4eaf95c024459a29a9597bab1",
+"z": -0.213,
+"years": 0.2308
+},
+{
+"address": "0xbc6865901a0a5de4aab0dd8507dff1de00d94e0d",
+"z": -0.686,
+"years": 0.3846
+},
+{
+"address": "0x3a8fb95052ec8d41c6cf33d228ac46e02ec4c1ad",
+"z": 0.864,
+"years": 0.3269
+},
+{
+"address": "0xc0b790875f326f0ac2bb180784d9b0d019c6b889",
+"z": -0.956,
+"years": 0.25
+},
+{
+"address": "0xa8ddadc22358beb212f6febac9738dcfee81ba16",
+"z": -0.618,
+"years": 0.8269
+},
+{
+"address": "0x5b79e62f06ea6d299ffda5171105a705e0221d36",
+"z": 1.426,
+"years": 0.7288
+},
+{
+"address": "0x585d2e1dc309e196fc609dfd9f71af66c862394e",
+"z": -1.182,
+"years": 0.8769
+},
+{
+"address": "0x86988869a63a04fa3130445217604e2e35f03aa0",
+"z": -0.597,
+"years": 0.3269
+},
+{
+"address": "0x2e1d42e3861ca7ce8eb626448401b2d4f3273dad",
+"z": 1.213,
+"years": 0.2827
+},
+{
+"address": "0xcf09174a19a299ea62469aae0a71454473cabd9c",
+"z": -0.387,
+"years": 1.0962
+},
+{
+"address": "0x95d1a3d9b111083e58fc275cd3c3c3b0f0b73969",
+"z": -0.249,
+"years": 0.9231
+},
+{
+"address": "0xb9a38770bea53cc5c314d954992a1e4ae3efb5e1",
+"z": 1.301,
+"years": 0.3077
+},
+{
+"address": "0x4535495989f30de9044bdf7409c0e104e1422131",
+"z": 1.036,
+"years": 0.2885
+},
+{
+"address": "0x3ee505ba316879d246a8fd2b3d7ee63b51b44fab",
+"z": 1.464,
+"years": 1.2077
+},
+{
+"address": "0xbe4e91ae63090eeb4165dfcfc35db3a4eb76e75e",
+"z": 1.026,
+"years": 2.0192
+},
+{
+"address": "0x404ca2035b37bf2e83505134ebcf8d03babb5f03",
+"z": 0.445,
+"years": 1.8981
+},
+{
+"address": "0x28547f2cce3bc73d5da5356745b6baeb6c53ed93",
+"z": 0.201,
+"years": 1.1346
+},
+{
+"address": "0xe682e76e2aebeca312b4d7428beb6c8be1cd1b0c",
+"z": 1.807,
+"years": 1.8654
+},
+{
+"address": "0x4c3c17aabc73fdd3907e850e339ddf2a6680ff4a",
+"z": 1.043,
+"years": 0.8462
+},
+{
+"address": "0xa0b31efd7c2b988efb0fedad43144a621ee96839",
+"z": 0.733,
+"years": 0.4404
+},
+{
+"address": "0x9822c731b38009a05384ffd757c854f71ce751f9",
+"z": -2.568,
+"years": 1.9365
+},
+{
+"address": "0xf2dfd97b1df442c6337c83a8e2f7555085ddcd86",
+"z": 1.795,
+"years": 1.7692
+},
+{
+"address": "0x446188b61b5c03e9487f001390c92d0bab577e6f",
+"z": 0.364,
+"years": 0.4558
+},
+{
+"address": "0x3c61cf45e4dfe7c0ec1cdddb636c43dc4516d721",
+"z": 1.137,
+"years": 0.9423
+},
+{
+"address": "0x50ad7911a844ebf2646bfb611d0527ec463c4808",
+"z": 0.385,
+"years": 1.1731
+},
+{
+"address": "0xf1421a4208498388a88e5e73119b08be5cd66ec4",
+"z": -0.987,
+"years": 0.1923
+},
+{
+"address": "0x1998a11311595a64c1ff71bbab1bcff3644a2215",
+"z": -0.111,
+"years": 0.25
+},
+{
+"address": "0xf6e44adf86bedcd196a03169dfc3a326cbacfe2a",
+"z": 0.298,
+"years": 0.3635
+},
+{
+"address": "0xc7db1c99dafda5760fd97a616508026e3eb9898b",
+"z": 0.733,
+"years": 1.3654
+},
+{
+"address": "0xc228f155a72f4c8d6bbcc95a61815fc6578db110",
+"z": 2.331,
+"years": 0.6346
+},
+{
+"address": "0x064d2955b5b56fa6f2038cf0510f93d6c8032279",
+"z": -0.363,
+"years": 1.4404
+},
+{
+"address": "0xca9ae7de98e79950982b3c750392f688ac65021c",
+"z": -0.01,
+"years": 1.7692
+},
+{
+"address": "0x61549534dec101179983169644d7929a3d706c97",
+"z": 1.661,
+"years": 1.225
+},
+{
+"address": "0xfbfd491bc1e89782fb01219c5fd8462c039d0d7e",
+"z": -2.299,
+"years": 0.2115
+},
+{
+"address": "0x001005306685021a4edaf9de69c9b5b2a34c4caa",
+"z": 0.751,
+"years": 1.5173
+},
+{
+"address": "0x83f9daccd2ce1a71e4965a28fc898e4d41af7092",
+"z": 1.556,
+"years": 0.3654
+},
+{
+"address": "0xdcf711cb8a1e0856ff1cb1cfd52c5084f5b28030",
+"z": 0.394,
+"years": 0.4231
+},
+{
+"address": "0x07850332440f2ba1dccb3dfaa709ce3511a1223e",
+"z": 0.997,
+"years": 0.3442
+},
+{
+"address": "0x3744e9a3081188f0acd82f0bb1b0714832995a9f",
+"z": 1.32,
+"years": 0.5192
+},
+{
+"address": "0xa668c23c78652e7ad8c346f422697a41cbe9f92f",
+"z": -0.153,
+"years": 0.5942
+},
+{
+"address": "0xd314b9de2b81fae69fcab2842ad454079b340ef9",
+"z": 1.152,
+"years": 0.325
+},
+{
+"address": "0x363d8a634af95dea6a336dec9205deacdd13ca0a",
+"z": -3.142,
+"years": 0.4808
+},
+{
+"address": "0x08ae30b90b9bc33a11d3564a4bce71d2dedc2c5c",
+"z": 1.202,
+"years": 0.4192
+},
+{
+"address": "0xc966a8bd36494f25642b27822c7e0b2cd961f6b6",
+"z": 0.238,
+"years": 0.3827
+},
+{
+"address": "0xeff1098374d09dd98cd1c89e668e99e6797ebe19",
+"z": 0.877,
+"years": 0.2673
+},
+{
+"address": "0xb00e966b64b9dc23a8089b998723f750265f4d22",
+"z": 0.592,
+"years": 0.3212
+},
+{
+"address": "0x16d786614466510c0930642f62f1b391e26e9be1",
+"z": 0.398,
+"years": 1.8846
+},
+{
+"address": "0xfd79d2180742f9a7ee25ceab5d1efa4ade4f4ece",
+"z": 1.369,
+"years": 0.9615
+},
+{
+"address": "0xf664035b5bb077bab429f636143d30552b86ec1a",
+"z": 0.115,
+"years": 0.2654
+},
+{
+"address": "0x4081342e6ecd9462f093aea22ca04730b4dcd3e6",
+"z": 0.932,
+"years": 0.3846
+},
+{
+"address": "0x41646bc2211c2917ba41e0a51144bddadc1ad51a",
+"z": -2.053,
+"years": 0.2885
+},
+{
+"address": "0x3df54771ee660adceaa62b726cb7691f63106c1a",
+"z": 2.198,
+"years": 0.2635
+},
+{
+"address": "0xfb363b7d7a1c065356442829f03c84f9660ce1e2",
+"z": 1.455,
+"years": 1.7115
+},
+{
+"address": "0x27bb711d53b5e44b796b3ebc0b97d5c568b9f152",
+"z": -0.159,
+"years": 1.1288
+},
+{
+"address": "0xbac159e3e0811a605bf15a415d747590024cfaf5",
+"z": -1.32,
+"years": 0.3077
+},
+{
+"address": "0x3a6964ccaa0d06d1d3a31e637da89b7a25153656",
+"z": -0.383,
+"years": 1.9231
+},
+{
+"address": "0xe58fa37043372d7c5123ce74e01ea51db299aca0",
+"z": 1.869,
+"years": 0.4231
+},
+{
+"address": "0xf9f4df61d3721a6ac50a37c4d328e8e5f9d7803e",
+"z": 1.606,
+"years": 0.325
+},
+{
+"address": "0x439dda5ad423535f2c0772907de6603dceff9527",
+"z": 1.114,
+"years": 1.1712
+},
+{
+"address": "0xa623ca8609abe6278792df272aedced000a535d1",
+"z": 1.582,
+"years": 0.5731
+},
+{
+"address": "0x111dbc217cc20c34ecc4f8a69295a207e7f2f3af",
+"z": 1.097,
+"years": 2.3923
+},
+{
+"address": "0x5eb82d9efaa5e0952ed44448d7d47e699adcd5cd",
+"z": -1.042,
+"years": 0.4038
+},
+{
+"address": "0x6e6d82f377100d81de707948f8d6a606f503b507",
+"z": -1.443,
+"years": 0.6731
+},
+{
+"address": "0x06b2b5d3c1f2f97c8152e3978803b684666eee36",
+"z": -1.43,
+"years": 0.6346
+},
+{
+"address": "0x23e43318cb56c1efca72bc8f2c4ba5ce94d73db1",
+"z": -0.059,
+"years": 1.3019
+},
+{
+"address": "0x2c82a5c0a4543eb704f56ef771197304cfc8111b",
+"z": -1.513,
+"years": 0.3731
+},
+{
+"address": "0xeb171abacb09817f765afe15dd89e5e583c81a37",
+"z": 0.506,
+"years": 0.2115
+},
+{
+"address": "0x20dedd5f28a0562d3c8468665ff60f2857d0fe7d",
+"z": 0.968,
+"years": 1.4808
+},
+{
+"address": "0xbbb7af5062a2fb7cd599f64b222cdf969c3bfead",
+"z": -0.506,
+"years": 0.2885
+},
+{
+"address": "0xd8c636d5b6a924614637b8170f9d9454bf13723f",
+"z": -1.19,
+"years": 2.0192
+},
+{
+"address": "0xe593b6a6f2f72119812252ad794077bbb335e860",
+"z": 1.101,
+"years": 1.4788
+},
+{
+"address": "0x283c1c674db7b8f73e69b66859627a91e8eb0949",
+"z": 0.405,
+"years": 0.6519
+},
+{
+"address": "0xa99e71edc54d42fc178b342f1dc7ccdc95f7acf8",
+"z": -1.309,
+"years": 0.25
+},
+{
+"address": "0x2b44bcb3ef096a98aa6d2bdf7d12ac76261c3c0e",
+"z": -0.065,
+"years": 1.5192
+},
+{
+"address": "0xad09b906938de88f3e0edc414b1850123d0e9443",
+"z": 2.996,
+"years": 0.3596
+},
+{
+"address": "0xeac67709f4567eba1a465d61ff30b61e33a33784",
+"z": -1.47,
+"years": 0.1923
+},
+{
+"address": "0xe815076ca4c1e1f85ed439cb4a1a0437a9fc5f97",
+"z": -2.4,
+"years": 0.9385
+},
+{
+"address": "0x72589b77e633fa0986548eca328bf26359bbfa12",
+"z": -2.096,
+"years": 0.4231
+},
+{
+"address": "0x71f0019cc7fa79e4f42587fb7b9a817d8d2429ec",
+"z": 1.66,
+"years": 0.8
+},
+{
+"address": "0x65f33b955e0a365cf9b8b8027c52b169e91dc975",
+"z": 0.671,
+"years": 0.2115
+},
+{
+"address": "0x0f2d4e0a0a739b26c5f6991df49315a890844375",
+"z": 1.669,
+"years": 0.3596
+},
+{
+"address": "0xf4827b61bd5879d12c4d0aaa078a96c3a9c3f953",
+"z": 1.646,
+"years": 1.1481
+},
+{
+"address": "0xdb519022bdef87792b0ffa223eade6cab4fff57e",
+"z": 0.943,
+"years": 0.3846
+},
+{
+"address": "0xbb0d28a67cb017aae187036eefd11e5e54742226",
+"z": -2.487,
+"years": 0.2308
+},
+{
+"address": "0x6a2926c51343d9093eb3050512d2bd8dfdcd87c6",
+"z": 1.635,
+"years": 0.2308
+},
+{
+"address": "0xc29d294b9c254d20ba7e20923f31a8fe91d4faeb",
+"z": 2.092,
+"years": 1.8846
+},
+{
+"address": "0x1fd0ee2bc6b1a97ecd9f079aa3b4dc7d24945dc8",
+"z": 1.142,
+"years": 0.6904
+},
+{
+"address": "0x0b52771f4181a96353e7e1a2e5b6ed2cfdec872b",
+"z": 1.772,
+"years": 1.7308
+},
+{
+"address": "0x6b50b0834dfd63be033ec1d2f0d78e0fce7a7672",
+"z": 1.209,
+"years": 0.1731
+},
+{
+"address": "0x83c9440dc34da00c47a0d4dc2b598d7bdb1b53f7",
+"z": 1.113,
+"years": 2.5192
+},
+{
+"address": "0x8564f7c2756978f70d8b8fa3f6c7861941acbf8a",
+"z": 0.807,
+"years": 0.3019
+},
+{
+"address": "0xa100c54fcea537adad0743c9745c83195b278b66",
+"z": 1.704,
+"years": 1.0
+},
+{
+"address": "0x5e44bcbb54ee37f4036fb083081e377e941ca6f1",
+"z": -0.243,
+"years": 0.4808
+},
+{
+"address": "0x9945453655ea65e0211942906d828d4332b582a4",
+"z": -0.783,
+"years": 0.6346
+},
+{
+"address": "0xe7cc346afada85f75a64a47c97e099bcc5b8b08d",
+"z": 2.013,
+"years": 2.4885
+},
+{
+"address": "0xf7d86ba83a120c5d8fb1251ac0f17520f9198cff",
+"z": -0.499,
+"years": 0.6865
+},
+{
+"address": "0x3678c939a0b06be0f56d9a20fc5e9053e96331cd",
+"z": -1.613,
+"years": 0.2885
+},
+{
+"address": "0x4de717846600aa1ba5d1a70dfbdb790b149e6e7c",
+"z": -0.421,
+"years": 0.1538
+},
+{
+"address": "0x1f364b47ca9735ed3cd45c430f5320fdaaf78027",
+"z": -0.09,
+"years": 1.25
+},
+{
+"address": "0x45534eb276f471c5294021532b9017046de4ba2c",
+"z": -0.899,
+"years": 1.3462
+},
+{
+"address": "0x9a3e0a929b6dc70b679f478bdf8b4a6549312095",
+"z": -0.294,
+"years": 1.2846
+},
+{
+"address": "0xde89f0bd9d197176b05077529106d8952ca97bf9",
+"z": 0.389,
+"years": 0.6923
+},
+{
+"address": "0xdfedf3efdcb6a5dacb3509afa5729122553275e4",
+"z": -0.636,
+"years": 0.25
+},
+{
+"address": "0x955dd2cd54984a8da6dbc445fb1f7984ab19d077",
+"z": -2.182,
+"years": 0.4038
+},
+{
+"address": "0xcf74dc50069e3ee0fddc10bd64e9a68d21126cfe",
+"z": 2.529,
+"years": 2.0442
+},
+{
+"address": "0xfd61c90a8d952c5cbf13492cb297267fe5c740c1",
+"z": -0.674,
+"years": 0.1731
+},
+{
+"address": "0xa5f9883f469afc4bdcebe11001a2f951522c88d5",
+"z": -1.138,
+"years": 0.5192
+},
+{
+"address": "0xf7af81961910dcf5a616177b863676709a779a30",
+"z": -0.034,
+"years": 0.6346
+},
+{
+"address": "0x04cd9cc35601bb748cbc98b549545f44068cddeb",
+"z": 0.577,
+"years": 1.5385
+},
+{
+"address": "0xce988ec9fc067a5697ce829f4e2fe43aaba15a92",
+"z": 1.201,
+"years": 0.6904
+},
+{
+"address": "0xa3500f968d057193d1d4fa290332722b3a95ddd5",
+"z": 0.672,
+"years": 0.1923
+},
+{
+"address": "0x8645f8b290304cc61e5d7d27d080afe06088d229",
+"z": -0.955,
+"years": 1.6154
+},
+{
+"address": "0x94b5625d020328197c19f9824b0a79586df4845d",
+"z": -1.181,
+"years": 1.1538
+},
+{
+"address": "0x2259a3e04f2107f1cd135cccc87f8635418357d8",
+"z": 1.747,
+"years": 1.8077
+},
+{
+"address": "0x96ff6bcda107bffeecb437afedc351d674ab44fc",
+"z": -0.318,
+"years": 0.8577
+},
+{
+"address": "0x0e708a906c47925d07ab25ca55f57be55bf56842",
+"z": -0.155,
+"years": 0.6519
+},
+{
+"address": "0xc52f126df8719b3bb270977cc9eb4c3a11fdaf3b",
+"z": -2.027,
+"years": 0.2846
+},
+{
+"address": "0xb47c72be8a2968dec42d3b9d8c6f464224605bfd",
+"z": 1.018,
+"years": 1.0385
+},
+{
+"address": "0x6642fde73a068c63b4380de717a1361326e0407f",
+"z": -0.031,
+"years": 0.7288
+},
+{
+"address": "0x2ea161d4e856f7945ac75f21b0486c8bbcaf7b11",
+"z": -0.712,
+"years": 1.8269
+},
+{
+"address": "0x98bb9ef6b6bf918ce301be1e3fa14407b1d949a2",
+"z": 0.735,
+"years": 1.3442
+},
+{
+"address": "0xe0ffc829349c88c159462942ad885f12130e7610",
+"z": 0.999,
+"years": 1.7885
+},
+{
+"address": "0x6a03c175e9de1dca7ff2c15cd5a833fed5bdc8d5",
+"z": 2.229,
+"years": 1.75
+},
+{
+"address": "0xce5abfa37e36e93de24a20864ce4a3ce470e1804",
+"z": 0.209,
+"years": 0.8269
+},
+{
+"address": "0x6521820d25b4e399e652cbe80880959973000889",
+"z": 0.877,
+"years": 0.9923
+},
+{
+"address": "0x797dd8b5da7a10bf6e6534d549a9c256f8f4f0ab",
+"z": -0.311,
+"years": 1.1538
+},
+{
+"address": "0x24a477c920702ff39c14a20470088e3aaa0d3d70",
+"z": 0.587,
+"years": 0.4231
+},
+{
+"address": "0x3616ba9f9f47be4a3560d159ce3ebc1f1fa8d2d2",
+"z": 2.611,
+"years": 1.8077
+},
+{
+"address": "0x96eaaf0375a6c5ecfc4980503bc8ce6c0192616d",
+"z": -1.118,
+"years": 0.3654
+},
+{
+"address": "0x4b6ffe246db42063bb777d7b42fefde81c237d41",
+"z": 0.047,
+"years": 0.1731
+},
+{
+"address": "0x10463798b04ad75e0d98f97665f5bb11ce8eda63",
+"z": 0.085,
+"years": 1.1731
+},
+{
+"address": "0x9a1226adc67673afc6dfd80839e1fb2d62a59ba8",
+"z": -1.21,
+"years": 0.1673
+},
+{
+"address": "0x82063340e28d0e4327a152563eda08094df98663",
+"z": 0.039,
+"years": 0.5558
+},
+{
+"address": "0x4b25acea417fa1914611fb62c2f86b200fba68f5",
+"z": 1.471,
+"years": 1.1673
+},
+{
+"address": "0x708f713637e28c014705fec1bab002992f53d4ea",
+"z": 1.386,
+"years": 0.1865
+},
+{
+"address": "0xcf35d9436c775c6411c120c3fa4f00c284c566cd",
+"z": 0.629,
+"years": 0.5192
+},
+{
+"address": "0x67c9ac4a17a1e874d95c91e35abf28756572a8b4",
+"z": -1.294,
+"years": 0.9173
+},
+{
+"address": "0x5921da4bb378deddd3370bac21e06ba9ccb6c2e8",
+"z": 0.676,
+"years": 1.0519
+},
+{
+"address": "0xc5c26905db24323814c4640e25b109078e9fb925",
+"z": -0.118,
+"years": 1.2692
+},
+{
+"address": "0x43bbd735b07324bfa561f2a6123589eff7f30671",
+"z": 1.877,
+"years": 1.3731
+},
+{
+"address": "0xa9062f5ba14189e0740eae6724357f5800cefc67",
+"z": 1.411,
+"years": 1.3635
+},
+{
+"address": "0x4c2de0c63b7e6d530df7e6221201e29858cae7de",
+"z": -0.174,
+"years": 0.6154
+},
+{
+"address": "0x43a229f00c08634c1e84736ee4fe66a96de4e4aa",
+"z": 1.229,
+"years": 2.2692
+},
+{
+"address": "0xb935bd023b31608a881a31fc522f4d488a8e597a",
+"z": 0.626,
+"years": 0.9923
+},
+{
+"address": "0x44ff2ac626f81ff77d4d6fddbd64f722ec9e46ad",
+"z": 0.167,
+"years": 1.1865
+},
+{
+"address": "0xe63e282730176e7f6a4c535cc451778bcf0b35ea",
+"z": -2.079,
+"years": 0.3077
+},
+{
+"address": "0x93632628516a47cbf059db47426ff83e0969ec74",
+"z": 0.996,
+"years": 0.6538
+},
+{
+"address": "0x014108573796ea40cd48d44d053139854207bfc4",
+"z": 1.169,
+"years": 2.0885
+},
+{
+"address": "0x93b474ac3b895ceb2200c91a541a736f6c5d5253",
+"z": 0.873,
+"years": 0.975
+},
+{
+"address": "0xddca0be50df2846f50e66f70d087bbfbe2689754",
+"z": -0.053,
+"years": 1.3077
+},
+{
+"address": "0x88661bd938d8df90cec92527f73609602846fc0a",
+"z": -1.258,
+"years": 2.7615
+},
+{
+"address": "0x3e4eb44c85a24bb9dab518d4e66f322d0a61ca8b",
+"z": -0.319,
+"years": 0.3462
+},
+{
+"address": "0x3ffdad12807a403aed4b44bf7c69dfd4fb977c70",
+"z": 1.117,
+"years": 0.3404
+},
+{
+"address": "0x902c9aaeb17934874a6ecb5148b34de3934d6bb9",
+"z": 1.79,
+"years": 0.7288
+},
+{
+"address": "0xc6a95643d3bd4e914ec5b8ffb9f9a5ad1503940f",
+"z": 0.416,
+"years": 0.1923
+},
+{
+"address": "0x0c3391b8cc5ca37b4a8f1e01432daf1a933394cf",
+"z": -0.629,
+"years": 0.5115
+},
+{
+"address": "0x7ec30093ea660b3a240933ed7604a0e8b9825f36",
+"z": 1.33,
+"years": 0.6904
+},
+{
+"address": "0x63c786a8d291440713d0f1fc45b69c3e7547cb78",
+"z": -0.526,
+"years": 0.6135
+},
+{
+"address": "0x9fa8e6dd67e1eacc8c4b2f689e7f9712e7a1bf29",
+"z": -1.821,
+"years": 0.1538
+},
+{
+"address": "0xec5cca1f1c077fe9118366437472f40ad504b842",
+"z": 1.131,
+"years": 0.8385
+},
+{
+"address": "0xdf2fac6c5617a44f073ef7748ae33e69e5e7f0b5",
+"z": 0.055,
+"years": 0.6346
+},
+{
+"address": "0xb6a20978de9e1370783308d9f288ac5511242da7",
+"z": 0.934,
+"years": 0.5385
+},
+{
+"address": "0x36168b57646dc4ea79a8cfcd7c5d4baab8e565dd",
+"z": 2.121,
+"years": 0.6538
+},
+{
+"address": "0x65b865668c29025c79a7cf7dec48bdc8abc3c45c",
+"z": 1.424,
+"years": 0.3654
+},
+{
+"address": "0x29780f430c6305a539c5241b85f9e7cf57e0c6c5",
+"z": 1.126,
+"years": 0.2058
+},
+{
+"address": "0x0e531cc504d6b70ab8fbd3baaa6bc1331de95ef3",
+"z": 2.203,
+"years": 2.4038
+},
+{
+"address": "0xfe3768c6fea412adb2750bfe2e1606b81980f967",
+"z": -0.861,
+"years": 1.8269
+},
+{
+"address": "0x357ee6f4c002b857fccba0f8d2e271e5a6a44c75",
+"z": 1.233,
+"years": 1.4788
+},
+{
+"address": "0xc1791da88cc94c9a39e606d8760183d21268dcbb",
+"z": 1.416,
+"years": 1.8077
+},
+{
+"address": "0xc5ba6b6e5bbda82311d99c07b3f7c090d4f9dbbd",
+"z": -0.23,
+"years": 0.4981
+},
+{
+"address": "0x49248e9dc8a4ae03789ed9c54cd0e0c1ab0a5d0d",
+"z": 0.99,
+"years": 0.8462
+},
+{
+"address": "0x277b881d79a5b47cc23b48f43fc8fbf0b29664c0",
+"z": -2.085,
+"years": 0.4038
+},
+{
+"address": "0x5b9cbe2ce6f111b22e631313b5ed2f019ad9562c",
+"z": 0.893,
+"years": 0.3404
+},
+{
+"address": "0x5adbfb8050e54ff43456cf5b22a3954845aba562",
+"z": -1.167,
+"years": 0.3596
+},
+{
+"address": "0xb315067ae6b8ae6dfafd052b630d95b72a91cc25",
+"z": 1.494,
+"years": 0.3577
+},
+{
+"address": "0x4d0c5acfb9c448cb5dd869d9e6e5697aa2a12ec5",
+"z": 0.652,
+"years": 1.7115
+},
+{
+"address": "0xe4260cb75801970b7f27abc04bbe3a31dd464d51",
+"z": -2.498,
+"years": 1.0
+},
+{
+"address": "0x43f2dc9fd6ce4ee15ae5525a97211fe229d5d140",
+"z": 0.749,
+"years": 1.4212
+},
+{
+"address": "0xfa0b9b6edfc99387c8a63375c8fbe10fc24bb203",
+"z": 1.122,
+"years": 0.6654
+},
+{
+"address": "0x78b3a8b67c4c796a86493293f0a0a13854e7953c",
+"z": 1.256,
+"years": 1.8462
+},
+{
+"address": "0x4e9f4b18dfd554f1286e062868977ccc2308f777",
+"z": 1.325,
+"years": 0.8577
+},
+{
+"address": "0xcc1783766e60bd50b27c96fb364ed03d699ba599",
+"z": 2.37,
+"years": 0.2673
+},
+{
+"address": "0x7de509341b1623b5a4db21e21196ca6ebb00793b",
+"z": -1.216,
+"years": 0.3077
+},
+{
+"address": "0x866688e61e8c5d2d2a12fe6d0c310356d9a7c96e",
+"z": 0.963,
+"years": 0.6885
+},
+{
+"address": "0x493364de7f4a39ed24f9c68ece229973f324d369",
+"z": 0.923,
+"years": 2.0769
+},
+{
+"address": "0xb98b0c880377ff06b52c179559f74f9b3fd476b5",
+"z": -1.62,
+"years": 1.3327
+},
+{
+"address": "0x06b786a0d3dbc3e9f71e42a365800361f8006980",
+"z": 6.019,
+"years": 0.7615
+},
+{
+"address": "0xb16e23c4812788e6550038e9359ecdd5c9995c10",
+"z": 0.524,
+"years": 0.6154
+},
+{
+"address": "0x143c28ae5b8642f58c98b8a6f82a0f314d23f6ab",
+"z": 1.27,
+"years": 0.8577
+},
+{
+"address": "0xf6ae3f282be7e4d5666660ba404048c292beeb51",
+"z": 1.5,
+"years": 0.8385
+},
+{
+"address": "0x6bc443fafe325f3b9d1cb10f7b07f2705067e759",
+"z": 1.313,
+"years": 1.7058
+},
+{
+"address": "0x0b38c01118342098d6f108cc3741349089cd9590",
+"z": 1.818,
+"years": 0.2865
+},
+{
+"address": "0x2f0d360d090e6cbdb0116b26a492399c226741cd",
+"z": 0.98,
+"years": 2.3923
+},
+{
+"address": "0x98abb17006aaa4f29f60cb8c9c3db70b174eba24",
+"z": 1.035,
+"years": 2.75
+},
+{
+"address": "0xc873b7321e79597dd75a371cc9de7c55cac128cd",
+"z": -0.535,
+"years": 0.7115
+},
+{
+"address": "0x56884962ddf4fcb77eb31d59399f8a1834e9510b",
+"z": -0.376,
+"years": 0.25
+},
+{
+"address": "0x0c6486974e303247c2e3f67ee110ac3576359107",
+"z": 0.548,
+"years": 0.7885
+},
+{
+"address": "0xdcb1b02b887cac0ee55e03ca29b4bdaa585df7a5",
+"z": 0.143,
+"years": 0.8846
+},
+{
+"address": "0xef2073c11af0c7f43360c736eb8b145b34a42ab4",
+"z": 1.158,
+"years": 0.2058
+},
+{
+"address": "0x5581dc4ce76018e8da664ca1e2ca3d748564293a",
+"z": -1.058,
+"years": 1.3635
+},
+{
+"address": "0xb454c927cbd69ae3229f911129c496db7e2696e8",
+"z": -0.672,
+"years": 1.4769
+},
+{
+"address": "0xbb05c476f70e72523ad83106cbc050e771ff73a5",
+"z": 0.42,
+"years": 1.275
+},
+{
+"address": "0xf744ed9956ff544ecbc9aa7c7f389cf0d98d05a1",
+"z": 1.828,
+"years": 1.8462
+},
+{
+"address": "0x4ac0f3fa66d967835983c9c44f17814a429e36e6",
+"z": 0.223,
+"years": 0.3404
+},
+{
+"address": "0x41a1252367faf7b37ce7cac5018b35ae2037feca",
+"z": 0.548,
+"years": 1.3769
+}
+]
+}
