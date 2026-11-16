@@ -103,6 +103,17 @@ t    = 夏普 × √(數據年數)</div>
 <div class="eq">分出贏家所需月數 = (bar(N) / S)² × 12</div>
 <p>我們給出 S = 5、S = 2 以及最接近門檻那個參賽者實測夏普下的結果。這些是條件陳述，不是預測。</p>
 
+<h2 id="record">5 · 讀的是哪一級記錄</h2>
+<p>在回測上算出的 t 和在公開賬本上算出的 t，算術相同，證據不同。所以每篇評估都寫明它實際讀到的記錄是哪一級。級別看讀的是什麼，不看交易發生在哪：一個用真錢交易、卻只公佈自家淨值數字的競技場，按 L3 讀。</p>
+<table><thead><tr><th>級別</th><th>讀到的是什麼</th><th>這一級的結論說明不了什麼</th></tr></thead><tbody>
+<tr><td>L0</td><td>只有宣稱，沒有公佈記錄</td><td>任何關於表現的事</td></tr>
+<tr><td>L1</td><td>回測：策略是在測試區間上挑出來的，或模型可能見過這段數據</td><td>換成沒見過的數據還靈不靈</td></tr>
+<tr><td>L2</td><td>實時交易，但用模擬資金</td><td>成交、手續費、滑點和資金規模會吃掉多少</td></tr>
+<tr><td>L3</td><td>真錢，數字來自平臺或榜單自己的數據庫，別人無法重算</td><td>這條序列是否完整、有沒有被改過</td></tr>
+<tr><td>L4</td><td>真錢，讀自公開鏈上狀態，任何人都能重算</td><td>優勢能不能持續；門檻照樣適用</td></tr>
+</tbody></table>
+<p>規則：結論只在它所在的那一級成立，對更高的級別什麼也說明不了。回測裏過了線的因子（L1）還沒證明換數據仍然有效；模擬資金競技場的冠軍（L2）還沒證明扛得住真實成交。凍結榜單再做前向讀數、事先登記檢驗，是另外兩種屬性：它們在結果出來之前固定要檢驗什麼，與記錄在哪一級無關。Hyperliquid 錢包檢查讀的是 L4。每篇評估的級別見<a href="/audits/">評估列表</a>（英文）。</p>
+
 <h2 id="principles">原則</h2>
 <ul>
  <li>來源公開，並註明抓取日期。數字重新計算，不照抄。</li>
@@ -127,7 +138,7 @@ t    = 夏普 × √(數據年數)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>本頁</h4><ul><li><a href="#wallet">Hyperliquid 錢包</a></li><li><a href="#yes">會說「過」嗎</a></li><li><a href="#masters">名人校準</a></li><li><a href="#btc">對比 BTC</a></li><li><a href="#trackers">和聰明錢工具的區別</a></li><li><a href="#open-book">開卷月數</a></li><li><a href="#clean-months">乾淨月份</a></li><li><a href="#selection">挑選之後的門檻</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#principles">原則</a></li><li><a href="#limits">侷限</a></li></ul></div>
+ <div class="box"><h4>本頁</h4><ul><li><a href="#wallet">Hyperliquid 錢包</a></li><li><a href="#yes">會說「過」嗎</a></li><li><a href="#masters">名人校準</a></li><li><a href="#btc">對比 BTC</a></li><li><a href="#trackers">和聰明錢工具的區別</a></li><li><a href="#open-book">開卷月數</a></li><li><a href="#clean-months">乾淨月份</a></li><li><a href="#selection">挑選之後的門檻</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#record">記錄級別</a></li><li><a href="#principles">原則</a></li><li><a href="#limits">侷限</a></li></ul></div>
  <div class="box"><h4>試一試</h4><ul><li><a href="/zh-hant/">查一個錢包</a></li><li><a href="/check/">在瀏覽器裏檢驗回測（英文）</a></li><li><a href="/zh-hant/api/">API、MCP 與 Python</a></li></ul></div>
 </aside>
 </div></main>

@@ -452,6 +452,17 @@ t    = 夏普 × √(数据年数)</div>
 <div class="eq">分出赢家所需月数 = (bar(N) / S)² × 12</div>
 <p>我们给出 S = 5、S = 2 以及最接近门槛那个参赛者实测夏普下的结果。这些是条件陈述，不是预测。</p>
 
+<h2 id="record">5 · 读的是哪一级记录</h2>
+<p>在回测上算出的 t 和在公开账本上算出的 t，算术相同，证据不同。所以每篇评估都写明它实际读到的记录是哪一级。级别看读的是什么，不看交易发生在哪：一个用真钱交易、却只公布自家净值数字的竞技场，按 L3 读。</p>
+<table><thead><tr><th>级别</th><th>读到的是什么</th><th>这一级的结论说明不了什么</th></tr></thead><tbody>
+<tr><td>L0</td><td>只有宣称，没有公布记录</td><td>任何关于表现的事</td></tr>
+<tr><td>L1</td><td>回测：策略是在测试区间上挑出来的，或模型可能见过这段数据</td><td>换成没见过的数据还灵不灵</td></tr>
+<tr><td>L2</td><td>实时交易，但用模拟资金</td><td>成交、手续费、滑点和资金规模会吃掉多少</td></tr>
+<tr><td>L3</td><td>真钱，数字来自平台或榜单自己的数据库，别人无法重算</td><td>这条序列是否完整、有没有被改过</td></tr>
+<tr><td>L4</td><td>真钱，读自公开链上状态，任何人都能重算</td><td>优势能不能持续；门槛照样适用</td></tr>
+</tbody></table>
+<p>规则：结论只在它所在的那一级成立，对更高的级别什么也说明不了。回测里过了线的因子（L1）还没证明换数据仍然有效；模拟资金竞技场的冠军（L2）还没证明扛得住真实成交。冻结榜单再做前向读数、事先登记检验，是另外两种属性：它们在结果出来之前固定要检验什么，与记录在哪一级无关。Hyperliquid 钱包检查读的是 L4。每篇评估的级别见<a href="/audits/">评估列表</a>（英文）。</p>
+
 <h2 id="principles">原则</h2>
 <ul>
  <li>来源公开，并注明抓取日期。数字重新计算，不照抄。</li>
@@ -476,7 +487,7 @@ t    = 夏普 × √(数据年数)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>本页</h4><ul><li><a href="#wallet">Hyperliquid 钱包</a></li><li><a href="#yes">会说「过」吗</a></li><li><a href="#masters">名人校准</a></li><li><a href="#btc">对比 BTC</a></li><li><a href="#trackers">和聪明钱工具的区别</a></li><li><a href="#open-book">开卷月数</a></li><li><a href="#clean-months">干净月份</a></li><li><a href="#selection">挑选之后的门槛</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#principles">原则</a></li><li><a href="#limits">局限</a></li></ul></div>
+ <div class="box"><h4>本页</h4><ul><li><a href="#wallet">Hyperliquid 钱包</a></li><li><a href="#yes">会说「过」吗</a></li><li><a href="#masters">名人校准</a></li><li><a href="#btc">对比 BTC</a></li><li><a href="#trackers">和聪明钱工具的区别</a></li><li><a href="#open-book">开卷月数</a></li><li><a href="#clean-months">干净月份</a></li><li><a href="#selection">挑选之后的门槛</a></li><li><a href="#leaderboards">排行榜</a></li><li><a href="#record">记录级别</a></li><li><a href="#principles">原则</a></li><li><a href="#limits">局限</a></li></ul></div>
  <div class="box"><h4>试一试</h4><ul><li><a href="{P}">查一个钱包</a></li><li><a href="/check/">在浏览器里检验回测（英文）</a></li><li><a href="{P}api/">API、MCP 与 Python</a></li></ul></div>
 </aside>
 </div></main>

@@ -170,9 +170,9 @@ def audits():
     with open(os.path.join(DOCS, "audits", "README.md"), encoding="utf-8") as f:
         readme = f.read()
     rows = []
-    for m in re.finditer(r"^\| \[(\d{3})\]\(([^)]+)\.md\) \| (.+?) \| (\d{4}-\d{2}-\d{2}) \| (.+?) \|$", readme, re.M):
-        num, slug, subject, date, finding = m.groups()
-        rows.append(dict(num=num, slug=slug, subject=subject, date=date, finding=finding))
+    for m in re.finditer(r"^\| \[(\d{3})\]\(([^)]+)\.md\) \| (.+?) \| (.+?) \| (\d{4}-\d{2}-\d{2}) \| (.+?) \|$", readme, re.M):
+        num, slug, subject, record, date, finding = m.groups()
+        rows.append(dict(num=num, slug=slug, subject=subject, record=record, date=date, finding=finding))
     return rows
 
 
@@ -200,7 +200,7 @@ def build_audits():
 <article class="prose">
 <div class="eyebrow"><a href="/audits/" style="text-decoration:none">Audits</a> / {a['num']}</div>
 <h1 style="margin-top:16px">{ic(a['subject'])}</h1>
-<div class="meta"><span class="tag tag-{colour}">{html.escape(tag)}</span><span class="mono">{a['date']}</span><span>Sources public, fetched on the stated date</span></div>
+<div class="meta"><span class="tag tag-{colour}">{html.escape(tag)}</span><span class="mono">{a['date']}</span><span><a href="/method/#record">Record {html.escape(a['record'])}</a></span><span>Sources public, fetched on the stated date</span></div>
 <div class="callout" style="margin-top:0"><div class="eyebrow" style="margin-bottom:10px">Finding</div>{ic(a['finding'])}</div>
 {body}
 </article>
@@ -214,7 +214,7 @@ def build_audits():
 """ + footer()
         write(f"audits/{a['slug']}.html", page)
 
-    items = "".join(f"""<a class="row" href="/audits/{a['slug']}.html"><span class="row-date">{a['num']} · {a['date']}</span>
+    items = "".join(f"""<a class="row" href="/audits/{a['slug']}.html"><span class="row-date">{a['num']} · {a['date']} · {html.escape(a['record'])}</span>
 <span><span class="row-title">{ic(a['subject'])}</span><span class="row-sub" style="display:block">{ic(a['finding'])}</span></span>
 <span class="tag tag-{AUDIT_TAGS.get(a['num'], ('', 'grey'))[1]}">{html.escape(AUDIT_TAGS.get(a['num'], ('', ''))[0])}</span></a>""" for a in rows)
     page = head("Audits · Evidence Deflator", "One-page evidence audits of public AI trading claims: how much of the evidence behind each claim actually counts.", "/audits/") + header("audits") + f"""
@@ -222,7 +222,7 @@ def build_audits():
 <div class="container page-head">
  <div class="eyebrow"><span class="dot"></span>Audits</div>
  <h1>One page per claim. How much of the evidence counts?</h1>
- <p class="lede">Each audit takes a public AI trading claim and asks for three inputs: the model’s knowledge cutoff, the test window, and how many attempts the result was picked from. Where a project does not publish them, the audit says so.</p>
+ <p class="lede">Each audit takes a public AI trading claim and asks for three inputs: the model’s knowledge cutoff, the test window, and how many attempts the result was picked from. Where a project does not publish them, the audit says so. Each row also says what kind of record was read, from L0 (a claim) to L4 (a public ledger): <a href="/method/#record">record levels</a>.</p>
  <div class="btns" style="margin-top:26px"><a class="btn btn-primary" href="{ISSUE_AUDIT}">Request an audit <span class="arr">→</span></a><span class="muted small">Free, public, usually within 48 hours.</span></div>
 </div>
 <div class="container" style="padding-bottom:72px">
@@ -1002,6 +1002,17 @@ t      = Sharpe × √(years of data)</div>
 <h2 id="btc">8 · Wallets against BTC</h2>
 <p>For the same reason, the wallet page also shows t after taking out BTC’s moves: each weekly return is fit as alpha × weeks + beta × BTC’s return over the same dates, weighted by interval length, and the t of the alpha is reported with its beta. BTC prices are Hyperliquid’s daily candles. The verdict still uses the unadjusted t, because the frozen cohort’s readings were pre-registered on it; switching will be a dated method change announced on this page. The Evidence Ranking of famous records uses the market-adjusted version throughout.</p>
 
+<h2 id="record">9 · What kind of record</h2>
+<p>A t computed on a backtest and a t computed on a public ledger are the same arithmetic on different evidence. Every audit therefore states the level of the record it actually read, which is not always where the trades happened: an arena that trades real money but publishes only its own equity figures is read at L3.</p>
+<table><thead><tr><th>Level</th><th>What was read</th><th>What a verdict at this level cannot tell you</th></tr></thead><tbody>
+<tr><td>L0</td><td>A claim, with no record published</td><td>Anything about performance</td></tr>
+<tr><td>L1</td><td>A backtest: the strategy was chosen, or the model may have learned, on the test window</td><td>Whether it works on data it has not seen</td></tr>
+<tr><td>L2</td><td>Live trading with simulated money</td><td>What fills, fees, slippage and size would have cost</td></tr>
+<tr><td>L3</td><td>Real money, figures from the platform’s or a board’s own database, which nobody else can recompute</td><td>Whether the series is complete and unedited</td></tr>
+<tr><td>L4</td><td>Real money, read from the state of a public chain that anyone can recompute</td><td>Whether the edge will last; the bar still applies</td></tr>
+</tbody></table>
+<p>The rule: a verdict holds at the level it was computed on and says nothing about the levels above it. A factor that clears the bar in a backtest (L1) has not shown it survives fresh data; an arena winner on simulated money (L2) has not shown it survives execution. Freezing a board before a forward reading and pre-registering a test are separate properties: they fix what is tested before the outcome is known, at whatever level. The Hyperliquid wallet check reads L4. Levels for every audit are in the <a href="/audits/">audit list</a>.</p>
+
 <h2 id="trackers">How this differs from smart-money trackers</h2>
 <p>Hyperdash’s Copy Score, HyprSwarm’s ELO, Hashdive’s Smart Score and Nansen’s labels answer “who is making money, and what are they holding?”. None of them reports how much of a score luck could explain, or allows for the score being the best of tens of thousands. Hyperdash’s own guide shows a wallet with a Copy Score of 96/100 on a 30-day record; under eight weeks, this site does not score a record at all. They tell you who is making money; this tells you whether it could be repeated. Copy-trading venues earn on copied volume, so a score that says the top of the board is luck runs against their business; we are not paid by the rated.</p>
 
@@ -1032,7 +1043,7 @@ t      = Sharpe × √(years of data)</div>
 <p class="small">Lo, “The Statistics of Sharpe Ratios” (2002). Bailey &amp; López de Prado, “The Deflated Sharpe Ratio” (2014). Zhang &amp; Stadie, “Temporal Leakage in LLM Backtesting” (arXiv 2608.02985).</p>
 </article>
 <aside class="aside">
- <div class="box"><h4>On this page</h4><ul><li><a href="#open-book">Open-book months</a></li><li><a href="#clean-months">Clean months needed</a></li><li><a href="#selection">The bar after selection</a></li><li><a href="#leaderboards">Leaderboards</a></li><li><a href="#wallets">Wallets</a></li><li><a href="#yes">Can it say yes?</a></li><li><a href="#masters">Famous records</a></li><li><a href="#btc">Against BTC</a></li><li><a href="#trackers">Vs smart-money trackers</a></li><li><a href="#why-now">Why now</a></li><li><a href="#principles">Principles</a></li><li><a href="#limits">Limits</a></li></ul></div>
+ <div class="box"><h4>On this page</h4><ul><li><a href="#open-book">Open-book months</a></li><li><a href="#clean-months">Clean months needed</a></li><li><a href="#selection">The bar after selection</a></li><li><a href="#leaderboards">Leaderboards</a></li><li><a href="#wallets">Wallets</a></li><li><a href="#yes">Can it say yes?</a></li><li><a href="#masters">Famous records</a></li><li><a href="#btc">Against BTC</a></li><li><a href="#record">Record levels</a></li><li><a href="#trackers">Vs smart-money trackers</a></li><li><a href="#why-now">Why now</a></li><li><a href="#principles">Principles</a></li><li><a href="#limits">Limits</a></li></ul></div>
  <div class="box"><h4>Try it</h4><ul><li><a href="/check/">Check a backtest in the browser</a></li><li><a href="/api/">Python, CLI and MCP</a></li></ul></div>
 </aside>
 </div></main>
