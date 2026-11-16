@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audit 016 · Olas prediction-market agents on Omen and Polymarket (2,330 agents with a resolved market) · Evidence Deflator</title>
+<meta name="description" content="Pre-registered: on Omen 365 agents beat the prices they paid beyond luck for N = 2,330; on Polymarket none. Post-hoc, with the mech (tool) costs Olas itself charges: the Omen fleet lost 19% of what it bet and 3 agents clear the bar.">
+<link rel="canonical" href="https://evidencedeflator.com/audits/016-olas-prediction-agents.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Evidence Deflator">
+<meta property="og:title" content="Audit 016 · Olas prediction-market agents on Omen and Polymarket (2,330 agents with a resolved market) · Evidence Deflator">
+<meta property="og:description" content="Pre-registered: on Omen 365 agents beat the prices they paid beyond luck for N = 2,330; on Polymarket none. Post-hoc, with the mech (tool) costs Olas itself charges: the Omen fleet lost 19% of what it bet and 3 agents clear the bar.">
+<meta property="og:url" content="https://evidencedeflator.com/audits/016-olas-prediction-agents.html">
+<meta property="og:image" content="https://evidencedeflator.com/leaderboard/og-2026-10.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='4' fill='%2315171C'/%3E%3Crect x='3' y='4' width='18' height='2' fill='%23E66A4B'/%3E%3Crect x='4.5' y='13' width='3' height='7' fill='%23FAF9F6'/%3E%3Crect x='9.5' y='9.5' width='3' height='10.5' fill='%23FAF9F6'/%3E%3Crect x='14.5' y='15' width='3' height='5' fill='%23FAF9F6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script>try{if(localStorage.getItem('ed_theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}
+function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/chrome.css?v=113795f9">
+<link rel="stylesheet" href="/assets/site.css?v=4318b782">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e38b718917cf4c2891f9038a6a597a88", "spa": true}'></script>
+</head>
+<body>
+<header class="site-header"><div class="container">
+<a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+<nav class="nav" aria-label="Main"><a href="/">Agent gate</a><a href="/wallet/">Check</a><a href="/ranking/">Ranking</a><a href="/audits/" aria-current="page">Audits</a><a href="/method/">Method</a><a href="/agent/">AI agents</a><a href="/api/">API</a></nav>
+<div class="header-cta"><button class="theme-toggle" type="button" aria-label="Switch light or dark" title="Light or dark" onclick="edTheme()"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button><a class="gh" href="/zh-hans/" hreflang="zh-Hans" lang="zh-Hans">中文</a><a class="gh" href="https://github.com/Beltran12138/evidence-deflator"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a></div>
+</div></header>
+
+<main class="container article"><div class="split">
+<article class="prose">
+<div class="eyebrow"><a href="/audits/" style="text-decoration:none">Audits</a> / 016</div>
+<h1 style="margin-top:16px">Olas prediction-market agents on Omen and Polymarket (2,330 agents with a resolved market)</h1>
+<div class="meta"><span class="tag tag-amber">365 beat the price · 3 after tool costs</span><span class="mono">2026-11-16</span><span>Sources public, fetched on the stated date</span></div>
+<div class="callout" style="margin-top:0"><div class="eyebrow" style="margin-bottom:10px">Finding</div>Pre-registered: on Omen 365 agents beat the prices they paid beyond luck for N = 2,330; on Polymarket none. Post-hoc, with the mech (tool) costs Olas itself charges: the Omen fleet lost 19% of what it bet and 3 agents clear the bar.</div>
+<p>The subject is the performance Olas shows for its prediction-market agents. No single agent is the subject.</p>
+<h2>Subject</h2>
+<p>Olas runs autonomous trader agents that bet on prediction markets: Omen on Gnosis and Polymarket on Polygon. Every bet is on chain and indexed in Olas's own public subgraphs. The set of agents is known, so the number of candidates behind any "best agent" can be counted.</p>
+<p>Olas's site shows three figures for the fleet: ROI, "Prediction accuracy" and a Brier score. This audit asks the question those figures leave out: did the agents get back more than they paid?</p>
+<h2>Three inputs</h2>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knowledge cutoff</td>
+<td>Not applicable (live betting)</td>
+</tr>
+<tr>
+<td>Window</td>
+<td>Omen 2023-07-12 to 2026-11-16 (23,063 markets); Polymarket 2026-01-21 to 2026-11-16 (4,455 markets); resolved markets only</td>
+</tr>
+<tr>
+<td>Attempts</td>
+<td>2,330 agents with at least one resolved market: 2,141 on Omen and 189 on Polymarket. The bar for the best of them is t = 4.27</td>
+</tr>
+</tbody>
+</table>
+<h2>What Olas's figures measure</h2>
+<p>These points come from Olas's published code. No data is needed for them.</p>
+<ul>
+<li><strong>Brier score.</strong> The probability scored is the price the agent paid. Olas's indexing doc describes it as the "Implied probability the market assigned to <code>outcomeIndex</code> at trade time". An agent with no view at all, buying at fair prices, gets the market's Brier.</li>
+<li><strong>Prediction accuracy.</strong> It is the share of settled bets that won. Buying outcomes priced at 0.9 wins about nine times in ten with no skill.</li>
+<li><strong>Neither figure</strong> compares what came back with what went out.</li>
+</ul>
+<h2>Finding</h2>
+<p>The test was pre-registered and pushed before any bet was fetched (<code>docs/data/olas/PREDICT_AGENTS_PREREG.md</code>).</p>
+<p><strong>On Omen, 365 agents beat the prices they paid by more than luck allows, given 2,330 candidates. On Polymarket, none did.</strong> The prediction tools the agents pay for were left out of that test. Counting them, the Omen fleet lost 19% of what it bet, and 3 agents still clear the bar.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Omen</th>
+<th>Polymarket</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agents with ≥ 20 resolved markets</td>
+<td>1,609</td>
+<td>110</td>
+</tr>
+<tr>
+<td>Clear t = 4.27, bets only (pre-registered)</td>
+<td><strong>365</strong></td>
+<td><strong>0</strong> (highest t 1.19)</td>
+</tr>
+<tr>
+<td>Fleet mean return per market, bets only, 95% interval</td>
+<td>+9.0% [+8.4, +9.6]</td>
+<td>−8.3% [−10.1, −6.5]</td>
+</tr>
+<tr>
+<td>Clear t = 4.27 after tool costs (post-hoc)</td>
+<td><strong>3</strong></td>
+<td>not computed</td>
+</tr>
+<tr>
+<td>Fleet return on money bet, after tool costs (post-hoc)</td>
+<td><strong>−19.2%</strong></td>
+<td>not computed</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Bets only.</strong> The top agents each played about 3,200 markets and made 26% to 29% per market against the price they paid, with t near 19. On Omen the agents' picks are better than the market maker's prices, and the edge is far beyond luck.</li>
+<li><strong>Tool costs.</strong> Before most bets an agent pays a "mech" for a prediction. Olas's own ROI charges 0.01 xDAI per request. Charged the same way, the agents' requests cost 92,226 xDAI against 9,418 xDAI won on 430,905 bet in resolved markets. The predictions cost almost ten times what they won. The median agent goes from +2.7% to −49%.</li>
+<li><strong>One example.</strong> The agent with the highest t (<code>0x3895…dbb4ab</code>) bet 112.57 xDAI over 3,189 markets and got 136.39 back, a gain of 23.82. It made 14,783 mech requests, which come to 147.83 xDAI.</li>
+<li><strong>Polymarket.</strong> The agents there trail the prices they paid even before tool costs. Their returns move together (median pairwise correlation 0.72), so the 110 agents behave close to one strategy.</li>
+</ul>
+<h2>How it was computed, and what is uncertain</h2>
+<p><strong>Data.</strong>
+- Olas subgraphs <code>predict-omen</code> (graph-node) and <code>predict-polymarket</code> (SQD squid), fetched 2026-11-16 with no key: 2,401,894 Omen bets and 24,234 Polymarket bets.
+- Mech requests come from Olas's marketplace subgraph on Gnosis.
+- Scripts:
+  - <code>tools/olas_fetch.py</code>
+  - <code>tools/olas_predict_test.py</code>
+  - <code>tools/olas_mech_costs.py</code>
+  - <code>tools/olas_posthoc_mech.py</code>
+- Results are in <code>docs/data/olas/2026-11-16/</code>. The raw responses (about 1 GB) are kept outside the repository.</p>
+<p><strong>Unit.</strong> One agent in one resolved market. cost = buys paid − sells received. payout = tokens held × what each outcome paid. R = (payout − cost) / buys paid.</p>
+<p><strong>Bar.</strong> t of an agent's mean R over its markets, against the best-of-N bar for N = 2,330, the same bar used across Evidence Deflator. With no edge and fair prices R is slightly negative (fees), so testing against zero leans against finding skill.</p>
+<p><strong>Measurement check.</strong> For the agent with the highest t, the payout computed here equals Olas's own <code>expectedPayout</code> in all 3,189 of its markets.</p>
+<p><strong>Tool costs are post-hoc and the least certain part.</strong>
+- They were not in the pre-registered test, which listed them under "does not test". They were added after the result came in, so the "−19%" and "3 agents" figures are a second look, not the test.
+- Each agent's lifetime requests are charged at Olas's 0.01 xDAI. The charge is spread over its resolved markets in proportion to its bets in them, and it includes requests that led to no bet.
+- Olas's code comments describe healthy mech costs as 2% to 6% of settled trading costs. The charge here comes to 21%. The gap is not explained, so the size of the loss is uncertain.
+- Its sign is not: the bets earned 2.2% of what they risked, so any tool cost above 2.2% of the amount bet turns the fleet negative.</p>
+<p><strong>Staking rewards are not counted.</strong> Olas agents also earn OLAS for staying active, and Olas's "final ROI" adds them. This audit scores the betting only.</p>
+<p><strong>Who is on the other side.</strong> On Omen, the agents trade against automated market makers. Every market in the data was opened by one of two creator agents tracked in Olas's subgraph (16,935 and 6,380 markets). Beating those prices says the agents' picks beat the opening odds. It does not show they would beat a deep market. Polymarket, the deeper venue, is where they did not.</p>
+<p><strong>Counts.</strong> Olas's site says 1,215 Omen agents were "ever registered". The Omen subgraph holds 3,659 trader agents, of which 2,141 have a resolved market. The audit uses the subgraph.</p>
+<h2>What it would take</h2>
+<p>Olas could show, per agent and for the fleet, what came back against what went out with the mech requests included. Its own ROI already does this, but its "accuracy" and Brier tiles sit next to it and measure the price, not the agent.</p>
+<p>The median Omen bet is 0.025 xDAI (the mean is 0.18). An agent buying predictions at 0.01 xDAI each to place bets that size pays a large share of each bet for its information before it can win anything. Bet size, not forecasting, decides whether these agents make money.</p>
+<p>Recheck: when Olas publishes a change to its mech pricing or its default bet size.</p>
+</article>
+<aside class="aside">
+ <div class="box"><h4>Three inputs</h4><ul><li>The model’s knowledge cutoff</li><li>The test window</li><li>How many attempts the result was picked from</li></ul></div>
+ <div class="box"><h4>Rules</h4><ul><li>Numbers recomputed, not copied</li><li>A missing input is a finding, not a verdict</li><li>No judgement of intent</li></ul></div>
+ <div class="box"><h4>More audits</h4><ul><li><a href="/audits/015-vault-depositor-gap.html">← 015 · What Hyperliquid vault depositors kept of the vault curve (60 largest open vaults, 27 usable)</a></li><li><a href="/audits/">All audits</a></li></ul></div>
+ <a class="btn btn-secondary" href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">Request an audit</a>
+</aside>
+</div></main>
+<footer class="site-footer"><div class="container">
+<div class="foot-grid">
+ <div><a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+  <p style="margin-top:14px;max-width:340px">Whether a trading record can be told apart from luck, once you allow for how it was picked. Open source.</p></div>
+ <div><h4>Product</h4><ul><li><a href="/wallet/">Hyperliquid check</a></li><li><a href="/polymarket/">Polymarket check</a></li><li><a href="https://chatgpt.com/plugins/plugin_asdk_app_6acfbf9acf4c8191b0ad33925e2eb189">ChatGPT plugin</a></li><li><a href="https://t.me/SkillOrLuckBot">Telegram bot</a></li><li><a href="https://chromewebstore.google.com/detail/evidence-deflator/fbhanjlioldbpgmncefioidcpkdhjbhn">Chrome extension</a></li><li><a href="/audits/">Audits</a></li><li><a href="/leaderboard/">AI trading leaderboard</a></li><li><a href="/check/">Check a backtest</a></li><li><a href="/api/">API and MCP</a></li></ul></div>
+ <div><h4>Method</h4><ul><li><a href="/method/">How it works</a></li><li><a href="/method/#principles">Principles</a></li><li><a href="/q/hyperliquid-trader-skill-or-luck/">Skill or luck?</a></li><li><a href="/q/how-many-months-of-backtest/">How many months?</a></li><li><a href="/q/why-leaderboard-winner-is-not-evidence/">Why #1 is not evidence</a></li><li><a href="/leaderboard/2026-10.json">Data (JSON)</a></li></ul></div>
+ <div><h4>Project</h4><ul><li><a href="https://github.com/Beltran12138/evidence-deflator">GitHub</a></li><li><a href="https://pypi.org/project/evidence-deflator/">PyPI</a></li><li><a href="/record/">Our record</a></li><li><a href="/memo/sample/">Sample memo</a></li><li><a href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">Request an audit</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="foot-note"><span>Open source · MIT · v0.3.1</span><span>“Cannot be ruled out as seen” is the strongest claim we make about a model’s training data.</span></div>
+</div></footer>
+<script src="/assets/site.js"></script>
+</body>
+</html>
