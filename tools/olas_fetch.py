@@ -6,6 +6,7 @@ resolution as of the moment its page was fetched. Omen is a graph-node subgraph,
 an SQD squid; both are paged by id. Standard library only.
 
     python tools/olas_fetch.py OUT_DIR [omen|poly|all]
+    python tools/olas_fetch.py OUT_DIR omen LO HI TAG   # one id range, for parallel runs
 """
 from __future__ import annotations
 
@@ -62,13 +63,20 @@ def resume(path: str):
     return (json.loads(lines[-1])["id"] if lines else None), len(lines)
 
 
-def fetch(venue: str, kind: str, out_dir: str) -> int:
-    path = os.path.join(out_dir, "%s_%s.jsonl" % (venue, kind))
+def fetch(venue: str, kind: str, out_dir: str, lo: str = "", hi: str = "", tag: str = "") -> int:
+    """Fetch ids in (lo, hi) (string order; empty = unbounded) into <venue>_<kind><tag>.jsonl."""
+    path = os.path.join(out_dir, "%s_%s%s.jsonl" % (venue, kind, tag))
     last, n = resume(path)
+    last = last or lo or None
     entity, fields = FIELDS[(venue, kind)]
     with open(path, "a", encoding="utf-8") as f:
         while True:
-            where = ', where: {id_gt: "%s"}' % last if last else ""
+            conds = []
+            if last:
+                conds.append('id_gt: "%s"' % last)
+            if hi:
+                conds.append('id_lt: "%s"' % hi)
+            where = ", where: {%s}" % ", ".join(conds) if conds else ""
             if venue == "omen":
                 q = "{ %s(first: %d, orderBy: id, orderDirection: asc%s) { %s } }" % (entity, PAGE[venue], where, fields)
             else:
@@ -89,6 +97,13 @@ def main(argv):
     out_dir = argv[1]
     which = argv[2] if len(argv) > 2 else "all"
     os.makedirs(out_dir, exist_ok=True)
+    if len(argv) > 3:  # one id range of one venue's bets: OUT_DIR VENUE LO HI TAG
+        lo, hi, tag = argv[3], argv[4], argv[5]
+        n = fetch(which, "bets", out_dir, lo, hi, tag)
+        with open(os.path.join(out_dir, "fetch_meta_%s%s.json" % (which, tag)), "w") as f:
+            json.dump({"bets": n, "lo": lo, "hi": hi,
+                       "finished_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}, f)
+        return
     meta = {"started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
     for v in (["poly", "omen"] if which == "all" else [which]):
         for kind in ("agents", "bets"):
