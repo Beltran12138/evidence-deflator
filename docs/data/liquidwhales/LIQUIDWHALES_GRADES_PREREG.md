@@ -49,3 +49,17 @@ The 134 addresses above are frozen by this file. On 2027-01-14 we score only the
 ## Not done after this file is committed
 
 No change to N, the bar, the estimator, the minimum weeks, the 134 wallets or the cut-offs. Weekly returns of different wallets move together within the same weeks, so the forward interval is likely too narrow; that is stated with the result and not used to move a line.
+
+---
+
+## Results (2026-11-19, primary test; appended after the file above was pushed in `45665aa`)
+
+Script `tools/liquidwhales_test.py`; output `2026-11-19/results.json` (portfolios fetched 09:30–09:55 UTC; raw responses kept outside the repo). Nothing above this line was changed.
+
+- Of the 134 listed wallets, 46 had fewer than 8 weekly intervals and are left out as pre-registered (all graded A; their median "days active" on the site is 28). 88 were scored. None is a vault.
+- **Primary: 2 of 88 clear bar(28,623) = 4.80** (t 6.47 and 4.82). This is in the 2–13 band, so **no general claim either way**. Our written expectation (at most 1) was wrong by one.
+- Neither wallet that clears is S. Their site grade scores are 69 and 84 (median of the 88: 72).
+- **The three S wallets**, the site's "top recommendation for live copy": t 1.10, 1.44 and 2.41. None clears 4.80; one clears the single-test bar of 2.
+- Reported with no pass mark: 1 clears bar(611,093) = 5.38; 3 clear bar(134) = 3.58; 18 have t ≥ 2; median t 1.18; Spearman(site grade score, our t) = 0.25.
+- Sub-accounts: 29 of the 134 are Hyperliquid sub-accounts. Five masters each have two or more graded sub-accounts on the list; one master (`0x399965…3336`) has five (the first S wallet and four A wallets). The wallet with the highest t (6.47) is a sub-account, and a sibling sub-account of the same master has t 4.12.
+- The site's Sharpe and ours are not the same quantity: on the 62 scored wallets with at least 26 weeks, the site's figure is a median 4.25 higher than ours. We do not know how the site computes it.

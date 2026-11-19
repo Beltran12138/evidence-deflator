@@ -479,6 +479,7 @@ t    = 夏普 × √(数据年数)</div>
  <li>它不检测模型内部的泄漏，只划出无法排除泄漏的范围。</li>
  <li>它只用项目或榜单自己公开的东西。</li>
  <li>Hyperliquid 钱包检验统计的是 Hyperliquid 为账户记录的内容：永续和现货，包括 HIP-4 结果合约。HyperEVM 上的活动不在其中。</li>
+ <li>判决的单位是一个地址，不是一个交易者。Hyperliquid 的子账户各记各的盈亏，交易者也可能另有链上没有关联的钱包。2026 年 11 月 16 日 PnL 榜前 100 名里，31 个钱包有子账户（共 269 个）；把主账户和子账户合并重算，t 的变化中位数是 +0.01（最大 +0.70），没有任何判决因此改变（<a href="{B.REPO}/blob/main/tools/hl_entity_merge.py"><code>tools/hl_entity_merge.py</code></a>，<a href="{B.REPO}/blob/main/docs/data/hl/entity-merge-2026-11-19.json">数据</a>）。链上没有关联的钱包，无法这样合并。</li>
  <li>钱包检验衡量的是记录里的证据，不是跟单能拿到的回报。跟单者下单更晚、规模不同；持仓越短，延迟的代价越大（一位基金经理举的例子：延迟 15 分钟就损失 20% 盈亏的策略，<a href="https://www.toptradersunplugged.com/podcast/why-investors-keep-getting-trend-following-wrong-ft-patrick-welton/" rel="noopener">来源</a>）。</li>
  <li>尾部提示看的是过去各周的形状。卖尾部风险、又按近期波动率调整仓位的策略，可以在大亏之前、以及缩小仓位后的大亏前后，一直保持正常的形状。</li>
 </ul>

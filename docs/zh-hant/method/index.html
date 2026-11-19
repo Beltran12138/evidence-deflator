@@ -130,6 +130,7 @@ t    = 夏普 × √(數據年數)</div>
  <li>它不檢測模型內部的泄漏，只劃出無法排除泄漏的範圍。</li>
  <li>它只用項目或榜單自己公開的東西。</li>
  <li>Hyperliquid 錢包檢驗統計的是 Hyperliquid 為帳戶記錄的內容：永續和現貨，包括 HIP-4 結果合約。HyperEVM 上的活動不在其中。</li>
+ <li>判決的單位是一個地址，不是一個交易者。Hyperliquid 的子帳戶各記各的盈虧，交易者也可能另有鏈上沒有關聯的錢包。2026 年 11 月 16 日 PnL 榜前 100 名裏，31 個錢包有子帳戶（共 269 個）；把主帳戶和子帳戶合併重算，t 的變化中位數是 +0.01（最大 +0.70），沒有任何判決因此改變（<a href="https://github.com/Beltran12138/evidence-deflator/blob/main/tools/hl_entity_merge.py"><code>tools/hl_entity_merge.py</code></a>，<a href="https://github.com/Beltran12138/evidence-deflator/blob/main/docs/data/hl/entity-merge-2026-11-19.json">數據</a>）。鏈上沒有關聯的錢包，無法這樣合併。</li>
  <li>錢包檢驗衡量的是記錄裏的證據，不是跟單能拿到的回報。跟單者下單更晚、規模不同；持倉越短，延遲的代價越大（一位基金經理舉的例子：延遲 15 分鐘就損失 20% 盈虧的策略，<a href="https://www.toptradersunplugged.com/podcast/why-investors-keep-getting-trend-following-wrong-ft-patrick-welton/" rel="noopener">來源</a>）。</li>
  <li>尾部提示看的是過去各週的形狀。賣尾部風險、又按近期波動率調整倉位的策略，可以在大虧之前、以及縮小倉位後的大虧前後，一直保持正常的形狀。</li>
 </ul>
