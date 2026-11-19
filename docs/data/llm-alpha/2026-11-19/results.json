@@ -1,0 +1,223 @@
+{
+ "P1_rdagent_table1": {
+  "t": {
+   "R&D-Factor GPT-4o": 3.19,
+   "R&D-Factor o3-mini": 2.57,
+   "R&D-Model GPT-4o": 3.16,
+   "R&D-Model o3-mini": 3.22,
+   "R&D-Agent(Q) GPT-4o": 2.49,
+   "R&D-Agent(Q) o3-mini": 3.29
+  },
+  "baseline_t": {
+   "Alpha 158": 1.6,
+   "Alpha 360": 1.27,
+   "TRA": 1.91
+  },
+  "window_end": "2020-08-01",
+  "backend_cutoffs": {
+   "GPT-4o": "2023-10-01",
+   "o3-mini": "2023-10"
+  }
+ },
+ "P2_rdagent_table2": {
+  "t": {
+   "R&D-Factor (GPT-4o) CSI500": 1.68,
+   "R&D-Factor (GPT-4o) NDX100": 1.34,
+   "R&D-Factor (o4-mini) CSI500": 1.23,
+   "R&D-Factor (o4-mini) NDX100": 1.37,
+   "R&D-Model (GPT-4o) CSI500": 1.34,
+   "R&D-Model (GPT-4o) NDX100": 1.31,
+   "R&D-Model (o4-mini) CSI500": 1.72,
+   "R&D-Model (o4-mini) NDX100": 1.55,
+   "R&D-Agent(Q) (GPT-4o) CSI500": 1.74,
+   "R&D-Agent(Q) (GPT-4o) NDX100": 1.63,
+   "R&D-Agent(Q) (o4-mini) CSI500": 2.66,
+   "R&D-Agent(Q) (o4-mini) NDX100": 2.17
+  },
+  "N_reported": 12,
+  "bar": 2.89,
+  "clear": [],
+  "max_t": 2.66
+ },
+ "P3_quantaalpha_v3": {
+  "t": {
+   "Qwen3-235B": 0.7,
+   "Deepseek-V3.2": 1.25,
+   "Gemini-3-pro-preview": 1.16,
+   "Claude-4.5-sonnet": 1.12,
+   "GPT-5.2": 1.29
+  },
+  "N_reported": 5,
+  "bar": 2.61,
+  "clear": [],
+  "clear_single_test_2": [],
+  "max_t": 1.29,
+  "baseline_t": {
+   "TRA": 2.1,
+   "Alpha158 ": 0.82,
+   "Alpha360": 1.2
+  }
+ },
+ "versions_quantaalpha": {
+  "v1_equals_v2": true,
+  "v2_to_v3": {
+   "RD-Agent": {
+    "Qwen3-235B": {
+     "IR_v2": 0.6502,
+     "IR_v3": -0.0818,
+     "ARR_v2": 7.2,
+     "ARR_v3": -0.62
+    },
+    "Deepseek-V3.2": {
+     "IR_v2": 0.8202,
+     "IR_v3": -0.2123,
+     "ARR_v2": 7.81,
+     "ARR_v3": -1.42
+    },
+    "Gemini-3-pro-preview": {
+     "IR_v2": 1.0202,
+     "IR_v3": 0.2595,
+     "ARR_v2": 8.81,
+     "ARR_v3": 1.89
+    },
+    "Claude-4.5-sonnet": {
+     "IR_v2": 1.2202,
+     "IR_v3": 0.3568,
+     "ARR_v2": 9.81,
+     "ARR_v3": 2.36
+    },
+    "GPT-5.2": {
+     "IR_v2": 1.2502,
+     "IR_v3": 0.5321,
+     "ARR_v2": 9.91,
+     "ARR_v3": 3.58
+    }
+   },
+   "AlphaAgent": {
+    "Qwen3-235B": {
+     "IR_v2": 2.1053,
+     "IR_v3": -0.0951,
+     "ARR_v2": 15.1,
+     "ARR_v3": -0.6
+    },
+    "Deepseek-V3.2": {
+     "IR_v2": 1.923,
+     "IR_v3": 0.3972,
+     "ARR_v2": 14.51,
+     "ARR_v3": 2.58
+    },
+    "Gemini-3-pro-preview": {
+     "IR_v2": 1.7821,
+     "IR_v3": 0.1663,
+     "ARR_v2": 14.11,
+     "ARR_v3": 1.17
+    },
+    "Claude-4.5-sonnet": {
+     "IR_v2": 2.2739,
+     "IR_v3": 0.4105,
+     "ARR_v2": 16.48,
+     "ARR_v3": 2.84
+    },
+    "GPT-5.2": {
+     "IR_v2": 1.9328,
+     "IR_v3": 0.1587,
+     "ARR_v2": 15.54,
+     "ARR_v3": 1.11
+    }
+   },
+   "QuantaAlpha": {
+    "Qwen3-235B": {
+     "IR_v2": 2.6114,
+     "IR_v3": 0.3511,
+     "ARR_v2": 20.55,
+     "ARR_v3": 2.06
+    },
+    "Deepseek-V3.2": {
+     "IR_v2": 2.8797,
+     "IR_v3": 0.6271,
+     "ARR_v2": 23.77,
+     "ARR_v3": 4.53
+    },
+    "Gemini-3-pro-preview": {
+     "IR_v2": 2.5189,
+     "IR_v3": 0.5834,
+     "ARR_v2": 20.32,
+     "ARR_v3": 4.21
+    },
+    "Claude-4.5-sonnet": {
+     "IR_v2": 2.6459,
+     "IR_v3": 0.5619,
+     "ARR_v2": 22.7,
+     "ARR_v3": 4.12
+    },
+    "GPT-5.2": {
+     "IR_v2": 3.3251,
+     "IR_v3": 0.6453,
+     "ARR_v2": 27.75,
+     "ARR_v3": 4.68
+    }
+   },
+   "baselines": {
+    "TRA": {
+     "IR_v2": 1.0502,
+     "IR_v3": 1.0502,
+     "ARR_v2": 6.81,
+     "ARR_v3": 6.81
+    },
+    "Alpha158 ": {
+     "IR_v2": 0.4099,
+     "IR_v3": 0.4099,
+     "ARR_v2": 2.66,
+     "ARR_v3": 2.66
+    },
+    "Alpha360": {
+     "IR_v2": 0.6009,
+     "IR_v3": 0.6009,
+     "ARR_v2": 4.09,
+     "ARR_v3": 4.09
+    }
+   }
+  }
+ },
+ "cutoffs": {
+  "used": {
+   "GPT-4o": "2023-10-01",
+   "o3-mini": "2023-10-01",
+   "o4-mini": "2024-06-01",
+   "GPT-5.2": "2025-08-31",
+   "Claude-4.5-sonnet": "2025-01-31",
+   "Gemini-3-pro-preview": "2025-01-31",
+   "Deepseek-V3.2": null,
+   "Qwen3-235B": null
+  },
+  "rdagent_table1": {
+   "GPT-4o": 1.0,
+   "o3-mini": 1.0
+  },
+  "rdagent_table2": {
+   "GPT-4o": 0.0,
+   "o4-mini": 0.28
+  },
+  "quantaalpha": {
+   "Qwen3-235B": null,
+   "Deepseek-V3.2": null,
+   "Gemini-3-pro-preview": 0.774,
+   "Claude-4.5-sonnet": 0.774,
+   "GPT-5.2": 0.92
+  }
+ },
+ "wider_N": {
+  "rdagent_table1_N_paper": {
+   "N": 12,
+   "bar": 2.89
+  },
+  "rdagent_table1_N_loop": {
+   "N": 290,
+   "bar": 3.78
+  },
+  "quantaalpha_N_paper": {
+   "N": 14,
+   "bar": 2.94
+  }
+ }
+}

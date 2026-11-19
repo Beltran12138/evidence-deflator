@@ -163,6 +163,39 @@ def score(tables_json, out_json):
         "v2_to_v3": diff,
     }
 
+    # Cutoffs from the developers' pages, saved under RAW_DIR/cutoffs (results day).
+    # A month-only cutoff counts the whole month as read.
+    cut = {
+        "GPT-4o": "2023-10-01", "o3-mini": "2023-10-01", "o4-mini": "2024-06-01",
+        "GPT-5.2": "2025-08-31", "Claude-4.5-sonnet": "2025-01-31",
+        "Gemini-3-pro-preview": "2025-01-31",
+        "Deepseek-V3.2": None, "Qwen3-235B": None,
+    }
+
+    def share(start, end, c):
+        if c is None:
+            return None
+        d0, d1, dc = (date.fromisoformat(x) for x in (start, end, c))
+        if dc < d0:
+            return 0.0
+        return round(min((dc - d0).days + 1, (d1 - d0).days + 1) / ((d1 - d0).days + 1), 3)
+
+    out["cutoffs"] = {
+        "used": cut,
+        "rdagent_table1": {b: share("2017-01-01", "2020-08-01", cut[b]) for b in ["GPT-4o", "o3-mini"]},
+        "rdagent_table2": {b: share("2024-01-01", "2025-06-30", cut[b]) for b in ["GPT-4o", "o4-mini"]},
+        "quantaalpha": {b: share("2022-01-01", "2025-12-26", cut[b]) for b in
+                        ["Qwen3-235B", "Deepseek-V3.2", "Gemini-3-pro-preview", "Claude-4.5-sonnet", "GPT-5.2"]},
+    }
+
+    # Wider counts of N, by name from the paper text (see Results in the prereg).
+    wider = {
+        "rdagent_table1_N_paper": 12,  # Table 1: 6; Table 3: +2 (random, LLM); Fig. 9: 6 backends, >= 4 not in Table 1
+        "rdagent_table1_N_loop": 6 * 30 + 33 + 33 + 44,  # Fig. 9 and Table 3 loop counts
+        "quantaalpha_N_paper": 14,  # 5 backbones, 3 component ablations, 3 control ablations, 3 seed sets
+    }
+    out["wider_N"] = {k: {"N": n, "bar": round(bar(n), 2)} for k, n in wider.items()}
+
     Path(out_json).write_text(json.dumps(out, indent=1), encoding="utf-8")
     print("wrote", out_json)
 

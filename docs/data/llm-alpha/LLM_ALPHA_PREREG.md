@@ -80,3 +80,25 @@ Expectation, written knowing the hand arithmetic above: P1 the whole window is b
 ## Not done after this file is committed
 
 No change to the subjects, the rows, N for P2 and P3, the years, the bar, the cutoffs used for P1 and P2, or the wording rules above. If a number in `tables.json` turns out to be mis-transcribed, it is corrected from the saved HTML and the correction is listed under Results. It is not dropped.
+
+---
+
+## Results (2026-11-19, appended after the file above was pushed in `3b15648`)
+
+Script `tools/llm_alpha_audit.py score`; output `2026-11-19/results.json`. Nothing above this line was changed.
+
+**Cutoffs looked up on results day** (pages saved outside the repo under `cutoffs/`, SHA-256 in `SHA256SUMS`): OpenAI's model pages give GPT-4o and o3-mini Oct 01, 2023, o4-mini Jun 01, 2024, GPT-5.2 Aug 31, 2025 (the date used above, now confirmed first-hand; o3-mini's secondary "2023-10" is confirmed as 2023-10-01). Anthropic's Transparency Hub gives Claude Sonnet 4.5 Jan 2025. Google DeepMind's Gemini 3 Pro model card gives January 2025. DeepSeek-V3.2 and Qwen3-235B: not published on their model pages. A month-only cutoff counts the whole month as read. (`tables.json` still carries o3-mini as "2023-10" from the transcription; `results.json` uses the official date.)
+
+- **P1.** The whole of RD-Agent(Q)'s Table 1 window (2017-01-01 to 2020-08-01) lies before the cutoff of both backends (share 1.00 for GPT-4o and o3-mini). The window that carries the "2×" claim was inside both models' training data, so Table 1 is not evidence of out-of-sample skill either way. Reported without verdict: t 2.49 to 3.29 for the six R&D rows; Alpha 158 1.60, Alpha 360 1.27, TRA 1.91.
+- **P2. 0 of 12** post-cutoff cells clear bar(12) = 2.89. Highest: R&D-Agent(Q) o4-mini, CSI 500, t 2.66; next NASDAQ 100, 2.17; the other ten are 1.23 to 1.74. As written: the post-cutoff evidence does not clear the bar for the 12 configurations reported; evidence insufficient, not "no edge". 28% of this window lies before o4-mini's cutoff (0% for GPT-4o).
+- **P3. 0 of 5** QuantaAlpha v3 rows clear bar(5) = 2.61, and **0 of 5 clear 2**. t: GPT-5.2 1.29, DeepSeek-V3.2 1.25, Gemini 3 Pro 1.16, Claude Sonnet 4.5 1.12, Qwen3-235B 0.70. Its own baseline TRA has t 2.10 on the same window (Alpha158 0.82, Alpha360 1.20).
+- Expectation met on all three.
+
+Reported with no pass mark:
+- **Wider N.** RD-Agent(Q), Table 1 window: N_paper = 12 by name (Table 1: 6; Table 3 adds random and LLM controllers, its Bandit row equals Table 1's o3-mini row; Fig. 9 has six backends, of which o1, GPT-4.1 and GPT-4o-mini are named and at least 4 are not Table 1 rows; counted at the low end), bar 2.89. N_loop = 6 × 30 + 33 + 33 + 44 = 290 loops, bar 3.78. The highest Table 1 t (3.29) would not clear that even if the window had been unseen. QuantaAlpha: N_paper = 14 (5 backbones, 3 component ablations, 3 control ablations, 3 seed sets; some may coincide with a main row), bar 2.94.
+- **Which data the loop sees.** RD-Agent's default loop (`484776c`) backtests on 2017-01-01 to 2020-08-01, the Table 1 window, and the backtest's excess return, drawdown and IC feed the "Replace Best Result" decision. Not verified as the code behind the paper. QuantaAlpha's loop (`b7ceb27`) backtests on 2021 only.
+- **QuantaAlpha versions.** v1 and v2 Table 1 are identical. From v2 to v3, all 15 LLM-agent rows changed (RD-Agent, AlphaAgent and QuantaAlpha, five backbones each) and all baseline rows stayed the same. QuantaAlpha GPT-5.2: IR 3.3251 → 0.6453, ARR 27.75% → 4.68%. AlphaAgent and RD-Agent rows fell as well; three of them are below zero in v3. v3 adds a sentence that is not in v2: "For all LLM-based methods, roughly 150 validated factors are submitted to the same downstream LightGBM model for final evaluation", and "rather than from a single best factor". The paper does not say how v1/v2 were computed; that the change comes from this protocol is my inference, not stated.
+- **v3 text against v3 table.** "QuantaAlpha achieves the strongest overall performance across most factor predictive power and strategy-level performance": on strategy metrics TRA has IR 1.05 vs 0.65, ARR 6.81% vs 4.68% and MDD 8.51% vs 11.80%. On factor IC, QuantaAlpha is highest (0.0472 vs TRA 0.0421).
+- **Factor IC is a different question.** v3 Table 6 reports a daily-IC t-statistic of 7.23 (Claude) and 7.93 (DeepSeek) over 966 days, offered to "rule out the possibility of data-snooping". That tests whether the factors correlate with next-day returns, not whether the strategy earns its excess return. It is not corrected for the number of factors tried, and daily IC series are autocorrelated. Not tested here.
+- **RD-Agent(Q) "2×".** Table 1 ARR: R&D-Agent(Q) o3-mini 14.21% against Alpha 158 5.70% and Alpha 360 4.38%. The arithmetic holds on that window.
+- **QuantaAlpha cutoff shares** over 2022-01-01 to 2025-12-26: GPT-5.2 0.92, Claude Sonnet 4.5 0.77, Gemini 3 Pro 0.77, DeepSeek-V3.2 and Qwen3-235B not published.

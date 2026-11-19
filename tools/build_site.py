@@ -164,6 +164,7 @@ AUDIT_TAGS = {  # short status shown in lists; the finding text comes from audit
     "015": ("Depositors kept a median 85%", "amber"),
     "016": ("365 beat the price · 3 after tool costs", "amber"),
     "017": ("0 of 3 S-tier clear the bar", "amber"),
+    "018": ("0 of 12 clear after cutoff", "red"),
 }
 
 
