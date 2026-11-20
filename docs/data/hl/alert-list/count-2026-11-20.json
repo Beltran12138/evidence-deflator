@@ -1,0 +1,41 @@
+{
+ "run": "2026-11-20T03:12Z",
+ "prereg": "ALERT_LIST_PREREG.md",
+ "n_board": 48253,
+ "bar": 4.903,
+ "sampled": 1500,
+ "scored": 1171,
+ "alertable": 2,
+ "t_ge_2": 50,
+ "top_t": [
+  6.167,
+  5.018,
+  4.644,
+  4.058,
+  3.917,
+  3.639,
+  3.082,
+  2.955,
+  2.888,
+  2.855
+ ],
+ "estimate": 64.3,
+ "interval95": [
+  7.8,
+  232.0
+ ],
+ "line": 15,
+ "decision": "a list exists",
+ "alertable_wallets": [
+  {
+   "address": "0x5174d4869d7b35a01bd48710b71c45e8bd7cc54f",
+   "t": 5.018,
+   "weeks": 86.9
+  },
+  {
+   "address": "0x06b786a0d3dbc3e9f71e42a365800361f8006980",
+   "t": 6.167,
+   "weeks": 43.9
+  }
+ ]
+}

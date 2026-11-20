@@ -54,3 +54,11 @@ On the frozen cohort (`cohort-2026-10-14.json`), at the same reading as `SHRINK_
 No change of bar, sample, seed, predictor definition, outcome or rule after this file is committed.
 
 ## Results
+
+### Part 1, run 2026-11-20 03:12 UTC (`tools/alert_list_count.py --n-board 48253`, raw output `alert-list/count-2026-11-20.json`)
+
+- Board on 2026-11-19: 48,253 accounts, bar(N) = 4.903. Sample: the same 1,500 wallets, 1,171 with a score (329 with fewer than 8 intervals, counted as not alertable).
+- **2 of 1,500 clear the bar** (t = 6.17 and 5.02). Estimate **64** wallets on the board, 95% interval **7.8 to 232**.
+- **Decision under the rule above: "a list exists"** (point estimate ≥ 15). Stated with it: the lower end of the interval is below 15, so this rests on 2 wallets.
+- Read after the decision, not used to change it: both wallets have positive weeks 91% and 98% of the time and a deepest drawdown of 1.7% and 0.14% on the summed weekly path, with account values near $100k. That is the shape of market making or funding carry. Whether a follower could copy such a record by mirroring positions is a separate question this test does not answer.
+- Also seen: 50 of 1,171 (4.3%) at t ≥ 2. Among those 50, none has the short-volatility shape (weekly skew ≤ −1 with ≥ 70% positive weeks); 7 wallets in the whole sample do, all below t = 2.
