@@ -150,6 +150,23 @@ def recent_returns(pf, window="month"):
     return out
 
 
+def shape(rets):
+    """Share of positive weeks and skew of weekly returns. Each return is taken off the record's
+    drift and scaled by sqrt(interval length), so long intervals do not count as outliers. Negative
+    skew with mostly winning weeks is the shape of selling volatility or averaging down: many small
+    gains and a few large losses, which t can rate as strong until the large loss arrives.
+    Same as HL.shape in docs/assets/hl.js."""
+    if len(rets) < MIN_WEEKS:
+        return None
+    tw = sum(w for _, w in rets)
+    mu = sum(r for r, _ in rets) / tw
+    e = [(r - mu * w) / math.sqrt(w) for r, w in rets]
+    n = len(e)
+    sd = math.sqrt(sum(x * x for x in e) / n)
+    return {"up": round(sum(1 for r, _ in rets if r > 0) / n, 4),
+            "skew": round(sum((x / sd) ** 3 for x in e) / n, 3) if sd > 1e-12 else None}
+
+
 def flags(pf, rets, counted):
     """What t cannot see, reported next to it. Same rules as HL.flags in docs/assets/hl.js."""
     out = []
@@ -159,6 +176,9 @@ def flags(pf, rets, counted):
         gains = [r for r, _ in rets if r > 0]
         if sum(r for r, _ in rets) > 0 and gains and max(gains) / sum(gains) > 0.5:
             out.append("one_week_majority")
+        sh = shape(rets)
+        if sh and sh["skew"] is not None and sh["skew"] <= -1 and sh["up"] >= 0.7:
+            out.append("short_vol_shape")
     pnl = pf["allTime"]["pnlHistory"]
     total = float(pnl[-1][1]) - float(pnl[0][1]) if pnl else 0.0
     if total > 0 and (total - counted) / total > 0.5:

@@ -151,6 +151,20 @@ const HL = (() => {
             share_if_real: !(m > 0 && v > 0) ? null : d === 0 ? 1 : r4(Math.exp(-2 * m * (d + SIEGMUND * Math.sqrt(v)) / v))};
   }
 
+  // Share of positive weeks and skew of weekly returns, each return taken off the record's drift and
+  // scaled by sqrt(interval length) so long intervals do not count as outliers. Negative skew with
+  // mostly winning weeks is the shape of selling volatility or averaging down: many small gains and
+  // a few large losses, which t can rate as strong until the large loss arrives. Same as shape() in
+  // src/hl_wallet.py.
+  function shape(rets) {
+    if (rets.length < MIN_WEEKS) return null;
+    const tw = rets.reduce((s, [, w]) => s + w, 0), mu = rets.reduce((s, [r]) => s + r, 0) / tw;
+    const e = rets.map(([r, w]) => (r - mu * w) / Math.sqrt(w)), n = e.length;
+    const sd = Math.sqrt(e.reduce((s, x) => s + x * x, 0) / n);
+    return {up: Math.round(1e4 * rets.filter(([r]) => r > 0).length / n) / 1e4,
+            skew: sd > 1e-12 ? Math.round(1000 * e.reduce((s, x) => s + (x / sd) ** 3, 0) / n) / 1000 : null};
+  }
+
   // Things t cannot see, reported next to it. Same rules as flags() in the Python builder.
   function flags(pf, rets, counted) {
     const out = [];
@@ -159,6 +173,8 @@ const HL = (() => {
       const gains = rets.map(([r]) => r).filter(r => r > 0), tot = gains.reduce((s, r) => s + r, 0);
       const net = rets.reduce((a, [r]) => a + r, 0);
       if (net > 0 && gains.length && Math.max(...gains) / tot > 0.5) out.push('one_week_majority');
+      const sh = shape(rets);
+      if (sh && sh.skew <= -1 && sh.up >= 0.7) out.push('short_vol_shape');
     }
     const ph = Object.fromEntries(pf).allTime.pnlHistory;
     const total = ph.length ? +ph[ph.length - 1][1] - +ph[0][1] : 0;
@@ -233,6 +249,6 @@ const HL = (() => {
     } catch (e) { return null; }
   }
 
-  return {WEEK_MS, MIN_WEEKS, bar, monthsToClear, weeklyReturns, recentReturns, score, drawdown, flags, verdict, luck, benchReturns, alphaVs, fetchPortfolio, fetchVault, fetchCandles, cdf, inv, tToZ};
+  return {WEEK_MS, MIN_WEEKS, bar, monthsToClear, weeklyReturns, recentReturns, score, drawdown, shape, flags, verdict, luck, benchReturns, alphaVs, fetchPortfolio, fetchVault, fetchCandles, cdf, inv, tToZ};
 })();
 if (typeof module !== 'undefined') module.exports = HL;

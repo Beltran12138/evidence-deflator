@@ -146,6 +146,7 @@ Always report the `flags` next to the verdict:
 - `no_losing_week`: consistent with selling tail risk; t measures consistency, not the loss that has not happened yet.
 - `one_week_majority`: one week made most of the gains.
 - `pnl_outside_record`: most of the PnL was booked while the account held under $1,000, so it cannot be turned into a return. The verdict covers only the weeks that can be measured.
+- `short_vol_shape`: mostly winning weeks with skew of -1 or lower, the shape of selling volatility or averaging down; t can rate it strong until the large loss arrives.
 
 ## What not to do
 

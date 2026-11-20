@@ -188,6 +188,8 @@
    let s = dd.now === 0 ? fill(D.peak, {deep: pc(dd.deepest)}) : fill(D.below, {now: pc(dd.now), wk: dd.weeks_below, deep: pc(dd.deepest)});
    if (dd.now > 0) s += dd.share_if_real == null ? D.noEdge : fill(D.share, {share: dd.share_if_real < 0.01 ? '<1' : Math.round(100 * dd.share_if_real),
      read: dd.share_if_real >= 0.10 ? D.ordinary : dd.share_if_real >= 0.02 ? D.unusual : D.rare});
+   const sh = HL.shape(rets);
+   if (sh && sh.skew != null) s += fill(D.shape, {up: Math.round(100 * sh.up), sk: (sh.skew < 0 ? '−' : '') + Math.abs(sh.skew).toFixed(2)});
    $('wddt').textContent = s;
   }
   // charts and what would change the verdict

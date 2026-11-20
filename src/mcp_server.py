@@ -575,7 +575,9 @@ def hyperliquid_wallet(address: str, picked_from: Optional[int] = None) -> Dict[
         Flags name what t cannot see: ``no_losing_week`` (consistent with
         selling tail risk), ``one_week_majority`` (one week made most of the
         gains), ``pnl_outside_record`` (most PnL was booked while the account
-        held under $1,000, so it cannot be turned into a return). **Report the
+        held under $1,000, so it cannot be turned into a return), ``short_vol_shape``
+        (mostly winning weeks with skew of -1 or lower: selling volatility or
+        averaging down; t can rate it strong until the large loss). **Report the
         flags with the verdict.** A past record is not the user's future
         returns after fees, latency and slippage.
 

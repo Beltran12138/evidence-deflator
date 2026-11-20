@@ -159,6 +159,7 @@ const FLAG_TEXT = {
   no_losing_week: 'No losing week: consistent with market making or selling tail risk.',
   one_week_majority: 'One week produced more than half the gains.',
   pnl_outside_record: 'Most PnL was booked on a near-empty account; t covers only the measurable weeks.',
+  short_vol_shape: 'Mostly winning weeks, negatively skewed: the shape of selling volatility or averaging down; t can rate it strong until the large loss.',
 };
 let boardCache = null;
 async function boardSizes() {
