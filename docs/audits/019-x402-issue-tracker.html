@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audit 019 · x402&#x27;s GitHub issue tracker, with four other agent-payment repositories (1,480 issues) · Evidence Deflator</title>
+<meta name="description" content="Not pre-registered, descriptive. In a hand-read random 80 of x402&#x27;s 970 issues, 0 report money lost in production (below about 3.8% at 95%); 41 are proposals or listings from the sell side. A search of all 1,480 finds two real payment defects, both on a test network. The five busiest threads are vendors discussing their own receipt and dispute products; no maintainer comments in them.">
+<link rel="canonical" href="https://evidencedeflator.com/audits/019-x402-issue-tracker.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Evidence Deflator">
+<meta property="og:title" content="Audit 019 · x402&#x27;s GitHub issue tracker, with four other agent-payment repositories (1,480 issues) · Evidence Deflator">
+<meta property="og:description" content="Not pre-registered, descriptive. In a hand-read random 80 of x402&#x27;s 970 issues, 0 report money lost in production (below about 3.8% at 95%); 41 are proposals or listings from the sell side. A search of all 1,480 finds two real payment defects, both on a test network. The five busiest threads are vendors discussing their own receipt and dispute products; no maintainer comments in them.">
+<meta property="og:url" content="https://evidencedeflator.com/audits/019-x402-issue-tracker.html">
+<meta property="og:image" content="https://evidencedeflator.com/leaderboard/og-2026-10.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='4' fill='%2315171C'/%3E%3Crect x='3' y='4' width='18' height='2' fill='%23E66A4B'/%3E%3Crect x='4.5' y='13' width='3' height='7' fill='%23FAF9F6'/%3E%3Crect x='9.5' y='9.5' width='3' height='10.5' fill='%23FAF9F6'/%3E%3Crect x='14.5' y='15' width='3' height='5' fill='%23FAF9F6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script>try{if(localStorage.getItem('ed_theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}
+function edTheme(){var d=document.documentElement,on=d.dataset.theme!=='dark';if(on)d.dataset.theme='dark';else delete d.dataset.theme;try{on?localStorage.setItem('ed_theme','dark'):localStorage.removeItem('ed_theme')}catch(e){}}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/chrome.css?v=113795f9">
+<link rel="stylesheet" href="/assets/site.css?v=4318b782">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e38b718917cf4c2891f9038a6a597a88", "spa": true}'></script>
+</head>
+<body>
+<header class="site-header"><div class="container">
+<a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+<nav class="nav" aria-label="Main"><a href="/">Agent gate</a><a href="/wallet/">Check</a><a href="/ranking/">Ranking</a><a href="/audits/" aria-current="page">Audits</a><a href="/method/">Method</a><a href="/agent/">AI agents</a><a href="/api/">API</a></nav>
+<div class="header-cta"><button class="theme-toggle" type="button" aria-label="Switch light or dark" title="Light or dark" onclick="edTheme()"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button><a class="gh" href="/zh-hans/" hreflang="zh-Hans" lang="zh-Hans">中文</a><a class="gh" href="https://github.com/Beltran12138/evidence-deflator"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a></div>
+</div></header>
+
+<main class="container article"><div class="split">
+<article class="prose">
+<div class="eyebrow"><a href="/audits/" style="text-decoration:none">Audits</a> / 019</div>
+<h1 style="margin-top:16px">x402&#x27;s GitHub issue tracker, with four other agent-payment repositories (1,480 issues)</h1>
+<div class="meta"><span class="tag tag-grey">0 of 80 report a production loss</span><span class="mono">2026-11-21</span><span><a href="/method/#record">Record —</a></span><span>Sources public, fetched on the stated date</span></div>
+<div class="callout" style="margin-top:0"><div class="eyebrow" style="margin-bottom:10px">Finding</div>Not pre-registered, descriptive. In a hand-read random 80 of x402&#x27;s 970 issues, 0 report money lost in production (below about 3.8% at 95%); 41 are proposals or listings from the sell side. A search of all 1,480 finds two real payment defects, both on a test network. The five busiest threads are vendors discussing their own receipt and dispute products; no maintainer comments in them.</div>
+<p>The subject is what the public issue trackers of five agent-payment projects show about who is building and who is paying. No single person or project is the subject.</p>
+<h2>Subject</h2>
+<p>x402 lets an AI agent pay for an HTTP resource in stablecoins. Its headline numbers are large. One tracker counted over 200 million transactions by June 2026. Visa and Artemis say the volume left after removing wash trading and self-dealing is about $15–19 million, cumulative (<a href="https://forkast.news/the-x402-foundation-activated-a-27-year-old-internet-code-200-million-transactions-later-the-real-volume-is-still-tiny/">Forkast</a>, <a href="https://curb.numetal.xyz/dispatch/x402-economy-july-2026">CURB</a>). Those figures are second-hand and not rechecked here.</p>
+<p>This audit looks at a different record of the same market: the issues people open on the projects' GitHub repositories. If agents were spending real money at scale, some of the people affected would show up there with money that went missing, was charged twice, or bought the wrong thing. The question is how many do, compared with everyone else who opens issues.</p>
+<h2>Three inputs</h2>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Knowledge cutoff</td>
+<td>Not applicable (no model is being scored)</td>
+</tr>
+<tr>
+<td>Window</td>
+<td>Every issue (pull requests excluded) from each repository's start to 2026-11-21</td>
+</tr>
+<tr>
+<td>Attempts</td>
+<td>Not a best-of-N test. This audit was <strong>not pre-registered</strong>: the issues had been read before the method was fixed, so every figure below is a description, not a test</td>
+</tr>
+</tbody>
+</table>
+<p>Repositories: <code>x402-foundation/x402</code> (970 issues), <code>google-agentic-commerce/AP2</code> (110), <code>agentic-commerce-protocol/agentic-commerce-protocol</code> (109), <code>stripe/ai</code> (85), <code>coinbase/agentkit</code> (206). Total 1,480.</p>
+<h2>Finding</h2>
+<p><strong>A search of all 1,480 issues found no report of a buyer losing money in production, and a hand-read random 80 of x402's 970 found none either. About half of those 80 come from the sell side: protocol proposals and listing requests for the poster's own service.</strong> (The search can miss reports worded in ways it did not anticipate.) The busiest threads are vendors discussing their own receipt and dispute products with each other; no maintainer has commented in any of them.</p>
+<p><strong>1. A random sample of x402 issues, labelled by hand.</strong> 80 issues drawn with a fixed seed (20261121) from the 970, each read and given one label:</p>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>What it means</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Proposal</td>
+<td>New scheme, extension, spec change or feature, usually with the poster's own implementation</td>
+<td>29 (36%)</td>
+</tr>
+<tr>
+<td>Listing or showcase</td>
+<td>"Add my service or facilitator to the ecosystem", or a showcase of the poster's product</td>
+<td>12 (15%)</td>
+</tr>
+<tr>
+<td>Bug</td>
+<td>Something in the SDKs, spec or hosted services does not work as documented</td>
+<td>24 (30%)</td>
+</tr>
+<tr>
+<td>Question</td>
+<td>Usage or docs question</td>
+<td>4 (5%)</td>
+</tr>
+<tr>
+<td>Other</td>
+<td>Bot reports, dependency bumps, withdrawn or off-topic posts</td>
+<td>11 (14%)</td>
+</tr>
+<tr>
+<td><strong>Money lost or wrongly charged in production</strong></td>
+<td></td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>With 0 of 80, the share of such reports among x402's issues is below about 3.8% at 95% confidence (rule of three), that is, at most about 36 of 970.</p>
+<p>The share from the sell side (proposals plus listings) does not trend clearly in the sample: 6 of 13 issues from 2025, 17 of 26 from the first half of 2026, 18 of 41 from the second half.</p>
+<p><strong>2. A search of all 1,480 issues for money that moved wrongly.</strong> Titles and bodies were searched for first-person reports of loss or overcharge ("we paid", "charged twice", "funds lost", "overcharged", "never received" and similar). Four issues matched. Two were false matches. The other two are real defects, both found by testers on Base Sepolia, a test network:</p>
+<ul>
+<li><a href="https://github.com/x402-foundation/x402/issues/1805">#1805</a>: five concurrent paid requests to a public test endpoint produced five debits from the buyer's wallet, and the merchant later refunded four.</li>
+<li><a href="https://github.com/x402-foundation/x402/issues/3866">#3866</a>: a server that asks for ten times the price is paid ten times the price by the official client. The only guard is the caller's own per-payment limit.</li>
+</ul>
+<p>Neither reports a user who lost money on mainnet.</p>
+<p><strong>3. The busiest threads.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Comments</th>
+<th>Distinct commenters</th>
+<th>Most by one account</th>
+<th>Comments from owners, members or collaborators</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/x402-foundation/x402/issues/2332">#2332</a> post-settlement accountability layer</td>
+<td>238</td>
+<td>19</td>
+<td>63</td>
+<td>0</td>
+</tr>
+<tr>
+<td><a href="https://github.com/x402-foundation/x402/issues/2887">#2887</a> correctness/dispute layer</td>
+<td>233</td>
+<td>25</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td><a href="https://github.com/x402-foundation/x402/issues/2833">#2833</a> delivery-receipt attestation</td>
+<td>138</td>
+<td>20</td>
+<td>21</td>
+<td>0</td>
+</tr>
+<tr>
+<td><a href="https://github.com/x402-foundation/x402/issues/1777">#1777</a> agent-trust extension</td>
+<td>124</td>
+<td>20</td>
+<td>27</td>
+<td>0</td>
+</tr>
+<tr>
+<td><a href="https://github.com/x402-foundation/x402/issues/1195">#1195</a> settlement attestation receipt</td>
+<td>120</td>
+<td>14</td>
+<td>54</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Read in sequence, these threads are vendors describing their own receipt, attestation and dispute products, running each other's test vectors and asking for badges.</p>
+<p><strong>4. Who the maintainers answer.</strong> Four accounts appear as owner, member or collaborator in x402's comments. They commented on 262 of the 970 issues (27%). In the hand-labelled sample:</p>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Issues with a comment from those accounts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Listing or showcase</td>
+<td><strong>11 of 12</strong></td>
+</tr>
+<tr>
+<td>Bug</td>
+<td>5 of 24</td>
+</tr>
+<tr>
+<td>Proposal</td>
+<td>2 of 29</td>
+</tr>
+<tr>
+<td>Question</td>
+<td>0 of 4</td>
+</tr>
+<tr>
+<td>Other</td>
+<td>1 of 11</td>
+</tr>
+</tbody>
+</table>
+<p>The maintainers do answer. What they answer most is requests to be listed in the ecosystem. The receipt and dispute proposals that fill the busiest threads get almost no reply. A bug can also be fixed through a pull request without a comment on the issue, so the bug row understates attention to bugs.</p>
+<h2>How it was computed, and what is uncertain</h2>
+<p><strong>Data.</strong> GitHub REST API via <code>gh</code>, fetched 2026-11-21. Issue titles, the first 600 characters of each body, comment counts and reactions, plus the author and GitHub's <code>author_association</code> for every comment on x402 issues that have comments. Files, scripts and the 80 hand labels are in <code>docs/data/agentpay/2026-11-21/</code>; <code>python numbers.py</code> there recomputes every figure in this audit and checks that the sample reproduces from its seed.</p>
+<p><strong>Labels.</strong> One person, the author of this audit, labelled the 80 issues, with no second labeller. The labels are published issue by issue so anyone can relabel them. A keyword classifier tried first agreed poorly with the hand labels (precision 0.68, recall 0.72 for "proposal"), so no figure here rests on keywords except the search in point 2, whose four matches were all read.</p>
+<p><strong>"Maintainer".</strong> GitHub marks a commenter as owner, member or collaborator only if their organisation membership is public or they have repository access. A maintainer with private membership shows up as a contributor. The zeros in point 3 are zeros for those three labels.</p>
+<p><strong>What the tracker cannot show.</strong> People who lose money do not usually file GitHub issues. They write to support, to the facilitator, to their bank, or on social media. A quiet tracker does not prove that nobody is losing money. What it shows is narrower: on the channel where builders meet, the visible traffic is people selling to the ecosystem, not people asking it to fix a loss.</p>
+<p><strong>Not a test.</strong> The issues were read before this method was written down. Nothing here was pre-registered, and the categories were chosen after looking. The figures describe one sample; they do not estimate a trend.</p>
+<h2>What it would take</h2>
+<p>A protocol with real paying users would show it in the tracker: bug reports from mainnet, with transaction hashes and amounts. If x402's issues start to carry those, the gap described here is closing.</p>
+<p>Recheck: in three months, with a new random 80 under the same labels, and when Artemis or Visa publish an adjusted volume for a later period.</p>
+</article>
+<aside class="aside">
+ <div class="box"><h4>Three inputs</h4><ul><li>The model’s knowledge cutoff</li><li>The test window</li><li>How many attempts the result was picked from</li></ul></div>
+ <div class="box"><h4>Rules</h4><ul><li>Numbers recomputed, not copied</li><li>A missing input is a finding, not a verdict</li><li>No judgement of intent</li></ul></div>
+ <div class="box"><h4>More audits</h4><ul><li><a href="/audits/018-llm-factor-mining-agents.html">← 018 · LLM factor-mining agents: RD-Agent(Q) (Microsoft, NeurIPS 2025) and QuantaAlpha</a></li><li><a href="/audits/">All audits</a></li></ul></div>
+ <a class="btn btn-secondary" href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">Request an audit</a>
+</aside>
+</div></main>
+<footer class="site-footer"><div class="container">
+<div class="foot-grid">
+ <div><a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="2.2" fill="var(--accent)"/><rect x="3.5" y="13" width="3.2" height="8" fill="currentColor"/><rect x="8.6" y="9" width="3.2" height="12" fill="currentColor"/><rect x="13.7" y="15" width="3.2" height="6" fill="currentColor"/><rect x="18.8" y="7.5" width="3.2" height="13.5" fill="currentColor" opacity=".55"/></svg>Evidence Deflator</a>
+  <p style="margin-top:14px;max-width:340px">Whether a trading record can be told apart from luck, once you allow for how it was picked. Open source.</p></div>
+ <div><h4>Product</h4><ul><li><a href="/wallet/">Hyperliquid check</a></li><li><a href="/polymarket/">Polymarket check</a></li><li><a href="https://chatgpt.com/plugins/plugin_asdk_app_6acfbf9acf4c8191b0ad33925e2eb189">ChatGPT plugin</a></li><li><a href="https://t.me/SkillOrLuckBot">Telegram bot</a></li><li><a href="https://chromewebstore.google.com/detail/evidence-deflator/fbhanjlioldbpgmncefioidcpkdhjbhn">Chrome extension</a></li><li><a href="/audits/">Audits</a></li><li><a href="/leaderboard/">AI trading leaderboard</a></li><li><a href="/check/">Check a backtest</a></li><li><a href="/api/">API and MCP</a></li></ul></div>
+ <div><h4>Method</h4><ul><li><a href="/method/">How it works</a></li><li><a href="/method/#principles">Principles</a></li><li><a href="/q/hyperliquid-trader-skill-or-luck/">Skill or luck?</a></li><li><a href="/q/how-many-months-of-backtest/">How many months?</a></li><li><a href="/q/why-leaderboard-winner-is-not-evidence/">Why #1 is not evidence</a></li><li><a href="/leaderboard/2026-10.json">Data (JSON)</a></li></ul></div>
+ <div><h4>Project</h4><ul><li><a href="https://github.com/Beltran12138/evidence-deflator">GitHub</a></li><li><a href="https://pypi.org/project/evidence-deflator/">PyPI</a></li><li><a href="/record/">Our record</a></li><li><a href="/memo/sample/">Sample memo</a></li><li><a href="https://github.com/Beltran12138/evidence-deflator/issues/new?title=Audit%20request%3A%20&body=Link%20to%20the%20backtest%2C%20deck%20or%20claim%3A%0A%0AModel%20(if%20known)%3A%0ATest%20window%3A%0AHow%20many%20variants%20were%20tried%3A%0A">Request an audit</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/terms/">Terms</a></li></ul></div>
+</div>
+<div class="foot-note"><span>Open source · MIT · v0.3.1</span><span>“Cannot be ruled out as seen” is the strongest claim we make about a model’s training data.</span></div>
+</div></footer>
+<script src="/assets/site.js"></script>
+</body>
+</html>

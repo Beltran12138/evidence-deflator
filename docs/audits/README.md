@@ -22,7 +22,7 @@ Rules every audit follows:
 | L3 | Real money, figures from the platform's or a board's own database, which nobody else can recompute | Whether the series is complete and unedited (closed accounts, missing losers, restated history) |
 | L4 | Real money, read from the state of a public chain (its own endpoint, or an index of its trades) that anyone can recompute | Whether the edge will last: a complete past record is still not a forecast, and the statistical bar still applies |
 
-Freezing a board before a forward reading (009, 010) and pre-registering a test (016) are separate from the level: they fix what is tested before the outcome is known, at whatever level the record sits. 012 tests our own verdict on simulated boards and has no level.
+Freezing a board before a forward reading (009, 010) and pre-registering a test (016) are separate from the level: they fix what is tested before the outcome is known, at whatever level the record sits. 012 tests our own verdict on simulated boards and has no level. 019 is a descriptive survey of an issue tracker, not a trading record, and has no level either.
 
 | # | Subject | Record | Date | Finding |
 |---|---|---|---|---|
@@ -44,5 +44,6 @@ Freezing a board before a forward reading (009, 010) and pre-registering a test 
 | [016](016-olas-prediction-agents.md) | Olas prediction-market agents on Omen and Polymarket (2,330 agents with a resolved market) | L4 | 2026-11-16 | Pre-registered: on Omen 365 agents beat the prices they paid beyond luck for N = 2,330; on Polymarket none. Post-hoc, with the mech (tool) costs Olas itself charges: the Omen fleet lost 19% of what it bet and 3 agents clear the bar. |
 | [017](017-liquidwhales-grades.md) | LiquidWhales S–F grades for Hyperliquid wallets (28,623 graded) | L4 | 2026-11-19 | Pre-registered: none of the 3 S wallets clears the bar for N = 28,623 (t 1.10, 1.44, 2.41); 2 of 88 scorable S/A wallets do, inside the no-claim band. 29 of the 134 listed wallets are sub-accounts; one master holds five graded places. |
 | [018](018-llm-factor-mining-agents.md) | LLM factor-mining agents: RD-Agent(Q) (Microsoft, NeurIPS 2025) and QuantaAlpha | L2 | 2026-11-19 | RD-Agent(Q)'s "2×" window (2017–2020) is entirely before both models' cutoffs; after the cutoff 0 of 12 reported results clear the bar (best t 2.66 vs 2.89). QuantaAlpha's best configuration has t 1.29; its headline fell from IR 3.33 to 0.65 between paper versions v2 and v3. |
+| [019](019-x402-issue-tracker.md) | x402's GitHub issue tracker, with four other agent-payment repositories (1,480 issues) | — | 2026-11-21 | Not pre-registered, descriptive. In a hand-read random 80 of x402's 970 issues, 0 report money lost in production (below about 3.8% at 95%); 41 are proposals or listings from the sell side. A search of all 1,480 finds two real payment defects, both on a test network. The five busiest threads are vendors discussing their own receipt and dispute products; no maintainer comments in them. |
 
 Computed with [Evidence Deflator](../../README.md). Have a backtest or a claim you want checked? Open an issue with a link to it.
