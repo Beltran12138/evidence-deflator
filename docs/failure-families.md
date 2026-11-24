@@ -380,6 +380,17 @@ against gold patches that one benchmark had filtered to contain no new functions
 third clause and the sub-form "subtractable only on the surface" already cover such cases;
 the reviewers were given the main sentence only.
 
+*(Clarified 2026-11-24, no change to the sentence.)* **A scale's logical endpoint is not a
+best achievable value** — an accuracy of 1.0, a Jaccard of 0 or 1, a hallucination rate of 0 —
+unless the source shows that it can be reached on this task (for example by reporting human or
+repeat-run agreement at that level). The endpoint tells you the range of the scale, not how far
+the result is from what is attainable. A chance level or a baseline printed beside the result is
+still a reference, and the 76.3%-beside-25% case below must still be rejected. In the second
+random-sample study (20 papers, October 2026), three of the five family-7 codes that the two
+blind reviewers did not both keep turned on this point: at least one reviewer treated the
+scale's own endpoint as the reference, and the two reviewers took opposite sides on different
+papers.
+
 The founding instance is not from these four domains. It is from a well-resourced
 team's published work, which is the point: this failure survives careful review
 precisely because reporting a ceiling *at all* already puts a paper above most of
