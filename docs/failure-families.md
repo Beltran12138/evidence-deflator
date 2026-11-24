@@ -391,6 +391,18 @@ blind reviewers did not both keep turned on this point: at least one reviewer tr
 scale's own endpoint as the reference, and the two reviewers took opposite sides on different
 papers.
 
+*(Discriminating question added 2026-11-24, required for a third-clause hit; no change to the
+sentence.)* **For "measured for a different purpose", name the difference.** Using only the
+source, name one specific condition under which the reference was produced that differs from
+the condition under which the claim compares the result to it (a selection, a filter, a time
+budget, an interface, a population), and say how that difference by itself could move the gap
+in the direction the claim reads it. If no such condition can be named, the third clause does
+not fire, however different the two numbers' origins sound. In the third random-sample study
+(20 papers, November 2026) the endpoint question no longer produced any disagreement, but one of
+the remaining family-7 disagreements split on exactly this clause: both reviewers read an expert
+reference as "same units, same purpose" where the initial reading had called it produced for
+another purpose.
+
 The founding instance is not from these four domains. It is from a well-resourced
 team's published work, which is the point: this failure survives careful review
 precisely because reporting a ceiling *at all* already puts a paper above most of
