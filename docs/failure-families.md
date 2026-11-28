@@ -640,5 +640,24 @@ a reviewer proposes is judged only by the others.
   remaining disagreement concentrated on a genuine hallucination that the *stricter*
   judge caught and the more permissive rubric excused. **Agreement went up;
   correctness did not.**
+- **The table has no home for two forecasts of the same quantity published at
+  different dates.** In the blind round of 2026-11-28 three reviewers independently
+  demanded the *vintage* of a forecast, and none could place the instance: one
+  institution, one label, two release dates, a 12% gap, and the subset figure
+  exceeding the same year's superset figure. Family 3's sentence says the spread is a
+  property of the **vendor pair**; a vintage pair is not a vendor pair. The three
+  retreated to out-of-table, undecidable, and a reluctant family 3. Whether family 3's
+  first clause should widen or a ninth family is needed was never put to them, and is
+  not decided here. *(Denominator: one instance, three reviewers, one of whom can read
+  the author's notes and two of whom cannot.)*
+- **The mirror of family 2 is excluded by its own sentence and has no other home.**
+  Family 2 reads *two numbers share a label*. The observed form was the reverse — two
+  labels sharing a **number**: one figure used in adjacent paragraphs for two different
+  constructs, so that reading them together yields a false zero-growth comparison. All
+  three reviewers ruled it out of table on exactly that wording, which is the sentence
+  working as written, not failing. It cannot be absorbed by adding a registered
+  question either, because the faithfulness rule above freezes any question that
+  reaches past its own definition. Closing it would require rewriting the main
+  definition, and that has not been put to blind review.
 - None of the numbers above are a benchmark. They are single-corpus observations
   with the corpus stated.
