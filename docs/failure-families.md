@@ -646,10 +646,22 @@ a reviewer proposes is judged only by the others.
   institution, one label, two release dates, a 12% gap, and the subset figure
   exceeding the same year's superset figure. Family 3's sentence says the spread is a
   property of the **vendor pair**; a vintage pair is not a vendor pair. The three
-  retreated to out-of-table, undecidable, and a reluctant family 3. Whether family 3's
-  first clause should widen or a ninth family is needed was never put to them, and is
-  not decided here. *(Denominator: one instance, three reviewers, one of whom can read
-  the author's notes and two of whom cannot.)*
+  retreated to out-of-table, undecidable, and a reluctant family 3. *(Denominator: one instance, three reviewers, one of whom can read
+  the author's notes and two of whom cannot.)* **The repair was put to blind review on
+  2026-11-28, with a second instance of the same shape and two positive controls that
+  both came back 3/3.** Widening family 3's clause drew support from **no reviewer**: all
+  three excluded it on the same wording, because both figures come from one institution
+  reading one instrument. **No reviewer proposed a ninth family.** Two of three located
+  the repair in family 2 instead, on a dimension neither the table nor this note had
+  named — not whose number it is, but whether either side states its own as-of. The third
+  declined to change anything. Nothing is adopted here, for a reason the reviewers
+  supplied and this note had only half of: the completeness and faithfulness rules bind
+  in opposite directions, so a family's main definition and its registered question can
+  only move together, and **no single-sentence repair exists**. The publication dates of
+  the two forecasts — which would settle whether this pair differs by date or by scope —
+  could not be retrieved: the issuer's site answers automated clients with a challenge
+  page, and the secondary captures carry no date that can be attributed to either
+  article.
 - **The mirror of family 2 is excluded by its own sentence and has no other home.**
   Family 2 reads *two numbers share a label*. The observed form was the reverse — two
   labels sharing a **number**: one figure used in adjacent paragraphs for two different
@@ -658,6 +670,14 @@ a reviewer proposes is judged only by the others.
   working as written, not failing. It cannot be absorbed by adding a registered
   question either, because the faithfulness rule above freezes any question that
   reaches past its own definition. Closing it would require rewriting the main
-  definition, and that has not been put to blind review.
+  definition. **That was put to blind review on 2026-11-28, and the premise did not
+  survive.** Asked for the first time whether this form misleads a reader at all, two of
+  three reviewers — including the only one who cannot read the author's notes — said it
+  does not: each paragraph names its own construct and year, so the shared number is a
+  coincidence that a reader following the labels does not trip over. A second instance of
+  the same shape split three ways, and one reviewer placed it **inside** family 2 under
+  the existing wording. The exclusion is stable across two rounds; what is unconfirmed is
+  that there is a failure here to catch. The case for rewriting the main definition is
+  therefore weaker than this note first recorded, not stronger.
 - None of the numbers above are a benchmark. They are single-corpus observations
   with the corpus stated.
